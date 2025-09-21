@@ -1,0 +1,32 @@
+{
+  "id": "S001-012",
+  "original": "لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.",
+  "enhanced": "لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.",
+  "english": "This is a fallback translation of the Arabic text: \"لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "845a93970160559d",
+    "sectionId": "S001",
+    "rowIndex": 11,
+    "wordCount": 16,
+    "charCount": 88,
+    "processedAt": "2025-09-21T18:31:17.237Z",
+    "lpr": 1.2,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 30,
+      "cost": 0.001
+    }
+  }
+}

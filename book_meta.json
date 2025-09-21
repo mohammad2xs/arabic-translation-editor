@@ -1,0 +1,49 @@
+{
+  "title": {
+    "arabic": "الإنسان: رحلة نحو الكمال الروحي",
+    "english": "The Human: A Journey Toward Spiritual Perfection"
+  },
+  "author": {
+    "name": "محمد حسان",
+    "name_en": "Muhammad Hassan",
+    "bio": "Islamic scholar and spiritual guide"
+  },
+  "translator": {
+    "name": "AI Translation Team",
+    "notes": "Translated with careful attention to Islamic terminology and spiritual concepts"
+  },
+  "edition": {
+    "version": "First Edition",
+    "year": 2024,
+    "publisher": "Independent Islamic Publishing",
+    "isbn": "978-0-000000-00-0"
+  },
+  "imprint": {
+    "name": "Spiritual Guidance Press",
+    "location": "Global"
+  },
+  "format": {
+    "trim_size": "6x9 inches",
+    "page_margin": "1 inch",
+    "font_arabic": "Amiri",
+    "font_english": "Times New Roman",
+    "font_size": "12pt"
+  },
+  "languages": {
+    "primary": "arabic",
+    "secondary": "english",
+    "rtl_support": true
+  },
+  "description": {
+    "arabic": "كتاب يستكشف رحلة الإنسان الروحية نحو الكمال والقرب من الله",
+    "english": "A book exploring the human spiritual journey toward perfection and closeness to Allah"
+  },
+  "keywords": [
+    "Islam",
+    "Spirituality",
+    "Self-development",
+    "Tazkiyah",
+    "Quranic guidance",
+    "Islamic psychology"
+  ]
+}

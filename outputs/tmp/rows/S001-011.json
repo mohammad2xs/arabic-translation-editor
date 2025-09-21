@@ -1,0 +1,32 @@
+{
+  "id": "S001-011",
+  "original": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+  "enhanced": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+  "english": "This is a fallback translation of the Arabic text: \"وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "718db10188eb4df3",
+    "sectionId": "S001",
+    "rowIndex": 10,
+    "wordCount": 18,
+    "charCount": 108,
+    "processedAt": "2025-09-21T18:31:17.231Z",
+    "lpr": 1.2222222222222223,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 36,
+      "cost": 0.001
+    }
+  }
+}

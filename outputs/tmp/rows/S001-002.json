@@ -1,0 +1,38 @@
+{
+  "id": "S001-002",
+  "original": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+  "enhanced": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+  "english": "This is a fallback translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "17:70",
+      "normalized": "الإسراء:70"
+    }
+  ],
+  "metadata": {
+    "laneHash": "6fcb2434a177094f",
+    "sectionId": "S001",
+    "rowIndex": 1,
+    "wordCount": 19,
+    "charCount": 98,
+    "processedAt": "2025-09-21T18:31:17.185Z",
+    "lpr": 1.2,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 40,
+      "cost": 0.001
+    }
+  }
+}

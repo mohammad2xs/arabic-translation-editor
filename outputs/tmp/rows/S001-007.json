@@ -1,0 +1,32 @@
+{
+  "id": "S001-007",
+  "original": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+  "enhanced": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+  "english": "This is a fallback translation of the Arabic text: \"إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "13136b89192faa9e",
+    "sectionId": "S001",
+    "rowIndex": 6,
+    "wordCount": 19,
+    "charCount": 109,
+    "processedAt": "2025-09-21T18:31:17.211Z",
+    "lpr": 1.2,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 40,
+      "cost": 0.001
+    }
+  }
+}

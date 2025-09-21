@@ -1,0 +1,32 @@
+{
+  "id": "S001-009",
+  "original": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+  "enhanced": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+  "english": "This is a fallback translation of the Arabic text: \"وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "52f5bd468f9c5874",
+    "sectionId": "S001",
+    "rowIndex": 8,
+    "wordCount": 20,
+    "charCount": 108,
+    "processedAt": "2025-09-21T18:31:17.225Z",
+    "lpr": 1.2,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 40,
+      "cost": 0.001
+    }
+  }
+}

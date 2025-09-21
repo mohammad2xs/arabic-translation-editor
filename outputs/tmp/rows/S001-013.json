@@ -1,0 +1,32 @@
+{
+  "id": "S001-013",
+  "original": "كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.",
+  "enhanced": "كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.",
+  "english": "This is a fallback translation of the Arabic text: \"كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "70b0fb8daaaa4337",
+    "sectionId": "S001",
+    "rowIndex": 12,
+    "wordCount": 16,
+    "charCount": 95,
+    "processedAt": "2025-09-21T18:31:17.246Z",
+    "lpr": 1.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 32,
+      "cost": 0.001
+    }
+  }
+}

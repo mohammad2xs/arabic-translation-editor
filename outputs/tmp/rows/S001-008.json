@@ -1,0 +1,32 @@
+{
+  "id": "S001-008",
+  "original": "كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.",
+  "enhanced": "كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.",
+  "english": "This is a fallback translation of the Arabic text: \"كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "0c7b039b4096a08c",
+    "sectionId": "S001",
+    "rowIndex": 7,
+    "wordCount": 19,
+    "charCount": 102,
+    "processedAt": "2025-09-21T18:31:17.223Z",
+    "lpr": 1.2105263157894737,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 38,
+      "cost": 0.001
+    }
+  }
+}

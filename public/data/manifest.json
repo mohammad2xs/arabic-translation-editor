@@ -1,0 +1,20 @@
+{
+  "sections": [
+    {
+      "id": "S001",
+      "title": "المقدمة",
+      "rowCount": 15,
+      "wordCount": 279,
+      "contentHash": "a1b2c3d4",
+      "type": "introduction"
+    }
+  ],
+  "metadata": {
+    "totalSections": 1,
+    "totalRows": 15,
+    "totalWords": 279,
+    "generatedAt": "2025-09-21T04:00:33.799Z",
+    "source": "./al-insan.docx",
+    "version": "1.0.0"
+  }
+}

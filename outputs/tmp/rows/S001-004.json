@@ -1,0 +1,32 @@
+{
+  "id": "S001-004",
+  "original": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+  "enhanced": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+  "english": "This is a fallback translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "a36e71d1510db955",
+    "sectionId": "S001",
+    "rowIndex": 3,
+    "wordCount": 22,
+    "charCount": 124,
+    "processedAt": "2025-09-21T18:31:17.198Z",
+    "lpr": 1.2173913043478262,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 46,
+      "cost": 0.001
+    }
+  }
+}

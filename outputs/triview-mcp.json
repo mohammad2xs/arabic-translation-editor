@@ -1,0 +1,505 @@
+{
+  "metadata": {
+    "processedAt": "2025-09-21T18:31:17.254Z",
+    "totalRows": 15,
+    "successfulRows": 15,
+    "averageLPR": 1.2176780043316588,
+    "minLPR": 1.2,
+    "averageConfidence": 0.8000000000000002,
+    "mcpEnhanced": true
+  },
+  "rows": [
+    {
+      "id": "S001-001",
+      "original": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+      "enhanced": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+      "english": "This is a fallback translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "809d17b9bd7ae751",
+        "sectionId": "S001",
+        "rowIndex": 0,
+        "wordCount": 18,
+        "charCount": 107,
+        "processedAt": "2025-09-21T18:31:17.174Z",
+        "lpr": 1.2105263157894737,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 38,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-002",
+      "original": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+      "enhanced": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+      "english": "This is a fallback translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [
+        {
+          "type": "quran",
+          "reference": "17:70",
+          "normalized": "الإسراء:70"
+        }
+      ],
+      "metadata": {
+        "laneHash": "6fcb2434a177094f",
+        "sectionId": "S001",
+        "rowIndex": 1,
+        "wordCount": 19,
+        "charCount": 98,
+        "processedAt": "2025-09-21T18:31:17.185Z",
+        "lpr": 1.2,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 40,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-003",
+      "original": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+      "enhanced": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+      "english": "This is a fallback translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 4,
+      "scriptureRefs": [
+        {
+          "type": "quran",
+          "reference": "17:70",
+          "normalized": "الإسراء:70"
+        }
+      ],
+      "metadata": {
+        "laneHash": "502ca90dddf5e4b5",
+        "sectionId": "S001",
+        "rowIndex": 2,
+        "wordCount": 20,
+        "charCount": 112,
+        "processedAt": "2025-09-21T18:31:17.186Z",
+        "lpr": 1.2105263157894737,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 38,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-004",
+      "original": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+      "enhanced": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+      "english": "This is a fallback translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "a36e71d1510db955",
+        "sectionId": "S001",
+        "rowIndex": 3,
+        "wordCount": 22,
+        "charCount": 124,
+        "processedAt": "2025-09-21T18:31:17.198Z",
+        "lpr": 1.2173913043478262,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 46,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-005",
+      "original": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+      "enhanced": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+      "english": "This is a fallback translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "563de21b46dc69ae",
+        "sectionId": "S001",
+        "rowIndex": 4,
+        "wordCount": 17,
+        "charCount": 92,
+        "processedAt": "2025-09-21T18:31:17.199Z",
+        "lpr": 1.2352941176470589,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 34,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-006",
+      "original": "ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.",
+      "enhanced": "ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.",
+      "english": "This is a fallback translation of the Arabic text: \"ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "83127e9336a018f8",
+        "sectionId": "S001",
+        "rowIndex": 5,
+        "wordCount": 20,
+        "charCount": 105,
+        "processedAt": "2025-09-21T18:31:17.199Z",
+        "lpr": 1.2,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 40,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-007",
+      "original": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+      "enhanced": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+      "english": "This is a fallback translation of the Arabic text: \"إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "13136b89192faa9e",
+        "sectionId": "S001",
+        "rowIndex": 6,
+        "wordCount": 19,
+        "charCount": 109,
+        "processedAt": "2025-09-21T18:31:17.211Z",
+        "lpr": 1.2,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 40,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-008",
+      "original": "كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.",
+      "enhanced": "كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.",
+      "english": "This is a fallback translation of the Arabic text: \"كما يهدف إلى الربط بين النصوص الشرعية والواقع المعاصر، وبيان كيف يمكن للإنسان المسلم أن يحقق التوازن في حياته.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "0c7b039b4096a08c",
+        "sectionId": "S001",
+        "rowIndex": 7,
+        "wordCount": 19,
+        "charCount": 102,
+        "processedAt": "2025-09-21T18:31:17.223Z",
+        "lpr": 1.2105263157894737,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 38,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-009",
+      "original": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+      "enhanced": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+      "english": "This is a fallback translation of the Arabic text: \"وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "52f5bd468f9c5874",
+        "sectionId": "S001",
+        "rowIndex": 8,
+        "wordCount": 20,
+        "charCount": 108,
+        "processedAt": "2025-09-21T18:31:17.225Z",
+        "lpr": 1.2,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 40,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-010",
+      "original": "فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.",
+      "enhanced": "فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.",
+      "english": "This is a fallback translation of the Arabic text: \"فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "7a92162c9292bbce",
+        "sectionId": "S001",
+        "rowIndex": 9,
+        "wordCount": 21,
+        "charCount": 112,
+        "processedAt": "2025-09-21T18:31:17.230Z",
+        "lpr": 1.2380952380952381,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 42,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-011",
+      "original": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+      "enhanced": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+      "english": "This is a fallback translation of the Arabic text: \"وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "718db10188eb4df3",
+        "sectionId": "S001",
+        "rowIndex": 10,
+        "wordCount": 18,
+        "charCount": 108,
+        "processedAt": "2025-09-21T18:31:17.231Z",
+        "lpr": 1.2222222222222223,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 36,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-012",
+      "original": "لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.",
+      "enhanced": "لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.",
+      "english": "This is a fallback translation of the Arabic text: \"لذلك فإن فهم طبيعة الإنسان في الإسلام يتطلب دراسة عميقة للنصوص الشرعية وفهم مقاصدها وحكمها.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "845a93970160559d",
+        "sectionId": "S001",
+        "rowIndex": 11,
+        "wordCount": 16,
+        "charCount": 88,
+        "processedAt": "2025-09-21T18:31:17.237Z",
+        "lpr": 1.2,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 30,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-013",
+      "original": "كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.",
+      "enhanced": "كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.",
+      "english": "This is a fallback translation of the Arabic text: \"كما يتطلب أيضا الاستفادة من المنهج العلمي المعاصر في التحليل والاستنتاج، مع الحفاظ على الثوابت الشرعية.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "70b0fb8daaaa4337",
+        "sectionId": "S001",
+        "rowIndex": 12,
+        "wordCount": 16,
+        "charCount": 95,
+        "processedAt": "2025-09-21T18:31:17.246Z",
+        "lpr": 1.25,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 32,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-014",
+      "original": "وفي هذا السياق، يأتي هذا البحث ليسهم في إثراء المكتبة الإسلامية بدراسة معمقة حول طبيعة الإنسان وخصائصه.",
+      "enhanced": "وفي هذا السياق، يأتي هذا البحث ليسهم في إثراء المكتبة الإسلامية بدراسة معمقة حول طبيعة الإنسان وخصائصه.",
+      "english": "This is a fallback translation of the Arabic text: \"وفي هذا السياق، يأتي هذا البحث ليسهم في إثراء المكتبة الإسلامية بدراسة معمقة حول طبيعة الإنسان وخصائصه.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "969e72f41aa038b5",
+        "sectionId": "S001",
+        "rowIndex": 13,
+        "wordCount": 17,
+        "charCount": 96,
+        "processedAt": "2025-09-21T18:31:17.252Z",
+        "lpr": 1.2352941176470589,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 34,
+          "cost": 0.001
+        }
+      }
+    },
+    {
+      "id": "S001-015",
+      "original": "والله نسأل أن يبارك في هذا الجهد وأن يجعله نافعا لطلاب العلم والباحثين في هذا المجال المهم.",
+      "enhanced": "والله نسأل أن يبارك في هذا الجهد وأن يجعله نافعا لطلاب العلم والباحثين في هذا المجال المهم.",
+      "english": "This is a fallback translation of the Arabic text: \"والله نسأل أن يبارك في هذا الجهد وأن يجعله نافعا لطلاب العلم والباحثين في هذا المجال المهم.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "laneHash": "7d48914a4f4a5bb7",
+        "sectionId": "S001",
+        "rowIndex": 14,
+        "wordCount": 17,
+        "charCount": 88,
+        "processedAt": "2025-09-21T18:31:17.252Z",
+        "lpr": 1.2352941176470589,
+        "qualityGates": {
+          "lpr": true,
+          "coverage": true,
+          "drift": true,
+          "semantic": true,
+          "scripture": true
+        },
+        "recommendation": "accept",
+        "confidence": 0.8,
+        "mcp": {
+          "used": true,
+          "model": "fallback-translator",
+          "tokens": 34,
+          "cost": 0.001
+        }
+      }
+    }
+  ]
+}

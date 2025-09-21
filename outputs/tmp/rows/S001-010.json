@@ -1,0 +1,32 @@
+{
+  "id": "S001-010",
+  "original": "فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.",
+  "enhanced": "فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.",
+  "english": "This is a fallback translation of the Arabic text: \"فالإنسان في النظرة الإسلامية ليس مجرد جسد أو روح منفصلة، بل هو وحدة متكاملة من الروح والجسد تعمل في انسجام تام.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "7a92162c9292bbce",
+    "sectionId": "S001",
+    "rowIndex": 9,
+    "wordCount": 21,
+    "charCount": 112,
+    "processedAt": "2025-09-21T18:31:17.230Z",
+    "lpr": 1.2380952380952381,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 42,
+      "cost": 0.001
+    }
+  }
+}

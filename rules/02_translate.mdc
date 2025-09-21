@@ -1,0 +1,143 @@
+# Core Translation Rules
+
+## Translation Principles
+
+### Alignment Preservation
+- **CLAUSE MAPPING**: Each Arabic logical unit → ≥1 English clause
+- **SEMANTIC COMPLETENESS**: No Arabic concepts left untranslated
+- **LOGICAL FLOW**: English maintains Arabic argument progression
+- **PROPORTIONAL TREATMENT**: Important Arabic sections receive adequate English coverage
+
+### Rhetoric Preservation
+- **QUESTIONS**: Maintain rhetorical vs. genuine inquiry distinction
+- **CONTRASTS**: Preserve but/however/nevertheless patterns
+- **CONDITIONALS**: Keep if/then logical structures intact
+- **EMPHASIS**: Strong/weak emphasis patterns in English
+- **REPETITION**: Intentional repetition for emphasis preserved
+
+### Scripture Handling
+- **FOOTNOTE ANCHORS**: Use [^n] format for scripture references
+- **QURANIC TEXT**: Keep Arabic with transliteration in footnotes
+- **HADITH CITATIONS**: Preserve Arabic with context in footnotes
+- **SOURCE VERIFICATION**: Ensure accuracy of religious references
+
+## Translation Style
+
+### Abdel-Haleem Clarity
+- **ACCESSIBLE LANGUAGE**: Modern American English vocabulary
+- **CLEAR STRUCTURE**: Logical sentence and paragraph organization
+- **NATURAL FLOW**: Readable prose that doesn't feel translated
+- **PRECISION**: Accurate conveyance of complex Islamic concepts
+- **RESPECTFUL TONE**: Scholarly approach to religious material
+
+### Length Target Compliance
+- **TARGET RATIO**: English length ≥ Arabic length + 5-20% expansion
+- **MINIMUM LPR**: Length Preservation Ratio ≥ 0.95
+- **EXPANSION PRIORITY**: Clarity over conciseness when necessary
+- **COMPLETENESS**: No summarization or condensation allowed
+
+### Register Maintenance
+- **CONTEMPLATIVE TONE**: Thoughtful, reflective approach
+- **SCHOLARLY PRECISION**: Academic accuracy without jargon
+- **PHILOSOPHICAL VOCABULARY**: Appropriate for spiritual/ethical content
+- **CONSISTENT FORMALITY**: Neither too casual nor overly ornate
+
+## Islamic Terminology
+
+### Canonical Terms
+- **ESTABLISHED TRANSLATIONS**: Use recognized English terms for Islamic concepts
+- **CONSISTENCY**: Same Arabic term → same English equivalent throughout
+- **CONTEXT SENSITIVITY**: Adapt to sentence context while preserving core meaning
+- **GLOSSARY COMPLIANCE**: Follow project terminology standards
+
+### Technical Concepts
+- **THEOLOGICAL TERMS**: Accurate representation of Islamic beliefs
+- **LEGAL CONCEPTS**: Proper translation of Islamic jurisprudence terms
+- **SPIRITUAL PRACTICES**: Clear explanation of worship and devotion concepts
+- **CULTURAL ELEMENTS**: Respectful handling of Islamic customs and traditions
+
+### Transliteration Standards
+- **ARABIC NAMES**: Standard scholarly transliteration
+- **QURANIC TERMS**: Consistent with established Islamic scholarship
+- **PLACE NAMES**: Recognized English forms where available
+- **TECHNICAL TERMS**: Clear pronunciation guidance when needed
+
+## Quality Standards
+
+### Semantic Fidelity
+- **MEANING PRESERVATION**: All Arabic concepts represented in English
+- **QUALIFIER MAINTENANCE**: Temporal, modal, and scope indicators preserved
+- **NEGATION ACCURACY**: Exact scope and emphasis of negations
+- **LOGICAL RELATIONSHIPS**: Causal, sequential, and comparative structures intact
+
+### Readability Requirements
+- **NATURAL ENGLISH**: Idiomatic expressions and word order
+- **CLEAR CONNECTIONS**: Logical flow between sentences and paragraphs
+- **APPROPRIATE VOCABULARY**: Level suitable for educated general audience
+- **SENTENCE VARIETY**: Mix of simple, compound, and complex structures
+
+### Cultural Sensitivity
+- **RESPECTFUL LANGUAGE**: Appropriate treatment of sacred and cultural elements
+- **INTERFAITH AWARENESS**: Sensitive handling of comparative religious content
+- **HISTORICAL CONTEXT**: Accurate representation of time periods and settings
+- **SOCIAL DYNAMICS**: Proper understanding of Islamic community structures
+
+## Processing Guidelines
+
+### Translation Methodology
+- **CLAUSE-BY-CLAUSE**: Work through text systematically
+- **CONTEXT AWARENESS**: Consider broader paragraph and document context
+- **ITERATIVE REFINEMENT**: Multiple passes for clarity and accuracy
+- **CONSISTENCY CHECKING**: Terms and style align across document
+
+### Quality Verification
+- **BACK-TRANSLATION**: Check meaning preservation through reverse translation
+- **COVERAGE ANALYSIS**: Verify all Arabic clauses have English counterparts
+- **LPR CALCULATION**: Measure length preservation ratio
+- **RHETORIC ASSESSMENT**: Confirm persuasive and stylistic elements preserved
+
+### Error Prevention
+- **SUMMARIZATION AVOIDANCE**: Never condense or abbreviate original content
+- **ADDITION PROHIBITION**: Don't add concepts not present in Arabic
+- **INTERPRETATION LIMITS**: Translate what's written, not what might be implied
+- **CULTURAL ASSUMPTIONS**: Avoid imposing non-Islamic cultural perspectives
+
+## Footnote Management
+
+### Reference Format
+- **NUMBERED ANCHORS**: [^1], [^2] etc. in sequential order
+- **CLEAR PLACEMENT**: Anchors at appropriate points in text flow
+- **COMPLETE INFORMATION**: Full citation details in footnote content
+- **CONSISTENT STYLE**: Uniform format across all references
+
+### Content Guidelines
+- **SCRIPTURE QUOTES**: Arabic text with accurate English translation
+- **SOURCE IDENTIFICATION**: Clear attribution to Quran, hadith collections, etc.
+- **CONTEXTUAL NOTES**: Brief explanation when cultural context needed
+- **SCHOLARLY REFERENCES**: Academic sources for complex theological points
+
+### Integration Requirements
+- **NATURAL PLACEMENT**: Footnotes don't disrupt reading flow
+- **RELEVANT CONTENT**: All footnotes directly support main text
+- **ACCURACY VERIFICATION**: All references checked against authoritative sources
+- **PROPORTIONAL LENGTH**: Footnotes don't overwhelm main text
+
+## Special Considerations
+
+### Philosophical Content
+- **ABSTRACT CONCEPTS**: Clear explanation of complex ideas
+- **ARGUMENT STRUCTURE**: Logical progression of reasoning preserved
+- **CONCLUSION CLARITY**: Main points and implications clearly stated
+- **INTELLECTUAL RIGOR**: Academic standards for philosophical discussion
+
+### Devotional Material
+- **SPIRITUAL SENSITIVITY**: Appropriate tone for religious content
+- **PRAYER LANGUAGE**: Respectful handling of worship texts
+- **MYSTICAL CONCEPTS**: Clear explanation of Sufi and spiritual terminology
+- **PERSONAL REFLECTION**: Maintain intimate tone of devotional writing
+
+### Historical Narrative
+- **CHRONOLOGICAL ACCURACY**: Correct sequence and dating of events
+- **CULTURAL CONTEXT**: Appropriate background for historical understanding
+- **BIOGRAPHICAL DETAIL**: Accurate representation of historical figures
+- **SOCIAL DYNAMICS**: Proper understanding of historical Islamic societies

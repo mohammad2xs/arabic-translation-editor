@@ -1,0 +1,32 @@
+{
+  "mcp": {
+    "servers": {
+      "web-to-mcp": {
+        "url": "https://web-to-mcp.com/mcp/657946f0-c4c4-482d-892b-9d93597c67e7/",
+        "type": "websocket",
+        "name": "web-to-mcp-translation",
+        "capabilities": {
+          "tools": ["translate_arabic", "enhance_text", "quality_check"],
+          "resources": ["translation_memory", "glossary", "scripture_references"]
+        }
+      }
+    },
+    "default": "web-to-mcp",
+    "fallback": {
+      "enabled": true,
+      "model": "fallback-translator"
+    }
+  },
+  "translation": {
+    "lpr_target": 1.05,
+    "lpr_minimum": 0.95,
+    "confidence_threshold": 0.8,
+    "quality_gates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    }
+  }
+}

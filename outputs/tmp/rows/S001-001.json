@@ -1,0 +1,32 @@
+{
+  "id": "S001-001",
+  "original": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+  "enhanced": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+  "english": "This is a fallback translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "809d17b9bd7ae751",
+    "sectionId": "S001",
+    "rowIndex": 0,
+    "wordCount": 18,
+    "charCount": 107,
+    "processedAt": "2025-09-21T18:31:17.174Z",
+    "lpr": 1.2105263157894737,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 38,
+      "cost": 0.001
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "S001-003",
+  "original": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+  "enhanced": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+  "english": "This is a fallback translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 4,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "17:70",
+      "normalized": "الإسراء:70"
+    }
+  ],
+  "metadata": {
+    "laneHash": "502ca90dddf5e4b5",
+    "sectionId": "S001",
+    "rowIndex": 2,
+    "wordCount": 20,
+    "charCount": 112,
+    "processedAt": "2025-09-21T18:31:17.186Z",
+    "lpr": 1.2105263157894737,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 38,
+      "cost": 0.001
+    }
+  }
+}

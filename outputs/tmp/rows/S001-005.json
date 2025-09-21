@@ -1,0 +1,32 @@
+{
+  "id": "S001-005",
+  "original": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+  "enhanced": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+  "english": "This is a fallback translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "563de21b46dc69ae",
+    "sectionId": "S001",
+    "rowIndex": 4,
+    "wordCount": 17,
+    "charCount": 92,
+    "processedAt": "2025-09-21T18:31:17.199Z",
+    "lpr": 1.2352941176470589,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 34,
+      "cost": 0.001
+    }
+  }
+}

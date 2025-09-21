@@ -1,0 +1,63 @@
+{
+  "name": "arabic-translation-editor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "check:lean": "npm run lint && npm run type-check",
+    "smoke": "node scripts/smoke.mjs",
+    "bundlesize": "npx next-bundle-analyzer",
+    "prune": "npx depcheck",
+    "ingest": "tsx scripts/ingest.ts",
+    "orchestrate": "tsx orchestrate/pipeline.mjs",
+    "orchestrate:mcp": "node orchestrate/mcp-pipeline.mjs",
+    "build:docx": "node build/docx.mjs",
+    "build:audio": "node build/audio_prep.mjs",
+    "build:epub": "node build/epub.mjs",
+    "scale:full": "node scripts/scale-to-full.mjs",
+    "validate:quality": "tsx scripts/quality-validation.mjs",
+    "report:final": "node scripts/generate-final-report.mjs",
+    "pipeline": "tsx orchestrate/pipeline.mjs",
+    "export:docx": "node build/docx.mjs",
+    "export:audio": "node build/audio_prep.mjs",
+    "export:epub": "node build/epub.mjs",
+    "status:dashboard": "node scripts/pipeline-status.mjs",
+    "github:setup": "node scripts/github-workflow.mjs",
+    "github:auth": "gh auth login",
+    "github:issues": "gh issue list",
+    "github:pr": "gh pr create"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.1",
+    "archiver": "^7.0.1",
+    "clsx": "^2.1.1",
+    "docx": "^9.5.1",
+    "glob": "^10.3.10",
+    "mammoth": "^1.8.0",
+    "next": "14.2.15",
+    "papaparse": "^5.4.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.10",
+    "@types/papaparse": "^5.3.14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "tsx": "^4.20.5",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

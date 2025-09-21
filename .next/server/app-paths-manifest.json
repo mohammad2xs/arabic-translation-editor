@@ -1,0 +1,5 @@
+{
+  "/tri/page": "app/tri/page.js",
+  "/api/mcp/translate/route": "app/api/mcp/translate/route.js",
+  "/api/sections/[id]/route": "app/api/sections/[id]/route.js"
+}

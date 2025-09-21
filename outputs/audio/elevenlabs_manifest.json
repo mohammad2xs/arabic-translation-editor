@@ -1,0 +1,40 @@
+{
+  "project": {
+    "name": "The Human: A Journey Toward Spiritual Perfection",
+    "title_arabic": "الإنسان: رحلة نحو الكمال الروحي",
+    "description": "A book exploring the human spiritual journey toward perfection and closeness to Allah",
+    "language": "en",
+    "voice_id": "default_voice_id",
+    "created_date": "2025-09-21T17:33:25.679Z"
+  },
+  "voice_settings": {
+    "stability": 0.4,
+    "similarity_boost": 0.85,
+    "style": 0.1,
+    "clarity": 0.65
+  },
+  "output_settings": {
+    "format": "mp3",
+    "quality": "high",
+    "sample_rate": 44100
+  },
+  "chapters": [
+    {
+      "id": "S001",
+      "title": "المقدمة",
+      "title_arabic": "المقدمة",
+      "start_row_id": 1,
+      "end_row_id": 0,
+      "row_count": 0,
+      "estimated_duration_seconds": 0,
+      "estimated_duration_formatted": "0:00"
+    }
+  ],
+  "segments": [],
+  "total_segments": 0,
+  "metadata": {
+    "total_characters": 0,
+    "estimated_cost_usd": 0,
+    "processing_notes": "Generated automatically from section data with deterministic IDs"
+  }
+}

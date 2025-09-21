@@ -1,0 +1,32 @@
+{
+  "id": "S001-006",
+  "original": "ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.",
+  "enhanced": "ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.",
+  "english": "This is a fallback translation of the Arabic text: \"ومن هنا تأتي أهمية دراسة طبيعة الإنسان وفهم تركيبه الروحي والجسدي، وما يترتب على ذلك من آثار في سلوكه وتصرفاته.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "metadata": {
+    "laneHash": "83127e9336a018f8",
+    "sectionId": "S001",
+    "rowIndex": 5,
+    "wordCount": 20,
+    "charCount": 105,
+    "processedAt": "2025-09-21T18:31:17.199Z",
+    "lpr": 1.2,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "recommendation": "accept",
+    "confidence": 0.8,
+    "mcp": {
+      "used": true,
+      "model": "fallback-translator",
+      "tokens": 40,
+      "cost": 0.001
+    }
+  }
+}
