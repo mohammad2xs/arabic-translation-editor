@@ -1,3 +1,389 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Dad-Mode Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
+
+/* Font definitions for Arabic text */
+@font-face {
+  font-family: 'Arabic';
+  src: local('Noto Sans Arabic'), local('Arabic Typesetting'), local('Traditional Arabic');
+  font-display: swap;
+}
+
+.font-arabic {
+  font-family: 'Arabic', 'Noto Sans Arabic', 'Arabic Typesetting', 'Traditional Arabic', sans-serif !important;
+}
+
+/* Dad-Mode base styles */
+.dad-mode {
+  /* Enhanced contrast for accessibility */
+  --color-contrast-multiplier: 1.2;
+}
+
+/* Font size presets */
+.dad-font-large {
+  font-size: 20px !important;
+  line-height: 1.6 !important;
+}
+
+.dad-font-xl {
+  font-size: 22px !important;
+  line-height: 1.65 !important;
+}
+
+.dad-font-xxl {
+  font-size: 24px !important;
+  line-height: 1.7 !important;
+}
+
+/* High contrast theme */
+.dad-contrast-high {
+  --tw-text-opacity: 1;
+  --tw-bg-opacity: 1;
+
+  /* Ensure 7:1 contrast ratio */
+  color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
+}
+
+.dad-contrast-high .text-gray-600 {
+  color: rgb(55 65 81) !important; /* Darker gray for better contrast */
+}
+
+.dad-contrast-high .text-gray-500 {
+  color: rgb(75 85 99) !important; /* Darker gray for better contrast */
+}
+
+.dad-contrast-high .bg-gray-50 {
+  background-color: rgb(249 250 251) !important; /* Slightly more contrast */
+}
+
+.dad-contrast-high .bg-gray-100 {
+  background-color: rgb(243 244 246) !important; /* Better contrast */
+}
+
+/* Reduced motion preferences */
+.dad-motion-reduced * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Touch targets - minimum 44px */
+.dad-mode button,
+.dad-mode input,
+.dad-mode select,
+.dad-mode textarea,
+.dad-mode a {
+  min-height: 44px !important;
+  min-width: 44px !important;
+}
+
+/* Enhanced focus styles for accessibility */
+.dad-mode *:focus {
+  outline: 3px solid #3B82F6 !important;
+  outline-offset: 2px !important;
+}
+
+/* Large text styles */
+.dad-mode h1 {
+  font-size: 2.5rem !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+.dad-mode h2 {
+  font-size: 2rem !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+.dad-mode h3 {
+  font-size: 1.75rem !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+}
+
+.dad-mode h4 {
+  font-size: 1.5rem !important;
+  line-height: 1.4 !important;
+  font-weight: 500 !important;
+}
+
+/* Button styles */
+.dad-mode button {
+  font-size: 1.125rem !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Input styles */
+.dad-mode input,
+.dad-mode select,
+.dad-mode textarea {
+  font-size: 1.125rem !important;
+  padding: 0.75rem 1rem !important;
+  border-width: 2px !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Card and container spacing */
+.dad-mode .dad-card {
+  padding: 2rem !important;
+  margin-bottom: 2rem !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Navigation and progression indicators */
+.dad-mode .progress-indicator {
+  height: 1rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.dad-mode .progress-indicator .progress-bar {
+  border-radius: 0.5rem !important;
+  transition: width 0.3s ease-in-out !important;
+}
+
+/* Arabic text specific styling */
+.dad-mode .arabic-text {
+  font-size: 1.5rem !important;
+  line-height: 1.8 !important;
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+.dad-mode .arabic-text textarea {
+  font-size: 1.5rem !important;
+  line-height: 1.8 !important;
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* English text styling */
+.dad-mode .english-text {
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+}
+
+.dad-mode .english-text textarea {
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Quality indicators */
+.dad-mode .quality-chip {
+  font-size: 1.125rem !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+/* Audio controls */
+.dad-mode .audio-controls button {
+  width: 4rem !important;
+  height: 4rem !important;
+  font-size: 1.5rem !important;
+}
+
+/* Sticky notes */
+.dad-mode .sticky-note {
+  border-width: 3px !important;
+  border-radius: 1rem !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 8px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Share dialog */
+.dad-mode .share-dialog {
+  border-radius: 1rem !important;
+  padding: 2rem !important;
+}
+
+.dad-mode .share-dialog button {
+  font-size: 1.25rem !important;
+  padding: 1rem 2rem !important;
+}
+
+/* Dad-Mode header */
+.dad-mode .dad-header {
+  padding: 1.5rem 2rem !important;
+  border-bottom-width: 3px !important;
+}
+
+.dad-mode .dad-header h1 {
+  font-size: 2.25rem !important;
+}
+
+.dad-mode .dad-header select {
+  font-size: 1.25rem !important;
+  min-width: 20rem !important;
+}
+
+/* Row card specific styles */
+.dad-mode .row-card {
+  border-width: 3px !important;
+  border-radius: 1rem !important;
+  margin-bottom: 3rem !important;
+}
+
+.dad-mode .row-card .tab-button {
+  font-size: 1.25rem !important;
+  padding: 1rem 2rem !important;
+  min-height: 4rem !important;
+}
+
+.dad-mode .row-card .content-area {
+  padding: 2rem !important;
+  min-height: 20rem !important;
+}
+
+.dad-mode .row-card textarea {
+  min-height: 16rem !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  padding: 1.5rem !important;
+}
+
+/* Navigation buttons */
+.dad-mode .nav-button {
+  font-size: 1.5rem !important;
+  padding: 1.5rem 3rem !important;
+  min-height: 5rem !important;
+  border-radius: 1rem !important;
+  font-weight: 700 !important;
+}
+
+/* Accessibility helpers */
+.dad-mode .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Skip links */
+.dad-mode .skip-link {
+  position: absolute !important;
+  top: -40px !important;
+  left: 6px !important;
+  background: #000 !important;
+  color: #fff !important;
+  padding: 8px !important;
+  text-decoration: none !important;
+  z-index: 100 !important;
+}
+
+.dad-mode .skip-link:focus {
+  top: 6px !important;
+}
+
+/* Print styles for Dad-Mode */
+@media print {
+  .dad-mode {
+    font-size: 14pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .dad-mode .arabic-text {
+    font-size: 16pt !important;
+    line-height: 1.7 !important;
+  }
+
+  .dad-mode .no-print {
+    display: none !important;
+  }
+}
+
+/* Mobile-specific Dad-Mode adjustments */
+@media (max-width: 768px) {
+  .dad-mode {
+    font-size: 18px !important;
+  }
+
+  .dad-mode button,
+  .dad-mode input,
+  .dad-mode select {
+    min-height: 48px !important;
+    font-size: 16px !important;
+  }
+
+  .dad-mode .dad-header {
+    padding: 1rem !important;
+  }
+
+  .dad-mode .row-card {
+    margin: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  .dad-mode .nav-button {
+    font-size: 1.25rem !important;
+    padding: 1rem 2rem !important;
+    min-height: 4rem !important;
+  }
+}
+
+/* Animation classes for Dad-Mode transitions */
+.dad-fade-in {
+  animation: dadFadeIn 0.3s ease-out;
+}
+
+.dad-slide-in-right {
+  animation: dadSlideInRight 0.3s ease-out;
+}
+
+.dad-scale-in {
+  animation: dadScaleIn 0.2s ease-out;
+}
+
+@keyframes dadFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dadSlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dadScaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Disable animations if reduced motion is preferred */
+@media (prefers-reduced-motion: reduce) {
+  .dad-mode *,
+  .dad-mode *::before,
+  .dad-mode *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -3,7 +3,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
-import { scoreArabicRow, calculateLPR } from '../../lib/complexity';
+import { calculateLPR } from '../../lib/complexity';
+import { isDadModeEnabled, initializeDadMode, getViewMode, getRowsToShow } from '../../lib/dadmode/prefs';
+import { getUserRole, canEdit } from '../../lib/dadmode/access';
+import DadHeader from '../(components)/DadHeader';
+import RowCard from '../(components)/RowCard';
+import MultiRowView from '../(components)/MultiRowView';
 
 interface SectionRow {
   id: string;
@@ -121,6 +126,12 @@ export default function TriViewPage() {
   const [availableSections, setAvailableSections] = useState<ManifestSection[]>([]);
   const [sectionData, setSectionData] = useState<SectionData | null>(null);
   const [expandStatus, setExpandStatus] = useState<Record<string, boolean>>({});
+  const [dadModeEnabled, setDadModeEnabled] = useState(false);
+  const [advancedMetricsVisible, setAdvancedMetricsVisible] = useState(false);
+  const [localHistory, setLocalHistory] = useState<Record<string, string[]>>({});
+  const [viewMode, setViewModeState] = useState<'single' | '3' | '5' | '10' | 'all'>('single');
+  const [focusedRowIndex, setFocusedRowIndex] = useState<number>(0);
+
   const findInputRef = useRef<HTMLInputElement>(null);
   const arabicScrollRef = useRef<HTMLDivElement>(null);
   const enhancedScrollRef = useRef<HTMLDivElement>(null);
@@ -128,8 +139,23 @@ export default function TriViewPage() {
   const isScrollingRef = useRef(false);
   const enhancedTextareaRef = useRef<HTMLTextAreaElement>(null);
   const translationTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const autoSaveTimersRef = useRef<Record<string, number>>({});
 
   const currentRow = rows[currentRowIndex];
+
+  // Initialize Dad-Mode on mount
+  useEffect(() => {
+    initializeDadMode();
+    setDadModeEnabled(isDadModeEnabled());
+    setViewModeState(getViewMode());
+  }, []);
+
+  // Watch for URL parameter changes to sync Dad Mode state
+  useEffect(() => {
+    const modeParam = searchParams.get('mode');
+    const isDadMode = modeParam === 'dad';
+    setDadModeEnabled(isDadMode);
+  }, [searchParams]);
 
   // Calculate quality metrics for current row
   const getQualityMetrics = (row: SectionRow) => {
@@ -199,7 +225,12 @@ export default function TriViewPage() {
     const loadSectionData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/sections/${currentSectionId}`);
+        // Include Dad-Mode metadata if enabled
+        const url = dadModeEnabled
+          ? `/api/sections/${currentSectionId}?dadMode=true`
+          : `/api/sections/${currentSectionId}`;
+
+        const response = await fetch(url);
         if (response.ok) {
           const data: SectionData = await response.json();
           setSectionData(data);
@@ -242,19 +273,369 @@ export default function TriViewPage() {
     if (currentSectionId) {
       loadSectionData();
     }
-  }, [currentSectionId]);
+  }, [currentSectionId, dadModeEnabled]);
+
+  // Dad-Mode specific handlers
+  const handleRowChange = (field: 'enhanced' | 'english', value: string) => {
+    const currentRow = rows[currentRowIndex];
+    if (!currentRow) return;
+
+    // Save current state to local history before changing
+    const historyKey = `${currentRow.id}_${field}`;
+    const currentValue = currentRow[field];
+
+    setLocalHistory(prev => ({
+      ...prev,
+      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10) // Keep last 10 versions
+    }));
+
+    const updatedRows = [...rows];
+    updatedRows[currentRowIndex][field] = value;
+    setRows(updatedRows);
+  };
+
+  // Multi-row view handlers
+  const handleMultiRowChange = (rowIndex: number, field: 'enhanced' | 'english', value: string) => {
+    const targetRow = rows[rowIndex];
+    if (!targetRow) return;
+
+    // Save current state to local history before changing
+    const historyKey = `${targetRow.id}_${field}`;
+    const currentValue = targetRow[field];
+
+    setLocalHistory(prev => ({
+      ...prev,
+      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10) // Keep last 10 versions
+    }));
+
+    const updatedRows = [...rows];
+    updatedRows[rowIndex][field] = value;
+    setRows(updatedRows);
+
+    // Debounced auto-save
+    const autoSaveKey = targetRow.id;
+
+    // Clear existing timer for this row
+    if (autoSaveTimersRef.current[autoSaveKey]) {
+      clearTimeout(autoSaveTimersRef.current[autoSaveKey]);
+    }
+
+    // Set new timer for auto-save
+    autoSaveTimersRef.current[autoSaveKey] = window.setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/rows/${targetRow.id}/save`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            arEnhanced: updatedRows[rowIndex].enhanced,
+            en: updatedRows[rowIndex].english,
+            action: 'save',
+          }),
+        });
+
+        if (response.ok) {
+          // Show subtle toast notification
+          const toast = document.createElement('div');
+          toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
+          toast.textContent = `✅ Row ${targetRow.id} auto-saved`;
+          document.body.appendChild(toast);
+
+          setTimeout(() => {
+            if (document.body.contains(toast)) {
+              document.body.removeChild(toast);
+            }
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Auto-save error:', error);
+      } finally {
+        // Clean up timer reference
+        delete autoSaveTimersRef.current[autoSaveKey];
+      }
+    }, 400);
+  };
+
+  const handleViewModeChange = (newViewMode: 'single' | '3' | '5' | '10' | 'all') => {
+    setViewModeState(newViewMode);
+    // When switching to single mode, set current row to focused row
+    if (newViewMode === 'single') {
+      setCurrentRowIndex(focusedRowIndex);
+    }
+  };
+
+  const handleFocusRow = (rowIndex: number) => {
+    setFocusedRowIndex(rowIndex);
+    // Also update current row index for consistency
+    setCurrentRowIndex(rowIndex);
+  };
+
+  const handleSave = async () => {
+    if (!currentRow) return;
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          arEnhanced: currentRow.enhanced,
+          en: currentRow.english,
+          action: 'save',
+        }),
+      });
+
+      if (response.ok) {
+        // Show toast notification
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        toast.textContent = '✅ Saved just now';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      } else {
+        throw new Error('Save failed');
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      toast.textContent = '❌ Save failed';
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  };
+
+  const handleUndo = () => {
+    if (!currentRow) return;
+
+    // Try to undo the most recent change for either field
+    const enhancedHistory = localHistory[`${currentRow.id}_enhanced`] || [];
+    const englishHistory = localHistory[`${currentRow.id}_english`] || [];
+
+    if (enhancedHistory.length > 0) {
+      const previousValue = enhancedHistory[enhancedHistory.length - 1];
+      const updatedRows = [...rows];
+      updatedRows[currentRowIndex].enhanced = previousValue;
+      setRows(updatedRows);
+
+      // Remove the last history entry
+      setLocalHistory(prev => ({
+        ...prev,
+        [`${currentRow.id}_enhanced`]: enhancedHistory.slice(0, -1)
+      }));
+    } else if (englishHistory.length > 0) {
+      const previousValue = englishHistory[englishHistory.length - 1];
+      const updatedRows = [...rows];
+      updatedRows[currentRowIndex].english = previousValue;
+      setRows(updatedRows);
+
+      // Remove the last history entry
+      setLocalHistory(prev => ({
+        ...prev,
+        [`${currentRow.id}_english`]: englishHistory.slice(0, -1)
+      }));
+    }
+  };
+
+  const handleRevert = async () => {
+    if (!currentRow) return;
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.versions && data.versions.length > 0) {
+          const lastVersion = data.versions[data.versions.length - 1];
+          const updatedRows = [...rows];
+
+          if (lastVersion.arEnhanced) {
+            updatedRows[currentRowIndex].enhanced = lastVersion.arEnhanced;
+          }
+          if (lastVersion.en) {
+            updatedRows[currentRowIndex].english = lastVersion.en;
+          }
+
+          setRows(updatedRows);
+
+          const toast = document.createElement('div');
+          toast.className = 'fixed top-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+          toast.textContent = '↶ Reverted to last saved version';
+          document.body.appendChild(toast);
+
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 3000);
+        }
+      }
+    } catch (error) {
+      console.error('Revert error:', error);
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      toast.textContent = '❌ Revert failed';
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  };
+
+  const handleApproveScripture = async () => {
+    if (!currentRow) return;
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'approve_scripture',
+        }),
+      });
+
+      if (response.ok) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        toast.textContent = '✅ Scripture approved';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      } else {
+        throw new Error('Approve failed');
+      }
+    } catch (error) {
+      console.error('Approve scripture error:', error);
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      toast.textContent = '❌ Approve failed';
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  };
+
+  const handleFlagScripture = async () => {
+    if (!currentRow) return;
+
+    const reason = prompt('Please provide a reason for flagging this scripture:');
+    if (!reason || reason.trim() === '') {
+      return; // User cancelled or provided empty reason
+    }
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'flag_scripture',
+          reason: reason.trim(),
+        }),
+      });
+
+      if (response.ok) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-yellow-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        toast.textContent = '🚩 Scripture flagged for review';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      } else {
+        throw new Error('Flag failed');
+      }
+    } catch (error) {
+      console.error('Flag scripture error:', error);
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      toast.textContent = '❌ Flag failed';
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  };
+
+  const handleFinishSection = async () => {
+    try {
+      const response = await fetch(`/api/snapshot/${currentSectionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          comment: 'Section completed in Dad-Mode',
+          lock: false,
+        }),
+      });
+
+      if (response.ok) {
+        alert('✅ Section completed! Snapshot saved.');
+      } else {
+        alert('❌ Failed to save section snapshot.');
+      }
+    } catch (error) {
+      console.error('Failed to finish section:', error);
+      alert('❌ Failed to save section snapshot.');
+    }
+  };
+
+  const handleSectionChange = (sectionId: string) => {
+    setCurrentSectionId(sectionId);
+    // Update URL
+    const url = new URL(window.location.href);
+    url.searchParams.set('section', sectionId);
+    window.history.pushState({}, '', url.toString());
+  };
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    // Handle Cmd/Ctrl+S for save when in Dad-Mode
+    if ((event.metaKey || event.ctrlKey) && event.code === 'KeyS') {
+      if (dadModeEnabled && currentRow && getUserRole() && canEdit(getUserRole())) {
+        event.preventDefault();
+        handleSave();
+        return;
+      }
+    }
+
     if (event.ctrlKey || event.metaKey || event.altKey) return;
 
     switch (event.code) {
       case 'KeyJ':
         event.preventDefault();
-        setCurrentRowIndex(prev => Math.min(prev + 1, rows.length - 1));
+        if (viewMode !== 'single') {
+          const newIndex = Math.min(focusedRowIndex + 1, rows.length - 1);
+          setCurrentRowIndex(newIndex);
+          setFocusedRowIndex(newIndex);
+        } else {
+          setCurrentRowIndex(prev => Math.min(prev + 1, rows.length - 1));
+        }
         break;
       case 'KeyK':
         event.preventDefault();
-        setCurrentRowIndex(prev => Math.max(prev - 1, 0));
+        if (viewMode !== 'single') {
+          const newIndex = Math.max(focusedRowIndex - 1, 0);
+          setCurrentRowIndex(newIndex);
+          setFocusedRowIndex(newIndex);
+        } else {
+          setCurrentRowIndex(prev => Math.max(prev - 1, 0));
+        }
         break;
       case 'KeyA':
         event.preventDefault();
@@ -284,8 +665,26 @@ export default function TriViewPage() {
         event.preventDefault();
         setFindPanelOpen(prev => !prev);
         break;
+      case 'KeyD':
+        event.preventDefault();
+        // Toggle Dad-Mode
+        const newDadModeState = !dadModeEnabled;
+        setDadModeEnabled(newDadModeState);
+
+        // Update localStorage
+        localStorage.setItem('dadModeEnabled', newDadModeState.toString());
+
+        // Update URL
+        const url = new URL(window.location.href);
+        if (newDadModeState) {
+          url.searchParams.set('mode', 'dad');
+        } else {
+          url.searchParams.delete('mode');
+        }
+        window.history.pushState({}, '', url.toString());
+        break;
     }
-  }, [rows.length]);
+  }, [rows.length, dadModeEnabled, currentRow, handleSave]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -404,6 +803,250 @@ export default function TriViewPage() {
 
   const visibleColumns = Object.entries(showColumns).filter(([, visible]) => visible).length;
 
+  // Dad-Mode rendering
+  if (dadModeEnabled) {
+    return (
+      <div className="min-h-screen bg-gray-50 dad-mode">
+        <DadHeader
+          currentSection={currentSectionId}
+          availableSections={availableSections}
+          currentRow={focusedRowIndex}
+          totalRows={rows.length}
+          onSectionChange={handleSectionChange}
+          onFinishSection={handleFinishSection}
+          onViewModeChange={handleViewModeChange}
+          onExitDadMode={() => setDadModeEnabled(false)}
+        />
+
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="text-2xl text-gray-600">Loading translation editor...</div>
+            </div>
+          ) : !currentRow ? (
+            <div className="text-center py-16">
+              <div className="text-2xl text-red-600">No data available</div>
+            </div>
+          ) : (
+            <>
+              {/* Conditional rendering based on view mode */}
+              {viewMode === 'single' ? (
+                /* Single row card */
+                <RowCard
+                  row={currentRow}
+                  onRowChange={handleRowChange}
+                  onSave={handleSave}
+                  onUndo={handleUndo}
+                  large={true}
+                />
+              ) : (
+                /* Multi-row view */
+                <MultiRowView
+                  rows={rows}
+                  startIndex={viewMode === 'all' ? 0 : Math.max(0, Math.min(focusedRowIndex - Math.floor(getRowsToShow(viewMode, rows.length) / 2), rows.length - getRowsToShow(viewMode, rows.length)))}
+                  rowsToShow={getRowsToShow(viewMode, rows.length)}
+                  onRowChange={handleMultiRowChange}
+                  onSave={(rowIndex) => {
+                    // Use same save logic but for specific row
+                    const targetRow = rows[rowIndex];
+                    if (targetRow) {
+                      // Call API to save specific row
+                      fetch(`/api/rows/${targetRow.id}/save`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          arEnhanced: targetRow.enhanced,
+                          en: targetRow.english,
+                          action: 'save',
+                        }),
+                      });
+                    }
+                  }}
+                  onUndo={(rowIndex) => {
+                    // Use same undo logic but for specific row
+                    const targetRow = rows[rowIndex];
+                    if (targetRow) {
+                      const enhancedHistory = localHistory[`${targetRow.id}_enhanced`] || [];
+                      const englishHistory = localHistory[`${targetRow.id}_english`] || [];
+
+                      if (enhancedHistory.length > 0) {
+                        const previousValue = enhancedHistory[enhancedHistory.length - 1];
+                        const updatedRows = [...rows];
+                        updatedRows[rowIndex].enhanced = previousValue;
+                        setRows(updatedRows);
+
+                        setLocalHistory(prev => ({
+                          ...prev,
+                          [`${targetRow.id}_enhanced`]: enhancedHistory.slice(0, -1)
+                        }));
+                      } else if (englishHistory.length > 0) {
+                        const previousValue = englishHistory[englishHistory.length - 1];
+                        const updatedRows = [...rows];
+                        updatedRows[rowIndex].english = previousValue;
+                        setRows(updatedRows);
+
+                        setLocalHistory(prev => ({
+                          ...prev,
+                          [`${targetRow.id}_english`]: englishHistory.slice(0, -1)
+                        }));
+                      }
+                    }
+                  }}
+                  focusedRowIndex={focusedRowIndex}
+                  onFocusRow={handleFocusRow}
+                />
+              )}
+
+              {/* Revert button */}
+              <div className="mt-6">
+                <button
+                  onClick={handleRevert}
+                  className="px-6 py-3 bg-purple-600 text-white rounded-lg text-lg font-medium hover:bg-purple-700 transition-colors focus:ring-4 focus:ring-purple-200"
+                >
+                  ↶ Revert to Last Saved
+                </button>
+              </div>
+
+              {/* Scripture banner */}
+              {currentRow.scriptureRefs && currentRow.scriptureRefs.length > 0 && (
+                <div className="mt-8 bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+                  <div className="text-2xl font-bold text-blue-900 mb-4">
+                    📖 Scripture References Found
+                  </div>
+                  <div className="flex flex-wrap gap-4">
+                    {currentRow.scriptureRefs.map((ref, index) => (
+                      <div
+                        key={index}
+                        className="bg-blue-100 border border-blue-300 rounded-lg p-4 flex items-center space-x-3"
+                      >
+                        <span className="text-2xl">{ref.type === 'quran' ? '📖' : '📝'}</span>
+                        <div>
+                          <div className="text-lg font-medium text-blue-800">
+                            {ref.normalized}
+                          </div>
+                          <div className="text-sm text-blue-600">
+                            {ref.type === 'quran' ? "Qur'an" : 'Hadith'} reference
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-6 flex space-x-4">
+                    <button
+                      onClick={handleApproveScripture}
+                      className="px-8 py-4 bg-green-600 text-white rounded-lg text-xl font-bold hover:bg-green-700 transition-colors"
+                    >
+                      ✅ Approve Scripture
+                    </button>
+                    <button
+                      onClick={handleFlagScripture}
+                      className="px-8 py-4 bg-yellow-600 text-white rounded-lg text-xl font-bold hover:bg-yellow-700 transition-colors"
+                    >
+                      🚩 Flag for Review
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Large navigation buttons */}
+              <div className="mt-12 flex items-center justify-between">
+                <button
+                  onClick={() => {
+                    const newIndex = Math.max(focusedRowIndex - 1, 0);
+                    setFocusedRowIndex(newIndex);
+                    setCurrentRowIndex(newIndex);
+                  }}
+                  disabled={focusedRowIndex === 0}
+                  className="nav-button px-12 py-6 bg-blue-600 text-white rounded-xl text-2xl font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
+                >
+                  ← Previous Row
+                </button>
+
+                <div className="text-center">
+                  <div className="text-xl text-gray-600 mb-2">
+                    {viewMode === 'single' ? 'Progress through section' : `Multi-row view: ${viewMode} rows`}
+                  </div>
+                  <div className="bg-gray-200 rounded-full h-4 w-96">
+                    <div
+                      className="bg-blue-600 h-4 rounded-full transition-all duration-300"
+                      style={{
+                        width: `${rows.length > 0 ? ((focusedRowIndex + 1) / rows.length) * 100 : 0}%`
+                      }}
+                    />
+                  </div>
+                  <div className="text-sm text-gray-500 mt-2">
+                    {Math.round(((focusedRowIndex + 1) / rows.length) * 100)}% complete
+                    {viewMode !== 'single' && ` • Focused row: ${focusedRowIndex + 1}`}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const newIndex = Math.min(focusedRowIndex + 1, rows.length - 1);
+                    setFocusedRowIndex(newIndex);
+                    setCurrentRowIndex(newIndex);
+                  }}
+                  disabled={focusedRowIndex === rows.length - 1}
+                  className="nav-button px-12 py-6 bg-blue-600 text-white rounded-xl text-2xl font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
+                >
+                  Next Row →
+                </button>
+              </div>
+
+              {/* Optional advanced metrics toggle */}
+              <div className="mt-8 text-center">
+                <button
+                  onClick={() => setAdvancedMetricsVisible(!advancedMetricsVisible)}
+                  className="text-gray-500 hover:text-gray-700 text-sm flex items-center mx-auto space-x-2"
+                >
+                  <span>Advanced metrics</span>
+                  <span className={`transform transition-transform ${advancedMetricsVisible ? 'rotate-180' : ''}`}>
+                    ▼
+                  </span>
+                </button>
+
+                {advancedMetricsVisible && (() => {
+                  const metricsRow = viewMode === 'single' ? currentRow : rows[focusedRowIndex];
+                  return metricsRow?.metadata && (
+                    <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4 text-sm text-gray-600">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {metricsRow.metadata.confidence && (
+                          <div>
+                            <span className="font-medium">Confidence:</span> {(metricsRow.metadata.confidence * 100).toFixed(1)}%
+                          </div>
+                        )}
+                        {metricsRow.metadata.clauses && (
+                          <div>
+                            <span className="font-medium">Clauses:</span> {metricsRow.metadata.clauses}
+                          </div>
+                        )}
+                        {metricsRow.metadata.processedAt && (
+                          <div>
+                            <span className="font-medium">Processed:</span> {new Date(metricsRow.metadata.processedAt).toLocaleTimeString()}
+                          </div>
+                        )}
+                        <div>
+                          <span className="font-medium">TM Usage:</span> {
+                            metricsRow.metadata?.tm ? (
+                              metricsRow.metadata.tm.used ? (
+                                `${(metricsRow.metadata.tm.similarity || 0).toFixed(2)} (${metricsRow.metadata.tm.suggestionId || 'N/A'})`
+                              ) : 'Not used'
+                            ) : 'N/A'
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Regular mode rendering
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b sticky top-0 z-10">
@@ -413,6 +1056,16 @@ export default function TriViewPage() {
               Al-Insān Translation Editor
             </h1>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={() => {
+                  const url = new URL(window.location.href);
+                  url.searchParams.set('mode', 'dad');
+                  window.location.href = url.toString();
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+              >
+                👓 Enable Dad Mode
+              </button>
               <div className="flex items-center space-x-2">
                 <label htmlFor="sectionSelect" className="text-sm text-gray-600">
                   Section:
@@ -593,7 +1246,7 @@ export default function TriViewPage() {
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="text-sm text-gray-600">
-              Hotkeys: J/K (navigate), A/E/T (focus), 1/2/3 (toggle columns), F (find)
+              Hotkeys: J/K (navigate), A/E/T (focus), 1/2/3 (toggle columns), F (find), D (toggle Dad-Mode), Cmd/Ctrl+S (save in Dad-Mode)
             </div>
           </div>
           <div className="flex items-center space-x-2">

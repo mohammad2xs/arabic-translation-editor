@@ -274,3 +274,13 @@ export function isValidVerseRange(surahNumber: number, verse: number): boolean {
   const surah = getSurahInfo(surahNumber);
   return surah ? verse >= 1 && verse <= surah.verses : false;
 }
+
+// Format scripture banner for display
+export function formatScriptureBanner(ref: string): string {
+  if (ref.includes('Quran')) {
+    return `📖 ${ref}`;
+  } else if (ref.includes('Hadith')) {
+    return `📝 ${ref}`;
+  }
+  return ref;
+}

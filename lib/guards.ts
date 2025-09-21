@@ -144,8 +144,8 @@ function calculateSemanticSimilarity(original: string, enhanced: string): number
   const originalWords = new Set(original.toLowerCase().split(/\s+/));
   const enhancedWords = new Set(enhanced.toLowerCase().split(/\s+/));
 
-  const intersection = new Set([...originalWords].filter(x => enhancedWords.has(x)));
-  const union = new Set([...originalWords, ...enhancedWords]);
+  const intersection = new Set(Array.from(originalWords).filter(x => enhancedWords.has(x)));
+  const union = new Set([...Array.from(originalWords), ...Array.from(enhancedWords)]);
 
   return union.size > 0 ? intersection.size / union.size : 0;
 }

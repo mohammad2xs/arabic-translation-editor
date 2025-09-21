@@ -29,7 +29,9 @@
     "github:setup": "node scripts/github-workflow.mjs",
     "github:auth": "gh auth login",
     "github:issues": "gh issue list",
-    "github:pr": "gh pr create"
+    "github:pr": "gh pr create",
+    "setup:audio": "node scripts/setup-audio.mjs",
+    "test:tts": "curl -X POST http://localhost:3000/api/tts -H 'Content-Type: application/json' -d '{\"text\":\"Hello world\",\"language\":\"en\"}'"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.1",
