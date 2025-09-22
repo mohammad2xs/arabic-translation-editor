@@ -233,7 +233,7 @@ function createConditionalActions(actions: { type: 'link'; label: string; docTyp
         icon: action.icon
       } : null;
     })
-    .filter((action): action is EnvironmentAction => action !== null);
+    .filter(Boolean) as EnvironmentAction[];
 }
 
 /**

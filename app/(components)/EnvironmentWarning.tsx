@@ -151,7 +151,7 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
       </div>
 
       <div className="env-warning-actions">
-        {primaryWarning.actions.map((action, index) => (
+        {primaryWarning.actions?.map((action, index) => (
           <ActionButton key={index} action={action} />
         ))}
         {primaryWarning.dismissible && (
