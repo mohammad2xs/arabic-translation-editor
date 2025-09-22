@@ -3,6 +3,7 @@ import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { validateEnvironment, detectDeployment } from '../../../lib/env'
 import { storage } from '../../../lib/share/production-storage'
+import { getDocUrl } from '../../../lib/config/docs'
 // import { getAssistantHealthSummary } from '../../../lib/assistant/health-utils'
 
 interface BuildMetadata {
@@ -500,12 +501,13 @@ function formatDeploymentChecks(buildMetadata: BuildMetadata, deployment: any, s
 
   // Build quality check
   if (buildMetadata.quality) {
+    const failedGates = buildMetadata.quality.gates?.failed || []
     checks.push({
       name: 'Build Quality',
       status: buildMetadata.quality.overallPass ? 'pass' : 'warn',
       message: buildMetadata.quality.overallPass
         ? 'All quality gates passed'
-        : `${buildMetadata.quality.gates.failed.length} quality gates failed`
+        : `${failedGates.length} quality gates failed`
     })
   }
 
@@ -528,6 +530,20 @@ function formatDeploymentChecks(buildMetadata: BuildMetadata, deployment: any, s
   }
 }
 
+// Helper function to create conditional actions based on doc URL availability
+function createConditionalActions(actions: { type: 'link'; label: string; docType: keyof import('../../../lib/config/docs').DocsConfig }[]): Array<{ type: 'link'; label: string; url: string }> {
+  return actions
+    .map(action => {
+      const url = getDocUrl(action.docType);
+      return url ? {
+        type: 'link' as const,
+        label: action.label,
+        url
+      } : null;
+    })
+    .filter((action): action is { type: 'link'; label: string; url: string } => action !== null);
+}
+
 // Generate user-friendly warnings for the warnings endpoint
 function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
   const warnings = []
@@ -540,15 +556,15 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
       title: 'Critical Configuration Missing',
       message: `${healthResponse.environment.missingRequired.length} required environment variable(s) not configured`,
       details: healthResponse.environment.missingRequired.join(', '),
-      actions: [
-        { type: 'link', label: 'Setup Guide', url: '/docs/deployment' },
-        { type: 'link', label: 'Environment Template', url: '/.env.example' }
-      ]
+      actions: createConditionalActions([
+        { type: 'link', label: 'Setup Guide', docType: 'deployment' },
+        { type: 'link', label: 'Environment Template', docType: 'envExample' }
+      ])
     })
   }
 
   // Service warnings
-  const degradedServices = Object.entries(healthResponse.services)
+  const degradedServices = Object.entries(healthResponse.services || {})
     .filter(([, service]) => service.status !== 'healthy')
 
   const criticalServiceIssues = degradedServices.filter(([, service]) => service.critical)
@@ -561,9 +577,9 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
       title: 'Critical Services Unavailable',
       message: `${criticalServiceIssues.length} essential service(s) are not responding`,
       details: criticalServiceIssues.map(([name, service]) => `${name}: ${service.message}`).join(', '),
-      actions: [
-        { type: 'link', label: 'Service Configuration', url: '/docs/services' }
-      ]
+      actions: createConditionalActions([
+        { type: 'link', label: 'Service Configuration', docType: 'services' }
+      ])
     })
   }
 
@@ -577,9 +593,9 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
         title: 'Audio Generation Unavailable',
         message: 'Text-to-speech features are in preview-only mode',
         details: 'Configure ElevenLabs API key to enable audio generation',
-        actions: [
-          { type: 'link', label: 'Enable TTS', url: '/docs/tts-setup' }
-        ]
+        actions: createConditionalActions([
+          { type: 'link', label: 'Enable TTS', docType: 'ttsSetup' }
+        ])
       })
     }
 
@@ -591,16 +607,16 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
         title: 'Optional Features Limited',
         message: `${otherIssues.length} optional service(s) unavailable`,
         details: otherIssues.map(([name, service]) => `${name}: ${service.message}`).join(', '),
-        actions: [
-          { type: 'link', label: 'Optional Features', url: '/docs/optional-services' }
-        ]
+        actions: createConditionalActions([
+          { type: 'link', label: 'Optional Features', docType: 'optionalServices' }
+        ])
       })
     }
   }
 
   // Deployment readiness warnings
-  if (!healthResponse.deployment.ready) {
-    const failedChecks = healthResponse.deployment.checks.filter(check => check.status === 'fail')
+  if (!healthResponse.deployment?.ready) {
+    const failedChecks = (healthResponse.deployment?.checks || []).filter(check => check.status === 'fail')
     if (failedChecks.length > 0) {
       warnings.push({
         id: 'deployment-not-ready',
@@ -608,9 +624,9 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
         title: 'Deployment Not Ready',
         message: `${failedChecks.length} deployment check(s) failing`,
         details: failedChecks.map(check => `${check.name}: ${check.message}`).join(', '),
-        actions: [
-          { type: 'link', label: 'Deployment Guide', url: '/docs/deployment' }
-        ]
+        actions: createConditionalActions([
+          { type: 'link', label: 'Deployment Guide', docType: 'deployment' }
+        ])
       })
     }
   }
@@ -623,9 +639,9 @@ function generateUserFriendlyWarnings(healthResponse: HealthResponse) {
       title: 'Additional Features Available',
       message: `${healthResponse.environment.missingOptional.length} optional feature(s) can be enabled`,
       details: healthResponse.environment.missingOptional.join(', '),
-      actions: [
-        { type: 'link', label: 'Optional Features', url: '/docs/optional-features' }
-      ]
+      actions: createConditionalActions([
+        { type: 'link', label: 'Optional Features', docType: 'optionalFeatures' }
+      ])
     })
   }
 
