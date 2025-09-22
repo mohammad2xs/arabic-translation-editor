@@ -284,3 +284,192 @@ export function formatScriptureBanner(ref: string): string {
   }
   return ref;
 }
+
+// Assistant-friendly helpers for Claude integration
+export function formatScriptureForAssistant(
+  reference: string,
+  arabic?: string,
+  english?: string,
+  transliteration?: string
+): string {
+  const parts: string[] = [reference];
+
+  if (arabic) {
+    parts.push(`Arabic: ${arabic}`);
+  }
+
+  if (transliteration) {
+    parts.push(`Transliteration: ${transliteration}`);
+  }
+
+  if (english) {
+    parts.push(`English: "${english}"`);
+  }
+
+  return parts.join(' | ');
+}
+
+// Extract scripture references from text for assistant context
+export function extractScriptureContext(text: string): Array<{
+  reference: string;
+  context: string;
+  type: 'quran' | 'hadith';
+}> {
+  const results: Array<{
+    reference: string;
+    context: string;
+    type: 'quran' | 'hadith';
+  }> = [];
+
+  // Look for Quranic references (x:y format)
+  const quranPattern = /(\d{1,3}):(\d{1,3})/g;
+  let match;
+
+  while ((match = quranPattern.exec(text)) !== null) {
+    const surahNum = parseInt(match[1]);
+    const verseNum = parseInt(match[2]);
+
+    if (isValidVerseRange(surahNum, verseNum)) {
+      const surah = getSurahInfo(surahNum);
+      results.push({
+        reference: `${surahNum}:${verseNum}`,
+        context: surah ? `Surah ${surah.english} (${surah.arabic})` : `Surah ${surahNum}`,
+        type: 'quran'
+      });
+    }
+  }
+
+  // Look for hadith collection references
+  const hadithPattern = /(bukhari|muslim|abu-dawud|tirmidhi|ibn-majah|nasai|ahmad|malik|darimi)[:\s]?(\d+)?/gi;
+
+  while ((match = hadithPattern.exec(text)) !== null) {
+    const collection = match[1].toLowerCase();
+    const number = match[2] || 'unknown';
+
+    results.push({
+      reference: `${collection}:${number}`,
+      context: `Hadith collection: ${collection}`,
+      type: 'hadith'
+    });
+  }
+
+  return results;
+}
+
+// Check if scripture references are preserved between original and revised text
+export function validateScripturePreservation(
+  originalText: string,
+  revisedText: string
+): {
+  preserved: boolean;
+  missing: string[];
+  added: string[];
+} {
+  const originalRefs = extractScriptureContext(originalText);
+  const revisedRefs = extractScriptureContext(revisedText);
+
+  const originalRefSet = new Set(originalRefs.map(r => r.reference));
+  const revisedRefSet = new Set(revisedRefs.map(r => r.reference));
+
+  const missing = Array.from(originalRefSet).filter(ref => !revisedRefSet.has(ref));
+  const added = Array.from(revisedRefSet).filter(ref => !originalRefSet.has(ref));
+
+  return {
+    preserved: missing.length === 0,
+    missing,
+    added
+  };
+}
+
+// Generate friendly footnote text for Claude suggestions
+export function generateScriptureFootnote(
+  reference: string,
+  type: 'quran' | 'hadith',
+  brief: boolean = false
+): string {
+  if (type === 'quran') {
+    const parts = reference.split(':');
+    if (parts.length === 2) {
+      const surahNum = parseInt(parts[0]);
+      const verseNum = parts[1];
+      const surah = getSurahInfo(surahNum);
+
+      if (brief) {
+        return `[^${reference}]: Quran ${reference}`;
+      }
+
+      return surah
+        ? `[^${reference}]: Quran ${reference} - Surah ${surah.english} (${surah.arabic}), verse ${verseNum}`
+        : `[^${reference}]: Quran ${reference}`;
+    }
+  }
+
+  if (type === 'hadith') {
+    const parts = reference.split(':');
+    if (parts.length >= 2) {
+      const collection = parts[0];
+      const number = parts[1];
+
+      if (brief) {
+        return `[^${reference}]: Hadith ${collection} ${number}`;
+      }
+
+      return `[^${reference}]: Hadith from ${collection} collection, number ${number}`;
+    }
+  }
+
+  return `[^${reference}]: ${reference}`;
+}
+
+// Find similar scripture references for context suggestions
+export function findSimilarScripture(
+  reference: string,
+  type: 'quran' | 'hadith'
+): string[] {
+  if (type === 'quran') {
+    const parts = reference.split(':');
+    if (parts.length === 2) {
+      const surahNum = parseInt(parts[0]);
+      const verseNum = parseInt(parts[1]);
+      const surah = getSurahInfo(surahNum);
+
+      if (surah) {
+        const suggestions: string[] = [];
+
+        // Previous and next verses in same surah
+        if (verseNum > 1) {
+          suggestions.push(`${surahNum}:${verseNum - 1}`);
+        }
+        if (verseNum < surah.verses) {
+          suggestions.push(`${surahNum}:${verseNum + 1}`);
+        }
+
+        return suggestions.slice(0, 3); // Limit to 3 suggestions
+      }
+    }
+  }
+
+  return [];
+}
+
+// Check if a scripture reference can be resolved with cached data only
+export function isResolvableRef(reference: string, type: 'quran' | 'hadith'): boolean {
+  if (type === 'quran') {
+    const parts = reference.split(':');
+    if (parts.length === 2) {
+      const surahNum = parseInt(parts[0]);
+      const verseNum = parseInt(parts[1]);
+      return isValidVerseRange(surahNum, verseNum);
+    }
+  }
+
+  if (type === 'hadith') {
+    const parts = reference.split(':');
+    if (parts.length >= 2) {
+      const collection = parts[0].toLowerCase();
+      return HADITH_COLLECTIONS.includes(collection);
+    }
+  }
+
+  return false;
+}

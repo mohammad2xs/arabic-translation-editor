@@ -33,7 +33,24 @@ test('Core files exist', () => {
     'app/api/scripture/resolve/route.ts',
     'app/tri/page.tsx',
     'public/data/dev_rows.json',
-    'glossary/glossary.csv'
+    'glossary/glossary.csv',
+    'lib/assistant/anthropic.ts',
+    'lib/assistant/context.ts',
+    'lib/assistant/prompt.ts',
+    'app/api/assistant/chat/route.ts',
+    'app/api/assistant/apply/route.ts',
+    'app/api/assistant/health/route.ts',
+    // New Cursor-style components
+    'app/(components)/CmdPalette.tsx',
+    'app/(components)/IssueQueue.tsx',
+    'app/(components)/StickyActions.tsx',
+    'app/(components)/FinalPreview.tsx',
+    'app/(components)/RowNavigator.tsx',
+    'app/(components)/OnboardingCoach.tsx',
+    'lib/ui/shortcuts.ts',
+    'lib/ui/fuzzy.ts',
+    'styles/ui.css',
+    'app/api/issues/route.ts'
   ];
 
   for (const file of requiredFiles) {
@@ -142,6 +159,195 @@ test('Hotkey patterns in tri-view', () => {
     if (!content.includes(hotkey)) {
       throw new Error(`Missing hotkey handler: ${hotkey}`);
     }
+  }
+});
+
+test('Assistant API routes have required handlers', () => {
+  const chatPath = join(projectRoot, 'app/api/assistant/chat/route.ts');
+  const chatContent = readFileSync(chatPath, 'utf8');
+
+  if (!chatContent.includes('export async function POST')) {
+    throw new Error('POST handler not found in assistant chat API');
+  }
+
+  if (!chatContent.includes('canComment') || !chatContent.includes('getRoleFromRequest')) {
+    throw new Error('Role validation not found in chat API');
+  }
+
+  const applyPath = join(projectRoot, 'app/api/assistant/apply/route.ts');
+  const applyContent = readFileSync(applyPath, 'utf8');
+
+  if (!applyContent.includes('export async function POST')) {
+    throw new Error('POST handler not found in assistant apply API');
+  }
+
+  if (!applyContent.includes('canSave')) {
+    throw new Error('Save permission check not found in apply API');
+  }
+
+  const healthPath = join(projectRoot, 'app/api/assistant/health/route.ts');
+  const healthContent = readFileSync(healthPath, 'utf8');
+
+  if (!healthContent.includes('export async function GET')) {
+    throw new Error('GET handler not found in assistant health API');
+  }
+});
+
+test('Assistant components have required exports', () => {
+  const anthropicPath = join(projectRoot, 'lib/assistant/anthropic.ts');
+  const anthropicContent = readFileSync(anthropicPath, 'utf8');
+
+  if (!anthropicContent.includes('getAnthropicClient') || !anthropicContent.includes('class AnthropicClient')) {
+    throw new Error('AnthropicClient class or getter not found');
+  }
+
+  const contextPath = join(projectRoot, 'lib/assistant/context.ts');
+  const contextContent = readFileSync(contextPath, 'utf8');
+
+  if (!contextContent.includes('buildContext') || !contextContent.includes('getCompactContext')) {
+    throw new Error('Context building functions not found');
+  }
+
+  const promptPath = join(projectRoot, 'lib/assistant/prompt.ts');
+  const promptContent = readFileSync(promptPath, 'utf8');
+
+  if (!promptContent.includes('SHARED_SYSTEM_PROMPT') || !promptContent.includes('TASK_PROMPTS')) {
+    throw new Error('Prompt templates not found');
+  }
+
+  if (!promptContent.includes('getPromptForTask')) {
+    throw new Error('getPromptForTask function not found');
+  }
+});
+
+test('Assistant UI components exist with required props', () => {
+  const sidebarPath = join(projectRoot, 'app/(components)/AssistantSidebar.tsx');
+  const sidebarContent = readFileSync(sidebarPath, 'utf8');
+
+  if (!sidebarContent.includes('interface AssistantSidebarProps')) {
+    throw new Error('AssistantSidebarProps interface not found');
+  }
+
+  if (!sidebarContent.includes('export default function AssistantSidebar')) {
+    throw new Error('AssistantSidebar component export not found');
+  }
+
+  const cardPath = join(projectRoot, 'app/(components)/SuggestionCard.tsx');
+  const cardContent = readFileSync(cardPath, 'utf8');
+
+  if (!cardContent.includes('interface SuggestionCardProps')) {
+    throw new Error('SuggestionCardProps interface not found');
+  }
+
+  if (!cardContent.includes('export default function SuggestionCard')) {
+    throw new Error('SuggestionCard component export not found');
+  }
+});
+
+test('Access control includes assistant permissions', () => {
+  const accessPath = join(projectRoot, 'lib/dadmode/access.ts');
+  const accessContent = readFileSync(accessPath, 'utf8');
+
+  if (!accessContent.includes('canUseAssistant') || !accessContent.includes('canApplyAssistant')) {
+    throw new Error('Assistant permission functions not found in access control');
+  }
+
+  if (!accessContent.includes('canUseAssistant: boolean') || !accessContent.includes('canApplyAssistant: boolean')) {
+    throw new Error('Assistant permission fields not found in UserPermissions interface');
+  }
+
+  // Check role permissions are set correctly
+  if (!accessContent.includes('canUseAssistant: true') || !accessContent.includes('canApplyAssistant: true')) {
+    throw new Error('Reviewer role should have assistant permissions enabled');
+  }
+});
+
+test('Scripture helpers include assistant functions', () => {
+  const scripturePath = join(projectRoot, 'lib/scripture/index.ts');
+  const scriptureContent = readFileSync(scripturePath, 'utf8');
+
+  const assistantFunctions = [
+    'formatScriptureForAssistant',
+    'extractScriptureContext',
+    'validateScripturePreservation',
+    'generateScriptureFootnote'
+  ];
+
+  for (const func of assistantFunctions) {
+    if (!scriptureContent.includes(func)) {
+      throw new Error(`Assistant scripture helper not found: ${func}`);
+    }
+  }
+});
+
+test('Tri-view page includes assistant integration', () => {
+  const triPath = join(projectRoot, 'app/tri/page.tsx');
+  const content = readFileSync(triPath, 'utf8');
+
+  if (!content.includes('AssistantSidebar')) {
+    throw new Error('AssistantSidebar import/component not found in tri-view');
+  }
+
+  if (!content.includes('isAssistantOpen') || !content.includes('handleToggleAssistant')) {
+    throw new Error('Assistant state management not found in tri-view');
+  }
+
+  if (!content.includes('onToggleAssistant') || !content.includes('onApplySuggestion')) {
+    throw new Error('Assistant event handlers not found in tri-view');
+  }
+});
+
+test('Cursor-style components have required exports', () => {
+  const paletteContent = readFileSync(join(projectRoot, 'app/(components)/CmdPalette.tsx'), 'utf8');
+  if (!paletteContent.includes('export default function CmdPalette')) {
+    throw new Error('CmdPalette component export not found');
+  }
+
+  const queueContent = readFileSync(join(projectRoot, 'app/(components)/IssueQueue.tsx'), 'utf8');
+  if (!queueContent.includes('export default function IssueQueue')) {
+    throw new Error('IssueQueue component export not found');
+  }
+
+  const actionsContent = readFileSync(join(projectRoot, 'app/(components)/StickyActions.tsx'), 'utf8');
+  if (!actionsContent.includes('export default function StickyActions')) {
+    throw new Error('StickyActions component export not found');
+  }
+
+  const previewContent = readFileSync(join(projectRoot, 'app/(components)/FinalPreview.tsx'), 'utf8');
+  if (!previewContent.includes('export default function FinalPreview')) {
+    throw new Error('FinalPreview component export not found');
+  }
+});
+
+test('Issues API endpoint has required handlers', () => {
+  const issuesPath = join(projectRoot, 'app/api/issues/route.ts');
+  const issuesContent = readFileSync(issuesPath, 'utf8');
+
+  if (!issuesContent.includes('export async function GET')) {
+    throw new Error('GET handler not found in issues API');
+  }
+
+  if (!issuesContent.includes('triview.json') || !issuesContent.includes('gate_summaries.json')) {
+    throw new Error('Issues API should check triview and gate summaries');
+  }
+});
+
+test('UI utilities have required exports', () => {
+  const shortcutsContent = readFileSync(join(projectRoot, 'lib/ui/shortcuts.ts'), 'utf8');
+  if (!shortcutsContent.includes('ShortcutsManager') || !shortcutsContent.includes('export const shortcuts')) {
+    throw new Error('Shortcuts manager not found');
+  }
+
+  const fuzzyContent = readFileSync(join(projectRoot, 'lib/ui/fuzzy.ts'), 'utf8');
+  if (!fuzzyContent.includes('export function fuzzySearch') || !fuzzyContent.includes('export function highlightMatches')) {
+    throw new Error('Fuzzy search functions not found');
+  }
+});
+
+test('Scripture index has isResolvableRef export', () => {
+  const scriptureContent = readFileSync(join(projectRoot, 'lib/scripture/index.ts'), 'utf8');
+  if (!scriptureContent.includes('export function isResolvableRef')) {
+    throw new Error('isResolvableRef function not found in scripture index');
   }
 });
 

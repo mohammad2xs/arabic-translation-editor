@@ -16,10 +16,11 @@ export async function middleware(request: NextRequest) {
       const validation = await validateToken(token);
 
       if (validation.valid && validation.role) {
-        // Add role information to request headers for server components
+        // Add role and token information to request headers for server components
         const response = NextResponse.next();
         response.headers.set('x-user-role', validation.role);
         response.headers.set('x-token-scope', validation.scope || '');
+        response.headers.set('x-magic-token', token); // Pass token for rate limiting
 
         // Set cookies for client-side access
         response.cookies.set('user-role', validation.role, {

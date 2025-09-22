@@ -8,6 +8,8 @@ export interface UserPermissions {
   canAddNotes: boolean;
   canSave: boolean;
   canShare: boolean;
+  canUseAssistant: boolean;
+  canApplyAssistant: boolean;
 }
 
 const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
@@ -19,6 +21,8 @@ const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
     canAddNotes: false,
     canSave: false,
     canShare: false,
+    canUseAssistant: false,
+    canApplyAssistant: false,
   },
   commenter: {
     canEdit: false,
@@ -28,6 +32,8 @@ const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
     canAddNotes: true,
     canSave: false,
     canShare: false,
+    canUseAssistant: true,
+    canApplyAssistant: false,
   },
   reviewer: {
     canEdit: true,
@@ -37,6 +43,8 @@ const ROLE_PERMISSIONS: Record<UserRole, UserPermissions> = {
     canAddNotes: true,
     canSave: true,
     canShare: true,
+    canUseAssistant: true,
+    canApplyAssistant: true,
   },
 };
 
@@ -70,6 +78,14 @@ export function canSave(role: UserRole): boolean {
 
 export function canShare(role: UserRole): boolean {
   return ROLE_PERMISSIONS[role].canShare;
+}
+
+export function canUseAssistant(role: UserRole): boolean {
+  return ROLE_PERMISSIONS[role].canUseAssistant;
+}
+
+export function canApplyAssistant(role: UserRole): boolean {
+  return ROLE_PERMISSIONS[role].canApplyAssistant;
 }
 
 export function getRoleFromRequest(req: Request): UserRole {

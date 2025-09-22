@@ -9,6 +9,14 @@ import { getUserRole, canEdit } from '../../lib/dadmode/access';
 import DadHeader from '../(components)/DadHeader';
 import RowCard from '../(components)/RowCard';
 import MultiRowView from '../(components)/MultiRowView';
+import AssistantSidebar from '../(components)/AssistantSidebar';
+import CmdPalette from '../(components)/CmdPalette';
+import IssueQueue from '../(components)/IssueQueue';
+import StickyActions from '../(components)/StickyActions';
+import FinalPreview from '../(components)/FinalPreview';
+import RowNavigator from '../(components)/RowNavigator';
+import OnboardingCoach from '../(components)/OnboardingCoach';
+import { shortcuts, SHORTCUTS } from '../../lib/ui/shortcuts';
 
 interface SectionRow {
   id: string;
@@ -131,6 +139,26 @@ export default function TriViewPage() {
   const [localHistory, setLocalHistory] = useState<Record<string, string[]>>({});
   const [viewMode, setViewModeState] = useState<'single' | '3' | '5' | '10' | 'all'>('single');
   const [focusedRowIndex, setFocusedRowIndex] = useState<number>(0);
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+  const [isCmdPaletteOpen, setIsCmdPaletteOpen] = useState(false);
+  const [isIssueQueueOpen, setIsIssueQueueOpen] = useState(false);
+  const [isFinalPreviewOpen, setIsFinalPreviewOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [issues, setIssues] = useState<Array<{
+    id: string;
+    rowId: number;
+    type: 'lpr' | 'coverage' | 'scripture' | 'notes';
+    description: string;
+  }>>([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [lastAutoSave, setLastAutoSave] = useState<string | null>(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<{
+    status: 'idle' | 'saving' | 'saved' | 'error';
+    message?: string;
+    timestamp?: Date;
+  }>({ status: 'idle' });
 
   const findInputRef = useRef<HTMLInputElement>(null);
   const arabicScrollRef = useRef<HTMLDivElement>(null);
@@ -148,14 +176,219 @@ export default function TriViewPage() {
     initializeDadMode();
     setDadModeEnabled(isDadModeEnabled());
     setViewModeState(getViewMode());
+
+    // Auto-open assistant in Dad-Mode for easier access
+    if (isDadModeEnabled()) {
+      setIsAssistantOpen(true);
+    }
+
+    // Check if first-time user for onboarding
+    const hasSeenOnboarding = localStorage.getItem('translation-editor-onboarding-seen');
+    if (!hasSeenOnboarding) {
+      setIsOnboardingOpen(true);
+    }
   }, []);
 
-  // Watch for URL parameter changes to sync Dad Mode state
+  // Watch for URL parameter changes to sync Dad Mode state and UI toggles
   useEffect(() => {
     const modeParam = searchParams.get('mode');
     const isDadMode = modeParam === 'dad';
     setDadModeEnabled(isDadMode);
+
+    // Auto-open assistant when entering Dad-Mode
+    if (isDadMode) {
+      setIsAssistantOpen(true);
+    }
+
+    // Handle UI toggles from URL parameters (only on first mount)
+    const previewParam = searchParams.get('preview');
+    const issuesParam = searchParams.get('issues');
+    const paletteParam = searchParams.get('palette');
+
+    if (previewParam === '1') {
+      setIsFinalPreviewOpen(true);
+    }
+    if (issuesParam === '1') {
+      setIsIssueQueueOpen(true);
+    }
+    if (paletteParam === '1') {
+      setIsCmdPaletteOpen(true);
+    }
   }, [searchParams]);
+
+  // Assistant toggle handler
+  const handleToggleAssistant = useCallback(() => {
+    setIsAssistantOpen(prev => !prev);
+  }, []);
+
+  // Command palette handlers
+  const handleToggleCmdPalette = useCallback(() => {
+    setIsCmdPaletteOpen(prev => !prev);
+  }, []);
+
+  const handleRunAssistantPreset = useCallback((presetId: string) => {
+    setIsAssistantOpen(true);
+    // TODO: Set the preset in AssistantSidebar
+    console.log('Running assistant preset:', presetId);
+  }, []);
+
+  const handleNavigateToRow = useCallback((rowId: number) => {
+    const targetIndex = rowId - 1; // Convert 1-based to 0-based
+    if (targetIndex >= 0 && targetIndex < rows.length) {
+      setCurrentRowIndex(targetIndex);
+      setFocusedRowIndex(targetIndex);
+    }
+  }, [rows.length]);
+
+  const handleFocusColumn = useCallback((column: 'original' | 'enhanced' | 'english') => {
+    if (column === 'original') setFocusedColumn('arabic');
+    else if (column === 'enhanced') setFocusedColumn('enhanced');
+    else if (column === 'english') setFocusedColumn('translation');
+  }, []);
+
+  const handleToggleEdit = useCallback(() => {
+    setIsEditMode(prev => !prev);
+  }, []);
+
+  const handleApprove = useCallback(async () => {
+    if (!currentRow) return;
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'approve' }),
+      });
+
+      if (response.ok) {
+        setIsApproved(true);
+        setHasUnsavedChanges(false);
+
+        // Move to next row after approval
+        const nextIndex = Math.min(currentRowIndex + 1, rows.length - 1);
+        setCurrentRowIndex(nextIndex);
+        setFocusedRowIndex(nextIndex);
+
+        // Show toast
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        toast.textContent = '✅ Row approved';
+        document.body.appendChild(toast);
+        setTimeout(() => document.body.removeChild(toast), 2000);
+      }
+    } catch (error) {
+      console.error('Approval error:', error);
+    }
+  }, [currentRow, currentRowIndex, rows.length]);
+
+  const handleToggleIssueQueue = useCallback(() => {
+    setIsIssueQueueOpen(prev => !prev);
+  }, []);
+
+  const handleToggleFinalPreview = useCallback(() => {
+    setIsFinalPreviewOpen(prev => !prev);
+  }, []);
+
+  // Assistant apply suggestion handler
+  const handleApplySuggestion = useCallback((suggestion: any, range?: string) => {
+    if (!currentRow) return;
+
+    // Apply the suggestion to the current row's English translation
+    // In a full implementation, this would update the row data and trigger a save
+    console.log('Applying suggestion:', suggestion, 'to row:', currentRow.id, 'range:', range);
+
+    // For now, we'll just update the local state
+    // In production, this would call the save API
+    const updatedRows = rows.map(row => {
+      if (row.id === currentRow.id) {
+        return {
+          ...row,
+          english: suggestion.diff
+            ?.filter((d: any) => d.type !== 'remove')
+            ?.map((d: any) => d.content)
+            ?.join('') || suggestion.content || row.english
+        };
+      }
+      return row;
+    });
+
+    setRows(updatedRows);
+
+    // Add to local history for undo functionality
+    setLocalHistory(prev => ({
+      ...prev,
+      [currentRow.id]: [
+        ...(prev[currentRow.id] || []).slice(-4), // Keep last 5 versions
+        currentRow.english
+      ]
+    }));
+
+    // Trigger auto-save with origin tracking
+    setLastAutoSave(new Date().toISOString());
+    setTimeout(() => {
+      fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          arEnhanced: updatedRows.find(r => r.id === currentRow.id)?.enhanced,
+          en: updatedRows.find(r => r.id === currentRow.id)?.english,
+          action: 'save',
+          origin: 'assistant',
+        }),
+      }).catch(console.error);
+    }, 400);
+  }, [currentRow, rows]);
+
+  // Load issues from API
+  useEffect(() => {
+    const loadIssues = async () => {
+      try {
+        const response = await fetch(`/api/issues?section=${currentSectionId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setIssues(data.issues || []);
+        }
+      } catch (error) {
+        console.error('Failed to load issues:', error);
+      }
+    };
+
+    if (currentSectionId) {
+      loadIssues();
+    }
+  }, [currentSectionId, rows]); // Re-load when rows change
+
+  // Register global shortcuts
+  useEffect(() => {
+    const shortcutHandlers = [
+      {
+        ...SHORTCUTS.COMMAND_PALETTE,
+        handler: () => setIsCmdPaletteOpen(prev => !prev),
+      },
+      {
+        ...SHORTCUTS.OPEN_ASSISTANT,
+        handler: handleToggleAssistant,
+      },
+      {
+        ...SHORTCUTS.TOGGLE_EDIT,
+        handler: handleToggleEdit,
+      },
+      {
+        ...SHORTCUTS.APPROVE,
+        handler: handleApprove,
+      },
+      {
+        ...SHORTCUTS.SAVE,
+        handler: handleSave,
+      },
+    ];
+
+    shortcutHandlers.forEach(handler => shortcuts.register(handler));
+
+    return () => {
+      shortcutHandlers.forEach(handler => shortcuts.unregister(handler.id));
+    };
+  }, [handleToggleAssistant, handleToggleEdit, handleApprove, handleSave]);
 
   // Calculate quality metrics for current row
   const getQualityMetrics = (row: SectionRow) => {
@@ -292,6 +525,7 @@ export default function TriViewPage() {
     const updatedRows = [...rows];
     updatedRows[currentRowIndex][field] = value;
     setRows(updatedRows);
+    setHasUnsavedChanges(true);
   };
 
   // Multi-row view handlers
@@ -374,6 +608,8 @@ export default function TriViewPage() {
   const handleSave = async () => {
     if (!currentRow) return;
 
+    setSaveStatus({ status: 'saving' });
+
     try {
       const response = await fetch(`/api/rows/${currentRow.id}/save`, {
         method: 'POST',
@@ -388,6 +624,9 @@ export default function TriViewPage() {
       });
 
       if (response.ok) {
+        setHasUnsavedChanges(false);
+        setSaveStatus({ status: 'saved', timestamp: new Date() });
+
         // Show toast notification
         const toast = document.createElement('div');
         toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
@@ -402,6 +641,7 @@ export default function TriViewPage() {
       }
     } catch (error) {
       console.error('Save error:', error);
+      setSaveStatus({ status: 'error', message: 'Save failed' });
       const toast = document.createElement('div');
       toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
       toast.textContent = '❌ Save failed';
@@ -425,6 +665,7 @@ export default function TriViewPage() {
       const updatedRows = [...rows];
       updatedRows[currentRowIndex].enhanced = previousValue;
       setRows(updatedRows);
+      setHasUnsavedChanges(true);
 
       // Remove the last history entry
       setLocalHistory(prev => ({
@@ -436,6 +677,7 @@ export default function TriViewPage() {
       const updatedRows = [...rows];
       updatedRows[currentRowIndex].english = previousValue;
       setRows(updatedRows);
+      setHasUnsavedChanges(true);
 
       // Remove the last history entry
       setLocalHistory(prev => ({
@@ -570,6 +812,28 @@ export default function TriViewPage() {
         document.body.removeChild(toast);
       }, 3000);
     }
+  };
+
+  const handleAddNote = () => {
+    // TODO: Implement add note functionality
+    console.log('Add note functionality not yet implemented');
+  };
+
+  const handlePlayAudio = (language: 'en' | 'ar') => {
+    // TODO: Implement audio playback functionality
+    console.log('Audio playback functionality not yet implemented for language:', language);
+  };
+
+  const handleNext = () => {
+    const nextIndex = Math.min(currentRowIndex + 1, rows.length - 1);
+    setCurrentRowIndex(nextIndex);
+    setFocusedRowIndex(nextIndex);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = Math.max(currentRowIndex - 1, 0);
+    setCurrentRowIndex(prevIndex);
+    setFocusedRowIndex(prevIndex);
   };
 
   const handleFinishSection = async () => {
@@ -816,6 +1080,10 @@ export default function TriViewPage() {
           onFinishSection={handleFinishSection}
           onViewModeChange={handleViewModeChange}
           onExitDadMode={() => setDadModeEnabled(false)}
+          onToggleAssistant={handleToggleAssistant}
+          isAssistantOpen={isAssistantOpen}
+          onOpenPreview={() => setIsFinalPreviewOpen(true)}
+          onOpenCommandPalette={() => setIsCmdPaletteOpen(true)}
         />
 
         <div className="max-w-7xl mx-auto px-6 py-8">
@@ -1042,6 +1310,105 @@ export default function TriViewPage() {
             </>
           )}
         </div>
+
+        {/* Assistant Sidebar */}
+        <AssistantSidebar
+          isOpen={isAssistantOpen}
+          onToggle={handleToggleAssistant}
+          currentRowId={currentRow?.id}
+          currentSectionId={currentSectionId}
+          currentRowData={currentRow ? {
+            ar_original: currentRow.original,
+            ar_enhanced: currentRow.enhanced,
+            en_translation: currentRow.english,
+          } : undefined}
+          onApplySuggestion={handleApplySuggestion}
+        />
+
+        {/* Cursor-style UI Components */}
+        <CmdPalette
+          isOpen={isCmdPaletteOpen}
+          onClose={() => setIsCmdPaletteOpen(false)}
+          currentRow={currentRowIndex + 1}
+          totalRows={rows.length}
+          onNavigateToRow={handleNavigateToRow}
+          onToggleAssistant={handleToggleAssistant}
+          onToggleEdit={handleToggleEdit}
+          onApprove={handleApprove}
+          onSave={handleSave}
+          onRunAssistantPreset={handleRunAssistantPreset}
+          issues={issues}
+        />
+
+        <IssueQueue
+          isOpen={isIssueQueueOpen}
+          onToggle={handleToggleIssueQueue}
+          currentRow={currentRowIndex + 1}
+          onNavigateToRow={handleNavigateToRow}
+          onFocusColumn={handleFocusColumn}
+          onOpenAssistant={(preset) => {
+            setIsAssistantOpen(true);
+            // TODO: Pass preset to assistant
+          }}
+          sectionId={currentSectionId}
+        />
+
+        <RowNavigator
+          rows={rows.map((row, index) => ({
+            id: index + 1,
+            status: getQualityMetrics(row).hasAllGates ? 'approved' :
+                   getQualityMetrics(row).needsExpand ? 'issues' : 'pending',
+            hasIssues: issues.some(issue => issue.rowId === index + 1),
+            preview: row.enhanced ? row.enhanced.substring(0, 50) + '...' : undefined,
+          }))}
+          currentRowId={currentRowIndex + 1}
+          onNavigateToRow={handleNavigateToRow}
+          onJumpRows={(direction, count) => {
+            const newIndex = direction === 'up'
+              ? Math.max(currentRowIndex - count, 0)
+              : Math.min(currentRowIndex + count, rows.length - 1);
+            setCurrentRowIndex(newIndex);
+            setFocusedRowIndex(newIndex);
+          }}
+          isVisible={true}
+        />
+
+        <StickyActions
+          currentRowId={currentRowIndex + 1}
+          totalRows={rows.length}
+          isEditing={isEditMode}
+          hasUnsavedChanges={hasUnsavedChanges}
+          isApproved={isApproved}
+          onEdit={handleToggleEdit}
+          onSave={handleSave}
+          onApprove={handleApprove}
+          onUndo={handleUndo}
+          onRevert={handleRevert}
+          onAddNote={handleAddNote}
+          onOpenAssistant={() => setIsAssistantOpen(true)}
+          onPlayAudio={handlePlayAudio}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          saveStatus={saveStatus}
+        />
+
+        <FinalPreview
+          isOpen={isFinalPreviewOpen}
+          onClose={() => setIsFinalPreviewOpen(false)}
+          currentSection={currentSectionId}
+          focusedRowId={currentRowIndex + 1}
+        />
+
+        <OnboardingCoach
+          isOpen={isOnboardingOpen}
+          onClose={() => {
+            setIsOnboardingOpen(false);
+          }}
+          onComplete={() => {
+            setIsOnboardingOpen(false);
+          }}
+          isDadMode={dadModeEnabled}
+        />
       </div>
     );
   }

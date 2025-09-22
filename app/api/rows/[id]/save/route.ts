@@ -4,11 +4,35 @@ import { join } from 'path';
 import { createHash } from 'crypto';
 import { getRoleFromRequest, canSave } from '../../../../../lib/dadmode/access';
 
+// Helper function to calculate Length Preservation Ratio
+function calculateLPR(enhanced?: string, en?: string): number {
+  if (!enhanced || !en) return 1.0;
+
+  const enhancedLength = enhanced.trim().length;
+  const enLength = en.trim().length;
+
+  if (enhancedLength === 0) return enLength === 0 ? 1.0 : 0.0;
+  return Math.min(enLength / enhancedLength, 1.0);
+}
+
+// Helper function to get notes count for a row
+async function getNotesCount(rowId: string): Promise<number> {
+  try {
+    const notesFile = join(process.cwd(), 'notes.json');
+    const notesData = await fs.readFile(notesFile, 'utf-8');
+    const notes = JSON.parse(notesData);
+    return Array.isArray(notes[rowId]) ? notes[rowId].length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 interface SaveRowRequest {
   arEnhanced?: string;
   en?: string;
   action?: 'save' | 'approve' | 'flag' | 'approve_scripture' | 'flag_scripture';
   reason?: string;
+  origin?: 'manual' | 'assistant' | 'assistant_undo';
 }
 
 interface RowHistory {
@@ -23,6 +47,7 @@ interface RowHistory {
     userAgent?: string;
     hash?: string;
     reason?: string;
+    origin?: 'manual' | 'assistant' | 'assistant_undo';
   }>;
 }
 
@@ -110,6 +135,7 @@ export async function POST(
       userAgent: request.headers.get('user-agent') || undefined,
       hash,
       reason: body.reason,
+      origin: body.origin || 'manual',
     };
 
     // Add to history (keep last 20 versions)
@@ -121,11 +147,20 @@ export async function POST(
     // Save updated history
     await fs.writeFile(historyFile, JSON.stringify(history, null, 2));
 
+    // Add minimal status payload for IssueQueue integration
+    const statusPayload = {
+      approved: body.action === 'approve',
+      hasScripture: body.action === 'approve_scripture' || body.action === 'flag_scripture',
+      lpr: calculateLPR(body.arEnhanced, body.en),
+      notesCount: await getNotesCount(rowId),
+    };
+
     return NextResponse.json({
       success: true,
       revision: newVersion.revision,
       savedAt: newVersion.timestamp,
       rowId,
+      status: statusPayload,
     });
   } catch (error) {
     console.error('Row save error:', error);

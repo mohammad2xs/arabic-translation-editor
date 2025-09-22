@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUserRole, formatRoleDisplay, getRoleIcon, canShare } from '../../lib/dadmode/access';
+import { getUserRole, formatRoleDisplay, getRoleIcon, canShare, canComment } from '../../lib/dadmode/access';
 import { disableDadMode, getViewMode, setViewMode } from '../../lib/dadmode/prefs';
 import ShareDialog from './ShareDialog';
 
@@ -19,6 +19,10 @@ interface DadHeaderProps {
   onFinishSection?: () => void;
   onViewModeChange?: (viewMode: 'single' | '3' | '5' | '10' | 'all') => void;
   onExitDadMode?: () => void;
+  onToggleAssistant?: () => void;
+  isAssistantOpen?: boolean;
+  onOpenPreview?: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
 export default function DadHeader({
@@ -30,6 +34,10 @@ export default function DadHeader({
   onFinishSection,
   onViewModeChange,
   onExitDadMode,
+  onToggleAssistant,
+  isAssistantOpen,
+  onOpenPreview,
+  onOpenCommandPalette,
 }: DadHeaderProps) {
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [currentViewMode, setCurrentViewMode] = useState<'single' | '3' | '5' | '10' | 'all'>(() => getViewMode());
@@ -75,6 +83,41 @@ export default function DadHeader({
             </div>
 
             <div className="flex items-center space-x-4">
+              {onOpenPreview && (
+                <button
+                  onClick={onOpenPreview}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
+                  aria-label="Open final preview"
+                >
+                  👁️ Preview
+                </button>
+              )}
+
+              {onOpenCommandPalette && (
+                <button
+                  onClick={onOpenCommandPalette}
+                  className="px-6 py-3 bg-indigo-600 text-white rounded-lg text-lg font-medium hover:bg-indigo-700 transition-colors focus:ring-4 focus:ring-indigo-200"
+                  aria-label="Open command palette"
+                  title="Press ⌘K to open command palette"
+                >
+                  ⌘K
+                </button>
+              )}
+
+              {canComment(userRole) && onToggleAssistant && (
+                <button
+                  onClick={onToggleAssistant}
+                  className={`px-6 py-3 rounded-lg text-lg font-medium transition-colors focus:ring-4 ${
+                    isAssistantOpen
+                      ? 'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-200'
+                      : 'bg-purple-500 text-white hover:bg-purple-600 focus:ring-purple-200'
+                  }`}
+                  aria-label={isAssistantOpen ? 'Close Assistant' : 'Open Assistant'}
+                >
+                  🤖 Assistant {isAssistantOpen ? '✓' : ''}
+                </button>
+              )}
+
               {canShare(userRole) && (
                 <button
                   onClick={() => setShowShareDialog(true)}
