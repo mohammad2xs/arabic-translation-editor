@@ -64,8 +64,14 @@ export async function GET(request: NextRequest) {
 
     console.log(`📦 Bundle ready: ${bundleFile} (${sizeMB}MB)`)
 
-    // Stream the file
-    const fileStream = fs.createReadStream(bundlePath)
+    // Warn about potential serverless limits (typically 50MB for Vercel)
+    if (stats.size > 50 * 1024 * 1024) {
+      console.warn(`⚠️ Bundle size (${sizeMB}MB) may exceed serverless function limits`)
+    }
+
+    // For serverless compatibility, read the file as buffer instead of streaming
+    // This ensures it works in both Node.js server and serverless environments
+    const fileBuffer = fs.readFileSync(bundlePath)
 
     // Set appropriate headers
     const headers = new Headers({
@@ -77,8 +83,8 @@ export async function GET(request: NextRequest) {
       'Expires': '0'
     })
 
-    // Return the file as a stream
-    return new NextResponse(fileStream as any, {
+    // Return the file buffer (compatible with both server and serverless)
+    return new NextResponse(fileBuffer, {
       status: 200,
       headers
     })

@@ -1,0 +1,192 @@
+{
+  "timestamp": "2025-09-22T02:29:02.978Z",
+  "deploymentReady": false,
+  "overallScore": 50,
+  "meetsMinimumScore": false,
+  "qualityGates": {
+    "overallPass": false,
+    "requiredFailed": [
+      "coverage",
+      "lpr"
+    ],
+    "optionalFailed": [],
+    "details": {
+      "lpr": {
+        "average": false,
+        "minimum": false,
+        "pass": false
+      },
+      "coverage": {
+        "pass": false
+      },
+      "scripture": {
+        "pass": true
+      },
+      "glossary": {
+        "pass": true
+      },
+      "golden": {
+        "pass": true
+      },
+      "drift": {
+        "pass": true
+      }
+    }
+  },
+  "artifacts": {
+    "required": {
+      "outputs/book-final.docx": {
+        "exists": true,
+        "size": 11413,
+        "modified": "2025-09-21T17:33:30.739Z",
+        "checksum": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461"
+      },
+      "outputs/triview.json": {
+        "exists": true,
+        "size": 21197,
+        "modified": "2025-09-21T18:25:21.647Z",
+        "checksum": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0"
+      },
+      "reports/quality-gates.json": {
+        "exists": true,
+        "size": 3038,
+        "modified": "2025-09-22T02:27:46.662Z",
+        "checksum": "9ba9bf2f7dba17e9b651836fdf8a6f0b32e923c10818109517ff59f45990c9c6"
+      }
+    },
+    "optional": {
+      "outputs/book.epub": {
+        "exists": false,
+        "error": "ENOENT: no such file or directory, stat 'outputs/book.epub'"
+      },
+      "outputs/audiobook": {
+        "exists": false,
+        "error": "ENOENT: no such file or directory, stat 'outputs/audiobook'"
+      },
+      "reports/deployment-report.json": {
+        "exists": false,
+        "error": "ENOENT: no such file or directory, stat 'reports/deployment-report.json'"
+      }
+    },
+    "checksums": {
+      "outputs/book-final.docx": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461",
+      "outputs/triview.json": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0",
+      "reports/quality-gates.json": "9ba9bf2f7dba17e9b651836fdf8a6f0b32e923c10818109517ff59f45990c9c6"
+    }
+  },
+  "cost": {
+    "total": 0,
+    "totalTokens": 0,
+    "totalOperations": 0,
+    "breakdown": {
+      "operations": {},
+      "models": {},
+      "providers": {}
+    }
+  },
+  "metrics": {
+    "lpr": {
+      "average": 0,
+      "minimum": 0,
+      "count": 0
+    },
+    "coverage": {
+      "percentage": 0,
+      "completed": 0,
+      "total": 15
+    },
+    "scripture": {
+      "percentage": 100,
+      "valid": 0,
+      "total": 0
+    },
+    "glossary": {
+      "consistency": 100,
+      "checked": 0,
+      "total": 0
+    },
+    "golden": {
+      "passRate": 100,
+      "passed": 13,
+      "total": 13
+    },
+    "drift": {
+      "maximum": 0.05,
+      "detected": false
+    }
+  },
+  "config": {
+    "thresholds": {
+      "lpr": {
+        "average": 1.05,
+        "minimum": 0.95,
+        "description": "Length Preservation Ratio - Ensures English translations maintain appropriate length relative to Arabic"
+      },
+      "coverage": {
+        "percentage": 100,
+        "description": "Translation coverage - Percentage of rows with completed English translations"
+      },
+      "scripture": {
+        "percentage": 95,
+        "description": "Scripture reference validation - Percentage of correctly formatted references"
+      },
+      "glossary": {
+        "consistency": 99,
+        "description": "Glossary consistency - Percentage of term translations matching glossary definitions"
+      },
+      "golden": {
+        "passRate": 85,
+        "description": "Golden dataset validation - Percentage of test cases passing quality checks"
+      },
+      "drift": {
+        "maximum": 0.15,
+        "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+      }
+    },
+    "gateConfiguration": {
+      "requiredGates": [
+        "coverage",
+        "lpr",
+        "scripture"
+      ],
+      "optionalGates": [
+        "glossary",
+        "golden",
+        "drift"
+      ],
+      "blockOnFailure": true,
+      "allowPartialDeployment": false
+    },
+    "qualityWeights": {
+      "coverage": 0.25,
+      "lpr": 0.25,
+      "scripture": 0.15,
+      "glossary": 0.2,
+      "golden": 0.15
+    },
+    "deploymentRequirements": {
+      "minimumOverallScore": 85,
+      "requiredArtifacts": [
+        "outputs/book-final.docx",
+        "outputs/triview.json",
+        "reports/quality-gates.json"
+      ],
+      "optionalArtifacts": [
+        "outputs/book.epub",
+        "outputs/audiobook",
+        "reports/deployment-report.json"
+      ]
+    },
+    "retryPolicy": {
+      "maxRetries": 3,
+      "retryDelayMs": 5000,
+      "backoffMultiplier": 2
+    },
+    "notifications": {
+      "onGateFailure": true,
+      "onDeploymentReady": true,
+      "emailRecipients": [],
+      "slackWebhook": null
+    }
+  }
+}

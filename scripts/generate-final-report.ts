@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
-import { getCostSummary } from '../lib/cost.ts';
+import { getCostSummary } from '../lib/cost';
 
 class FinalReportGenerator {
   constructor() {

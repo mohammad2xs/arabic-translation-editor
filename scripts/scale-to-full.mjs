@@ -10,12 +10,12 @@ class ScaleToFull {
     this.startTime = Date.now();
     this.steps = [
       { name: 'Ingestion', command: 'tsx', args: ['scripts/ingest.ts'] },
-      { name: 'Pipeline Processing', command: 'tsx', args: ['orchestrate/pipeline.mjs'], env: { SECTION_SCOPE: 'all' } },
-      { name: 'Quality Validation', command: 'node', args: ['scripts/quality-validation.mjs'] },
+      { name: 'Pipeline Processing', command: 'tsx', args: ['orchestrate/pipeline.ts'], env: { SECTION_SCOPE: 'all' } },
+      { name: 'Quality Validation', command: 'tsx', args: ['scripts/quality-validation.mjs'] },
       { name: 'Build DOCX', command: 'node', args: ['build/docx.mjs'] },
       { name: 'Build EPUB', command: 'node', args: ['build/epub.mjs'] },
       { name: 'Audio Prep', command: 'node', args: ['build/audio_prep.mjs'] },
-      { name: 'Final Report', command: 'node', args: ['scripts/generate-final-report.mjs'] }
+      { name: 'Final Report', command: 'tsx', args: ['scripts/generate-final-report.ts'] }
     ];
   }
 

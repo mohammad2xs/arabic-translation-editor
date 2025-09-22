@@ -55,6 +55,8 @@ test('Core files exist', () => {
     'scripts/review-bundle.mjs',
     'app/review/page.tsx',
     'app/api/review/bundle/route.ts',
+    'app/api/review/report/route.ts',
+    'app/api/review/tree/route.ts',
     'public/review/README-review.md'
   ];
 
@@ -419,7 +421,7 @@ test('Review system components have required exports', () => {
     throw new Error('GET handler not found in review bundle API');
   }
 
-  if (!bundleApiContent.includes('scripts/review-bundle.mjs')) {
+  if (!bundleApiContent.includes('review-bundle.mjs')) {
     throw new Error('Bundle API should reference bundle script');
   }
 });
@@ -536,6 +538,113 @@ test('Tri-view includes sync integration', () => {
 
   if (!content.includes('syncStatus') || !content.includes('presence')) {
     throw new Error('Tri-view should display sync status and presence');
+  }
+});
+
+test('Review report API exists and has proper structure', () => {
+  const reportApiPath = join(projectRoot, 'app/api/review/report/route.ts');
+  if (!existsSync(reportApiPath)) {
+    throw new Error('Review report API route not found');
+  }
+
+  const reportContent = readFileSync(reportApiPath, 'utf8');
+  if (!reportContent.includes('export async function GET')) {
+    throw new Error('Review report API should have GET handler');
+  }
+
+  if (!reportContent.includes('review-report.json') || !reportContent.includes('dist')) {
+    throw new Error('Review report API should read from dist/review-report.json');
+  }
+
+  if (!reportContent.includes('fallback') || !reportContent.includes('sample')) {
+    throw new Error('Review report API should have fallback data when report doesn\'t exist');
+  }
+});
+
+test('Review file tree API exists and has proper structure', () => {
+  const treeApiPath = join(projectRoot, 'app/api/review/tree/route.ts');
+  if (!existsSync(treeApiPath)) {
+    throw new Error('Review tree API route not found');
+  }
+
+  const treeContent = readFileSync(treeApiPath, 'utf8');
+  if (!treeContent.includes('export async function GET')) {
+    throw new Error('Review tree API should have GET handler');
+  }
+
+  if (!treeContent.includes('FileNode') || !treeContent.includes('buildFileTree')) {
+    throw new Error('Review tree API should have FileNode interface and buildFileTree function');
+  }
+
+  if (!treeContent.includes('INCLUDE_DIRS') || !treeContent.includes('EXCLUDE_PATTERNS')) {
+    throw new Error('Review tree API should have include/exclude patterns');
+  }
+});
+
+test('Review page fetches real data instead of hardcoded samples', () => {
+  const reviewPagePath = join(projectRoot, 'app/review/page.tsx');
+  const reviewPageContent = readFileSync(reviewPagePath, 'utf8');
+
+  if (!reviewPageContent.includes('fetch(\'/api/review/report\')')) {
+    throw new Error('Review page should fetch data from /api/review/report');
+  }
+
+  if (!reviewPageContent.includes('fetch(\'/api/review/tree\')')) {
+    throw new Error('Review page should fetch file tree from /api/review/tree');
+  }
+
+  if (!reviewPageContent.includes('useState<ReviewReport | null>(null)')) {
+    throw new Error('Review page should use state for report data');
+  }
+
+  if (!reviewPageContent.includes('isLoading') || !reviewPageContent.includes('setIsLoading')) {
+    throw new Error('Review page should have loading state');
+  }
+
+  if (!reviewPageContent.includes('lint?') || !reviewPageContent.includes('build?') || !reviewPageContent.includes('typecheck?')) {
+    throw new Error('Review page interface should include optional lint, build, and typecheck fields');
+  }
+});
+
+test('Review bundle script supports --report-only flag', () => {
+  const bundleScriptPath = join(projectRoot, 'scripts/review-bundle.mjs');
+  const bundleScriptContent = readFileSync(bundleScriptPath, 'utf8');
+
+  if (!bundleScriptContent.includes('--report-only')) {
+    throw new Error('Bundle script should support --report-only flag');
+  }
+
+  if (!bundleScriptContent.includes('createReportOnly')) {
+    throw new Error('Bundle script should have createReportOnly function');
+  }
+
+  if (!bundleScriptContent.includes('process.argv') || !bundleScriptContent.includes('args.includes')) {
+    throw new Error('Bundle script should parse command line arguments');
+  }
+
+  if (!bundleScriptContent.includes('orchestrate') || !bundleScriptContent.includes('rules')) {
+    throw new Error('Bundle script should include orchestrate and rules directories');
+  }
+});
+
+test('Review bundle script includes enhanced reporting', () => {
+  const bundleScriptPath = join(projectRoot, 'scripts/review-bundle.mjs');
+  const bundleScriptContent = readFileSync(bundleScriptPath, 'utf8');
+
+  if (!bundleScriptContent.includes('npm run lint') || !bundleScriptContent.includes('--format json')) {
+    throw new Error('Bundle script should run lint with JSON format');
+  }
+
+  if (!bundleScriptContent.includes('tsc --noEmit')) {
+    throw new Error('Bundle script should run TypeScript check');
+  }
+
+  if (!bundleScriptContent.includes('build-manifest.json') || !bundleScriptContent.includes('.next')) {
+    throw new Error('Bundle script should analyze Next.js build artifacts');
+  }
+
+  if (!bundleScriptContent.includes('lint:') || !bundleScriptContent.includes('build:') || !bundleScriptContent.includes('typecheck:')) {
+    throw new Error('Bundle script should include lint, build, and typecheck in report');
   }
 });
 

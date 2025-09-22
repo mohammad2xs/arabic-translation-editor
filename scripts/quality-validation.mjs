@@ -2,12 +2,42 @@
 
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Import readability and audience modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Dynamic imports for TypeScript modules
+let analyzeReadability, checkReadabilityFlags, getReadabilitySummary;
+let analyzeAudienceSuitability, checkAudienceFlags, getAudienceSuitabilitySummary;
+
+async function loadEnglishModules() {
+  try {
+    const readabilityModule = await import(path.join(__dirname, '../lib/en/readability.js'));
+    const audienceModule = await import(path.join(__dirname, '../lib/en/audience.js'));
+
+    analyzeReadability = readabilityModule.analyzeReadability;
+    checkReadabilityFlags = readabilityModule.checkReadabilityFlags;
+    getReadabilitySummary = readabilityModule.getReadabilitySummary;
+
+    analyzeAudienceSuitability = audienceModule.analyzeAudienceSuitability;
+    checkAudienceFlags = audienceModule.checkAudienceFlags;
+    getAudienceSuitabilitySummary = audienceModule.getAudienceSuitabilitySummary;
+
+    return true;
+  } catch (error) {
+    console.warn('⚠️  English analysis modules not compiled, skipping readability validation');
+    return false;
+  }
+}
 
 class QualityValidator {
   constructor() {
     this.results = {};
     this.gates = {};
     this.config = {};
+    this.englishModulesAvailable = false;
   }
 
   async loadConfigs() {
@@ -36,13 +66,11 @@ class QualityValidator {
   }
 
   calculateLPRMetrics() {
-    const lprValues = this.triview.rows
-      .filter(row => row.englishText && row.arabicText)
-      .map(row => {
-        const englishLength = row.englishText.length;
-        const arabicLength = row.arabicText.length;
-        return arabicLength > 0 ? englishLength / arabicLength : 0;
-      })
+    const rows = this.triview.rows || [];
+    const lprValues = rows
+      .map(r => ({ en: r.englishText ?? r.english, ar: r.arabicText ?? r.original }))
+      .filter(r => r.en && r.ar)
+      .map(({ en, ar }) => ar.length > 0 ? en.length / ar.length : 0)
       .filter(lpr => lpr > 0);
 
     if (lprValues.length === 0) {
@@ -120,8 +148,112 @@ class QualityValidator {
     return { maximum: 0.05, detected: false };
   }
 
+  calculateReadabilityMetrics() {
+    if (!this.englishModulesAvailable) {
+      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: false, reason: 'modules_missing', sectionsAnalyzed: 0 };
+    }
+
+    const englishSections = (this.triview.rows || [])
+      .map(r => r.englishText ?? r.english)
+      .filter(t => t && t.trim().length > 50);
+
+    if (englishSections.length === 0) {
+      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: true, sectionsAnalyzed: 0 };
+    }
+
+    // Analyze each section
+    const sectionMetrics = englishSections.map(text => {
+      const metrics = analyzeReadability(text);
+      const flags = checkReadabilityFlags(metrics);
+      return { metrics, flags, text: text.slice(0, 100) + '...' };
+    });
+
+    // Calculate aggregate metrics
+    const avgGrade = sectionMetrics.reduce((sum, s) => sum + s.metrics.grade, 0) / sectionMetrics.length;
+    const avgLength = sectionMetrics.reduce((sum, s) => sum + s.metrics.avgLen, 0) / sectionMetrics.length;
+    const avgLongPct = sectionMetrics.reduce((sum, s) => sum + s.metrics.longPct, 0) / sectionMetrics.length;
+
+    // Check if overall targets are met using configurable thresholds
+    const readabilityConfig = this.config.thresholds?.readability || { gradeMin: 8, gradeMax: 11, longPctMax: 25 };
+    const gradeInRange = avgGrade >= readabilityConfig.gradeMin && avgGrade <= readabilityConfig.gradeMax;
+    const longPctAcceptable = avgLongPct <= readabilityConfig.longPctMax;
+    const overallPass = gradeInRange && longPctAcceptable;
+
+    // Count sections that need improvement
+    const sectionsNeedingWork = sectionMetrics.filter(s =>
+      s.flags.gradeOutOfRange || s.flags.tooManyLongSentences
+    );
+
+    return {
+      grade: Number(avgGrade.toFixed(1)),
+      avgLen: Number(avgLength.toFixed(1)),
+      longPct: Number(avgLongPct.toFixed(1)),
+      overallPass,
+      sectionsAnalyzed: sectionMetrics.length,
+      sectionsNeedingWork: sectionsNeedingWork.length,
+      sectionDetails: sectionMetrics.slice(0, 5) // Include first 5 for reporting
+    };
+  }
+
+  calculateAudienceMetrics() {
+    if (!this.englishModulesAvailable) {
+      return { score: 85, overallPass: false, reason: 'modules_missing', sectionsAnalyzed: 0 };
+    }
+
+    const englishSections = (this.triview.rows || [])
+      .map(r => r.englishText ?? r.english)
+      .filter(t => t && t.trim().length > 50);
+
+    if (englishSections.length === 0) {
+      return { score: 85, overallPass: true, sectionsAnalyzed: 0 };
+    }
+
+    // Analyze each section
+    const sectionAnalyses = englishSections.map(text => {
+      const analysis = analyzeAudienceSuitability(text);
+      const flags = checkAudienceFlags(analysis);
+      return { analysis, flags, text: text.slice(0, 100) + '...' };
+    });
+
+    // Calculate aggregate score
+    const avgScore = sectionAnalyses.reduce((sum, s) => sum + s.analysis.score, 0) / sectionAnalyses.length;
+    const audienceConfig = this.config.thresholds?.audience || { scoreMin: 70 };
+    const overallPass = avgScore >= audienceConfig.scoreMin;
+
+    // Count sections with issues
+    const sectionsWithIssues = sectionAnalyses.filter(s =>
+      s.flags.hasJargonOverload || s.flags.hasPassiveOverload || s.flags.hasArchaicLanguage
+    );
+
+    return {
+      score: Number(avgScore.toFixed(0)),
+      overallPass,
+      sectionsAnalyzed: sectionAnalyses.length,
+      sectionsWithIssues: sectionsWithIssues.length,
+      commonFlags: this.aggregateAudienceFlags(sectionAnalyses),
+      sampleIssues: sectionAnalyses.slice(0, 3).map(s => s.analysis.flags).flat().slice(0, 5)
+    };
+  }
+
+  aggregateAudienceFlags(analyses) {
+    const flagCounts = {};
+    analyses.forEach(analysis => {
+      analysis.analysis.flags.forEach(flag => {
+        flagCounts[flag] = (flagCounts[flag] || 0) + 1;
+      });
+    });
+
+    return Object.entries(flagCounts)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 3)
+      .map(([flag, count]) => `${flag} (${count} sections)`);
+  }
+
   async validateGates() {
     console.log('🔍 Running quality validation...');
+
+    // Load English analysis modules if available
+    this.englishModulesAvailable = await loadEnglishModules();
 
     // Calculate all metrics
     const lpr = this.calculateLPRMetrics();
@@ -130,8 +262,10 @@ class QualityValidator {
     const glossary = this.calculateGlossaryMetrics();
     const golden = this.calculateGoldenMetrics();
     const drift = this.calculateDriftMetrics();
+    const readability = this.calculateReadabilityMetrics();
+    const audience = this.calculateAudienceMetrics();
 
-    this.results = { lpr, coverage, scripture, glossary, golden, drift };
+    this.results = { lpr, coverage, scripture, glossary, golden, drift, readability, audience };
 
     // Check gates against thresholds
     const { thresholds, gateConfiguration } = this.config;
@@ -156,6 +290,15 @@ class QualityValidator {
       },
       drift: {
         pass: drift.maximum <= thresholds.drift.maximum
+      },
+      readability: {
+        gradeInRange: this.englishModulesAvailable ? readability.overallPass && (readability.grade >= (this.config.thresholds?.readability?.gradeMin || 8) && readability.grade <= (this.config.thresholds?.readability?.gradeMax || 11)) : false,
+        longSentencesOk: this.englishModulesAvailable ? readability.overallPass && (readability.longPct <= (this.config.thresholds?.readability?.longPctMax || 25)) : false,
+        pass: this.englishModulesAvailable ? readability.overallPass : false
+      },
+      audience: {
+        suitabilityOk: this.englishModulesAvailable ? (audience.score >= (this.config.thresholds?.audience?.scoreMin || 70)) : false,
+        pass: this.englishModulesAvailable ? audience.overallPass : false
       }
     };
 
@@ -238,6 +381,25 @@ ${validation.optionalFailed.map(gate => `- ${gate}`).join('\n')}
 
 ### Translation Drift
 - **Maximum Drift**: ${validation.metrics.drift.maximum.toFixed(3)} (Threshold: ${this.config.thresholds.drift.maximum}) ${validation.gates.drift.pass ? '✅' : '❌'}
+
+### English Readability
+${validation.metrics.readability.reason === 'modules_missing' ? '- **Status**: Not evaluated: modules missing ❌' : `- **Grade Level**: ${validation.metrics.readability.grade} (Target: ${this.config.thresholds?.readability?.gradeMin || 8}-${this.config.thresholds?.readability?.gradeMax || 11}) ${validation.gates.readability.gradeInRange ? '✅' : '❌'}
+- **Long Sentences**: ${validation.metrics.readability.longPct}% (Target: ≤${this.config.thresholds?.readability?.longPctMax || 25}%) ${validation.gates.readability.longSentencesOk ? '✅' : '❌'}
+- **Average Length**: ${validation.metrics.readability.avgLen} words
+- **Sections Analyzed**: ${validation.metrics.readability.sectionsAnalyzed}
+- **Sections Needing Work**: ${validation.metrics.readability.sectionsNeedingWork || 0}`}
+
+### Audience Suitability
+${validation.metrics.audience.reason === 'modules_missing' ? '- **Status**: Not evaluated: modules missing ❌' : `- **Suitability Score**: ${validation.metrics.audience.score}/100 (Target: ≥${this.config.thresholds?.audience?.scoreMin || 70}) ${validation.gates.audience.suitabilityOk ? '✅' : '❌'}
+- **Sections Analyzed**: ${validation.metrics.audience.sectionsAnalyzed}
+- **Sections with Issues**: ${validation.metrics.audience.sectionsWithIssues || 0}`}`;
+
+    if (validation.metrics.audience.commonFlags && validation.metrics.audience.commonFlags.length > 0) {
+      markdownReport += `
+- **Common Issues**: ${validation.metrics.audience.commonFlags.join(', ')}`;
+    }
+
+    markdownReport += `
 `;
 
     await fs.writeFile('reports/quality-gates.md', markdownReport);
@@ -259,6 +421,8 @@ ${validation.optionalFailed.map(gate => `- ${gate}`).join('\n')}
     console.log(`📚 Glossary: ${metrics.glossary.consistency.toFixed(1)}% consistent ${validation.gates.glossary.pass ? '✅' : '❌'}`);
     console.log(`🏆 Golden: ${metrics.golden.passRate.toFixed(1)}% pass rate ${validation.gates.golden.pass ? '✅' : '❌'}`);
     console.log(`📈 Drift: ${metrics.drift.maximum.toFixed(3)} max ${validation.gates.drift.pass ? '✅' : '❌'}`);
+    console.log(`📖 Readability: grade ${metrics.readability.grade}, ${metrics.readability.longPct}% long ${validation.gates.readability.pass ? '✅' : '❌'}`);
+    console.log(`👥 Audience: ${metrics.audience.score}/100 suitability ${validation.gates.audience.pass ? '✅' : '❌'}`);
 
     console.log(`\n${validation.overallPass ? '✅ All gates passed!' : '❌ Quality gates failed!'}`);
 

@@ -293,13 +293,13 @@ export default function CmdPalette({
 
       {/* Palette */}
       <div
-        className="relative w-full max-w-2xl mx-4 overflow-hidden"
+        className="relative w-full max-w-2xl mx-4 overflow-hidden bg-white rounded-lg shadow-xl border border-gray-200"
         data-command-palette
       >
         {/* Search Input */}
-        <div className="p-4 border-bottom-primary">
+        <div className="p-4 border-b border-gray-200 bg-white">
           <div className="relative">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 color-text-tertiary">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               🔍
             </div>
             <input
@@ -308,16 +308,15 @@ export default function CmdPalette({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type a command or search... | اكتب أمراً أو ابحث..."
-              className="cmd-palette-search"
-              className="dad-text-large"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
 
         {/* Results */}
-        <div ref={listRef} className="max-h-96 overflow-y-auto">
+        <div ref={listRef} className="max-h-96 overflow-y-auto bg-white">
           {flatActions.length === 0 ? (
-            <div className="p-8 text-center color-text-secondary">
+            <div className="p-8 text-center text-gray-500">
               <div className="text-2xl mb-2">🤷‍♂️</div>
               <div className="text-lg">No results found • لا توجد نتائج</div>
             </div>
@@ -327,8 +326,8 @@ export default function CmdPalette({
               if (!sectionActions?.length) return null;
 
               return (
-                <div key={section} className="border-bottom-primary last:border-b-0">
-                  <div className="px-4 py-2 text-sm font-medium color-text-secondary bg-tertiary">
+                <div key={section} className="border-b border-gray-100 last:border-b-0">
+                  <div className="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-50">
                     {getSectionTitle(section)}
                   </div>
                   {sectionActions.map((action, index) => {
@@ -338,7 +337,9 @@ export default function CmdPalette({
                     return (
                       <div
                         key={action.id}
-                        className="cmd-palette-item"
+                        className={`px-4 py-3 cursor-pointer hover:bg-blue-50 border-l-4 transition-colors ${
+                          isSelected ? 'bg-blue-50 border-l-blue-500' : 'border-l-transparent'
+                        }`}
                         onClick={() => {
                           action.action();
                           onClose();
@@ -351,17 +352,13 @@ export default function CmdPalette({
                             )}
                             <div>
                               <div
-                                className="font-medium text-gray-900"
-                                className="dad-text-normal"
+                                className="font-medium text-gray-900 text-base"
                                 dangerouslySetInnerHTML={{
                                   __html: highlightMatches(action.title, results.find(r => r.item === action)?.matches?.filter(m => action.title.includes(m.value)) || [])
                                 }}
                               />
                               {action.subtitle && (
-                                <div
-                                  className="text-sm text-gray-600 mt-1"
-                                  className="dad-text-small"
-                                >
+                                <div className="text-sm text-gray-600 mt-1">
                                   {action.subtitle}
                                 </div>
                               )}
@@ -383,7 +380,7 @@ export default function CmdPalette({
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 text-xs flex justify-between items-center border-top-primary color-text-tertiary">
+        <div className="px-4 py-2 text-xs flex justify-between items-center border-t border-gray-200 text-gray-500 bg-gray-50">
           <div>↑↓ navigate • ⏎ select • esc close</div>
           <div>⌘K to toggle • ⌘ K للتبديل</div>
         </div>

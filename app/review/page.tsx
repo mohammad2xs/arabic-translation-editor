@@ -438,35 +438,69 @@ export default function ReviewPage() {
             <dl className="space-y-3">
               <div>
                 <dt className="text-sm font-medium text-gray-500">Total Files</dt>
-                <dd className="text-sm text-gray-900">{sampleReport.stats.totalFiles}</dd>
+                <dd className="text-sm text-gray-900">{report.stats.totalFiles}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">Bundle Size</dt>
-                <dd className="text-sm text-gray-900">{sampleReport.stats.totalSizeMB} MB</dd>
+                <dd className="text-sm text-gray-900">{report.stats.totalSizeMB} MB</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">File Types</dt>
                 <dd className="text-sm text-gray-900">
-                  {Object.entries(sampleReport.stats.fileTypes).map(([ext, count]) => (
+                  {Object.entries(report.stats.fileTypes).map(([ext, count]) => (
                     <span key={ext} className="inline-block mr-3">
                       {ext}: {count}
                     </span>
                   ))}
                 </dd>
               </div>
+              {report.lint && (
+                <div>
+                  <dt className="text-sm font-medium text-gray-500">Lint Status</dt>
+                  <dd className="text-sm text-gray-900">
+                    {report.lint.error ? (
+                      <span className="text-yellow-600">{report.lint.error}</span>
+                    ) : (
+                      <span className="text-green-600">
+                        {report.lint.errorCount || 0} errors, {report.lint.warningCount || 0} warnings
+                      </span>
+                    )}
+                  </dd>
+                </div>
+              )}
+              {report.typecheck && (
+                <div>
+                  <dt className="text-sm font-medium text-gray-500">TypeScript</dt>
+                  <dd className="text-sm text-gray-900">
+                    <span className={report.typecheck.status === 'passed' ? 'text-green-600' : 'text-red-600'}>
+                      {report.typecheck.errors} errors ({report.typecheck.status})
+                    </span>
+                  </dd>
+                </div>
+              )}
             </dl>
           </div>
 
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Key Features</h3>
             <ul className="space-y-2">
-              {sampleReport.architecture.features.map((feature) => (
+              {report.architecture.features.map((feature) => (
                 <li key={feature} className="text-sm text-gray-600 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
                   {feature}
                 </li>
               ))}
             </ul>
+            {report.build && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <h4 className="text-sm font-medium text-gray-500 mb-2">Build Info</h4>
+                <div className="text-sm text-gray-600">
+                  <div>Status: <span className={report.build.status === 'available' ? 'text-green-600' : 'text-yellow-600'}>{report.build.status}</span></div>
+                  {report.build.pages && <div>Pages: {report.build.pages}</div>}
+                  {report.build.staticSizeMB && <div>Static Size: {report.build.staticSizeMB} MB</div>}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -483,7 +517,7 @@ export default function ReviewPage() {
               </div>
               <div className="p-2 max-h-96 overflow-y-auto">
                 <FileTreeNode
-                  node={SAMPLE_FILE_TREE}
+                  node={fileTree}
                   onFileSelect={handleFileSelect}
                 />
               </div>
@@ -544,7 +578,7 @@ export default function ReviewPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {sampleReport.routes.map((route) => (
+                  {report.routes.map((route) => (
                     <tr key={route.path}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
                         {route.path}

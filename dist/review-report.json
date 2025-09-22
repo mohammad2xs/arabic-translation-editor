@@ -1,0 +1,258 @@
+{
+  "metadata": {
+    "projectName": "arabic-translation-editor",
+    "version": "0.1.0",
+    "description": "Arabic Translation Editor with MCP Integration",
+    "generatedAt": "2025-09-22T02:31:24.869Z",
+    "generatedBy": "review-bundle.mjs"
+  },
+  "git": {
+    "branch": "master",
+    "commit": "a47c961e",
+    "lastCommit": "feat: Complete UI overhaul with modern design and enhanced functionality"
+  },
+  "stats": {
+    "totalFiles": 172,
+    "totalSizeMB": "2.28",
+    "fileTypes": {
+      ".json": 44,
+      ".mdc": 8,
+      "": 2,
+      ".css": 7,
+      ".md": 8,
+      ".docx": 2,
+      ".swp": 2,
+      ".tsx": 22,
+      ".ts": 51,
+      ".ttf": 2,
+      ".mjs": 14,
+      ".csv": 1,
+      ".js": 5,
+      ".epub": 1,
+      ".html": 1,
+      ".ndjson": 1,
+      ".tsbuildinfo": 1
+    }
+  },
+  "routes": [
+    {
+      "path": "/api/assistant/apply",
+      "file": "app/api/assistant/apply/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/assistant/chat",
+      "file": "app/api/assistant/chat/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/assistant/health",
+      "file": "app/api/assistant/health/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/audio/[param]",
+      "file": "app/api/audio/[...path]/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/issues",
+      "file": "app/api/issues/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/mcp/translate",
+      "file": "app/api/mcp/translate/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/notes/[param]",
+      "file": "app/api/notes/[id]/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/presence/heartbeat",
+      "file": "app/api/presence/heartbeat/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/review/bundle",
+      "file": "app/api/review/bundle/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/review/report",
+      "file": "app/api/review/report/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/review/tree",
+      "file": "app/api/review/tree/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/rows/[param]/expand",
+      "file": "app/api/rows/[id]/expand/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/rows/[param]/save",
+      "file": "app/api/rows/[id]/save/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/scripture/resolve",
+      "file": "app/api/scripture/resolve/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/sections/[param]",
+      "file": "app/api/sections/[id]/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/sections/[param]/preview",
+      "file": "app/api/sections/[id]/preview/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/share/create",
+      "file": "app/api/share/create/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/share/email",
+      "file": "app/api/share/email/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/snapshot/[param]",
+      "file": "app/api/snapshot/[id]/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/sync/pull",
+      "file": "app/api/sync/pull/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/sync/push",
+      "file": "app/api/sync/push/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/api/tts",
+      "file": "app/api/tts/route.ts",
+      "type": "api"
+    },
+    {
+      "path": "/review",
+      "file": "app/review/page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/tri",
+      "file": "app/tri/page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "app",
+      "file": "app/page.tsx",
+      "type": "page"
+    }
+  ],
+  "dependencies": {
+    "runtime": [
+      "@anthropic-ai/sdk",
+      "@modelcontextprotocol/sdk",
+      "@vercel/kv",
+      "archiver",
+      "clsx",
+      "docx",
+      "lucide-react",
+      "mammoth",
+      "next",
+      "papaparse",
+      "react",
+      "react-dom",
+      "ws"
+    ],
+    "development": [
+      "@types/node",
+      "@types/papaparse",
+      "@types/react",
+      "@types/react-dom",
+      "autoprefixer",
+      "eslint",
+      "eslint-config-next",
+      "postcss",
+      "tailwindcss",
+      "tsx",
+      "typescript"
+    ],
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint",
+      "type-check": "tsc --noEmit",
+      "check:lean": "npm run lint && npm run type-check",
+      "smoke": "node scripts/smoke.mjs",
+      "bundlesize": "npx next-bundle-analyzer",
+      "prune": "npx depcheck",
+      "ingest": "tsx scripts/ingest.ts",
+      "orchestrate": "tsx orchestrate/pipeline.ts",
+      "orchestrate:mcp": "node orchestrate/mcp-pipeline.mjs",
+      "build:docx": "node build/docx.mjs",
+      "build:audio": "node build/audio_prep.mjs",
+      "build:epub": "node build/epub.mjs",
+      "scale:full": "node scripts/scale-to-full.mjs",
+      "validate:quality": "tsx scripts/quality-validation.mjs",
+      "report:final": "tsx scripts/generate-final-report.ts",
+      "pipeline": "tsx orchestrate/pipeline.ts",
+      "export:docx": "node build/docx.mjs",
+      "export:audio": "node build/audio_prep.mjs",
+      "export:epub": "node build/epub.mjs",
+      "status:dashboard": "tsx scripts/pipeline-status.ts",
+      "github:setup": "node scripts/github-workflow.mjs",
+      "github:auth": "gh auth login",
+      "github:issues": "gh issue list",
+      "github:pr": "gh pr create",
+      "setup:audio": "node scripts/setup-audio.mjs",
+      "test:tts": "curl -X POST http://localhost:3000/api/tts -H 'Content-Type: application/json' -d '{\"text\":\"Hello world\",\"language\":\"en\"}'",
+      "review:bundle": "node scripts/review-bundle.mjs",
+      "review:report": "node scripts/review-bundle.mjs --report-only",
+      "deploy:ready": "node scripts/scale-to-full.mjs && tsx orchestrate/pipeline.ts && tsx scripts/quality-validation.mjs && tsx scripts/generate-final-report.ts"
+    }
+  },
+  "lint": {
+    "error": "Lint check failed",
+    "message": "Command failed: npm run lint -- --format json\n ⚠ If you set up ESLint yourself, we recommend adding the Next.js ESLint plugin. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config\n"
+  },
+  "build": {
+    "pages": 1,
+    "entrypoints": 0,
+    "staticFiles": 0,
+    "staticSizeMB": "0.00",
+    "status": "available"
+  },
+  "typecheck": {
+    "errors": 130,
+    "status": "failed",
+    "message": "app/(components)/AssistantSidebar.tsx(390,15): error TS2739: Type 'Suggestion' is missing the following properties from type 'Suggestion': rationale, task\napp/(components)/CmdPalette.tsx(262,13): error TS2322: Type '{ handler: () => void; key: string; modifiers: readonly [\"cmd\"]; description: string; }' is not assignable to type 'ShortcutHandler'.\n  Types of property 'modifiers' are incompatible.\n    The type 'readonly [\"cmd\"]' is 'readonly' and cannot be assigned to the mutable type '(\"shift\" | \"cmd\" | \"alt\" | \"ctrl\")[]'.\napp/(components)/CmdPalette.tsx(312,15): error TS17001: JSX elements cannot have multiple attributes with the same name.\napp/(components)/CmdPalette.tsx(355,33): error TS17001: JSX elements cannot have multiple attributes with the same name.\napp/(components)/CmdPalette.tsx(363,35): error TS17001: JSX elements cannot have multiple attributes with the same name.\napp/(components)/FinalPreview.tsx(208,19): error TS17001: JSX elements cannot have multiple attributes with the same name.\napp/(components)/RowNavigator.tsx(65,32): error TS2345: Argument of type '{ handler: () => void; key: string; modifiers: readonly [\"alt\"]; description: string; }' is not assignable to parameter of type 'ShortcutHandler'.\n  Types of property 'modifiers' are incompatible."
+  },
+  "architecture": {
+    "framework": "Next.js 14",
+    "language": "TypeScript",
+    "styling": "Tailwind CSS",
+    "deployment": "Vercel",
+    "features": [
+      "Arabic Translation Editor",
+      "Dad-Mode Interface",
+      "Claude Assistant Integration",
+      "Real-time Collaboration",
+      "PWA Support",
+      "Mobile Optimization"
+    ]
+  }
+}

@@ -18,6 +18,8 @@ import RowNavigator from '../(components)/RowNavigator';
 import OnboardingCoach from '../(components)/OnboardingCoach';
 import ContextSwitcher, { useContextSwitcher, ViewMode } from '../(components)/ContextSwitcher';
 import SectionPreview, { useSectionPreview } from '../(components)/SectionPreview';
+import AudioBar from '../(components)/AudioBar';
+import AudiobookPanel from '../(components)/AudiobookPanel';
 import { useSyncClient } from '../../lib/sync/client';
 import { shortcuts as shortcutManager, SHORTCUTS } from '../../lib/ui/shortcuts';
 
@@ -146,6 +148,7 @@ function TriViewPageContent() {
   const [isIssueQueueOpen, setIsIssueQueueOpen] = useState(false);
   const [isFinalPreviewOpen, setIsFinalPreviewOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isAudiobookPanelOpen, setIsAudiobookPanelOpen] = useState(false);
   const [issues, setIssues] = useState<Array<{
     id: string;
     rowId: number;
@@ -399,6 +402,10 @@ function TriViewPageContent() {
 
   const handleToggleFinalPreview = useCallback(() => {
     setIsFinalPreviewOpen(prev => !prev);
+  }, []);
+
+  const handleToggleAudiobookPanel = useCallback(() => {
+    setIsAudiobookPanelOpen(prev => !prev);
   }, []);
 
   // Assistant apply suggestion handler
@@ -1285,6 +1292,7 @@ function TriViewPageContent() {
             openPreview(previewRows, currentRow?.id, sectionData?.title || currentSectionId);
           }}
           onOpenCommandPalette={() => setIsCmdPaletteOpen(true)}
+          onOpenAudiobook={handleToggleAudiobookPanel}
           syncStatus={
             <div className={`sync-status ${isConnected ? 'connected' : 'disconnected'}`}>
               <div className={`sync-indicator ${isConnected ? 'connected' : 'disconnected'}`} />
@@ -1302,6 +1310,18 @@ function TriViewPageContent() {
           onContextSizeChange={onContextSizeChange}
           className="border-b border-gray-200"
         />
+
+        {/* Audio Bar */}
+        {currentRow && (
+          <AudioBar
+            text={currentRow.english || ''}
+            originalText={currentRow.original}
+            enhancedText={currentRow.enhanced}
+            rowId={currentRow.id}
+            sectionId={currentSectionId}
+            chapterId={currentSectionId} // Using section as chapter for now
+          />
+        )}
 
         {/* Conflict notification banner */}
         {conflictQueue.length > 0 && (
@@ -1713,6 +1733,14 @@ function TriViewPageContent() {
             </div>
           </div>
         )}
+
+        {/* Audiobook Panel */}
+        <AudiobookPanel
+          isOpen={isAudiobookPanelOpen}
+          onClose={() => setIsAudiobookPanelOpen(false)}
+          currentSectionId={currentSectionId}
+          currentChapterId={currentSectionId} // Using section as chapter for now
+        />
       </div>
     );
   }
@@ -1736,6 +1764,13 @@ function TriViewPageContent() {
                 className="modern-btn primary"
               >
                 👓 Enable Dad Mode
+              </button>
+              <button
+                onClick={handleToggleAudiobookPanel}
+                className="modern-btn secondary"
+                title="Open Audiobook Builder"
+              >
+                🎧 Audiobook
               </button>
               <div className="flex items-center space-x-2">
                 <label htmlFor="sectionSelect" className="text-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -2186,6 +2221,14 @@ function TriViewPageContent() {
           </button>
         </div>
       )}
+
+      {/* Audiobook Panel */}
+      <AudiobookPanel
+        isOpen={isAudiobookPanelOpen}
+        onClose={() => setIsAudiobookPanelOpen(false)}
+        currentSectionId={currentSectionId}
+        currentChapterId={currentSectionId} // Using section as chapter for now
+      />
     </div>
   );
 }

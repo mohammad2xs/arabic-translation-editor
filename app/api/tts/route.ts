@@ -2,16 +2,34 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { createHash } from 'crypto';
+import {
+  getVoiceRegistry,
+  getVoiceIdForLane,
+  getVoiceSettingsForLane,
+  getModelIdForLane,
+  type Lane
+} from '../../../lib/audio/voices';
+import { generateSSMLWithLexicon, extractTextFromSSML } from '../../../lib/audio/ssml';
 
 interface TTSRequest {
-  text: string;
-  language: 'ar' | 'en';
+  text: string | string[]; // Support batch processing
+  language?: 'ar' | 'en'; // Made optional for backward compatibility
+  lane?: Lane; // New lane-based parameter
   rowId?: string;
+  ssml?: string; // Pre-generated SSML
+  voiceKey?: string; // Override voice ID
+  scopeId?: string; // For batch processing identification
+  ssmlOptions?: { // Options for server-side SSML generation
+    includeFootnotes?: boolean;
+    customRate?: number;
+    customPitch?: number;
+  };
   voiceSettings?: {
     stability?: number;
     similarity_boost?: number;
     style?: number;
     use_speaker_boost?: boolean;
+    clarity?: number;
   };
 }
 
@@ -26,16 +44,26 @@ export async function POST(request: NextRequest) {
   try {
     const body: TTSRequest = await request.json();
 
-    if (!body.text || body.text.trim().length === 0) {
+    // Handle both single text and batch processing
+    const textArray = Array.isArray(body.text) ? body.text : [body.text];
+
+    if (textArray.length === 0 || textArray.some(text => !text || text.trim().length === 0)) {
       return NextResponse.json(
         { error: 'Text is required for text-to-speech generation' },
         { status: 400 }
       );
     }
 
-    if (!body.language || !['ar', 'en'].includes(body.language)) {
+    // Determine lane from either new lane parameter or legacy language parameter
+    let lane: Lane;
+    if (body.lane) {
+      lane = body.lane;
+    } else if (body.language) {
+      // Backward compatibility mapping
+      lane = body.language === 'en' ? 'en' : 'ar_enhanced';
+    } else {
       return NextResponse.json(
-        { error: 'Language must be either "ar" or "en"' },
+        { error: 'Either lane or language parameter is required' },
         { status: 400 }
       );
     }
@@ -49,53 +77,78 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate a hash for caching
-    const textHash = createHash('md5')
-      .update(`${body.text}-${body.language}`)
-      .digest('hex');
+    // Rate limiting check for batch processing
+    if (textArray.length > 100) {
+      return NextResponse.json(
+        { error: 'Maximum 100 text segments allowed per request' },
+        { status: 400 }
+      );
+    }
 
     const audioDir = join(process.cwd(), process.env.AUDIO_STORAGE_PATH || 'outputs/audio');
     const segmentsDir = join(audioDir, 'segments');
+    const laneDir = join(audioDir, lane);
 
     // Ensure directories exist
     await fs.mkdir(segmentsDir, { recursive: true });
+    await fs.mkdir(laneDir, { recursive: true });
 
-    // Check if we have a cached audio file
-    const fileName = body.rowId ? `${body.rowId}.mp3` : `${textHash}.mp3`;
-    const filePath = join(segmentsDir, fileName);
+    // Process each text segment
+    const results = [];
 
-    try {
-      // Check if file exists and is recent (within cache duration)
-      const stats = await fs.stat(filePath);
-      const cacheHours = parseInt(process.env.AUDIO_CACHE_DURATION_HOURS || '24');
-      const maxAge = cacheHours * 60 * 60 * 1000; // Convert to milliseconds
+    for (let i = 0; i < textArray.length; i++) {
+      const text = textArray[i].trim();
+      const segmentId = body.rowId
+        ? `${body.rowId}_${lane}${textArray.length > 1 ? `_${i}` : ''}`
+        : createHash('md5').update(`${text}-${lane}`).digest('hex');
 
-      if (Date.now() - stats.mtime.getTime() < maxAge) {
-        // Return cached file URL
-        return NextResponse.json({
-          success: true,
-          audioUrl: `/outputs/audio/segments/${fileName}`,
-          cached: true,
-          generatedAt: stats.mtime.toISOString(),
+      try {
+        const result = await processSingleText(
+          text,
+          lane,
+          segmentId,
+          body.ssml,
+          body.voiceKey,
+          body.voiceSettings,
+          segmentsDir,
+          laneDir,
+          apiKey,
+          body.ssmlOptions
+        );
+        results.push(result);
+
+        // Add delay between requests to respect rate limits
+        if (i < textArray.length - 1 && textArray.length > 1) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+
+      } catch (error) {
+        console.error(`Error processing segment ${i}:`, error);
+        results.push({
+          success: false,
+          segmentId,
+          error: error instanceof Error ? error.message : 'Unknown error'
         });
       }
-    } catch {
-      // File doesn't exist, continue with generation
     }
 
-    // Generate audio using ElevenLabs API
-    const audioBuffer = await generateAudioWithElevenLabs(body.text, body.language, body.voiceSettings);
-
-    // Save audio file
-    await fs.writeFile(filePath, audioBuffer);
-
-    // Return the audio URL
-    return NextResponse.json({
-      success: true,
-      audioUrl: `/outputs/audio/segments/${fileName}`,
-      cached: false,
-      generatedAt: new Date().toISOString(),
-    });
+    // Return single result for single text, array for batch
+    if (textArray.length === 1) {
+      return NextResponse.json(results[0]);
+    } else {
+      const successCount = results.filter(r => r.success).length;
+      return NextResponse.json({
+        success: successCount > 0,
+        totalSegments: textArray.length,
+        successfulSegments: successCount,
+        results,
+        manifest: results.filter(r => r.success).map(r => ({
+          segmentId: r.segmentId,
+          audioUrl: r.audioUrl,
+          duration: r.duration
+        }))
+      });
+    }
 
   } catch (error) {
     console.error('TTS generation error:', error);
@@ -123,38 +176,149 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// Process a single text segment with the new lane-based system
+async function processSingleText(
+  text: string,
+  lane: Lane,
+  segmentId: string,
+  ssml?: string,
+  voiceKey?: string,
+  customVoiceSettings?: Partial<ElevenLabsVoiceSettings>,
+  segmentsDir?: string,
+  laneDir?: string,
+  apiKey?: string,
+  ssmlOptions?: { includeFootnotes?: boolean; customRate?: number; customPitch?: number }
+) {
+  // Generate cache key
+  const cacheKey = createHash('md5')
+    .update(`${text}-${lane}-${voiceKey || ''}-${JSON.stringify(customVoiceSettings || {})}`)
+    .digest('hex');
+
+  const fileName = `${segmentId}.mp3`;
+  const filePath = join(segmentsDir || join(process.cwd(), 'outputs/audio/segments'), fileName);
+  const laneFilePath = join(laneDir || join(process.cwd(), 'outputs/audio', lane), fileName);
+
+  try {
+    // Check if file exists and is recent (within cache duration)
+    const stats = await fs.stat(filePath);
+    const cacheHours = parseInt(process.env.AUDIO_CACHE_DURATION_HOURS || '24');
+    const maxAge = cacheHours * 60 * 60 * 1000;
+
+    if (Date.now() - stats.mtime.getTime() < maxAge) {
+      // On cache hit, ensure lane copy exists if laneDir is provided
+      if (laneDir) {
+        try {
+          await fs.access(laneFilePath);
+        } catch {
+          // Lane copy doesn't exist, copy from segments directory
+          await fs.mkdir(join(laneDir, '..'), { recursive: true });
+          await fs.copyFile(filePath, laneFilePath);
+        }
+      }
+
+      return {
+        success: true,
+        segmentId,
+        audioUrl: `/api/files/audio/segments/${fileName}`,
+        cached: true,
+        generatedAt: stats.mtime.toISOString(),
+      };
+    }
+  } catch {
+    // File doesn't exist, continue with generation
+  }
+
+  // Generate audio using the new lane-based system
+  const audioBuffer = await generateAudioWithElevenLabs(
+    text,
+    lane,
+    ssml,
+    voiceKey,
+    customVoiceSettings,
+    apiKey
+  );
+
+  // Save audio file to both locations
+  await fs.writeFile(filePath, audioBuffer);
+  if (laneDir) {
+    await fs.writeFile(laneFilePath, audioBuffer);
+  }
+
+  return {
+    success: true,
+    segmentId,
+    audioUrl: `/outputs/audio/segments/${fileName}`,
+    laneUrl: `/outputs/audio/${lane}/${fileName}`,
+    cached: false,
+    generatedAt: new Date().toISOString(),
+  };
+}
+
 async function generateAudioWithElevenLabs(
   text: string,
-  language: 'ar' | 'en',
-  customVoiceSettings?: Partial<ElevenLabsVoiceSettings>
+  lane: Lane,
+  ssml?: string,
+  voiceKey?: string,
+  customVoiceSettings?: Partial<ElevenLabsVoiceSettings>,
+  apiKey?: string
 ): Promise<Buffer> {
-  const apiKey = process.env.ELEVENLABS_API_KEY!;
+  const key = apiKey || process.env.ELEVENLABS_API_KEY!;
 
-  // Select voice ID based on language
-  const voiceId = language === 'en'
-    ? process.env.ELEVENLABS_VOICE_ID_EN || '21m00Tcm4TlvDq8ikWAM'  // Rachel (English)
-    : process.env.ELEVENLABS_VOICE_ID_AR || 'pMsXgVXv3BLzUgSXRplE'; // Adam (Multilingual)
+  // Get voice configuration for the lane
+  const voiceRegistry = getVoiceRegistry();
+  const voiceId = voiceKey || getVoiceIdForLane(lane);
+  const modelId = getModelIdForLane(lane);
+  const laneVoiceSettings = getVoiceSettingsForLane(lane, customVoiceSettings);
 
-  // Voice settings with environment defaults
+  // Convert to ElevenLabs format
   const voiceSettings: ElevenLabsVoiceSettings = {
-    stability: customVoiceSettings?.stability ?? parseFloat(process.env.ELEVENLABS_STABILITY || '0.4'),
-    similarity_boost: customVoiceSettings?.similarity_boost ?? parseFloat(process.env.ELEVENLABS_SIMILARITY_BOOST || '0.85'),
-    style: customVoiceSettings?.style ?? parseFloat(process.env.ELEVENLABS_STYLE || '0.1'),
-    use_speaker_boost: customVoiceSettings?.use_speaker_boost ?? (process.env.ELEVENLABS_USE_SPEAKER_BOOST === 'true'),
+    stability: laneVoiceSettings.stability,
+    similarity_boost: laneVoiceSettings.similarity_boost,
+    style: laneVoiceSettings.style,
+    use_speaker_boost: laneVoiceSettings.use_speaker_boost,
   };
 
-  const payload = {
-    text,
-    model_id: process.env.ELEVENLABS_MODEL_ID || 'eleven_multilingual_v2',
+  // Prepare the text/SSML content
+  let content: string;
+  let contentType: 'text' | 'ssml';
+
+  if (ssml) {
+    content = ssml;
+    contentType = 'ssml';
+  } else {
+    // Generate SSML using the lane-aware system with full lexicon
+    try {
+      content = await generateSSMLWithLexicon(text, {
+        lane,
+        ...ssmlOptions
+      });
+      contentType = 'ssml';
+    } catch (error) {
+      console.warn('SSML generation failed, falling back to plain text:', error);
+      content = text;
+      contentType = 'text';
+    }
+  }
+
+  // Prepare payload based on content type
+  const payload: any = {
+    model_id: modelId,
     voice_settings: voiceSettings,
   };
+
+  if (contentType === 'ssml') {
+    payload.text = extractTextFromSSML(content); // ElevenLabs expects text, not SSML directly
+    // Note: ElevenLabs doesn't fully support SSML, but we can use the processed text
+  } else {
+    payload.text = content;
+  }
 
   const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
     method: 'POST',
     headers: {
       'Accept': 'audio/mpeg',
       'Content-Type': 'application/json',
-      'xi-api-key': apiKey,
+      'xi-api-key': key,
     },
     body: JSON.stringify(payload),
   });

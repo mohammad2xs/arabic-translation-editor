@@ -1,0 +1,55 @@
+# English Style Guard Contract
+
+## Purpose
+Preserve contemplative tone, authorial voice, and philosophical register while ensuring clarity and accessibility for general educated audiences (grade 8-11 reading level).
+
+## Core Principles
+
+### 1. Voice Preservation
+- **PRESERVE**: All qualifiers, modal verbs, and tentative language that convey humility and uncertainty
+- **PRESERVE**: Rhetorical questions that engage the reader in contemplation
+- **PRESERVE**: Negations and contradictions that show intellectual nuance
+- **PRESERVE**: First-person perspective and personal reflections
+- **FORBIDDEN**: Summarization, condensation, or removal of substantive content
+
+### 2. Tone Maintenance
+Reference: `rules/03_tone_guardian.mdc` - maintain consistency with established philosophical register
+- Keep contemplative, reflective quality
+- Preserve intellectual humility through modal qualifiers
+- Maintain questioning stance and intellectual curiosity
+- Retain personal vulnerability and authentic voice
+
+### 3. Clarity Without Compromise
+- Clarify only when meaning is genuinely ambiguous
+- Break overlong sentences (>30 words) while preserving all semantic content
+- Simplify word choice only when simpler alternatives carry identical meaning
+- Maintain clause-level semantic alignment - no content reorganization
+
+### 4. US Punctuation Standards
+- Use serial commas consistently
+- Apply US quotation mark conventions
+- Follow standard capitalization rules
+- Maintain consistent formatting throughout
+
+### 5. Islamic Terminology Standards
+- **First mention**: Provide glossing for Arabic/Islamic terms
+- **Subsequent mentions**: Use term without repetitive glossing
+- Maintain glossary consistency across all documents
+- Preserve Arabic term pronunciation guides where provided
+
+## Quality Gates
+- Target reading grade: 8-11 (Flesch-Kincaid)
+- Preserve 100% of authorial intent and content
+- No addition of new ideas or interpretations
+- Maintain original paragraph structure and flow
+
+## Prohibited Transformations
+- Changing authorial stance or perspective
+- Removing qualifiers that show intellectual humility
+- Converting questions to statements
+- Summarizing or condensing arguments
+- Adding explanatory content not in source
+- Reorganizing content structure beyond sentence-level clarity
+
+## Success Criteria
+Text that maintains the author's contemplative voice while being accessible to educated general readers without specialized Islamic knowledge.

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
+import { minimatch } from 'minimatch'
 
 interface FileNode {
   name: string
@@ -45,12 +46,19 @@ const EXCLUDE_PATTERNS = [
 ]
 
 function shouldExclude(filePath: string): boolean {
+  // Check against each exclude pattern using minimatch for proper glob matching
   return EXCLUDE_PATTERNS.some(pattern => {
-    if (pattern.includes('*')) {
-      const regex = new RegExp(pattern.replace(/\*/g, '.*'))
-      return regex.test(path.basename(filePath))
+    // Handle explicit .env file patterns
+    if (pattern.startsWith('.env')) {
+      const basename = path.basename(filePath)
+      return basename === '.env' || basename.startsWith('.env.')
     }
-    return filePath.includes(pattern)
+
+    // Use minimatch for proper glob pattern matching
+    // Check against both the full path and just the basename for flexibility
+    return minimatch(filePath, pattern) ||
+           minimatch(path.basename(filePath), pattern) ||
+           filePath.includes(pattern) // Fallback for simple string matching
   })
 }
 

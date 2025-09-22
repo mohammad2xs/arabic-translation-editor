@@ -31,29 +31,33 @@ const PROSODY_RULES = {
   chapterTransition: '[beat][beat][beat]'
 };
 
-// Islamic terminology lexicon - IPA phonetic transcriptions as specified
-const ISLAMIC_LEXICON = [
-  { term: 'fitrah', ipa: 'fɪt.rɑː', notes: 'Natural human disposition toward God', alternates: 'fitra' },
-  { term: 'nafs', ipa: 'næfs', notes: 'The soul or self', alternates: 'nafs' },
-  { term: 'rūḥ', ipa: 'ruːħ', notes: 'The spirit', alternates: 'ruh' },
-  { term: 'qalb', ipa: 'qɑlb', notes: 'The heart (spiritual center)', alternates: 'qalb' },
-  { term: 'taqwā', ipa: 'tɑk.wɑː', notes: 'God-consciousness, piety', alternates: 'taqwa' },
-  { term: 'dunyā', ipa: 'ˈdʊn.jɑː', notes: 'This worldly life', alternates: 'dunya' },
-  { term: 'ākhirah', ipa: 'ˈɑː.xɪ.rɑ', notes: 'The hereafter', alternates: 'akhirah' },
-  { term: 'Qur\'an', ipa: 'kʊrˈɑːn', notes: 'The holy book of Islam', alternates: 'Quran' },
-  { term: 'ḥadīth', ipa: 'hæˈdiːθ', notes: 'Prophetic traditions', alternates: 'hadith' },
-  { term: 'Muḥammad', ipa: 'muˈħæm.mæd', notes: 'The Prophet of Islam', alternates: 'Muhammad' },
-  { term: 'jihād', ipa: 'dʒi.haːd', notes: 'Struggle, striving in the path of God', alternates: 'jihad' },
-  { term: 'sabr', ipa: 'sabr', notes: 'Patience, perseverance', alternates: 'sabr' },
-  { term: 'dhikr', ipa: 'ðikr', notes: 'Remembrance of God', alternates: 'zikr' },
-  { term: 'salāh', ipa: 'sa.laːħ', notes: 'Prayer', alternates: 'salah' },
-  { term: 'zakāh', ipa: 'za.kaːħ', notes: 'Obligatory charity', alternates: 'zakat' },
-  { term: 'hajj', ipa: 'ħadʒdʒ', notes: 'Pilgrimage to Mecca', alternates: 'hajj' },
-  { term: 'sawm', ipa: 'sawm', notes: 'Fasting', alternates: 'sawm' },
-  { term: 'shahādah', ipa: 'ʃa.haː.da', notes: 'Declaration of faith', alternates: 'shahada' },
-  { term: 'ummah', ipa: 'ʔum.ma', notes: 'Muslim community', alternates: 'ummah' },
-  { term: 'sīrah', ipa: 'siː.ra', notes: 'Biography of the Prophet', alternates: 'sirah' }
-];
+// Load Islamic terminology lexicon from JSON
+function loadIslamicLexicon() {
+  const lexiconPath = path.join(projectRoot, 'lib', 'audio', 'lexicon.json');
+
+  try {
+    const lexiconData = JSON.parse(fs.readFileSync(lexiconPath, 'utf8'));
+
+    // Convert from JSON format to the format expected by this script
+    return lexiconData.terms.map(entry => ({
+      term: entry.term,
+      ipa: entry.ipa,
+      notes: entry.notes,
+      alternates: Array.isArray(entry.alternates) ? entry.alternates.join(', ') : entry.alternates || ''
+    }));
+  } catch (error) {
+    console.warn('Could not load lexicon from JSON, using fallback:', error.message);
+
+    // Fallback to basic hardcoded lexicon
+    return [
+      { term: 'Allah', ipa: 'ʔaɫ.ɫaːh', notes: 'God in Arabic', alternates: '' },
+      { term: 'Qur\'an', ipa: 'kʊrˈɑːn', notes: 'The holy book of Islam', alternates: 'Quran' },
+      { term: 'Prophet', ipa: 'ˈprɒf.ɪt', notes: 'Messenger of God', alternates: '' },
+      { term: 'hadith', ipa: 'hæˈdiːθ', notes: 'Prophetic traditions', alternates: '' },
+      { term: 'sunnah', ipa: 'ˈsun.na', notes: 'Way or practice of the Prophet', alternates: 'sunna' }
+    ];
+  }
+}
 
 async function buildAudioPrep() {
   console.log('Building audiobook preparation files...');
@@ -90,49 +94,92 @@ async function buildAudioPrep() {
       fs.mkdirSync(audioDir, { recursive: true });
     }
 
-    // Generate narration scripts
-    const { cleanScript, scriptWithCues } = generateNarrationScripts(triviewData, bookMeta);
+    // Supported lanes
+    const lanes = ['en', 'ar_enhanced', 'ar_original'];
 
-    // Generate lexicon
-    generateLexicon(audioDir);
+    // Generate lane-specific narration scripts and manifests
+    for (const lane of lanes) {
+      console.log(`Generating files for lane: ${lane}`);
 
-    // Generate chapter structure
-    const chapters = generateChapterStructure(triviewData, bookMeta);
+      // Create lane-specific directory
+      const laneDir = path.join(audioDir, lane);
+      if (!fs.existsSync(laneDir)) {
+        fs.mkdirSync(laneDir, { recursive: true });
+      }
 
-    // Generate ElevenLabs manifest
-    const elevenlabsManifest = generateElevenLabsManifest(triviewData, bookMeta, chapters);
+      // Generate narration scripts per lane
+      const { cleanScript, scriptWithCues, scriptWithRowIds } = generateNarrationScriptsForLane(triviewData, bookMeta, lane);
 
-    // Write all files
+      // Generate lane-specific lexicon
+      generateLexiconForLane(laneDir, lane);
+
+      // Generate chapter structure with lane data
+      const chapters = generateChapterStructureForLane(triviewData, bookMeta, lane);
+
+      // Generate lane-specific ElevenLabs manifest
+      const elevenlabsManifest = generateElevenLabsManifestForLane(triviewData, bookMeta, chapters, lane);
+
+      // Generate job runner manifest with row IDs and timestamps
+      const jobManifest = generateJobManifest(triviewData, bookMeta, lane);
+
+      // Write lane-specific files
+      fs.writeFileSync(
+        path.join(laneDir, `narration_script_${lane}.md`),
+        cleanScript,
+        'utf8'
+      );
+
+      fs.writeFileSync(
+        path.join(laneDir, `narration_script_with_cues_${lane}.md`),
+        scriptWithCues,
+        'utf8'
+      );
+
+      fs.writeFileSync(
+        path.join(laneDir, `narration_script_with_ids_${lane}.md`),
+        scriptWithRowIds,
+        'utf8'
+      );
+
+      fs.writeFileSync(
+        path.join(laneDir, `chapters_${lane}.json`),
+        JSON.stringify(chapters, null, 2),
+        'utf8'
+      );
+
+      fs.writeFileSync(
+        path.join(laneDir, `elevenlabs_manifest_${lane}.json`),
+        JSON.stringify(elevenlabsManifest, null, 2),
+        'utf8'
+      );
+
+      fs.writeFileSync(
+        path.join(laneDir, `job_manifest_${lane}.json`),
+        JSON.stringify(jobManifest, null, 2),
+        'utf8'
+      );
+
+      console.log(`Lane ${lane} files generated:`, Object.keys({
+        [`narration_script_${lane}.md`]: true,
+        [`narration_script_with_cues_${lane}.md`]: true,
+        [`narration_script_with_ids_${lane}.md`]: true,
+        [`lexicon_${lane}.csv`]: true,
+        [`chapters_${lane}.json`]: true,
+        [`elevenlabs_manifest_${lane}.json`]: true,
+        [`job_manifest_${lane}.json`]: true
+      }));
+    }
+
+    // Generate master manifest for all lanes
+    const masterManifest = generateMasterManifest(triviewData, bookMeta, lanes);
     fs.writeFileSync(
-      path.join(audioDir, 'narration_script_en.md'),
-      cleanScript,
+      path.join(audioDir, 'master_manifest.json'),
+      JSON.stringify(masterManifest, null, 2),
       'utf8'
     );
 
-    fs.writeFileSync(
-      path.join(audioDir, 'narration_script_with_cues.md'),
-      scriptWithCues,
-      'utf8'
-    );
-
-    fs.writeFileSync(
-      path.join(audioDir, 'chapters.json'),
-      JSON.stringify(chapters, null, 2),
-      'utf8'
-    );
-
-    fs.writeFileSync(
-      path.join(audioDir, 'elevenlabs_manifest.json'),
-      JSON.stringify(elevenlabsManifest, null, 2),
-      'utf8'
-    );
-
-    console.log('Audio preparation files generated successfully:');
-    console.log('- narration_script_en.md');
-    console.log('- narration_script_with_cues.md');
-    console.log('- lexicon.csv');
-    console.log('- chapters.json');
-    console.log('- elevenlabs_manifest.json');
+    console.log('Multi-lane audio preparation completed successfully!');
+    console.log('Generated files for lanes:', lanes.join(', '));
 
   } catch (error) {
     console.error('Error building audio preparation:', error);
@@ -196,6 +243,81 @@ function generateNarrationScripts(triviewData, bookMeta) {
   return { cleanScript, scriptWithCues };
 }
 
+// Lane-specific narration script generation
+function generateNarrationScriptsForLane(triviewData, bookMeta, lane) {
+  const langTitle = lane === 'en' ? bookMeta.title.english : bookMeta.title.arabic;
+  const langAuthor = lane === 'en' ? bookMeta.author.name_en : bookMeta.author.name_ar;
+
+  let cleanScript = `# ${langTitle}\n\n`;
+  let scriptWithCues = `# ${langTitle} - Narration Script with Prosody Cues (${lane.toUpperCase()})\n\n`;
+  let scriptWithRowIds = `# ${langTitle} - Narration Script with Row IDs (${lane.toUpperCase()})\n\n`;
+
+  cleanScript += `By ${langAuthor}\n\n`;
+  scriptWithCues += `By ${langAuthor}[beat][beat]\n\n`;
+  scriptWithRowIds += `By ${langAuthor}\n\n`;
+
+  let currentRowId = 1;
+
+  for (const section of triviewData.sections) {
+    // Get appropriate title for lane
+    let sectionTitle;
+    if (lane === 'en') {
+      sectionTitle = section.title_en || section.title_english || transliterateArabic(section.title);
+    } else {
+      sectionTitle = section.title || section.title_arabic;
+    }
+
+    cleanScript += `## ${sectionTitle}\n\n`;
+    scriptWithCues += `## ${sectionTitle}[beat][beat]\n\n`;
+    scriptWithRowIds += `## ${sectionTitle}\n\n`;
+
+    // Process rows from the section based on lane
+    for (const row of section.rows) {
+      let text;
+      let hasContent = false;
+
+      switch (lane) {
+        case 'en':
+          text = row.english;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_enhanced':
+          text = row.enhanced || row.arabic_enhanced;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_original':
+          text = row.original || row.arabic_original;
+          hasContent = text && text.trim();
+          break;
+      }
+
+      if (hasContent) {
+        text = text.trim();
+
+        // Clean script (no cues)
+        cleanScript += text + '\n\n';
+
+        // Script with prosody cues
+        const textWithCues = addProsodyCues(text);
+        scriptWithCues += textWithCues + PROSODY_RULES.paragraphBreak + '\n\n';
+
+        // Script with row IDs for job processing
+        const timestamp = new Date().toISOString();
+        scriptWithRowIds += `<!-- ROW_ID: ${row.id || currentRowId} | SECTION: ${section.id} | TIMESTAMP: ${timestamp} -->\n`;
+        scriptWithRowIds += text + '\n\n';
+
+        currentRowId++;
+      }
+    }
+
+    // Add chapter transition
+    scriptWithCues += PROSODY_RULES.chapterTransition + '\n\n';
+    scriptWithRowIds += `<!-- SECTION_END: ${section.id} -->\n\n`;
+  }
+
+  return { cleanScript, scriptWithCues, scriptWithRowIds };
+}
+
 function addProsodyCues(text) {
   let processedText = text;
 
@@ -221,11 +343,14 @@ function addProsodyCues(text) {
 }
 
 function generateLexicon(audioDir) {
+  // Load lexicon from JSON
+  const islamicLexicon = loadIslamicLexicon();
+
   // Check for custom lexicon overrides
   const customLexiconPath = path.join(audioDir, 'lexicon.custom.csv');
   let csvContent = 'term,ipa,notes,alternates\n';
 
-  for (const entry of ISLAMIC_LEXICON) {
+  for (const entry of islamicLexicon) {
     csvContent += `"${entry.term}","${entry.ipa}","${entry.notes}","${entry.alternates}"\n`;
   }
 
@@ -353,6 +478,325 @@ function formatDuration(seconds) {
     return `${hours}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   } else {
     return `${minutes}:${String(secs).padStart(2, '0')}`;
+  }
+}
+
+// Lane-specific lexicon generation
+function generateLexiconForLane(laneDir, lane) {
+  // Load lexicon from JSON
+  const islamicLexicon = loadIslamicLexicon();
+
+  let csvContent = 'term,ipa,notes,alternates\n';
+
+  // Filter lexicon based on lane
+  let relevantLexicon = islamicLexicon;
+  if (lane === 'en') {
+    // For English, include transliterated terms
+    relevantLexicon = islamicLexicon.filter(entry =>
+      entry.alternates && entry.alternates.length > 0
+    );
+  }
+
+  for (const entry of relevantLexicon) {
+    csvContent += `"${entry.term}","${entry.ipa}","${entry.notes}","${entry.alternates}"\n`;
+  }
+
+  // Check for lane-specific custom lexicon
+  const customLexiconPath = path.join(laneDir, `lexicon.custom_${lane}.csv`);
+  if (fs.existsSync(customLexiconPath)) {
+    const customContent = fs.readFileSync(customLexiconPath, 'utf8');
+    const customLines = customContent.split('\n').slice(1).filter(line => line.trim());
+    csvContent += customLines.join('\n');
+  }
+
+  fs.writeFileSync(
+    path.join(laneDir, `lexicon_${lane}.csv`),
+    csvContent,
+    'utf8'
+  );
+}
+
+// Lane-specific chapter structure generation
+function generateChapterStructureForLane(triviewData, bookMeta, lane) {
+  const chapters = [];
+  let currentRowId = 1;
+  const secondsPerRow = lane === 'en' ? 6 : 8; // Faster for English
+
+  for (let i = 0; i < triviewData.sections.length; i++) {
+    const section = triviewData.sections[i];
+
+    // Count rows with content for the specific lane
+    let rowCount = 0;
+    for (const row of section.rows) {
+      let hasContent = false;
+      switch (lane) {
+        case 'en':
+          hasContent = row.english && row.english.trim();
+          break;
+        case 'ar_enhanced':
+          hasContent = (row.enhanced || row.arabic_enhanced) && (row.enhanced || row.arabic_enhanced).trim();
+          break;
+        case 'ar_original':
+          hasContent = (row.original || row.arabic_original) && (row.original || row.arabic_original).trim();
+          break;
+      }
+      if (hasContent) rowCount++;
+    }
+
+    const estimatedDuration = rowCount * secondsPerRow;
+
+    // Handle empty chapters
+    const startRowId = rowCount === 0 ? null : currentRowId;
+    const endRowId = rowCount === 0 ? null : currentRowId + rowCount - 1;
+
+    // Get appropriate title for lane
+    let sectionTitle;
+    if (lane === 'en') {
+      sectionTitle = section.title_en || section.title_english || transliterateArabic(section.title);
+    } else {
+      sectionTitle = section.title || section.title_arabic;
+    }
+
+    chapters.push({
+      id: section.id,
+      title: sectionTitle,
+      title_lane: sectionTitle,
+      lane,
+      start_row_id: startRowId,
+      end_row_id: endRowId,
+      row_count: rowCount,
+      estimated_duration_seconds: estimatedDuration,
+      estimated_duration_formatted: formatDuration(estimatedDuration)
+    });
+
+    if (rowCount > 0) {
+      currentRowId += rowCount;
+    }
+  }
+
+  const langTitle = lane === 'en' ? bookMeta.title.english : bookMeta.title.arabic;
+
+  return {
+    book_title: langTitle,
+    lane,
+    total_chapters: chapters.length,
+    total_estimated_duration: chapters.reduce((sum, ch) => sum + ch.estimated_duration_seconds, 0),
+    chapters
+  };
+}
+
+// Lane-specific ElevenLabs manifest generation
+function generateElevenLabsManifestForLane(triviewData, bookMeta, chaptersData, lane) {
+  const segments = [];
+  let segmentId = 1;
+
+  for (const section of triviewData.sections) {
+    for (const row of section.rows) {
+      let text;
+      let hasContent = false;
+
+      switch (lane) {
+        case 'en':
+          text = row.english;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_enhanced':
+          text = row.enhanced || row.arabic_enhanced;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_original':
+          text = row.original || row.arabic_original;
+          hasContent = text && text.trim();
+          break;
+      }
+
+      if (hasContent) {
+        segments.push({
+          id: `segment_${segmentId}`,
+          text: text.trim(),
+          chapter_id: section.id,
+          row_id: row.id || `row_${segmentId}`,
+          lane,
+          output_filename: `${lane}_chapter_${section.id}_segment_${row.id || segmentId}.mp3`
+        });
+        segmentId++;
+      }
+    }
+  }
+
+  const totalCharacters = segments.reduce((sum, seg) => sum + seg.text.length, 0);
+  const estimatedCost = (totalCharacters / 1000) * 0.30; // ElevenLabs pricing estimate
+
+  const langTitle = lane === 'en' ? bookMeta.title.english : bookMeta.title.arabic;
+  const langDescription = lane === 'en' ? bookMeta.description.english : bookMeta.description.arabic;
+
+  return {
+    project: {
+      name: `${langTitle} (${lane.toUpperCase()})`,
+      title_lane: langTitle,
+      description: langDescription,
+      language: lane === 'en' ? 'en' : 'ar',
+      lane,
+      voice_id: getVoiceIdForLane(lane),
+      created_date: new Date().toISOString()
+    },
+    voice_settings: getVoiceSettingsForLane(lane),
+    output_settings: {
+      format: "mp3",
+      quality: "high",
+      sample_rate: 44100
+    },
+    chapters: chaptersData.chapters,
+    segments: segments,
+    total_segments: segments.length,
+    metadata: {
+      total_characters: totalCharacters,
+      estimated_cost_usd: estimatedCost,
+      processing_notes: `Generated automatically for lane ${lane} with deterministic IDs`
+    }
+  };
+}
+
+// Job manifest generation for batch processing
+function generateJobManifest(triviewData, bookMeta, lane) {
+  const segments = [];
+  let segmentIndex = 0;
+
+  for (const section of triviewData.sections) {
+    for (const row of section.rows) {
+      let text;
+      let hasContent = false;
+
+      switch (lane) {
+        case 'en':
+          text = row.english;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_enhanced':
+          text = row.enhanced || row.arabic_enhanced;
+          hasContent = text && text.trim();
+          break;
+        case 'ar_original':
+          text = row.original || row.arabic_original;
+          hasContent = text && text.trim();
+          break;
+      }
+
+      if (hasContent) {
+        segments.push({
+          index: segmentIndex,
+          rowId: row.id || `row_${segmentIndex}`,
+          sectionId: section.id,
+          text: text.trim(),
+          lane,
+          timestamp: new Date().toISOString(),
+          estimatedDuration: Math.ceil(text.trim().length / 10), // Rough estimate
+          metadata: {
+            charCount: text.trim().length,
+            wordCount: text.trim().split(/\s+/).length
+          }
+        });
+        segmentIndex++;
+      }
+    }
+  }
+
+  const langTitle = lane === 'en' ? bookMeta.title.english : bookMeta.title.arabic;
+
+  return {
+    jobInfo: {
+      title: `${langTitle} (${lane.toUpperCase()})`,
+      lane,
+      scope: 'book',
+      createdAt: new Date().toISOString(),
+      totalSegments: segments.length
+    },
+    segments,
+    summary: {
+      totalCharacters: segments.reduce((sum, seg) => sum + seg.metadata.charCount, 0),
+      totalWords: segments.reduce((sum, seg) => sum + seg.metadata.wordCount, 0),
+      estimatedTotalDuration: segments.reduce((sum, seg) => sum + seg.estimatedDuration, 0)
+    }
+  };
+}
+
+// Master manifest generation
+function generateMasterManifest(triviewData, bookMeta, lanes) {
+  return {
+    project: {
+      title: bookMeta.title.english,
+      title_arabic: bookMeta.title.arabic,
+      author: bookMeta.author.name_en,
+      author_arabic: bookMeta.author.name_ar,
+      description: bookMeta.description.english,
+      description_arabic: bookMeta.description.arabic,
+      createdAt: new Date().toISOString()
+    },
+    lanes: lanes.map(lane => ({
+      lane,
+      displayName: lane === 'en' ? 'English' : lane === 'ar_enhanced' ? 'Arabic Enhanced' : 'Arabic Original',
+      manifestFile: `${lane}/elevenlabs_manifest_${lane}.json`,
+      jobManifestFile: `${lane}/job_manifest_${lane}.json`,
+      chaptersFile: `${lane}/chapters_${lane}.json`
+    })),
+    sections: triviewData.sections.map(section => ({
+      id: section.id,
+      title: section.title,
+      title_english: section.title_en || section.title_english,
+      rowCount: section.rows ? section.rows.length : 0
+    })),
+    statistics: {
+      totalSections: triviewData.sections.length,
+      totalLanes: lanes.length,
+      generatedAt: new Date().toISOString()
+    }
+  };
+}
+
+// Helper functions for voice configuration
+function getVoiceIdForLane(lane) {
+  switch (lane) {
+    case 'en':
+      return process.env.ELEVENLABS_VOICE_ID_EN || '21m00Tcm4TlvDq8ikWAM'; // Rachel
+    case 'ar_enhanced':
+      return process.env.ELEVENLABS_VOICE_ID_AR_ENHANCED || 'pNInz6obpgDQGcFmaJgB'; // Adam
+    case 'ar_original':
+      return process.env.ELEVENLABS_VOICE_ID_AR_ORIGINAL || 'pNInz6obpgDQGcFmaJgB'; // Adam
+    default:
+      return process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM';
+  }
+}
+
+function getVoiceSettingsForLane(lane) {
+  switch (lane) {
+    case 'en':
+      return {
+        stability: 0.45,
+        similarity_boost: 0.85,
+        style: 0.15,
+        use_speaker_boost: true
+      };
+    case 'ar_enhanced':
+      return {
+        stability: 0.55,
+        similarity_boost: 0.90,
+        style: 0.10,
+        use_speaker_boost: true
+      };
+    case 'ar_original':
+      return {
+        stability: 0.65,
+        similarity_boost: 0.95,
+        style: 0.05,
+        use_speaker_boost: true
+      };
+    default:
+      return {
+        stability: 0.4,
+        similarity_boost: 0.85,
+        style: 0.1,
+        use_speaker_boost: true
+      };
   }
 }
 

@@ -1,0 +1,74 @@
+# English Readability Pass Contract
+
+## Purpose
+Post-translation editing pass to optimize readability for grade 8-11 audience while preserving contemplative tone and complete semantic content.
+
+## Target Metrics
+- **Reading Grade**: 8-11 (Flesch-Kincaid)
+- **Sentence Length**: Median ≤ 20 words, max 30 words
+- **Long Sentence Percentage**: ≤ 25% over 30 words
+- **Clarity**: Accessible to educated general readers
+
+## Core Operations
+
+### 1. Sentence Structure Optimization
+- **Split overlong sentences** (>30 words median) into coherent units
+- Preserve all semantic content during splits
+- Maintain logical flow and connection between split sentences
+- Use appropriate conjunctions and transitions
+- Keep compound ideas intact when meaningful
+
+### 2. Lexical Simplification
+- Replace archaic terms with contemporary equivalents of identical meaning
+- Choose clearer alternatives for unnecessarily complex vocabulary
+- **PRESERVE**: Arabic/Islamic terminology with established glosses
+- **PRESERVE**: Technical terms essential to meaning
+- **PRESERVE**: Author's distinctive word choices that carry specific connotations
+
+### 3. Passive Voice Reduction
+- Convert excessive passive constructions to active voice where natural
+- Maintain passive voice when agent is unknown or irrelevant
+- Preserve author's intentional use of passive for stylistic effect
+- **Reference**: Tone requirements from `rules/03_tone_guardian.mdc`
+
+### 4. Clarity Enhancement
+- Resolve genuine ambiguity in pronoun reference
+- Clarify unclear logical connections
+- Simplify unnecessarily complex constructions
+- **FORBIDDEN**: Adding explanatory content not in source
+
+### 5. US Language Standards
+- Apply consistent US punctuation conventions
+- Use contemporary American vocabulary preferences
+- Maintain consistent spelling and formatting
+- Follow standard capitalization rules
+
+## Integration Requirements
+
+### LPR Compatibility
+Reference: `lib/guards.ts` - Length Preservation Ratio requirements
+- If LPR < 1.08, expand for clarity without adding new ideas
+- Maintain semantic density while improving accessibility
+- Track length changes to ensure quality gates are met
+
+### Content Preservation
+- **NO**: Summarization or condensation of arguments
+- **NO**: Addition of new ideas or interpretations
+- **NO**: Reorganization beyond sentence-level clarity
+- **YES**: Sentence-level restructuring for clarity
+- **YES**: Word-level substitutions with identical meanings
+
+### Arabic Terminology Handling
+- Retain all Arabic terms with first-mention glossing
+- Remove repetitive glossing for previously introduced terms
+- Maintain pronunciation guides where provided
+- Ensure glossary consistency across document
+
+## Quality Gates
+- Grade level must fall within [8,11] range
+- Long sentence percentage must be ≤ 25%
+- All original semantic content must be preserved
+- Contemplative tone must remain intact
+
+## Success Criteria
+Clear, accessible English that maintains the author's voice, preserves all substantive content, and meets readability targets for educated general audiences.

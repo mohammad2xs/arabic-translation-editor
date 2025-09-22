@@ -24,6 +24,16 @@
     "drift": {
       "maximum": 0.15,
       "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+    },
+    "readability": {
+      "gradeMin": 8,
+      "gradeMax": 11,
+      "longPctMax": 25,
+      "description": "English readability requirements - Grade level range and maximum percentage of long sentences"
+    },
+    "audience": {
+      "scoreMin": 70,
+      "description": "Audience suitability - Minimum score for general audience appropriateness"
     }
   },
   "gateConfiguration": {

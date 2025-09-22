@@ -8,6 +8,28 @@ import { tmInit, tmSuggest, tmLearn } from '../lib/tm';
 import { createCostTracker } from '../lib/cost';
 import { resolveLocalFirst, warmCache } from '../lib/scripture/cache';
 
+// Import English quality analysis modules
+let analyzeReadability, checkReadabilityFlags;
+let analyzeAudienceSuitability, checkAudienceFlags;
+
+async function loadEnglishModules() {
+  try {
+    const readabilityModule = await import('../lib/en/readability.js');
+    const audienceModule = await import('../lib/en/audience.js');
+
+    analyzeReadability = readabilityModule.analyzeReadability;
+    checkReadabilityFlags = readabilityModule.checkReadabilityFlags;
+
+    analyzeAudienceSuitability = audienceModule.analyzeAudienceSuitability;
+    checkAudienceFlags = audienceModule.checkAudienceFlags;
+
+    return true;
+  } catch (error) {
+    console.warn('⚠️  English analysis modules not compiled, skipping Excellence Rail');
+    return false;
+  }
+}
+
 const CONCURRENCY_ROWS = 6;
 const TM_THRESHOLD = 0.90;
 const LPR_TARGET_MIN = 0.95;
@@ -55,6 +77,106 @@ async function atomicWriteFile(filePath, content) {
   const tempFile = `${filePath}.tmp.${Date.now()}.${Math.random().toString(36).substr(2, 9)}`;
   await fs.writeFile(tempFile, content);
   await fs.rename(tempFile, filePath);
+}
+
+async function persistExpansionFlag(rowId, flagData) {
+  try {
+    let expandFlags = {};
+    try {
+      const expandData = await fs.readFile('outputs/expand.json', 'utf8');
+      expandFlags = JSON.parse(expandData);
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+    }
+
+    expandFlags[rowId] = flagData;
+    await fs.mkdir('outputs', { recursive: true });
+    await atomicWriteFile('outputs/expand.json', JSON.stringify(expandFlags, null, 2));
+    log('info', `Persisted expansion flag for row ${rowId}`);
+  } catch (error) {
+    log('error', `Failed to persist expansion flag for row ${rowId}`, { error: error.message });
+  }
+}
+
+async function persistReadabilityFlag(rowId, flagData) {
+  try {
+    let readabilityFlags = {};
+    try {
+      const readabilityData = await fs.readFile('outputs/readability.json', 'utf8');
+      readabilityFlags = JSON.parse(readabilityData);
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+    }
+
+    readabilityFlags[rowId] = flagData;
+    await fs.mkdir('outputs', { recursive: true });
+    await atomicWriteFile('outputs/readability.json', JSON.stringify(readabilityFlags, null, 2));
+    log('info', `Persisted readability flag for row ${rowId}`);
+  } catch (error) {
+    log('error', `Failed to persist readability flag for row ${rowId}`, { error: error.message });
+  }
+}
+
+async function getFlaggedRowsForRetry(processResults) {
+  const flaggedRows = [];
+
+  // Load current expand flags
+  let expandFlags = {};
+  try {
+    const expandData = await fs.readFile('outputs/expand.json', 'utf8');
+    expandFlags = JSON.parse(expandData);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      log('warn', 'Failed to load expansion flags for retry', { error: error.message });
+    }
+  }
+
+  // Load current readability flags
+  let readabilityFlags = {};
+  try {
+    const readabilityData = await fs.readFile('outputs/readability.json', 'utf8');
+    readabilityFlags = JSON.parse(readabilityData);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      log('warn', 'Failed to load readability flags for retry', { error: error.message });
+    }
+  }
+
+  // Find rows that have flags and were successfully processed but need retry
+  for (const result of processResults) {
+    if (result.success) {
+      const hasExpandFlag = expandFlags[result.rowId] && !expandFlags[result.rowId].applied;
+      const hasReadabilityFlag = readabilityFlags[result.rowId] && !readabilityFlags[result.rowId].applied;
+
+      if (hasExpandFlag || hasReadabilityFlag) {
+        // Find the original row data to retry
+        try {
+          const rowData = JSON.parse(
+            await fs.readFile(`outputs/tmp/rows/${result.rowId}.json`, 'utf8')
+          );
+
+          flaggedRows.push({
+            row: {
+              id: rowData.id,
+              original: rowData.original,
+              complexity: rowData.complexity,
+              scriptureRefs: rowData.scriptureRefs,
+              metadata: rowData.metadata
+            },
+            sectionId: rowData.sectionId
+          });
+        } catch (error) {
+          log('warn', `Failed to load row data for retry`, { rowId: result.rowId, error: error.message });
+        }
+      }
+    }
+  }
+
+  return flaggedRows;
 }
 
 function isRetryableError(error) {
@@ -400,9 +522,68 @@ async function processRowCore(row, sectionId, costTracker, expandFlags) {
     }
 
     const refined = await toneGuardian(translated, costTracker, rowId);
-    // Use assessQuality from lib/guards.ts instead of local meaningQA
-    const qualityAssessment = assessQuality(row.original, enhanced, refined);
+
+    // Excellence Rail Processing - Apply style guard and readability pass
+    let excellenceRailText = refined;
+    let needsExpand = false;
+    let needsReadability = false;
+
+    if (analyzeReadability && analyzeAudienceSuitability) {
+      // Apply style guard (rules/02b_en_style_guard.mdc)
+      // This would normally call the LLM with style guard rules
+      // For now, simulate style guard improvements
+      const styleGuardedText = excellenceRailText
+        .replace(/\b(whilst|amongst)\b/gi, (match) => match.toLowerCase() === 'whilst' ? 'while' : 'among')
+        .replace(/\b(nonetheless)\b/gi, 'nevertheless');
+
+      // Apply readability pass (rules/02c_en_readability.mdc)
+      const readabilityMetrics = analyzeReadability(styleGuardedText);
+      const readabilityFlags = checkReadabilityFlags(readabilityMetrics);
+
+      // Apply audience suitability check
+      const audienceAnalysis = analyzeAudienceSuitability(styleGuardedText);
+      const audienceFlags = checkAudienceFlags(audienceAnalysis);
+
+      // Determine if further processing is needed
+      needsReadability = readabilityFlags.gradeOutOfRange || readabilityFlags.tooManyLongSentences;
+
+      // Persist readability flag if needed
+      if (needsReadability) {
+        await persistReadabilityFlag(rowId, {
+          needsReadability: true,
+          reason: readabilityFlags.gradeOutOfRange ? 'grade_out_of_range' : 'too_many_long_sentences',
+          grade: readabilityMetrics.grade,
+          longPct: readabilityMetrics.longPct
+        });
+      }
+
+      excellenceRailText = styleGuardedText;
+
+      log('info', `Excellence Rail applied`, {
+        rowId,
+        grade: readabilityMetrics.grade,
+        longPct: readabilityMetrics.longPct,
+        audienceScore: audienceAnalysis.score,
+        needsReadability
+      });
+    }
+    // Use assessQuality from lib/guards.ts with Excellence Rail text
+    const qualityAssessment = assessQuality(row.original, enhanced, excellenceRailText);
     const qaResult = qualityAssessment.lpr;
+
+    // Check if LPR expansion is needed
+    if (qaResult.lpr < 1.08) {
+      needsExpand = true;
+      log('info', `LPR below threshold, marking for expansion`, { rowId, currentLPR: qaResult.lpr });
+
+      // Persist expansion flag
+      await persistExpansionFlag(rowId, {
+        needsExpand: true,
+        reason: 'lpr_below_threshold',
+        targetLPR: 1.08,
+        currentLPR: qaResult.lpr
+      });
+    }
 
     if (qualityAssessment.recommendation === 'reject') {
       throw new Error(`Quality assessment failed: ${qualityAssessment.overall.issues?.join(', ')}`);
@@ -422,8 +603,8 @@ async function processRowCore(row, sectionId, costTracker, expandFlags) {
       throw new Error(`Scripture verification failed: ${scriptureCheck.issue}`);
     }
 
-    // Inject footnote anchors into English text
-    let englishWithFootnotes = refined;
+    // Inject footnote anchors into English text using Excellence Rail text
+    let englishWithFootnotes = excellenceRailText;
     const footnotes = [];
 
     if (scriptureCheck.resolvedRefs && scriptureCheck.resolvedRefs.length > 0) {
@@ -483,12 +664,18 @@ async function processRowCore(row, sectionId, costTracker, expandFlags) {
           suggestionId: tmSuggestionId,
           similarity: tmSimilarity
         },
-        needsExpand: qualityAssessment.recommendation === 'expand' || (expandFlag && expandFlag.needsExpand && !expandedTranslation),
+        needsExpand: needsExpand || qualityAssessment.recommendation === 'expand' || (expandFlag && expandFlag.needsExpand && !expandedTranslation),
+        needsReadability,
         expansion: expandFlag ? {
           requested: true,
           applied: expandedTranslation,
           targetLPR: expandFlag.targetLPR,
           reason: expandFlag.reason
+        } : null,
+        excellenceRail: analyzeReadability && analyzeAudienceSuitability ? {
+          applied: true,
+          readabilityFlags: needsReadability,
+          lprFlags: needsExpand
         } : null,
         semanticWarnings: semanticCheck.warnings || []
       }
@@ -615,11 +802,11 @@ async function mergeResults(processedRows) {
     }
   }
 
-  // Clear expansion flags for successfully processed rows
+  // Clear expansion and readability flags for successfully processed rows
   try {
     const expandData = await fs.readFile('outputs/expand.json', 'utf8');
     const expandFlags = JSON.parse(expandData);
-    let flagsCleared = 0;
+    let expandFlagsCleared = 0;
 
     for (const result of processedRows) {
       if (result.success) {
@@ -630,7 +817,7 @@ async function mergeResults(processedRows) {
           // Clear flag if expansion was successfully applied
           if (expandFlags[result.rowId] && rowData.metadata?.expansion?.applied) {
             delete expandFlags[result.rowId];
-            flagsCleared++;
+            expandFlagsCleared++;
           }
         } catch (error) {
           // Ignore read errors for individual rows
@@ -638,13 +825,46 @@ async function mergeResults(processedRows) {
       }
     }
 
-    if (flagsCleared > 0) {
+    if (expandFlagsCleared > 0) {
       await atomicWriteFile('outputs/expand.json', JSON.stringify(expandFlags, null, 2));
-      log('info', `Cleared ${flagsCleared} expansion flags after successful processing`);
+      log('info', `Cleared ${expandFlagsCleared} expansion flags after successful processing`);
     }
   } catch (error) {
     if (error.code !== 'ENOENT') {
       log('warn', 'Failed to update expansion flags', { error: error.message });
+    }
+  }
+
+  // Clear readability flags for successfully processed rows
+  try {
+    const readabilityData = await fs.readFile('outputs/readability.json', 'utf8');
+    const readabilityFlags = JSON.parse(readabilityData);
+    let readabilityFlagsCleared = 0;
+
+    for (const result of processedRows) {
+      if (result.success) {
+        try {
+          const rowData = JSON.parse(
+            await fs.readFile(`outputs/tmp/rows/${result.rowId}.json`, 'utf8')
+          );
+          // Clear flag if readability issues were resolved
+          if (readabilityFlags[result.rowId] && !rowData.metadata?.needsReadability) {
+            delete readabilityFlags[result.rowId];
+            readabilityFlagsCleared++;
+          }
+        } catch (error) {
+          // Ignore read errors for individual rows
+        }
+      }
+    }
+
+    if (readabilityFlagsCleared > 0) {
+      await atomicWriteFile('outputs/readability.json', JSON.stringify(readabilityFlags, null, 2));
+      log('info', `Cleared ${readabilityFlagsCleared} readability flags after successful processing`);
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      log('warn', 'Failed to update readability flags', { error: error.message });
     }
   }
 
@@ -661,6 +881,14 @@ async function mergeResults(processedRows) {
 async function runPipeline() {
   try {
     log('info', 'Starting translation pipeline');
+
+    // Load English analysis modules for Excellence Rail
+    const excellenceRailEnabled = await loadEnglishModules();
+    if (excellenceRailEnabled) {
+      log('info', 'Excellence Rail enabled - English quality analysis modules loaded');
+    } else {
+      log('info', 'Excellence Rail disabled - continuing with base translation only');
+    }
 
     // Configure quality guards from deployment gates
     try {
@@ -744,6 +972,28 @@ async function runPipeline() {
         exponentialBackoff(() => processRow(rowData, semaphore, costTracker, expandFlags))
       )
     );
+
+    // Second pass: retry flagged rows
+    const flaggedRowsToRetry = await getFlaggedRowsForRetry(results);
+    if (flaggedRowsToRetry.length > 0) {
+      log('info', `Starting second pass for ${flaggedRowsToRetry.length} flagged rows`);
+
+      const retryResults = await Promise.all(
+        flaggedRowsToRetry.map(rowData =>
+          exponentialBackoff(() => processRow(rowData, semaphore, costTracker, expandFlags))
+        )
+      );
+
+      // Merge retry results with original results
+      for (const retryResult of retryResults) {
+        const originalIndex = results.findIndex(r => r.rowId === retryResult.rowId);
+        if (originalIndex !== -1) {
+          results[originalIndex] = retryResult;
+        }
+      }
+
+      log('info', `Second pass completed, processed ${retryResults.length} flagged rows`);
+    }
 
     const summary = await mergeResults(results);
 

@@ -2,7 +2,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { aggregateCosts, getCostSummary } from '../lib/cost.ts';
+import { aggregateCosts, getCostSummary } from '../lib/cost';
 
 class PipelineStatusDashboard {
   constructor() {
