@@ -12,17 +12,33 @@ interface EnvironmentWarningProps {
   className?: string;
   /** Callback when warning is dismissed */
   onDismiss?: (warningId: string) => void;
+  /** Controlled expanded state */
+  expanded?: boolean;
+  /** Callback when expansion state should change */
+  onToggle?: (expanded: boolean) => void;
 }
 
 const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
   compact = false,
   criticalOnly = false,
   className = '',
-  onDismiss
+  onDismiss,
+  expanded,
+  onToggle
 }) => {
   const { status, isLoading, error, refresh } = useEnvironmentHealth();
   const [dismissedWarnings, setDismissedWarnings] = useState<Set<string>>(new Set());
-  const [expandedDetails, setExpandedDetails] = useState(false);
+  const [internalExpandedDetails, setInternalExpandedDetails] = useState(false);
+
+  // Use controlled expanded state if provided, otherwise use internal state
+  const expandedDetails = expanded !== undefined ? expanded : internalExpandedDetails;
+  const handleToggle = (newExpanded: boolean) => {
+    if (onToggle) {
+      onToggle(newExpanded);
+    } else {
+      setInternalExpandedDetails(newExpanded);
+    }
+  };
 
   // Load dismissed warnings from session storage
   useEffect(() => {
@@ -80,7 +96,7 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
         warning={primaryWarning}
         hasMultiple={hasMultipleWarnings}
         className={className}
-        onClick={() => setExpandedDetails(!expandedDetails)}
+        onClick={() => handleToggle(!expandedDetails)}
       />
     );
   }
@@ -110,7 +126,7 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
         {(primaryWarning.details || hasMultipleWarnings) && (
           <button
             className="env-warning-expand-toggle"
-            onClick={() => setExpandedDetails(!expandedDetails)}
+            onClick={() => handleToggle(!expandedDetails)}
             aria-label={expandedDetails ? "Hide details" : "Show details"}
           >
             {expandedDetails ? "Hide Details" : "Show Details"}
@@ -174,19 +190,53 @@ const CompactWarningIndicator: React.FC<{
 
 
 const ActionButton: React.FC<{ action: EnvironmentAction }> = ({ action }) => {
-  const handleClick = () => {
-    if (action.type === 'link' && action.url) {
-      window.open(action.url, '_blank', 'noopener,noreferrer');
-    } else if (action.type === 'copy' && action.value) {
-      navigator.clipboard.writeText(action.value).catch(console.error);
+  const [feedback, setFeedback] = useState<string>('');
+
+  const showFeedback = (message: string) => {
+    setFeedback(message);
+    setTimeout(() => setFeedback(''), 3000);
+  };
+
+  const handleClick = async () => {
+    try {
+      // Handle built-in behavior first
+      if (action.type === 'link' && action.url) {
+        window.open(action.url, '_blank', 'noopener,noreferrer');
+      } else if (action.type === 'copy' && action.value) {
+        await navigator.clipboard.writeText(action.value);
+        showFeedback('Copied to clipboard!');
+      } else if (action.type === 'button') {
+        // For button type, we only execute the onClick, no built-in behavior
+      }
+
+      // Always call onClick when defined after built-in behavior
+      if (action.onClick) {
+        action.onClick();
+      }
+    } catch (error) {
+      if (action.type === 'copy') {
+        showFeedback('Failed to copy');
+      }
+      console.error('Action button error:', error);
     }
   };
 
   return (
-    <button className="env-warning-button" onClick={handleClick}>
-      {action.icon && <span>{action.icon}</span>}
-      {action.label}
-    </button>
+    <div className="relative">
+      <button className="env-warning-button" onClick={handleClick}>
+        {action.icon && <span>{action.icon}</span>}
+        {action.label}
+      </button>
+      {feedback && (
+        <div
+          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-50"
+          role="status"
+          aria-live="polite"
+        >
+          {feedback}
+        </div>
+      )}
+    </div>
   );
 };
 

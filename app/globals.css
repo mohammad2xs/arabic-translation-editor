@@ -890,7 +890,7 @@
 /* Base Environment Warning Banner */
 .env-warning {
   position: fixed;
-  top: 0;
+  top: var(--header-offset, 0);
   left: 0;
   right: 0;
   z-index: 40;
@@ -903,6 +903,17 @@
   font-size: 0.875rem;
   font-weight: 500;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Set header offset when terminal header is present */
+body:has(.terminal-header) {
+  --header-offset: 160px;
+}
+
+/* Fallback for browsers that don't support :has() */
+.terminal-header ~ * .env-warning,
+.page-with-header .env-warning {
+  top: 160px;
 }
 
 .env-warning.show {

@@ -103,6 +103,7 @@ export default function DadHeader({
   syncStatus,
 }: DadHeaderProps) {
   const [showShareDialog, setShowShareDialog] = useState(false);
+  const [environmentExpanded, setEnvironmentExpanded] = useState(false);
   const currentViewMode = viewMode || getViewMode();
   const currentContextSize = contextSize || getContextSize();
   const router = useRouter();
@@ -138,7 +139,10 @@ export default function DadHeader({
 
   return (
     <>
-      <header className="terminal-panel terminal-theme terminal-header sticky top-0 z-20">
+      <header
+        className="terminal-panel terminal-theme terminal-header sticky top-0 z-20"
+        style={{ '--header-offset': 'var(--header-height, 160px)' } as React.CSSProperties}
+      >
         <div className="max-w-7xl mx-auto px-6 py-4">
           {/* Top row - Title and mode toggle */}
           <div className="flex items-center justify-between mb-4">
@@ -156,6 +160,8 @@ export default function DadHeader({
                 compact={true}
                 criticalOnly={true}
                 className="terminal-button terminal-button-ghost"
+                expanded={environmentExpanded}
+                onToggle={setEnvironmentExpanded}
               />
 
               {/* Service Status Badges */}
@@ -414,6 +420,8 @@ export default function DadHeader({
         compact={false}
         criticalOnly={false}
         className="show"
+        expanded={environmentExpanded}
+        onToggle={setEnvironmentExpanded}
       />
 
       {showShareDialog && (

@@ -3,7 +3,7 @@ import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { validateEnvironment, detectDeployment } from '../../../lib/env'
 import { storage } from '../../../lib/share/production-storage'
-import { getAssistantHealthSummary } from '../../../lib/assistant/health-utils'
+// import { getAssistantHealthSummary } from '../../../lib/assistant/health-utils'
 
 interface BuildMetadata {
   sha?: string
@@ -93,6 +93,38 @@ interface AssistantHealthSummary {
   limits: {
     rpm: number
     daily: number
+  }
+}
+
+// Simple assistant health summary function
+async function getAssistantHealthSummary(): Promise<AssistantHealthSummary> {
+  try {
+    // Check for API key presence first
+    const hasAnthropicKey = !!process.env.ANTHROPIC_API_KEY
+
+    return {
+      ok: hasAnthropicKey,
+      model: 'claude-3-5-sonnet-20241022',
+      key_present: hasAnthropicKey,
+      status: hasAnthropicKey ? 'healthy' : 'degraded',
+      limits: {
+        rpm: parseInt(process.env.MAX_RPM || '10'),
+        daily: parseInt(process.env.MAX_DAILY_TOKENS || '250000'),
+      },
+    }
+  } catch (error) {
+    console.error('Assistant health check failed:', error)
+
+    return {
+      ok: false,
+      model: 'claude-3-5-sonnet-20241022',
+      key_present: !!process.env.ANTHROPIC_API_KEY,
+      status: 'unhealthy',
+      limits: {
+        rpm: parseInt(process.env.MAX_RPM || '10'),
+        daily: parseInt(process.env.MAX_DAILY_TOKENS || '250000'),
+      },
+    }
   }
 }
 
