@@ -183,6 +183,7 @@ export default function OnboardingCoach({
         <div className="flex justify-center gap-2 mb-6">
           {ONBOARDING_STEPS.map((_, index) => (
             <button
+              type="button"
               key={index}
               onClick={() => setCurrentStep(index)}
               className={`w-3 h-3 rounded-full transition-colors ${
@@ -199,8 +200,10 @@ export default function OnboardingCoach({
 
         <div className="onboarding-actions">
           <button
+            type="button"
             onClick={handleSkip}
             className="onboarding-button"
+            aria-label="Skip onboarding"
           >
             Skip Tour
           </button>

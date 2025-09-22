@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
-import { join } from 'path';
+import { writeFileSync, appendFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
+import { join, dirname } from 'path';
 import { createHash } from 'crypto';
 import { getRoleFromRequest, canSave } from '../../../../../lib/dadmode/access';
+
+function bumpRev(): number {
+  const stateFile = join(process.cwd(), 'outputs','tmp','sync','state.json');
+  mkdirSync(dirname(stateFile), { recursive: true });
+  let rev = 0;
+  if (existsSync(stateFile)) rev = JSON.parse(readFileSync(stateFile,'utf-8')).revision || 0;
+  rev += 1;
+  writeFileSync(stateFile, JSON.stringify({ revision: rev }, null, 2));
+  return rev;
+}
+
+function appendDelta(section: string, rowId: string, changes: Record<string, any>, origin: string) {
+  const streamFile = join(process.cwd(), 'outputs','tmp','sync','stream.ndjson');
+  mkdirSync(dirname(streamFile), { recursive: true });
+  const entry = { rev: bumpRev(), section, row_id: rowId, changes, origin, timestamp: new Date().toISOString() };
+  appendFileSync(streamFile, JSON.stringify(entry) + '\n');
+}
 
 // Helper function to calculate Length Preservation Ratio
 function calculateLPR(enhanced?: string, en?: string): number {
@@ -146,6 +164,15 @@ export async function POST(
 
     // Save updated history
     await fs.writeFile(historyFile, JSON.stringify(history, null, 2));
+
+    // Append delta for sync system
+    const changes: Record<string, any> = {};
+    if (body.en !== undefined) changes.en = body.en;
+    if (body.arEnhanced !== undefined) changes.arEnhanced = body.arEnhanced;
+
+    // Infer section from rowId pattern (e.g., S001-123) or use default
+    const inferredSection = rowId.split('-')[0] || 'S001';
+    appendDelta(inferredSection, rowId, changes, body.origin || 'manual');
 
     // Add minimal status payload for IssueQueue integration
     const statusPayload = {

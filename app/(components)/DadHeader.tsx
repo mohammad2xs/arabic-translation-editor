@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getUserRole, formatRoleDisplay, getRoleIcon, canShare, canComment } from '../../lib/dadmode/access';
-import { disableDadMode, getViewMode, setViewMode } from '../../lib/dadmode/prefs';
+import { disableDadMode, getViewMode, setViewMode, getContextSize, setContextSize } from '../../lib/dadmode/prefs';
 import ShareDialog from './ShareDialog';
 
 interface DadHeaderProps {
@@ -17,12 +17,16 @@ interface DadHeaderProps {
   totalRows: number;
   onSectionChange: (sectionId: string) => void;
   onFinishSection?: () => void;
-  onViewModeChange?: (viewMode: 'single' | '3' | '5' | '10' | 'all') => void;
+  viewMode?: 'focus' | 'context' | 'all' | 'preview';
+  contextSize?: number;
+  onViewModeChange?: (viewMode: 'focus' | 'context' | 'all' | 'preview') => void;
+  onContextSizeChange?: (contextSize: number) => void;
   onExitDadMode?: () => void;
   onToggleAssistant?: () => void;
   isAssistantOpen?: boolean;
   onOpenPreview?: () => void;
   onOpenCommandPalette?: () => void;
+  syncStatus?: React.ReactNode;
 }
 
 export default function DadHeader({
@@ -32,15 +36,20 @@ export default function DadHeader({
   totalRows,
   onSectionChange,
   onFinishSection,
+  viewMode,
+  contextSize,
   onViewModeChange,
+  onContextSizeChange,
   onExitDadMode,
   onToggleAssistant,
   isAssistantOpen,
   onOpenPreview,
   onOpenCommandPalette,
+  syncStatus,
 }: DadHeaderProps) {
   const [showShareDialog, setShowShareDialog] = useState(false);
-  const [currentViewMode, setCurrentViewMode] = useState<'single' | '3' | '5' | '10' | 'all'>(() => getViewMode());
+  const currentViewMode = viewMode || getViewMode();
+  const currentContextSize = contextSize || getContextSize();
   const router = useRouter();
   const userRole = getUserRole();
 
@@ -56,11 +65,17 @@ export default function DadHeader({
     router.push(url.toString());
   };
 
-  const handleViewModeChange = (newViewMode: 'single' | '3' | '5' | '10' | 'all') => {
+  const handleViewModeChange = (newViewMode: 'focus' | 'context' | 'all' | 'preview') => {
     setViewMode(newViewMode);
-    setCurrentViewMode(newViewMode);
     if (onViewModeChange) {
       onViewModeChange(newViewMode);
+    }
+  };
+
+  const handleContextSizeChange = (newContextSize: number) => {
+    setContextSize(newContextSize);
+    if (onContextSizeChange) {
+      onContextSizeChange(newContextSize);
     }
   };
 
@@ -83,6 +98,12 @@ export default function DadHeader({
             </div>
 
             <div className="flex items-center space-x-4">
+              {syncStatus && (
+                <div className="flex items-center space-x-2">
+                  {syncStatus}
+                </div>
+              )}
+
               {onOpenPreview && (
                 <button
                   onClick={onOpenPreview}
@@ -119,13 +140,53 @@ export default function DadHeader({
               )}
 
               {canShare(userRole) && (
-                <button
-                  onClick={() => setShowShareDialog(true)}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
-                >
-                  📤 Share
-                </button>
+                <>
+                  <button
+                    onClick={() => setShowShareDialog(true)}
+                    className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
+                  >
+                    📤 Share
+                  </button>
+                  <button
+                    onClick={async () => {
+                      try {
+                        const { createToken, generateShareUrl } = await import('../../lib/share/production-storage');
+                        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+                        const token = await createToken('reviewer', expiresAt, currentSection);
+                        const shareUrl = generateShareUrl(window.location.origin, token, currentSection, 'dad');
+                        await navigator.clipboard.writeText(shareUrl);
+
+                        // Show success toast
+                        const toast = document.createElement('div');
+                        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.textContent = '📋 Public review link copied!';
+                        document.body.appendChild(toast);
+                        setTimeout(() => document.body.removeChild(toast), 3000);
+                      } catch (error) {
+                        console.error('Failed to create share link:', error);
+                        // Show error toast
+                        const toast = document.createElement('div');
+                        toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.textContent = '❌ Failed to create share link';
+                        document.body.appendChild(toast);
+                        setTimeout(() => document.body.removeChild(toast), 3000);
+                      }
+                    }}
+                    className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
+                    aria-label="Copy public review link"
+                  >
+                    📋 Copy Public Link
+                  </button>
+                </>
               )}
+
+              <button
+                onClick={() => window.open('/review', '_blank')}
+                className="px-6 py-3 bg-orange-600 text-white rounded-lg text-lg font-medium hover:bg-orange-700 transition-colors focus:ring-4 focus:ring-orange-200"
+                aria-label="Open code review interface"
+              >
+                🔍 Review
+              </button>
 
               <button
                 onClick={handleToggleDadMode}
@@ -166,16 +227,35 @@ export default function DadHeader({
                 <select
                   id="dad-view-mode-select"
                   value={currentViewMode}
-                  onChange={(e) => handleViewModeChange(e.target.value as 'single' | '3' | '5' | '10' | 'all')}
+                  onChange={(e) => handleViewModeChange(e.target.value as 'focus' | 'context' | 'all' | 'preview')}
                   className="text-lg px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 min-w-[200px]"
                   style={{ minHeight: '48px' }}
                 >
-                  <option value="single">Single Row</option>
-                  <option value="3">3 Rows</option>
-                  <option value="5">5 Rows</option>
-                  <option value="10">10 Rows</option>
+                  <option value="focus">Focus Row</option>
+                  <option value="context">±N Rows</option>
                   <option value="all">All Rows</option>
+                  <option value="preview">Preview</option>
                 </select>
+
+                {currentViewMode === 'context' && (
+                  <div className="flex items-center space-x-2">
+                    <label htmlFor="dad-context-size-select" className="text-lg font-medium text-gray-700">
+                      Size:
+                    </label>
+                    <select
+                      id="dad-context-size-select"
+                      value={currentContextSize}
+                      onChange={(e) => handleContextSizeChange(parseInt(e.target.value))}
+                      className="text-lg px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 min-w-[80px]"
+                      style={{ minHeight: '48px' }}
+                    >
+                      <option value={3}>3</option>
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={20}>20</option>
+                    </select>
+                  </div>
+                )}
               </div>
 
               <div className="text-xl font-medium text-gray-700">

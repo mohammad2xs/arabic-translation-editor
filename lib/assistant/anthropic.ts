@@ -1,7 +1,7 @@
 // official SDK for usage tokens; falls back to fetch if missing
 let Anthropic: any = null;
 try {
-  Anthropic = require('anthropic');
+  Anthropic = require('@anthropic-ai/sdk');
 } catch (error) {
   // SDK not available, will use fetch fallback
 }
@@ -44,7 +44,7 @@ interface StreamingChatResponse {
 }
 
 class AnthropicClient {
-  private client: Anthropic | null = null;
+  private client: any | null = null;
   private config: AnthropicConfig;
   private usageStats: {
     totalInputTokens: number;

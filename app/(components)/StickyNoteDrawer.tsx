@@ -266,6 +266,8 @@ export default function StickyNoteDrawer({
           <div className="border-t-2 border-yellow-300 bg-yellow-100 p-4">
             <div className="space-y-3">
               <textarea
+                id="sticky-note-input"
+                name="sticky-note-input"
                 ref={textareaRef}
                 value={newNoteText}
                 onChange={(e) => setNewNoteText(e.target.value)}

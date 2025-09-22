@@ -313,6 +313,7 @@ export default function AssistantSidebar({
             <textarea
               ref={textareaRef}
               id="assistant-query"
+              name="assistant-query"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {

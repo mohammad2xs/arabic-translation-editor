@@ -5,7 +5,8 @@ interface DadModePrefs {
   autoSave: boolean;
   voiceEnabled: boolean;
   lastSection?: string;
-  viewMode: 'single' | '3' | '5' | '10' | 'all';
+  viewMode: 'focus' | 'context' | 'all' | 'preview';
+  contextSize: number;
 }
 
 const DEFAULT_PREFS: DadModePrefs = {
@@ -14,7 +15,8 @@ const DEFAULT_PREFS: DadModePrefs = {
   motion: 'reduced',
   autoSave: true,
   voiceEnabled: true,
-  viewMode: 'single',
+  viewMode: 'focus',
+  contextSize: 5,
 };
 
 const STORAGE_KEY = 'dadmode-prefs';
@@ -166,28 +168,58 @@ export function getLineHeightValue(fontSize: string): string {
   }
 }
 
-export function getViewMode(): 'single' | '3' | '5' | '10' | 'all' {
-  const prefs = getDadModePrefs();
-  return prefs.viewMode || 'single';
+// Migration function to convert legacy viewMode values
+function migrateViewMode(storedMode: any): 'focus' | 'context' | 'all' | 'preview' {
+  if (typeof storedMode === 'string') {
+    switch (storedMode) {
+      case 'single':
+        return 'focus';
+      case '3':
+      case '5':
+      case '10':
+        return 'context';
+      case 'all':
+        return 'all';
+      case 'focus':
+      case 'context':
+      case 'preview':
+        return storedMode;
+      default:
+        return 'focus';
+    }
+  }
+  return 'focus';
 }
 
-export function setViewMode(viewMode: 'single' | '3' | '5' | '10' | 'all'): void {
+export function getViewMode(): 'focus' | 'context' | 'all' | 'preview' {
+  const prefs = getDadModePrefs();
+  return migrateViewMode(prefs.viewMode);
+}
+
+export function setViewMode(viewMode: 'focus' | 'context' | 'all' | 'preview'): void {
   setDadModePrefs({ viewMode });
 }
 
-export function getRowsToShow(viewMode: 'single' | '3' | '5' | '10' | 'all', totalRows: number): number {
+export function getRowsToShow(viewMode: 'focus' | 'context' | 'all' | 'preview', totalRows: number, contextSize: number = 5): number {
   switch (viewMode) {
-    case 'single':
+    case 'focus':
       return 1;
-    case '3':
-      return Math.min(3, totalRows);
-    case '5':
-      return Math.min(5, totalRows);
-    case '10':
-      return Math.min(10, totalRows);
+    case 'context':
+      return Math.min(contextSize, totalRows);
     case 'all':
       return totalRows;
+    case 'preview':
+      return Math.min(3, totalRows); // Preview shows 3 rows by default
     default:
       return 1;
   }
+}
+
+export function getContextSize(): number {
+  const prefs = getDadModePrefs();
+  return prefs.contextSize || 5;
+}
+
+export function setContextSize(contextSize: number): void {
+  setDadModePrefs({ contextSize });
 }

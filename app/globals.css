@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Modern Cursor-Style UI */
+@import url('../styles/modern-ui.css');
+
 /* Cursor-Style UI Components */
 @import url('../styles/ui.css');
+
+/* Context Classes */
+@import url('../styles/context.css');
+
+/* iOS-Specific Mobile Optimizations */
+@import url('../styles/ios.css');
 
 /* Dad-Mode Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
@@ -848,5 +857,148 @@
 @media print {
   .assistant-sidebar {
     display: none;
+  }
+}
+
+/* Review Page Styles */
+.review-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.review-header {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.review-file-tree {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.review-file-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease;
+}
+
+.review-file-tree-node:hover {
+  background-color: #f3f4f6;
+}
+
+.review-file-viewer {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.review-code-preview {
+  background-color: #f9fafb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  overflow: auto;
+  max-height: 16rem;
+}
+
+.review-download-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.review-download-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.review-download-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.review-live-app-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background-color: white;
+  transition: background-color 0.15s ease;
+}
+
+.review-live-app-button:hover {
+  background-color: #f9fafb;
+}
+
+.review-status-badge {
+  display: inline-flex;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+.review-status-badge.page {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.review-status-badge.api {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.review-read-only-indicator {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background-color: #fbbf24;
+  color: #92400e;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
+
+/* Mobile responsive styles for review page */
+@media (max-width: 1024px) {
+  .review-file-tree {
+    max-height: 16rem;
+  }
+
+  .review-code-preview {
+    max-height: 12rem;
+    font-size: 0.8rem;
+  }
+
+  .review-header .flex {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
   }
 }

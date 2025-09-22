@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
-import { assessQuality } from '../lib/guards';
+import { assessQuality, configureGuards } from '../lib/guards';
 import { tmInit, tmSuggest, tmLearn } from '../lib/tm';
 import { createCostTracker } from '../lib/cost';
 import { resolveLocalFirst, warmCache } from '../lib/scripture/cache';
@@ -57,16 +57,46 @@ async function atomicWriteFile(filePath, content) {
   await fs.rename(tempFile, filePath);
 }
 
+function isRetryableError(error) {
+  const retryablePatterns = [
+    /ECONNRESET/i,
+    /ETIMEDOUT/i,
+    /ENOTFOUND/i,
+    /Network request failed/i,
+    /socket hang up/i,
+    /503 Service Temporarily Unavailable/i,
+    /502 Bad Gateway/i,
+    /504 Gateway Timeout/i,
+    /429 Too Many Requests/i,
+    /Rate limit exceeded/i,
+    /Service Unavailable/i,
+    /Internal Server Error/i
+  ];
+
+  return retryablePatterns.some(pattern => pattern.test(error.message));
+}
+
 async function exponentialBackoff(fn, maxRetries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await fn();
     } catch (error) {
+      // Don't retry non-retryable errors (like validation failures)
+      if (!isRetryableError(error)) {
+        throw error;
+      }
+
       if (attempt === maxRetries) {
         throw error;
       }
+
       const delay = RETRY_DELAY_BASE * Math.pow(2, attempt - 1);
-      log('warn', `Attempt ${attempt} failed, retrying in ${delay}ms`, { error: error.message });
+      log('warn', `Attempt ${attempt} failed, retrying in ${delay}ms`, {
+        error: error.message,
+        retryable: true,
+        attempt,
+        maxRetries
+      });
       await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
@@ -256,8 +286,32 @@ async function scriptureVerify(footnotes) {
   const resolvedRefs = [];
 
   for (const footnote of footnotes) {
-    // Basic format validation
-    if (footnote.type === 'quran' && !footnote.reference.match(/\d+:\d+/)) {
+    // Skip validation for context-only refs (empty reference)
+    if (!footnote.reference || footnote.reference.trim() === '') {
+      // Check if we have a normalized reference to try
+      if (footnote.normalized && footnote.normalized.trim() !== '') {
+        try {
+          const resolved = await resolveLocalFirst(footnote.normalized, baseUrl);
+          if (resolved) {
+            resolvedRefs.push({
+              reference: footnote.normalized,
+              arabic: resolved.arabic,
+              english: resolved.english,
+              metadata: resolved.metadata,
+              isContextOnly: true
+            });
+          }
+          // Don't fail if context-only ref can't be resolved
+        } catch (error) {
+          // Log warning but don't fail for context-only refs
+          log('warn', `Could not resolve context-only reference: ${footnote.normalized}`, { error: error.message });
+        }
+      }
+      continue; // Skip to next footnote
+    }
+
+    // Basic format validation for non-empty references
+    if (footnote.type === 'quran' && !footnote.reference.match(/^\d+:\d+(-\d+)?$/)) {
       return { pass: false, issue: 'invalid_quran_reference', footnote };
     }
 
@@ -282,16 +336,12 @@ async function scriptureVerify(footnotes) {
   return { pass: true, resolvedRefs };
 }
 
-async function processRow(rowData, semaphore, costTracker, expandFlags) {
-  const { row, sectionId } = rowData;
+async function processRowCore(row, sectionId, costTracker, expandFlags) {
   const rowId = row.id;
 
   log('info', `Starting row processing`, { rowId });
 
-  await semaphore.acquire();
-
-  try {
-    const currentHash = calculateHash(row.original);
+  const currentHash = calculateHash(row.original);
     if (currentHash === row.metadata?.laneHash && row.metadata?.processedAt && row.english?.trim()) {
       log('info', `Skipping unchanged row`, { rowId, hash: currentHash });
       return { rowId, skipped: true, reason: 'unchanged_hash' };
@@ -457,9 +507,24 @@ async function processRow(rowData, semaphore, costTracker, expandFlags) {
     });
 
     return { rowId, success: true, lpr: qaResult.lpr, clauses: clauses.length };
+}
 
+async function processRow(rowData, semaphore, costTracker, expandFlags) {
+  const { row, sectionId } = rowData;
+  const rowId = row.id;
+
+  await semaphore.acquire();
+
+  try {
+    return await processRowCore(row, sectionId, costTracker, expandFlags);
   } catch (error) {
-    log('error', `Row processing failed`, { rowId, error: error.message });
+    // Check if error is retryable and rethrow for exponentialBackoff to handle
+    if (isRetryableError(error)) {
+      throw error; // Let exponentialBackoff handle retries
+    }
+
+    // Non-retryable errors are logged and returned as failure results
+    log('error', `Row processing failed`, { rowId, error: error.message, retryable: false });
     return { rowId, success: false, error: error.message };
   } finally {
     semaphore.release();
@@ -596,6 +661,20 @@ async function mergeResults(processedRows) {
 async function runPipeline() {
   try {
     log('info', 'Starting translation pipeline');
+
+    // Configure quality guards from deployment gates
+    try {
+      const configData = await fs.readFile('config/deployment-gates.json', 'utf8');
+      const config = JSON.parse(configData);
+      configureGuards({
+        lprMin: config.thresholds.lpr.minimum,
+        coverageThreshold: config.thresholds.coverage.percentage / 100,
+        driftThreshold: 1 - config.thresholds.drift.maximum
+      });
+      log('info', 'Quality guards configured from deployment gates');
+    } catch (error) {
+      log('warn', 'Failed to load deployment gates config, using defaults', { error: error.message });
+    }
 
     // Initialize Translation Memory
     await tmInit();

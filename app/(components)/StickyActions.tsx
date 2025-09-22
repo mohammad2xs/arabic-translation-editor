@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useShortcuts, SHORTCUTS } from '@/lib/ui/shortcuts';
+import { shortcuts as shortcutManager, SHORTCUTS } from '@/lib/ui/shortcuts';
 
 export interface SaveStatus {
   status: 'idle' | 'saving' | 'saved' | 'error';
@@ -51,32 +51,44 @@ export default function StickyActions({
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Register keyboard shortcuts for Cursor-style navigation
-  useShortcuts([
-    {
-      ...SHORTCUTS.TOGGLE_EDIT,
-      handler: () => !isProcessing && onEdit()
-    },
-    {
-      ...SHORTCUTS.SAVE,
-      handler: () => !isProcessing && hasUnsavedChanges && onSave()
-    },
-    {
-      ...SHORTCUTS.APPROVE,
-      handler: () => !isProcessing && !hasUnsavedChanges && onApprove()
-    },
-    {
-      ...SHORTCUTS.NAVIGATE_UP,
-      handler: () => !isProcessing && currentRowId > 1 && onPrev()
-    },
-    {
-      ...SHORTCUTS.NAVIGATE_DOWN,
-      handler: () => !isProcessing && currentRowId < totalRows && onNext()
-    },
-    {
-      ...SHORTCUTS.OPEN_ASSISTANT,
-      handler: () => !isProcessing && onOpenAssistant()
-    }
-  ], [isProcessing, hasUnsavedChanges, currentRowId, totalRows]);
+  useEffect(() => {
+    const shortcuts = [
+      {
+        ...SHORTCUTS.TOGGLE_EDIT,
+        handler: () => !isProcessing && onEdit()
+      },
+      {
+        ...SHORTCUTS.SAVE,
+        handler: () => !isProcessing && hasUnsavedChanges && onSave()
+      },
+      {
+        ...SHORTCUTS.APPROVE,
+        handler: () => !isProcessing && !hasUnsavedChanges && onApprove()
+      },
+      {
+        ...SHORTCUTS.NAVIGATE_UP,
+        handler: () => !isProcessing && currentRowId > 1 && onPrev()
+      },
+      {
+        ...SHORTCUTS.NAVIGATE_DOWN,
+        handler: () => !isProcessing && currentRowId < totalRows && onNext()
+      },
+      {
+        ...SHORTCUTS.OPEN_ASSISTANT,
+        handler: () => !isProcessing && onOpenAssistant()
+      }
+    ];
+
+    shortcuts.forEach(shortcut => {
+      shortcutManager.register(shortcut);
+    });
+
+    return () => {
+      shortcuts.forEach(shortcut => {
+        shortcutManager.unregister(shortcut.key);
+      });
+    };
+  }, [isProcessing, hasUnsavedChanges, currentRowId, totalRows, onEdit, onSave, onApprove, onPrev, onNext, onOpenAssistant]);
 
   // Auto-save handler
   useEffect(() => {
@@ -150,20 +162,24 @@ export default function StickyActions({
             {/* Edit/Save Toggle */}
             {!isEditing ? (
               <button
+                type="button"
                 onClick={() => handleAction(onEdit)}
                 className="action-btn primary"
                 disabled={isProcessing}
                 title="Edit current row (E)"
+                aria-label="Edit current row"
               >
                 <span className="action-icon">✏️</span>
                 <span className="action-label">Edit • تحرير</span>
               </button>
             ) : (
               <button
+                type="button"
                 onClick={() => handleAction(onSave)}
                 className={`action-btn primary ${hasUnsavedChanges ? 'highlight' : ''}`}
                 disabled={isProcessing || !hasUnsavedChanges}
                 title="Save changes (⌘S)"
+                aria-label="Save changes"
               >
                 <span className="action-icon">💾</span>
                 <span className="action-label">Save • حفظ</span>
@@ -172,9 +188,11 @@ export default function StickyActions({
 
             {/* Approve Button */}
             <button
+              type="button"
               onClick={() => handleAction(onApprove)}
               className={`action-btn ${isApproved ? 'success' : 'approve'}`}
               disabled={isProcessing || hasUnsavedChanges}
+              aria-label={isApproved ? 'Row approved' : 'Approve row'}
               title={hasUnsavedChanges ? 'Save changes before approving' : 'Approve row (Enter)'}
             >
               <span className="action-icon">{isApproved ? '✅' : '☑️'}</span>

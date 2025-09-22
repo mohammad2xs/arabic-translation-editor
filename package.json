@@ -31,14 +31,20 @@
     "github:issues": "gh issue list",
     "github:pr": "gh pr create",
     "setup:audio": "node scripts/setup-audio.mjs",
-    "test:tts": "curl -X POST http://localhost:3000/api/tts -H 'Content-Type: application/json' -d '{\"text\":\"Hello world\",\"language\":\"en\"}'"
+    "test:tts": "curl -X POST http://localhost:3000/api/tts -H 'Content-Type: application/json' -d '{\"text\":\"Hello world\",\"language\":\"en\"}'",
+    "review:bundle": "node scripts/review-bundle.mjs",
+    "review:report": "node scripts/review-bundle.mjs --report-only",
+    "deploy:ready": "node scripts/scale-to-full.mjs && tsx orchestrate/pipeline.mjs && node scripts/quality-validation.mjs && node scripts/generate-final-report.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.63.0",
     "@modelcontextprotocol/sdk": "^1.18.1",
+    "@vercel/kv": "^3.0.0",
     "archiver": "^7.0.1",
     "clsx": "^2.1.1",
     "docx": "^9.5.1",
     "glob": "^10.3.10",
+    "lucide-react": "^0.544.0",
     "mammoth": "^1.8.0",
     "next": "14.2.15",
     "papaparse": "^5.4.1",

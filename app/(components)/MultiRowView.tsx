@@ -49,6 +49,7 @@ interface MultiRowViewProps {
   onUndo?: (rowIndex: number) => void;
   focusedRowIndex?: number;
   onFocusRow?: (rowIndex: number) => void;
+  renderRow?: (row: SectionRow, index: number) => React.ReactNode;
 }
 
 export default function MultiRowView({
@@ -60,23 +61,34 @@ export default function MultiRowView({
   onUndo,
   focusedRowIndex,
   onFocusRow,
+  renderRow,
 }: MultiRowViewProps) {
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
   const [showAllRowsConfirmed, setShowAllRowsConfirmed] = useState(false);
   const rowRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
-  // Performance optimization: For "all" mode with many rows, use windowing
+  // Performance optimization: Simple windowing for large datasets
   const isAllRowsMode = rowsToShow >= rows.length;
-  const shouldUseWindowing = isAllRowsMode && rows.length > 200;
-  const windowSize = 30; // Show 30 rows around focused index
+  const shouldUseWindowing = isAllRowsMode && rows.length > 50; // Lower threshold for better UX
+  const windowSize = 30; // Show ±30 items around focused
 
   let effectiveStartIndex = startIndex;
   let effectiveRowsToShow = rowsToShow;
+  let topPadding = 0;
+  let bottomPadding = 0;
 
   if (shouldUseWindowing && showAllRowsConfirmed) {
-    const focusedIndex = focusedRowIndex || 0;
-    effectiveStartIndex = Math.max(0, Math.min(focusedIndex - Math.floor(windowSize / 2), rows.length - windowSize));
-    effectiveRowsToShow = Math.min(windowSize, rows.length - effectiveStartIndex);
+    const focusedIndex = focusedRowIndex || startIndex;
+    const halfWindow = Math.floor(windowSize / 2);
+
+    effectiveStartIndex = Math.max(0, focusedIndex - halfWindow);
+    const maxEndIndex = Math.min(rows.length, focusedIndex + halfWindow);
+    effectiveRowsToShow = maxEndIndex - effectiveStartIndex;
+
+    // Calculate padding to preserve scroll height
+    const estimatedRowHeight = 200; // Estimated height per row in pixels
+    topPadding = effectiveStartIndex * estimatedRowHeight;
+    bottomPadding = (rows.length - effectiveStartIndex - effectiveRowsToShow) * estimatedRowHeight;
   }
 
   // Get the visible rows
@@ -124,10 +136,10 @@ export default function MultiRowView({
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
           <div className="text-2xl mb-4">⚠️ Performance Warning</div>
           <div className="text-lg text-yellow-800 mb-4">
-            You're about to view {rows.length} rows in All Rows mode. This may impact performance.
+            You're about to view {rows.length} rows in All Rows mode. For better performance, we'll use windowing.
           </div>
           <div className="text-sm text-yellow-700 mb-6">
-            We'll show 30 rows at a time around your focused position for better performance.
+            We'll show 30 rows at a time around your focused position. Use J/K or navigation to move through rows.
           </div>
           <div className="flex items-center justify-center space-x-4">
             <button
@@ -161,6 +173,9 @@ export default function MultiRowView({
           </div>
         </div>
       </div>
+
+      {/* Top padding for virtualization */}
+      {topPadding > 0 && <div style={{ height: `${topPadding}px` }} className="w-full" />}
 
       {visibleRows.map((row, index) => {
         const actualRowIndex = effectiveStartIndex + index;
@@ -231,8 +246,41 @@ export default function MultiRowView({
               // Compact view
               <div className="bg-white border-2 border-gray-200 border-t-0 rounded-b-lg p-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Original Arabic - Read only */}
-                  <div className="space-y-2">
+                  {/* English Translation - Editable (First Column) */}
+                  <div className="space-y-2 column-english">
+                    <h4 id={`english-heading-${row.id}`} className="text-sm font-semibold text-gray-700 flex items-center">
+                      🌍 English Translation
+                    </h4>
+                    <textarea
+                      id={`english-translation-multirow-${row.id}`}
+                      name={`english-translation-multirow-${row.id}`}
+                      value={row.english}
+                      onChange={(e) => onRowChange(actualRowIndex, 'english', e.target.value)}
+                      className="w-full h-20 p-3 border border-gray-300 rounded-lg text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                      placeholder="Enter English translation..."
+                      aria-labelledby={`english-heading-${row.id}`}
+                    />
+                  </div>
+
+                  {/* Enhanced Arabic - Editable (Second Column) */}
+                  <div className="space-y-2 column-arabic-enhanced">
+                    <h4 id={`enhanced-heading-${row.id}`} className="text-sm font-semibold text-gray-700 flex items-center">
+                      ✨ Enhanced Arabic
+                    </h4>
+                    <textarea
+                      id={`enhanced-arabic-multirow-${row.id}`}
+                      name={`enhanced-arabic-multirow-${row.id}`}
+                      value={row.enhanced}
+                      onChange={(e) => onRowChange(actualRowIndex, 'enhanced', e.target.value)}
+                      className="w-full h-20 p-3 border border-gray-300 rounded-lg text-sm leading-relaxed font-arabic resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                      dir="rtl"
+                      placeholder="Enter enhanced Arabic text..."
+                      aria-labelledby={`enhanced-heading-${row.id}`}
+                    />
+                  </div>
+
+                  {/* Original Arabic - Read only (Third Column) */}
+                  <div className="space-y-2 column-arabic-original">
                     <h4 id={`original-heading-${row.id}`} className="text-sm font-semibold text-gray-700 flex items-center">
                       📖 Original Arabic
                     </h4>
@@ -246,35 +294,6 @@ export default function MultiRowView({
                     <div className="text-xs text-gray-500">
                       📊 {row.metadata.wordCount} words • {row.metadata.charCount} chars
                     </div>
-                  </div>
-
-                  {/* Enhanced Arabic - Editable */}
-                  <div className="space-y-2">
-                    <h4 id={`enhanced-heading-${row.id}`} className="text-sm font-semibold text-gray-700 flex items-center">
-                      ✨ Enhanced Arabic
-                    </h4>
-                    <textarea
-                      value={row.enhanced}
-                      onChange={(e) => onRowChange(actualRowIndex, 'enhanced', e.target.value)}
-                      className="w-full h-20 p-3 border border-gray-300 rounded-lg text-sm leading-relaxed font-arabic resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
-                      dir="rtl"
-                      placeholder="Enter enhanced Arabic text..."
-                      aria-labelledby={`enhanced-heading-${row.id}`}
-                    />
-                  </div>
-
-                  {/* English Translation - Editable */}
-                  <div className="space-y-2">
-                    <h4 id={`english-heading-${row.id}`} className="text-sm font-semibold text-gray-700 flex items-center">
-                      🌍 English Translation
-                    </h4>
-                    <textarea
-                      value={row.english}
-                      onChange={(e) => onRowChange(actualRowIndex, 'english', e.target.value)}
-                      className="w-full h-20 p-3 border border-gray-300 rounded-lg text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
-                      placeholder="Enter English translation..."
-                      aria-labelledby={`english-heading-${row.id}`}
-                    />
                   </div>
                 </div>
 
@@ -327,6 +346,9 @@ export default function MultiRowView({
           </div>
         );
       })}
+
+      {/* Bottom padding for virtualization */}
+      {bottomPadding > 0 && <div style={{ height: `${bottomPadding}px` }} className="w-full" />}
 
       {/* Navigation help at bottom */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">

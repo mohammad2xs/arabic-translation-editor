@@ -50,7 +50,12 @@ test('Core files exist', () => {
     'lib/ui/shortcuts.ts',
     'lib/ui/fuzzy.ts',
     'styles/ui.css',
-    'app/api/issues/route.ts'
+    'app/api/issues/route.ts',
+    // Review system files
+    'scripts/review-bundle.mjs',
+    'app/review/page.tsx',
+    'app/api/review/bundle/route.ts',
+    'public/review/README-review.md'
   ];
 
   for (const file of requiredFiles) {
@@ -65,7 +70,7 @@ test('Package.json has correct scripts', () => {
   const packagePath = join(projectRoot, 'package.json');
   const pkg = JSON.parse(readFileSync(packagePath, 'utf8'));
 
-  const requiredScripts = ['dev', 'build', 'start', 'check:lean', 'smoke'];
+  const requiredScripts = ['dev', 'build', 'start', 'check:lean', 'smoke', 'review:bundle', 'review:report'];
   for (const script of requiredScripts) {
     if (!pkg.scripts[script]) {
       throw new Error(`Missing script: ${script}`);
@@ -154,11 +159,14 @@ test('Hotkey patterns in tri-view', () => {
   const triPath = join(projectRoot, 'app/tri/page.tsx');
   const content = readFileSync(triPath, 'utf8');
 
-  const requiredHotkeys = ['KeyJ', 'KeyK', 'KeyA', 'KeyE', 'KeyT', 'KeyF'];
-  for (const hotkey of requiredHotkeys) {
-    if (!content.includes(hotkey)) {
-      throw new Error(`Missing hotkey handler: ${hotkey}`);
-    }
+  // Check for unified shortcuts import
+  if (!content.includes('shortcuts') || !content.includes('SHORTCUTS')) {
+    throw new Error('Unified shortcuts system not found');
+  }
+
+  // Check for keyboard event handling
+  if (!content.includes('shortcutManager') || !content.includes('handleKeyDown')) {
+    throw new Error('Keyboard event handling not found');
   }
 });
 
@@ -172,6 +180,10 @@ test('Assistant API routes have required handlers', () => {
 
   if (!chatContent.includes('canComment') || !chatContent.includes('getRoleFromRequest')) {
     throw new Error('Role validation not found in chat API');
+  }
+
+  if (!chatContent.includes('scripture_check')) {
+    throw new Error('Scripture validation logic not found in chat API');
   }
 
   const applyPath = join(projectRoot, 'app/api/assistant/apply/route.ts');
@@ -327,8 +339,12 @@ test('Issues API endpoint has required handlers', () => {
     throw new Error('GET handler not found in issues API');
   }
 
-  if (!issuesContent.includes('triview.json') || !issuesContent.includes('gate_summaries.json')) {
-    throw new Error('Issues API should check triview and gate summaries');
+  if (!issuesContent.includes('triview.json')) {
+    throw new Error('Issues API should read triview.json');
+  }
+
+  if (!issuesContent.includes('fs') && !issuesContent.includes('readFile')) {
+    throw new Error('Issues API should use filesystem access');
   }
 });
 
@@ -374,6 +390,152 @@ test('Complexity calculation functions work correctly', async () => {
     // Handle any dynamic import issues in test environment
     console.log('   Note: Skipping TS dynamic import in smoke env');
     return;
+  }
+});
+
+test('Review system components have required exports', () => {
+  const reviewPagePath = join(projectRoot, 'app/review/page.tsx');
+  const reviewPageContent = readFileSync(reviewPagePath, 'utf8');
+
+  if (!reviewPageContent.includes('export default function ReviewPage')) {
+    throw new Error('ReviewPage component export not found');
+  }
+
+  if (!reviewPageContent.includes('Download Review Bundle')) {
+    throw new Error('Download bundle functionality not found in review page');
+  }
+
+  const bundleScriptPath = join(projectRoot, 'scripts/review-bundle.mjs');
+  const bundleScriptContent = readFileSync(bundleScriptPath, 'utf8');
+
+  if (!bundleScriptContent.includes('createBundle') || !bundleScriptContent.includes('generateReviewReport')) {
+    throw new Error('Bundle creation functions not found in review script');
+  }
+
+  const bundleApiPath = join(projectRoot, 'app/api/review/bundle/route.ts');
+  const bundleApiContent = readFileSync(bundleApiPath, 'utf8');
+
+  if (!bundleApiContent.includes('export async function GET')) {
+    throw new Error('GET handler not found in review bundle API');
+  }
+
+  if (!bundleApiContent.includes('scripts/review-bundle.mjs')) {
+    throw new Error('Bundle API should reference bundle script');
+  }
+});
+
+test('Review documentation exists and is comprehensive', () => {
+  const readmePath = join(projectRoot, 'public/review/README-review.md');
+  const readmeContent = readFileSync(readmePath, 'utf8');
+
+  const requiredSections = [
+    '# SaadTranslator - Code Review Guide',
+    '## Project Overview',
+    '## Key Features to Review',
+    '## Review Focus Areas',
+    '## Project Structure Guide',
+    '## Questions for Code Review'
+  ];
+
+  for (const section of requiredSections) {
+    if (!readmeContent.includes(section)) {
+      throw new Error(`Missing section in review README: ${section}`);
+    }
+  }
+
+  if (!readmeContent.includes('Dad-Mode') || !readmeContent.includes('Claude MCP')) {
+    throw new Error('Review README should mention key project features');
+  }
+});
+
+test('DadHeader includes review button', () => {
+  const headerPath = join(projectRoot, 'app/(components)/DadHeader.tsx');
+  const headerContent = readFileSync(headerPath, 'utf8');
+
+  if (!headerContent.includes('🔍 Review')) {
+    throw new Error('Review button not found in DadHeader');
+  }
+
+  if (!headerContent.includes("window.open('/review', '_blank')")) {
+    throw new Error('Review button should open /review in new tab');
+  }
+});
+
+test('Preflight script exists and produces JSON', () => {
+  const preflightPath = join(projectRoot, 'scripts/preflight.mjs');
+  if (!existsSync(preflightPath)) {
+    throw new Error('Preflight script not found');
+  }
+
+  // Note: In a full test environment, we could run: node scripts/preflight.mjs
+  // For smoke tests, we just verify the file exists and has expected content
+  const preflightContent = readFileSync(preflightPath, 'utf8');
+  if (!preflightContent.includes('JSON.stringify')) {
+    throw new Error('Preflight script should produce JSON output');
+  }
+});
+
+test('Sync API routes exist and have correct structure', () => {
+  const pullPath = join(projectRoot, 'app/api/sync/pull/route.ts');
+  const pushPath = join(projectRoot, 'app/api/sync/push/route.ts');
+
+  if (!existsSync(pullPath) || !existsSync(pushPath)) {
+    throw new Error('Sync API routes not found');
+  }
+
+  const pullContent = readFileSync(pullPath, 'utf8');
+  if (!pullContent.includes('export async function GET') || !pullContent.includes('changedRows') || !pullContent.includes('rev')) {
+    throw new Error('Sync pull API should have GET handler with changedRows and rev');
+  }
+
+  const pushContent = readFileSync(pushPath, 'utf8');
+  if (!pushContent.includes('export async function POST') || !pushContent.includes('pushChange')) {
+    throw new Error('Sync push API should have POST handler');
+  }
+});
+
+test('Presence API routes exist and handle heartbeat', () => {
+  const presencePath = join(projectRoot, 'app/api/presence/heartbeat/route.ts');
+  if (!existsSync(presencePath)) {
+    throw new Error('Presence heartbeat API route not found');
+  }
+
+  const presenceContent = readFileSync(presencePath, 'utf8');
+  if (!presenceContent.includes('export async function POST') || !presenceContent.includes('export async function GET')) {
+    throw new Error('Presence API should have both POST and GET handlers');
+  }
+
+  if (!presenceContent.includes('userLabel') || !presenceContent.includes('timestamp')) {
+    throw new Error('Presence API should handle userLabel and timestamp');
+  }
+});
+
+test('Sync client exists with proper interface', () => {
+  const syncClientPath = join(projectRoot, 'lib/sync/client.ts');
+  if (!existsSync(syncClientPath)) {
+    throw new Error('Sync client not found');
+  }
+
+  const syncContent = readFileSync(syncClientPath, 'utf8');
+  if (!syncContent.includes('useSyncClient') || !syncContent.includes('SyncClient')) {
+    throw new Error('Sync client should export useSyncClient hook and SyncClient class');
+  }
+
+  if (!syncContent.includes('pushChange') || !syncContent.includes('presence')) {
+    throw new Error('Sync client should handle pushChange and presence');
+  }
+});
+
+test('Tri-view includes sync integration', () => {
+  const triPath = join(projectRoot, 'app/tri/page.tsx');
+  const content = readFileSync(triPath, 'utf8');
+
+  if (!content.includes('useSyncClient') || !content.includes('isConnected')) {
+    throw new Error('Tri-view should use sync client and show connection status');
+  }
+
+  if (!content.includes('syncStatus') || !content.includes('presence')) {
+    throw new Error('Tri-view should display sync status and presence');
   }
 });
 

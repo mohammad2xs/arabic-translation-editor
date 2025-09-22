@@ -138,11 +138,11 @@ export default function IssueQueue({
 
     // Focus appropriate column based on issue type
     if (issue.type === 'lpr' || issue.type === 'coverage') {
-      onFocusColumn?('enhanced');
+      onFocusColumn?.('enhanced');
     } else if (issue.type === 'scripture') {
-      onFocusColumn?('original');
+      onFocusColumn?.('original');
     } else if (issue.type === 'notes') {
-      onFocusColumn?('english');
+      onFocusColumn?.('english');
     }
 
     // Open assistant with relevant preset
@@ -173,6 +173,7 @@ export default function IssueQueue({
             )}
           </div>
           <button
+            type="button"
             onClick={onToggle}
             className="text-gray-400 hover:text-gray-600 transition-colors"
             aria-label="Toggle issues queue"
@@ -185,12 +186,14 @@ export default function IssueQueue({
         {isOpen && (
           <div className="mt-3 flex space-x-1 bg-gray-100 rounded-lg p-1">
             <button
+              type="button"
               onClick={() => setFilter('all')}
               className={`px-3 py-1 text-sm rounded transition-colors ${
                 filter === 'all'
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              aria-label="Show all issues"
             >
               All • الكل
             </button>
@@ -200,8 +203,10 @@ export default function IssueQueue({
 
               return (
                 <button
+                  type="button"
                   key={type}
                   onClick={() => setFilter(type)}
+                  aria-label={`Filter by ${type} issues`}
                   className={`px-3 py-1 text-sm rounded transition-colors ${
                     filter === type
                       ? 'bg-white text-gray-900 shadow-sm'

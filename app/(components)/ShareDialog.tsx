@@ -280,6 +280,8 @@ export default function ShareDialog({
                         Custom Message (optional)
                       </label>
                       <textarea
+                        id="share-custom-message"
+                        name="share-custom-message"
                         value={customMessage}
                         onChange={(e) => setCustomMessage(e.target.value)}
                         placeholder="Add a personal note..."

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
 import { calculateLPR } from '../../lib/complexity';
@@ -16,7 +16,10 @@ import StickyActions from '../(components)/StickyActions';
 import FinalPreview from '../(components)/FinalPreview';
 import RowNavigator from '../(components)/RowNavigator';
 import OnboardingCoach from '../(components)/OnboardingCoach';
-import { shortcuts, SHORTCUTS } from '../../lib/ui/shortcuts';
+import ContextSwitcher, { useContextSwitcher, ViewMode } from '../(components)/ContextSwitcher';
+import SectionPreview, { useSectionPreview } from '../(components)/SectionPreview';
+import { useSyncClient } from '../../lib/sync/client';
+import { shortcuts as shortcutManager, SHORTCUTS } from '../../lib/ui/shortcuts';
 
 interface SectionRow {
   id: string;
@@ -92,7 +95,7 @@ interface DevRow {
   };
 }
 
-type FocusColumn = 'arabic' | 'enhanced' | 'translation';
+type FocusColumn = 'english' | 'enhanced' | 'arabic'; // Reordered: English first
 
 type ScriptureReference = {
   reference: string;
@@ -111,15 +114,15 @@ type ScriptureReference = {
   };
 };
 
-export default function TriViewPage() {
+function TriViewPageContent() {
   const searchParams = useSearchParams();
   const [rows, setRows] = useState<SectionRow[]>([]);
   const [currentRowIndex, setCurrentRowIndex] = useState(0);
-  const [focusedColumn, setFocusedColumn] = useState<FocusColumn>('arabic');
+  const [focusedColumn, setFocusedColumn] = useState<FocusColumn>('english'); // English first
   const [showColumns, setShowColumns] = useState({
-    arabic: true,
-    enhanced: true,
-    translation: true
+    english: true,    // Reordered: English first
+    enhanced: true,   // Enhanced Arabic second
+    arabic: true      // Original Arabic third
   });
   const [loading, setLoading] = useState(true);
   const [scriptureTooltip, setScriptureTooltip] = useState<{
@@ -137,7 +140,6 @@ export default function TriViewPage() {
   const [dadModeEnabled, setDadModeEnabled] = useState(false);
   const [advancedMetricsVisible, setAdvancedMetricsVisible] = useState(false);
   const [localHistory, setLocalHistory] = useState<Record<string, string[]>>({});
-  const [viewMode, setViewModeState] = useState<'single' | '3' | '5' | '10' | 'all'>('single');
   const [focusedRowIndex, setFocusedRowIndex] = useState<number>(0);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [isCmdPaletteOpen, setIsCmdPaletteOpen] = useState(false);
@@ -159,23 +161,105 @@ export default function TriViewPage() {
     message?: string;
     timestamp?: Date;
   }>({ status: 'idle' });
+  const [conflictQueue, setConflictQueue] = useState<Array<{ id: string; changes: Record<string, any>; timestamp: string }>>([]);
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const findInputRef = useRef<HTMLInputElement>(null);
-  const arabicScrollRef = useRef<HTMLDivElement>(null);
+  const englishScrollRef = useRef<HTMLDivElement>(null);     // Reordered
   const enhancedScrollRef = useRef<HTMLDivElement>(null);
-  const translationScrollRef = useRef<HTMLDivElement>(null);
+  const arabicScrollRef = useRef<HTMLDivElement>(null);      // Moved to third
   const isScrollingRef = useRef(false);
   const enhancedTextareaRef = useRef<HTMLTextAreaElement>(null);
-  const translationTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const englishTextareaRef = useRef<HTMLTextAreaElement>(null); // Added for English
   const autoSaveTimersRef = useRef<Record<string, number>>({});
 
   const currentRow = rows[currentRowIndex];
+
+  // Context switcher integration
+  const {
+    currentMode,
+    contextSize,
+    onModeChange,
+    onContextSizeChange,
+    mounted: contextMounted
+  } = useContextSwitcher();
+
+  // Section preview integration
+  const {
+    isPreviewOpen,
+    previewData,
+    currentRowId: previewCurrentRowId,
+    sectionTitle,
+    openPreview,
+    closePreview
+  } = useSectionPreview();
+
+  // Real-time sync integration
+  const {
+    isConnected,
+    lastSync,
+    presence,
+    pushChange,
+    setCurrentRow: setSyncCurrentRow
+  } = useSyncClient({
+    section: currentSectionId,
+    token: token || undefined,
+    onDelta: (delta) => {
+      console.log('Received sync delta:', delta);
+      // Apply remote changes to local state and detect conflicts
+      if (delta.changedRows.length > 0) {
+        const updatedRows = [...rows];
+        const newConflicts: Array<{ id: string; changes: Record<string, any>; timestamp: string }> = [];
+
+        for (const change of delta.changedRows) {
+          const rowIndex = updatedRows.findIndex(r => r.id === change.row_id);
+          if (rowIndex !== -1) {
+            // Check for conflicts: if this is the current row and we have unsaved changes
+            if (change.row_id === currentRow?.id && hasUnsavedChanges) {
+              // Convert new format back to old format for conflict handling
+              const legacyChanges: Record<string, any> = {};
+              if (change.en !== undefined) legacyChanges.english = change.en;
+              if (change.arEnhanced !== undefined) legacyChanges.enhanced = change.arEnhanced;
+
+              // Stash the change in conflict queue instead of applying
+              newConflicts.push({
+                id: change.row_id,
+                changes: legacyChanges,
+                timestamp: change.timestamp
+              });
+              console.log('Conflict detected for row:', change.row_id);
+            } else {
+              // No conflict, apply the change
+              if (change.en !== undefined) {
+                updatedRows[rowIndex].english = change.en;
+              }
+              if (change.arEnhanced !== undefined) {
+                updatedRows[rowIndex].enhanced = change.arEnhanced;
+              }
+            }
+          }
+        }
+
+        if (newConflicts.length > 0) {
+          setConflictQueue(prev => [...prev, ...newConflicts]);
+          // Show toast notification about conflicts
+          console.log(`⚠️ ${newConflicts.length} conflicts detected`);
+        }
+
+        setRows(updatedRows);
+      }
+    },
+    onPresenceUpdate: (presenceData) => {
+      console.log('Presence update:', presenceData);
+      // Presence is handled by the hook automatically
+    }
+  });
 
   // Initialize Dad-Mode on mount
   useEffect(() => {
     initializeDadMode();
     setDadModeEnabled(isDadModeEnabled());
-    setViewModeState(getViewMode());
 
     // Auto-open assistant in Dad-Mode for easier access
     if (isDadModeEnabled()) {
@@ -189,6 +273,13 @@ export default function TriViewPage() {
     }
   }, []);
 
+  // Update sync current row when current row changes
+  useEffect(() => {
+    if (currentRow && setSyncCurrentRow) {
+      setSyncCurrentRow(currentRow.id);
+    }
+  }, [currentRow, setSyncCurrentRow]);
+
   // Watch for URL parameter changes to sync Dad Mode state and UI toggles
   useEffect(() => {
     const modeParam = searchParams.get('mode');
@@ -199,6 +290,10 @@ export default function TriViewPage() {
     if (isDadMode) {
       setIsAssistantOpen(true);
     }
+
+    // Extract token for reviewer shares
+    const tokenParam = searchParams.get('token');
+    setToken(tokenParam);
 
     // Handle UI toggles from URL parameters (only on first mount)
     const previewParam = searchParams.get('preview');
@@ -216,6 +311,24 @@ export default function TriViewPage() {
     }
   }, [searchParams]);
 
+  // Handle context mode changes
+  const handleContextModeChange = (mode: ViewMode) => {
+    onModeChange(mode);
+
+    if (mode === 'preview') {
+      // Open section preview with current data
+      const previewRows = rows.map(row => ({
+        id: row.id,
+        arabic_original: row.original,
+        arabic_enhanced: row.enhanced,
+        english: row.english,
+        metadata: row.metadata
+      }));
+
+      openPreview(previewRows, currentRow?.id, sectionData?.title || currentSectionId);
+    }
+  };
+
   // Assistant toggle handler
   const handleToggleAssistant = useCallback(() => {
     setIsAssistantOpen(prev => !prev);
@@ -228,7 +341,6 @@ export default function TriViewPage() {
 
   const handleRunAssistantPreset = useCallback((presetId: string) => {
     setIsAssistantOpen(true);
-    // TODO: Set the preset in AssistantSidebar
     console.log('Running assistant preset:', presetId);
   }, []);
 
@@ -243,7 +355,7 @@ export default function TriViewPage() {
   const handleFocusColumn = useCallback((column: 'original' | 'enhanced' | 'english') => {
     if (column === 'original') setFocusedColumn('arabic');
     else if (column === 'enhanced') setFocusedColumn('enhanced');
-    else if (column === 'english') setFocusedColumn('translation');
+    else if (column === 'english') setFocusedColumn('english');
   }, []);
 
   const handleToggleEdit = useCallback(() => {
@@ -293,12 +405,8 @@ export default function TriViewPage() {
   const handleApplySuggestion = useCallback((suggestion: any, range?: string) => {
     if (!currentRow) return;
 
-    // Apply the suggestion to the current row's English translation
-    // In a full implementation, this would update the row data and trigger a save
     console.log('Applying suggestion:', suggestion, 'to row:', currentRow.id, 'range:', range);
 
-    // For now, we'll just update the local state
-    // In production, this would call the save API
     const updatedRows = rows.map(row => {
       if (row.id === currentRow.id) {
         return {
@@ -318,26 +426,40 @@ export default function TriViewPage() {
     setLocalHistory(prev => ({
       ...prev,
       [currentRow.id]: [
-        ...(prev[currentRow.id] || []).slice(-4), // Keep last 5 versions
+        ...(prev[currentRow.id] || []).slice(-4),
         currentRow.english
       ]
     }));
 
-    // Trigger auto-save with origin tracking
+    // Trigger auto-save with origin tracking and sync push
     setLastAutoSave(new Date().toISOString());
-    setTimeout(() => {
-      fetch(`/api/rows/${currentRow.id}/save`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          arEnhanced: updatedRows.find(r => r.id === currentRow.id)?.enhanced,
-          en: updatedRows.find(r => r.id === currentRow.id)?.english,
-          action: 'save',
-          origin: 'assistant',
-        }),
-      }).catch(console.error);
+    setTimeout(async () => {
+      try {
+        const updatedRow = updatedRows.find(r => r.id === currentRow.id);
+        if (!updatedRow) return;
+
+        const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            arEnhanced: updatedRow.enhanced,
+            en: updatedRow.english,
+            action: 'save',
+            origin: 'assistant',
+          }),
+        });
+
+        // Push to sync if save successful
+        if (response.ok && pushChange) {
+          await pushChange(currentRow.id, {
+            english: updatedRow.english
+          }, 'assistant');
+        }
+      } catch (error) {
+        console.error('Auto-save error:', error);
+      }
     }, 400);
-  }, [currentRow, rows]);
+  }, [currentRow, rows, pushChange]);
 
   // Load issues from API
   useEffect(() => {
@@ -356,7 +478,63 @@ export default function TriViewPage() {
     if (currentSectionId) {
       loadIssues();
     }
-  }, [currentSectionId, rows]); // Re-load when rows change
+  }, [currentSectionId, rows]);
+
+  // Save function definition (moved here to fix reference error)
+  const handleSave = async () => {
+    if (!currentRow) return;
+
+    setSaveStatus({ status: 'saving' });
+
+    try {
+      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          arEnhanced: currentRow.enhanced,
+          en: currentRow.english,
+          action: 'save',
+        }),
+      });
+
+      if (response.ok) {
+        setHasUnsavedChanges(false);
+        setSaveStatus({ status: 'saved', timestamp: new Date() });
+
+        // Push to sync
+        if (pushChange) {
+          await pushChange(currentRow.id, {
+            enhanced: currentRow.enhanced,
+            english: currentRow.english
+          }, 'user');
+        }
+
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        toast.textContent = '✅ Saved just now';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+      } else {
+        throw new Error('Save failed');
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      setSaveStatus({ status: 'error', message: 'Save failed' });
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      toast.textContent = '❌ Save failed';
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+  };
 
   // Register global shortcuts
   useEffect(() => {
@@ -383,10 +561,10 @@ export default function TriViewPage() {
       },
     ];
 
-    shortcutHandlers.forEach(handler => shortcuts.register(handler));
+    shortcutHandlers.forEach(handler => shortcutManager.register(handler));
 
     return () => {
-      shortcutHandlers.forEach(handler => shortcuts.unregister(handler.id));
+      shortcutHandlers.forEach(handler => shortcutManager.unregister(handler.key));
     };
   }, [handleToggleAssistant, handleToggleEdit, handleApprove, handleSave]);
 
@@ -458,7 +636,6 @@ export default function TriViewPage() {
     const loadSectionData = async () => {
       setLoading(true);
       try {
-        // Include Dad-Mode metadata if enabled
         const url = dadModeEnabled
           ? `/api/sections/${currentSectionId}?dadMode=true`
           : `/api/sections/${currentSectionId}`;
@@ -470,7 +647,6 @@ export default function TriViewPage() {
           setRows(data.rows || []);
           setCurrentRowIndex(0);
         } else if (response.status === 404) {
-          // Fallback to dev data if section not found
           console.warn(`Section ${currentSectionId} not found, trying dev data`);
           const devResponse = await fetch('/data/dev_rows.json');
           if (devResponse.ok) {
@@ -509,52 +685,66 @@ export default function TriViewPage() {
   }, [currentSectionId, dadModeEnabled]);
 
   // Dad-Mode specific handlers
-  const handleRowChange = (field: 'enhanced' | 'english', value: string) => {
+  const handleRowChange = async (field: 'enhanced' | 'english', value: string) => {
     const currentRow = rows[currentRowIndex];
     if (!currentRow) return;
 
-    // Save current state to local history before changing
     const historyKey = `${currentRow.id}_${field}`;
     const currentValue = currentRow[field];
 
     setLocalHistory(prev => ({
       ...prev,
-      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10) // Keep last 10 versions
+      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10)
     }));
 
     const updatedRows = [...rows];
     updatedRows[currentRowIndex][field] = value;
     setRows(updatedRows);
     setHasUnsavedChanges(true);
+
+    // Push change to sync
+    if (pushChange) {
+      try {
+        await pushChange(currentRow.id, { [field]: value }, 'user');
+      } catch (error) {
+        console.warn('Failed to sync change:', error);
+      }
+    }
   };
 
   // Multi-row view handlers
-  const handleMultiRowChange = (rowIndex: number, field: 'enhanced' | 'english', value: string) => {
+  const handleMultiRowChange = async (rowIndex: number, field: 'enhanced' | 'english', value: string) => {
     const targetRow = rows[rowIndex];
     if (!targetRow) return;
 
-    // Save current state to local history before changing
     const historyKey = `${targetRow.id}_${field}`;
     const currentValue = targetRow[field];
 
     setLocalHistory(prev => ({
       ...prev,
-      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10) // Keep last 10 versions
+      [historyKey]: [...(prev[historyKey] || []), currentValue].slice(-10)
     }));
 
     const updatedRows = [...rows];
     updatedRows[rowIndex][field] = value;
     setRows(updatedRows);
 
+    // Push change to sync
+    if (pushChange) {
+      try {
+        await pushChange(targetRow.id, { [field]: value }, 'user');
+      } catch (error) {
+        console.warn('Failed to sync change:', error);
+      }
+    }
+
     // Debounced auto-save
     const autoSaveKey = targetRow.id;
 
-    // Clear existing timer for this row
     if (autoSaveTimersRef.current[autoSaveKey]) {
       clearTimeout(autoSaveTimersRef.current[autoSaveKey]);
     }
 
-    // Set new timer for auto-save
     autoSaveTimersRef.current[autoSaveKey] = window.setTimeout(async () => {
       try {
         const response = await fetch(`/api/rows/${targetRow.id}/save`, {
@@ -570,7 +760,6 @@ export default function TriViewPage() {
         });
 
         if (response.ok) {
-          // Show subtle toast notification
           const toast = document.createElement('div');
           toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
           toast.textContent = `✅ Row ${targetRow.id} auto-saved`;
@@ -585,78 +774,26 @@ export default function TriViewPage() {
       } catch (error) {
         console.error('Auto-save error:', error);
       } finally {
-        // Clean up timer reference
         delete autoSaveTimersRef.current[autoSaveKey];
       }
     }, 400);
   };
 
-  const handleViewModeChange = (newViewMode: 'single' | '3' | '5' | '10' | 'all') => {
-    setViewModeState(newViewMode);
-    // When switching to single mode, set current row to focused row
-    if (newViewMode === 'single') {
+  const handleViewModeChange = (newViewMode: 'focus' | 'context' | 'all' | 'preview') => {
+    onModeChange(newViewMode);
+    if (newViewMode === 'focus') {
       setCurrentRowIndex(focusedRowIndex);
     }
   };
 
   const handleFocusRow = (rowIndex: number) => {
     setFocusedRowIndex(rowIndex);
-    // Also update current row index for consistency
     setCurrentRowIndex(rowIndex);
-  };
-
-  const handleSave = async () => {
-    if (!currentRow) return;
-
-    setSaveStatus({ status: 'saving' });
-
-    try {
-      const response = await fetch(`/api/rows/${currentRow.id}/save`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          arEnhanced: currentRow.enhanced,
-          en: currentRow.english,
-          action: 'save',
-        }),
-      });
-
-      if (response.ok) {
-        setHasUnsavedChanges(false);
-        setSaveStatus({ status: 'saved', timestamp: new Date() });
-
-        // Show toast notification
-        const toast = document.createElement('div');
-        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-        toast.textContent = '✅ Saved just now';
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-          document.body.removeChild(toast);
-        }, 3000);
-      } else {
-        throw new Error('Save failed');
-      }
-    } catch (error) {
-      console.error('Save error:', error);
-      setSaveStatus({ status: 'error', message: 'Save failed' });
-      const toast = document.createElement('div');
-      toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-      toast.textContent = '❌ Save failed';
-      document.body.appendChild(toast);
-
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 3000);
-    }
   };
 
   const handleUndo = () => {
     if (!currentRow) return;
 
-    // Try to undo the most recent change for either field
     const enhancedHistory = localHistory[`${currentRow.id}_enhanced`] || [];
     const englishHistory = localHistory[`${currentRow.id}_english`] || [];
 
@@ -667,7 +804,6 @@ export default function TriViewPage() {
       setRows(updatedRows);
       setHasUnsavedChanges(true);
 
-      // Remove the last history entry
       setLocalHistory(prev => ({
         ...prev,
         [`${currentRow.id}_enhanced`]: enhancedHistory.slice(0, -1)
@@ -679,7 +815,6 @@ export default function TriViewPage() {
       setRows(updatedRows);
       setHasUnsavedChanges(true);
 
-      // Remove the last history entry
       setLocalHistory(prev => ({
         ...prev,
         [`${currentRow.id}_english`]: englishHistory.slice(0, -1)
@@ -774,7 +909,7 @@ export default function TriViewPage() {
 
     const reason = prompt('Please provide a reason for flagging this scripture:');
     if (!reason || reason.trim() === '') {
-      return; // User cancelled or provided empty reason
+      return;
     }
 
     try {
@@ -815,12 +950,10 @@ export default function TriViewPage() {
   };
 
   const handleAddNote = () => {
-    // TODO: Implement add note functionality
     console.log('Add note functionality not yet implemented');
   };
 
   const handlePlayAudio = (language: 'en' | 'ar') => {
-    // TODO: Implement audio playback functionality
     console.log('Audio playback functionality not yet implemented for language:', language);
   };
 
@@ -862,14 +995,12 @@ export default function TriViewPage() {
 
   const handleSectionChange = (sectionId: string) => {
     setCurrentSectionId(sectionId);
-    // Update URL
     const url = new URL(window.location.href);
     url.searchParams.set('section', sectionId);
     window.history.pushState({}, '', url.toString());
   };
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    // Handle Cmd/Ctrl+S for save when in Dad-Mode
     if ((event.metaKey || event.ctrlKey) && event.code === 'KeyS') {
       if (dadModeEnabled && currentRow && getUserRole() && canEdit(getUserRole())) {
         event.preventDefault();
@@ -883,7 +1014,7 @@ export default function TriViewPage() {
     switch (event.code) {
       case 'KeyJ':
         event.preventDefault();
-        if (viewMode !== 'single') {
+        if (currentMode !== 'focus') {
           const newIndex = Math.min(focusedRowIndex + 1, rows.length - 1);
           setCurrentRowIndex(newIndex);
           setFocusedRowIndex(newIndex);
@@ -893,7 +1024,7 @@ export default function TriViewPage() {
         break;
       case 'KeyK':
         event.preventDefault();
-        if (viewMode !== 'single') {
+        if (currentMode !== 'focus') {
           const newIndex = Math.max(focusedRowIndex - 1, 0);
           setCurrentRowIndex(newIndex);
           setFocusedRowIndex(newIndex);
@@ -901,21 +1032,21 @@ export default function TriViewPage() {
           setCurrentRowIndex(prev => Math.max(prev - 1, 0));
         }
         break;
-      case 'KeyA':
+      case 'KeyE': // Changed: E for English (first column)
         event.preventDefault();
-        setFocusedColumn('arabic');
+        setFocusedColumn('english');
         break;
-      case 'KeyE':
+      case 'KeyA': // Changed: A for Arabic enhanced (second column)
         event.preventDefault();
         setFocusedColumn('enhanced');
         break;
-      case 'KeyT':
+      case 'KeyO': // Changed: O for Original Arabic (third column)
         event.preventDefault();
-        setFocusedColumn('translation');
+        setFocusedColumn('arabic');
         break;
       case 'Digit1':
         event.preventDefault();
-        setShowColumns(prev => ({ ...prev, arabic: !prev.arabic }));
+        setShowColumns(prev => ({ ...prev, english: !prev.english }));
         break;
       case 'Digit2':
         event.preventDefault();
@@ -923,7 +1054,7 @@ export default function TriViewPage() {
         break;
       case 'Digit3':
         event.preventDefault();
-        setShowColumns(prev => ({ ...prev, translation: !prev.translation }));
+        setShowColumns(prev => ({ ...prev, arabic: !prev.arabic }));
         break;
       case 'KeyF':
         event.preventDefault();
@@ -931,14 +1062,11 @@ export default function TriViewPage() {
         break;
       case 'KeyD':
         event.preventDefault();
-        // Toggle Dad-Mode
         const newDadModeState = !dadModeEnabled;
         setDadModeEnabled(newDadModeState);
 
-        // Update localStorage
         localStorage.setItem('dadModeEnabled', newDadModeState.toString());
 
-        // Update URL
         const url = new URL(window.location.href);
         if (newDadModeState) {
           url.searchParams.set('mode', 'dad');
@@ -967,15 +1095,15 @@ export default function TriViewPage() {
     isScrollingRef.current = true;
     const scrollTop = sourceRef.current?.scrollTop || 0;
 
-    // Sync to other visible columns
-    if (showColumns.arabic && arabicScrollRef.current && sourceRef !== arabicScrollRef) {
-      arabicScrollRef.current.scrollTop = scrollTop;
+    // Sync to other visible columns (reordered)
+    if (showColumns.english && englishScrollRef.current && sourceRef !== englishScrollRef) {
+      englishScrollRef.current.scrollTop = scrollTop;
     }
     if (showColumns.enhanced && enhancedScrollRef.current && sourceRef !== enhancedScrollRef) {
       enhancedScrollRef.current.scrollTop = scrollTop;
     }
-    if (showColumns.translation && translationScrollRef.current && sourceRef !== translationScrollRef) {
-      translationScrollRef.current.scrollTop = scrollTop;
+    if (showColumns.arabic && arabicScrollRef.current && sourceRef !== arabicScrollRef) {
+      arabicScrollRef.current.scrollTop = scrollTop;
     }
 
     setTimeout(() => {
@@ -984,11 +1112,11 @@ export default function TriViewPage() {
   }, [showColumns]);
 
   useEffect(() => {
-    // Focus textarea when column focus changes
+    // Focus textarea when column focus changes (reordered)
     if (focusedColumn === 'enhanced' && enhancedTextareaRef.current) {
       enhancedTextareaRef.current.focus();
-    } else if (focusedColumn === 'translation' && translationTextareaRef.current) {
-      translationTextareaRef.current.focus();
+    } else if (focusedColumn === 'english' && englishTextareaRef.current) {
+      englishTextareaRef.current.focus();
     }
   }, [focusedColumn]);
 
@@ -1037,9 +1165,11 @@ export default function TriViewPage() {
       if (matches[index]) {
         acc.push(
           <button
+            type="button"
             key={`scripture-${index}`}
             className="text-blue-600 underline hover:text-blue-800"
             onClick={(e) => handleScriptureClick(matches[index], e)}
+            aria-label={`View scripture reference ${matches[index]}`}
           >
             {matches[index]}
           </button>
@@ -1047,6 +1177,65 @@ export default function TriViewPage() {
       }
       return acc;
     }, []);
+  };
+
+  // Render context-aware row content based on current mode
+  const renderRowsForCurrentMode = () => {
+    if (!contextMounted) return null;
+
+    switch (currentMode) {
+      case 'focus':
+        return (
+          <div className="context-view-focus">
+            <RowCard
+              row={currentRow}
+              onRowChange={handleRowChange}
+              onSave={handleSave}
+              onUndo={handleUndo}
+              large={true}
+            />
+          </div>
+        );
+
+      case 'context':
+        const startIndex = Math.max(0, currentRowIndex - Math.floor(contextSize / 2));
+        return (
+          <div className="context-view-context">
+            <MultiRowView
+              rows={rows}
+              startIndex={startIndex}
+              rowsToShow={contextSize}
+              onRowChange={handleMultiRowChange}
+              onSave={(rowIndex) => handleMultiRowChange(rowIndex, 'enhanced', rows[rowIndex].enhanced)}
+              onUndo={() => {/* TODO: implement undo for context rows */}}
+              focusedRowIndex={currentRowIndex}
+              onFocusRow={(rowIndex) => setCurrentRowIndex(rowIndex)}
+            />
+          </div>
+        );
+
+      case 'all':
+        return (
+          <div className="context-view-all">
+            <MultiRowView
+              rows={rows}
+              startIndex={0}
+              rowsToShow={rows.length}
+              onRowChange={handleMultiRowChange}
+              onSave={(rowIndex) => handleMultiRowChange(rowIndex, 'enhanced', rows[rowIndex].enhanced)}
+              onUndo={() => {/* TODO: implement undo for all rows */}}
+              focusedRowIndex={currentRowIndex}
+              onFocusRow={(rowIndex) => setCurrentRowIndex(rowIndex)}
+            />
+          </div>
+        );
+
+      case 'preview':
+        return <div className="text-center py-16 text-gray-600">Preview mode active - see section preview modal</div>;
+
+      default:
+        return null;
+    }
   };
 
   if (loading) {
@@ -1078,13 +1267,78 @@ export default function TriViewPage() {
           totalRows={rows.length}
           onSectionChange={handleSectionChange}
           onFinishSection={handleFinishSection}
+          viewMode={currentMode}
+          contextSize={contextSize}
           onViewModeChange={handleViewModeChange}
+          onContextSizeChange={onContextSizeChange}
           onExitDadMode={() => setDadModeEnabled(false)}
           onToggleAssistant={handleToggleAssistant}
           isAssistantOpen={isAssistantOpen}
-          onOpenPreview={() => setIsFinalPreviewOpen(true)}
+          onOpenPreview={() => {
+            const previewRows = rows.map(row => ({
+              id: row.id,
+              arabic_original: row.original,
+              arabic_enhanced: row.enhanced,
+              english: row.english,
+              metadata: row.metadata
+            }));
+            openPreview(previewRows, currentRow?.id, sectionData?.title || currentSectionId);
+          }}
           onOpenCommandPalette={() => setIsCmdPaletteOpen(true)}
+          syncStatus={
+            <div className={`sync-status ${isConnected ? 'connected' : 'disconnected'}`}>
+              <div className={`sync-indicator ${isConnected ? 'connected' : 'disconnected'}`} />
+              {isConnected ? 'Connected' : 'Offline'}
+              {lastSync && <span className="text-xs ml-1">• {lastSync.toLocaleTimeString()}</span>}
+            </div>
+          }
         />
+
+        {/* Context Switcher */}
+        <ContextSwitcher
+          currentMode={currentMode}
+          onModeChange={handleContextModeChange}
+          contextSize={contextSize}
+          onContextSizeChange={onContextSizeChange}
+          className="border-b border-gray-200"
+        />
+
+        {/* Conflict notification banner */}
+        {conflictQueue.length > 0 && (
+          <div className="bg-orange-50 border-b-2 border-orange-200 px-6 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <span className="text-2xl">⚠️</span>
+                <div>
+                  <div className="text-lg font-medium text-orange-900">
+                    Sync Conflict Detected
+                  </div>
+                  <div className="text-sm text-orange-700">
+                    Someone else has modified the row you're editing. {conflictQueue.length} conflict(s) pending.
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setShowConflictModal(true)}
+                  className="px-4 py-2 bg-orange-600 text-white text-lg font-medium rounded-lg hover:bg-orange-700 transition-colors focus:ring-4 focus:ring-orange-200"
+                  aria-label="Review conflicts"
+                >
+                  🔍 Review Conflicts
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConflictQueue([])}
+                  className="px-4 py-2 bg-gray-600 text-white text-lg font-medium rounded-lg hover:bg-gray-700 transition-colors focus:ring-4 focus:ring-gray-200"
+                  aria-label="Dismiss conflicts"
+                >
+                  ✖ Dismiss
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="max-w-7xl mx-auto px-6 py-8">
           {loading ? (
@@ -1097,73 +1351,10 @@ export default function TriViewPage() {
             </div>
           ) : (
             <>
-              {/* Conditional rendering based on view mode */}
-              {viewMode === 'single' ? (
-                /* Single row card */
-                <RowCard
-                  row={currentRow}
-                  onRowChange={handleRowChange}
-                  onSave={handleSave}
-                  onUndo={handleUndo}
-                  large={true}
-                />
-              ) : (
-                /* Multi-row view */
-                <MultiRowView
-                  rows={rows}
-                  startIndex={viewMode === 'all' ? 0 : Math.max(0, Math.min(focusedRowIndex - Math.floor(getRowsToShow(viewMode, rows.length) / 2), rows.length - getRowsToShow(viewMode, rows.length)))}
-                  rowsToShow={getRowsToShow(viewMode, rows.length)}
-                  onRowChange={handleMultiRowChange}
-                  onSave={(rowIndex) => {
-                    // Use same save logic but for specific row
-                    const targetRow = rows[rowIndex];
-                    if (targetRow) {
-                      // Call API to save specific row
-                      fetch(`/api/rows/${targetRow.id}/save`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          arEnhanced: targetRow.enhanced,
-                          en: targetRow.english,
-                          action: 'save',
-                        }),
-                      });
-                    }
-                  }}
-                  onUndo={(rowIndex) => {
-                    // Use same undo logic but for specific row
-                    const targetRow = rows[rowIndex];
-                    if (targetRow) {
-                      const enhancedHistory = localHistory[`${targetRow.id}_enhanced`] || [];
-                      const englishHistory = localHistory[`${targetRow.id}_english`] || [];
-
-                      if (enhancedHistory.length > 0) {
-                        const previousValue = enhancedHistory[enhancedHistory.length - 1];
-                        const updatedRows = [...rows];
-                        updatedRows[rowIndex].enhanced = previousValue;
-                        setRows(updatedRows);
-
-                        setLocalHistory(prev => ({
-                          ...prev,
-                          [`${targetRow.id}_enhanced`]: enhancedHistory.slice(0, -1)
-                        }));
-                      } else if (englishHistory.length > 0) {
-                        const previousValue = englishHistory[englishHistory.length - 1];
-                        const updatedRows = [...rows];
-                        updatedRows[rowIndex].english = previousValue;
-                        setRows(updatedRows);
-
-                        setLocalHistory(prev => ({
-                          ...prev,
-                          [`${targetRow.id}_english`]: englishHistory.slice(0, -1)
-                        }));
-                      }
-                    }
-                  }}
-                  focusedRowIndex={focusedRowIndex}
-                  onFocusRow={handleFocusRow}
-                />
-              )}
+              {/* Context-aware row rendering */}
+              <div className="context-view-container">
+                {renderRowsForCurrentMode()}
+              </div>
 
               {/* Revert button */}
               <div className="mt-6">
@@ -1232,7 +1423,7 @@ export default function TriViewPage() {
 
                 <div className="text-center">
                   <div className="text-xl text-gray-600 mb-2">
-                    {viewMode === 'single' ? 'Progress through section' : `Multi-row view: ${viewMode} rows`}
+                    {currentMode === 'focus' ? 'Progress through section' : `${currentMode} mode: ${currentMode === 'context' ? contextSize : 'all'} rows`}
                   </div>
                   <div className="bg-gray-200 rounded-full h-4 w-96">
                     <div
@@ -1244,7 +1435,7 @@ export default function TriViewPage() {
                   </div>
                   <div className="text-sm text-gray-500 mt-2">
                     {Math.round(((focusedRowIndex + 1) / rows.length) * 100)}% complete
-                    {viewMode !== 'single' && ` • Focused row: ${focusedRowIndex + 1}`}
+                    {currentMode !== 'focus' && ` • Focused row: ${focusedRowIndex + 1}`}
                   </div>
                 </div>
 
@@ -1274,7 +1465,7 @@ export default function TriViewPage() {
                 </button>
 
                 {advancedMetricsVisible && (() => {
-                  const metricsRow = viewMode === 'single' ? currentRow : rows[focusedRowIndex];
+                  const metricsRow = currentMode === 'focus' ? currentRow : rows[focusedRowIndex];
                   return metricsRow?.metadata && (
                     <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4 text-sm text-gray-600">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -1310,6 +1501,15 @@ export default function TriViewPage() {
             </>
           )}
         </div>
+
+        {/* Section Preview Modal */}
+        <SectionPreview
+          isOpen={isPreviewOpen}
+          onClose={closePreview}
+          sectionData={previewData}
+          currentRowId={previewCurrentRowId}
+          sectionTitle={sectionTitle}
+        />
 
         {/* Assistant Sidebar */}
         <AssistantSidebar
@@ -1348,7 +1548,6 @@ export default function TriViewPage() {
           onFocusColumn={handleFocusColumn}
           onOpenAssistant={(preset) => {
             setIsAssistantOpen(true);
-            // TODO: Pass preset to assistant
           }}
           sectionId={currentSectionId}
         />
@@ -1409,17 +1608,122 @@ export default function TriViewPage() {
           }}
           isDadMode={dadModeEnabled}
         />
+
+        {/* Conflict resolution modal */}
+        {showConflictModal && conflictQueue.length > 0 && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900">⚠️ Resolve Sync Conflicts</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  Choose how to handle conflicts between your local changes and remote updates.
+                </p>
+              </div>
+
+              <div className="p-6 overflow-y-auto max-h-[70vh]">
+                {conflictQueue.map((conflict, index) => {
+                  const localRow = rows.find(r => r.id === conflict.id);
+                  return (
+                    <div key={index} className="mb-6 border border-gray-200 rounded-lg">
+                      <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                        <h3 className="font-medium">Row {conflict.id}</h3>
+                        <p className="text-sm text-gray-600">Conflict at {new Date(conflict.timestamp).toLocaleString()}</p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                        {/* Local version */}
+                        <div>
+                          <h4 className="font-medium text-blue-700 mb-2">Your Local Version</h4>
+                          <div className="space-y-2">
+                            <div>
+                              <label className="text-sm font-medium text-gray-700">English:</label>
+                              <div className="bg-blue-50 border border-blue-200 rounded p-2 text-sm">
+                                {localRow?.english || 'N/A'}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-gray-700">Enhanced Arabic:</label>
+                              <div className="bg-blue-50 border border-blue-200 rounded p-2 text-sm" dir="rtl">
+                                {localRow?.enhanced || 'N/A'}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Remote version */}
+                        <div>
+                          <h4 className="font-medium text-orange-700 mb-2">Remote Version</h4>
+                          <div className="space-y-2">
+                            <div>
+                              <label className="text-sm font-medium text-gray-700">English:</label>
+                              <div className="bg-orange-50 border border-orange-200 rounded p-2 text-sm">
+                                {conflict.changes.english || conflict.changes.en || localRow?.english || 'N/A'}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-gray-700">Enhanced Arabic:</label>
+                              <div className="bg-orange-50 border border-orange-200 rounded p-2 text-sm" dir="rtl">
+                                {conflict.changes.enhanced || conflict.changes.arEnhanced || localRow?.enhanced || 'N/A'}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 flex justify-end space-x-2">
+                        <button
+                          onClick={() => {
+                            // Apply remote changes
+                            const updatedRows = [...rows];
+                            const rowIndex = updatedRows.findIndex(r => r.id === conflict.id);
+                            if (rowIndex !== -1) {
+                              Object.assign(updatedRows[rowIndex], conflict.changes);
+                              setRows(updatedRows);
+                            }
+                            setConflictQueue(prev => prev.filter((_, i) => i !== index));
+                            setHasUnsavedChanges(false);
+                          }}
+                          className="px-3 py-1 bg-orange-600 text-white text-sm rounded hover:bg-orange-700"
+                        >
+                          Use Remote
+                        </button>
+                        <button
+                          onClick={() => {
+                            // Keep local changes, discard conflict
+                            setConflictQueue(prev => prev.filter((_, i) => i !== index));
+                          }}
+                          className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                        >
+                          Keep Local
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowConflictModal(false)}
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
-  // Regular mode rendering
+  // Regular mode rendering with reordered columns
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b sticky top-0 z-10">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+      <header className="modern-nav border-b sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="modern-nav-brand">
               Al-Insān Translation Editor
             </h1>
             <div className="flex items-center space-x-4">
@@ -1429,12 +1733,12 @@ export default function TriViewPage() {
                   url.searchParams.set('mode', 'dad');
                   window.location.href = url.toString();
                 }}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+                className="modern-btn primary"
               >
                 👓 Enable Dad Mode
               </button>
               <div className="flex items-center space-x-2">
-                <label htmlFor="sectionSelect" className="text-sm text-gray-600">
+                <label htmlFor="sectionSelect" className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                   Section:
                 </label>
                 <select
@@ -1443,12 +1747,12 @@ export default function TriViewPage() {
                   onChange={(e) => {
                     const newSectionId = e.target.value;
                     setCurrentSectionId(newSectionId);
-                    // Update URL without page reload
                     const url = new URL(window.location.href);
                     url.searchParams.set('section', newSectionId);
                     window.history.pushState({}, '', url.toString());
                   }}
-                  className="px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="modern-input"
+                  style={{ width: 'auto', minWidth: '200px' }}
                 >
                   {availableSections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -1457,11 +1761,11 @@ export default function TriViewPage() {
                   ))}
                 </select>
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 Row {currentRowIndex + 1} of {rows.length}
               </div>
               {sectionData && (
-                <div className="text-sm text-gray-600">
+                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {sectionData.metadata.rowCount} rows, {sectionData.metadata.wordCount} words
                 </div>
               )}
@@ -1483,7 +1787,6 @@ export default function TriViewPage() {
               const metrics = getQualityMetrics(currentRow);
               return (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {/* LPR Indicator */}
                   <div className="flex items-center space-x-2">
                     <div className={clsx(
                       'w-3 h-3 rounded-full',
@@ -1498,7 +1801,6 @@ export default function TriViewPage() {
                     </div>
                   </div>
 
-                  {/* Quality Gates */}
                   <div className="flex items-center space-x-2">
                     <div className={clsx(
                       'w-3 h-3 rounded-full',
@@ -1515,7 +1817,6 @@ export default function TriViewPage() {
                     </div>
                   </div>
 
-                  {/* Scripture Verification */}
                   <div className="flex items-center space-x-2">
                     <div className={clsx(
                       'w-3 h-3 rounded-full',
@@ -1533,7 +1834,6 @@ export default function TriViewPage() {
                     </div>
                   </div>
 
-                  {/* Processing Status */}
                   <div className="flex items-center space-x-2">
                     <div className={clsx(
                       'w-3 h-3 rounded-full',
@@ -1550,7 +1850,6 @@ export default function TriViewPage() {
               );
             })()}
 
-            {/* Action Buttons */}
             {(() => {
               const metrics = getQualityMetrics(currentRow);
               return metrics.needsExpand && (
@@ -1576,7 +1875,6 @@ export default function TriViewPage() {
               );
             })()}
 
-            {/* Additional Metrics */}
             {currentRow.metadata && (
               <div className="mt-3 pt-3 border-t border-gray-200">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-600">
@@ -1613,16 +1911,16 @@ export default function TriViewPage() {
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="text-sm text-gray-600">
-              Hotkeys: J/K (navigate), A/E/T (focus), 1/2/3 (toggle columns), F (find), D (toggle Dad-Mode), Cmd/Ctrl+S (save in Dad-Mode)
+              Hotkeys: J/K (navigate), E/A/O (focus columns), 1/2/3 (toggle columns), F (find), D (toggle Dad-Mode), Cmd/Ctrl+S (save in Dad-Mode)
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600">Focus:</span>
             <span className={clsx(
               'px-2 py-1 rounded text-xs font-medium',
-              focusedColumn === 'arabic' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
+              focusedColumn === 'english' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
             )}>
-              Arabic-Original
+              English
             </span>
             <span className={clsx(
               'px-2 py-1 rounded text-xs font-medium',
@@ -1632,9 +1930,9 @@ export default function TriViewPage() {
             </span>
             <span className={clsx(
               'px-2 py-1 rounded text-xs font-medium',
-              focusedColumn === 'translation' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
+              focusedColumn === 'arabic' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'
             )}>
-              English
+              Arabic-Original
             </span>
           </div>
         </div>
@@ -1673,45 +1971,65 @@ export default function TriViewPage() {
           </div>
         )}
 
+        {/* Reordered tri-view columns: English | Enhanced Arabic | Original Arabic */}
         <div className={clsx(
-          'grid gap-6',
+          'grid gap-6 tri-view-container',
           visibleColumns === 1 ? 'grid-cols-1' :
           visibleColumns === 2 ? 'grid-cols-2' : 'grid-cols-3'
         )}>
-          {showColumns.arabic && (
+          {/* English Column - First */}
+          {showColumns.english && (
             <div className={clsx(
-              'bg-white rounded-lg shadow-sm border-2 p-6',
-              focusedColumn === 'arabic' ? 'border-blue-500' : 'border-gray-200'
+              'bg-white rounded-lg shadow-sm border-2 p-6 column-english',
+              focusedColumn === 'english' ? 'border-blue-500' : 'border-gray-200'
             )}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="tri-view-header">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Arabic-Original
+                  English Translation
                 </h2>
-                <span className="text-xs text-gray-500">Read-only</span>
+                <span className="column-meta text-xs text-gray-500">Editable</span>
               </div>
               <div
-                ref={arabicScrollRef}
+                ref={englishScrollRef}
                 className="prose prose-lg max-w-none overflow-y-auto max-h-64"
-                dir="rtl"
-                onScroll={() => handleSyncScroll(arabicScrollRef)}
+                onScroll={() => handleSyncScroll(englishScrollRef)}
               >
-                <p className="text-xl leading-relaxed font-arabic">
-                  {renderTextWithScriptureLinks(currentRow.original)}
-                </p>
+                <div className="relative">
+                  <textarea
+                    id={`single-view-english-${currentRow.id}`}
+                    name={`single-view-english-${currentRow.id}`}
+                    ref={englishTextareaRef}
+                    className="w-full h-32 p-3 border border-gray-300 rounded-md resize-none text-lg leading-relaxed row-input"
+                    value={currentRow.english}
+                    onChange={(e) => {
+                      const updatedRows = [...rows];
+                      updatedRows[currentRowIndex].english = e.target.value;
+                      setRows(updatedRows);
+                    }}
+                  />
+                  {findQuery && focusedColumn === 'english' && (
+                    <div className="absolute inset-0 pointer-events-none p-3 text-lg leading-relaxed overflow-hidden">
+                      <div className="text-transparent">
+                        {highlightText(currentRow.english, findQuery)}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
+          {/* Enhanced Arabic Column - Second */}
           {showColumns.enhanced && (
             <div className={clsx(
-              'bg-white rounded-lg shadow-sm border-2 p-6',
+              'bg-white rounded-lg shadow-sm border-2 p-6 column-arabic-enhanced',
               focusedColumn === 'enhanced' ? 'border-blue-500' : 'border-gray-200'
             )}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="tri-view-header">
                 <h2 className="text-lg font-semibold text-gray-900">
                   Arabic-Enhanced
                 </h2>
-                <span className="text-xs text-gray-500">Editable</span>
+                <span className="column-meta text-xs text-gray-500">Editable</span>
               </div>
               <div
                 ref={enhancedScrollRef}
@@ -1721,8 +2039,10 @@ export default function TriViewPage() {
               >
                 <div className="relative">
                   <textarea
+                    id={`single-view-enhanced-${currentRow.id}`}
+                    name={`single-view-enhanced-${currentRow.id}`}
                     ref={enhancedTextareaRef}
-                    className="w-full h-32 p-3 border border-gray-300 rounded-md resize-none font-arabic text-xl leading-relaxed"
+                    className="w-full h-32 p-3 border border-gray-300 rounded-md resize-none font-arabic text-xl leading-relaxed arabic-input row-input"
                     value={currentRow.enhanced}
                     onChange={(e) => {
                       const updatedRows = [...rows];
@@ -1743,41 +2063,27 @@ export default function TriViewPage() {
             </div>
           )}
 
-          {showColumns.translation && (
+          {/* Original Arabic Column - Third */}
+          {showColumns.arabic && (
             <div className={clsx(
-              'bg-white rounded-lg shadow-sm border-2 p-6',
-              focusedColumn === 'translation' ? 'border-blue-500' : 'border-gray-200'
+              'bg-white rounded-lg shadow-sm border-2 p-6 column-arabic-original',
+              focusedColumn === 'arabic' ? 'border-blue-500' : 'border-gray-200'
             )}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="tri-view-header">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  English
+                  Arabic-Original
                 </h2>
-                <span className="text-xs text-gray-500">Editable</span>
+                <span className="column-meta text-xs text-gray-500">Read-only</span>
               </div>
               <div
-                ref={translationScrollRef}
+                ref={arabicScrollRef}
                 className="prose prose-lg max-w-none overflow-y-auto max-h-64"
-                onScroll={() => handleSyncScroll(translationScrollRef)}
+                dir="rtl"
+                onScroll={() => handleSyncScroll(arabicScrollRef)}
               >
-                <div className="relative">
-                  <textarea
-                    ref={translationTextareaRef}
-                    className="w-full h-32 p-3 border border-gray-300 rounded-md resize-none text-lg leading-relaxed"
-                    value={currentRow.english}
-                    onChange={(e) => {
-                      const updatedRows = [...rows];
-                      updatedRows[currentRowIndex].english = e.target.value;
-                      setRows(updatedRows);
-                    }}
-                  />
-                  {findQuery && focusedColumn === 'translation' && (
-                    <div className="absolute inset-0 pointer-events-none p-3 text-lg leading-relaxed overflow-hidden">
-                      <div className="text-transparent">
-                        {highlightText(currentRow.english, findQuery)}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <p className="text-xl leading-relaxed font-arabic">
+                  {renderTextWithScriptureLinks(currentRow.original)}
+                </p>
               </div>
             </div>
           )}
@@ -1881,5 +2187,20 @@ export default function TriViewPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TriViewPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-semibold text-gray-900 mb-4">Loading Translation Editor...</div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+        </div>
+      </div>
+    }>
+      <TriViewPageContent />
+    </Suspense>
   );
 }

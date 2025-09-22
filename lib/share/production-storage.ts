@@ -321,6 +321,7 @@ export function generateShareUrl(
 
   url.searchParams.set('token', token);
   url.searchParams.set('mode', mode);
+  url.searchParams.set('assistant', '1');
 
   return url.toString();
 }

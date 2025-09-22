@@ -636,7 +636,7 @@
   .final-preview-modal {
     margin: var(--dad-spacing-small);
     max-width: none;
-    height: calc(100vh - ${var(--dad-spacing-small)} * 2);
+    height: calc(100vh - var(--dad-spacing-small) * 2);
   }
 
   .onboarding-modal {
@@ -697,4 +697,60 @@
   right: -4px;
   border-right-color: transparent;
   border-left-color: var(--color-text-primary);
+}
+
+/* === COMMON CLASSES FOR REFACTORED INLINE STYLES === */
+
+/* Dad-Mode button styles */
+.dad-button-large {
+  font-size: 20px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+}
+
+.dad-button-normal {
+  min-height: 44px !important;
+  font-size: 16px !important;
+}
+
+.dad-button-small {
+  font-size: 14px !important;
+  min-height: 32px !important;
+}
+
+.dad-text-large {
+  font-size: 18px !important;
+}
+
+.dad-text-normal {
+  font-size: 16px !important;
+}
+
+.dad-text-small {
+  font-size: 14px !important;
+}
+
+/* Component-specific borders using CSS variables */
+.border-primary {
+  border: 1px solid var(--border-primary) !important;
+}
+
+.border-bottom-primary {
+  border-bottom: 1px solid var(--border-primary) !important;
+}
+
+.border-top-primary {
+  border-top: 1px solid var(--border-primary) !important;
+}
+
+.color-text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.color-text-tertiary {
+  color: var(--text-tertiary) !important;
+}
+
+.bg-tertiary {
+  background: var(--bg-tertiary) !important;
 }

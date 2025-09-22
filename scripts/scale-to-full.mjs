@@ -1,18 +1,171 @@
 #!/usr/bin/env node
 
+import { spawn } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
+import crypto from 'crypto';
 
 class ScaleToFull {
+  constructor() {
+    this.startTime = Date.now();
+    this.steps = [
+      { name: 'Ingestion', command: 'tsx', args: ['scripts/ingest.ts'] },
+      { name: 'Pipeline Processing', command: 'tsx', args: ['orchestrate/pipeline.mjs'], env: { SECTION_SCOPE: 'all' } },
+      { name: 'Quality Validation', command: 'node', args: ['scripts/quality-validation.mjs'] },
+      { name: 'Build DOCX', command: 'node', args: ['build/docx.mjs'] },
+      { name: 'Build EPUB', command: 'node', args: ['build/epub.mjs'] },
+      { name: 'Audio Prep', command: 'node', args: ['build/audio_prep.mjs'] },
+      { name: 'Final Report', command: 'node', args: ['scripts/generate-final-report.mjs'] }
+    ];
+  }
+
+  async runCommand(step) {
+    return new Promise((resolve, reject) => {
+      console.log(`\n🚀 Starting: ${step.name}`);
+      console.log(`   Command: ${step.command} ${step.args.join(' ')}`);
+
+      const env = { ...process.env, ...step.env };
+      const child = spawn(step.command, step.args, {
+        stdio: ['inherit', 'pipe', 'pipe'],
+        env
+      });
+
+      let stdout = '';
+      let stderr = '';
+
+      child.stdout.on('data', (data) => {
+        const text = data.toString();
+        stdout += text;
+        process.stdout.write(text);
+      });
+
+      child.stderr.on('data', (data) => {
+        const text = data.toString();
+        stderr += text;
+        process.stderr.write(text);
+      });
+
+      child.on('close', (code) => {
+        if (code === 0) {
+          console.log(`✅ ${step.name} completed successfully`);
+          resolve({ stdout, stderr, code });
+        } else {
+          console.error(`❌ ${step.name} failed with exit code ${code}`);
+          reject(new Error(`${step.name} failed with exit code ${code}`));
+        }
+      });
+
+      child.on('error', (error) => {
+        console.error(`❌ ${step.name} failed to start:`, error.message);
+        reject(error);
+      });
+    });
+  }
+
+  async calculateChecksums() {
+    const artifacts = [
+      'outputs/book-final.docx',
+      'outputs/triview.json',
+      'outputs/book.epub',
+      'reports/quality-gates.json',
+      'reports/deployment-report.json'
+    ];
+
+    const checksums = {};
+
+    for (const artifact of artifacts) {
+      try {
+        const data = await fs.readFile(artifact);
+        const hash = crypto.createHash('sha256').update(data).digest('hex');
+        checksums[artifact] = hash;
+      } catch (error) {
+        if (error.code !== 'ENOENT') {
+          console.warn(`⚠️  Could not checksum ${artifact}: ${error.message}`);
+        }
+      }
+    }
+
+    return checksums;
+  }
+
+  async printArtifactInventory() {
+    console.log('\n📦 Artifact Inventory:');
+
+    const checksums = await this.calculateChecksums();
+
+    for (const [artifact, checksum] of Object.entries(checksums)) {
+      try {
+        const stats = await fs.stat(artifact);
+        const sizeKB = Math.round(stats.size / 1024);
+        console.log(`   ${artifact} (${sizeKB}KB) - ${checksum.substring(0, 16)}...`);
+      } catch (error) {
+        console.log(`   ${artifact} - Missing`);
+      }
+    }
+
+    return checksums;
+  }
+
+  async checkQualityGates() {
+    try {
+      const gatesPath = 'reports/quality-gates.json';
+      const gatesData = await fs.readFile(gatesPath, 'utf8');
+      const gates = JSON.parse(gatesData);
+
+      if (gates.overallPass === false) {
+        console.error('\n❌ Quality gates failed! Deployment blocked.');
+        return false;
+      }
+
+      console.log('\n✅ All quality gates passed!');
+      return true;
+    } catch (error) {
+      console.error('\n⚠️  Could not verify quality gates:', error.message);
+      return false;
+    }
+  }
+
   async run() {
-    console.log('🎯 Scale to Full Document Processing');
-    console.log('Processing all sections with MCP integration...');
-    
-    // This would process all sections in the document
-    // Implementation details would go here
-    
-    console.log('✅ Scale to full processing complete');
+    try {
+      console.log('🎯 Scale to Full Document Processing Pipeline');
+      console.log('=====================================');
+
+      // Run each step in sequence
+      for (const step of this.steps) {
+        await this.runCommand(step);
+      }
+
+      // Check quality gates
+      const gatesPassed = await this.checkQualityGates();
+
+      // Print final inventory
+      await this.printArtifactInventory();
+
+      const duration = Math.round((Date.now() - this.startTime) / 1000);
+      console.log(`\n🎉 Pipeline completed in ${duration}s`);
+
+      if (!gatesPassed) {
+        process.exit(1);
+      }
+
+      console.log('✅ Ready for deployment!');
+
+    } catch (error) {
+      console.error('\n💥 Pipeline failed:', error.message);
+      process.exit(1);
+    }
   }
 }
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+  console.log('\n🛑 Pipeline interrupted');
+  process.exit(1);
+});
+
+process.on('SIGTERM', () => {
+  console.log('\n🛑 Pipeline terminated');
+  process.exit(1);
+});
 
 new ScaleToFull().run();

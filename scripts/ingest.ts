@@ -29,21 +29,36 @@ function normalizeArabicText(text) {
     .trim();
 }
 
-function generateStableId(title, index, existingMapping = {}) {
-  // First check if we already have an ID for this title
+function generateStableId(title, content, index, existingMapping = {}, usedIds = new Set()) {
   const normalizedTitle = normalizeArabicText(title);
+  const contentHash = calculateHash(content).substring(0, 8); // Use first 8 chars for uniqueness
+  const uniqueKey = `${normalizedTitle}:${contentHash}`;
 
-  if (existingMapping[normalizedTitle]) {
-    return existingMapping[normalizedTitle];
+  // Check if we already have an ID for this exact title+content combination
+  if (existingMapping[uniqueKey]) {
+    return existingMapping[uniqueKey];
   }
 
-  // Generate a sequential ID based on index
-  const sectionId = `S${String(index).padStart(3, '0')}`;
+  // Generate base ID from index
+  let candidateId = `S${String(index).padStart(3, '0')}`;
 
-  // Store the mapping for future runs
-  existingMapping[normalizedTitle] = sectionId;
+  // Check for collision with existing section files and used IDs
+  let counter = 0;
+  while (usedIds.has(candidateId) || existsSync(path.join(SECTIONS_DIR, `${candidateId}.json`))) {
+    counter++;
+    candidateId = `S${String(index).padStart(3, '0')}_${counter}`;
 
-  return sectionId;
+    // Sanity check to prevent infinite loops
+    if (counter > 1000) {
+      throw new Error(`Could not generate unique section ID for index ${index}`);
+    }
+  }
+
+  // Store the mapping and mark ID as used
+  existingMapping[uniqueKey] = candidateId;
+  usedIds.add(candidateId);
+
+  return candidateId;
 }
 
 function loadIdMapping() {
@@ -64,8 +79,8 @@ function saveIdMapping(mapping) {
   writeFileSync(mappingPath, JSON.stringify(mapping, null, 2), 'utf8');
 }
 
-function generateHash(content) {
-  return crypto.createHash('md5').update(JSON.stringify(content)).digest('hex');
+function calculateHash(text) {
+  return crypto.createHash('sha256').update(text || '', 'utf8').digest('hex').substring(0, 16);
 }
 
 function detectSectionBoundaries(text) {
@@ -150,7 +165,7 @@ async function processSection(sectionText, sectionTitle, sectionId) {
         rowIndex: index,
         wordCount: row.text.split(/\s+/).length,
         charCount: row.text.length,
-        laneHash: generateHash(row.text),
+        laneHash: calculateHash(row.text),
         ...row.metadata
       }
     };
@@ -164,7 +179,7 @@ async function processSection(sectionText, sectionTitle, sectionId) {
       rowCount: processedRows.length,
       wordCount: processedRows.reduce((sum, row) => sum + row.metadata.wordCount, 0),
       charCount: processedRows.reduce((sum, row) => sum + row.metadata.charCount, 0),
-      contentHash: generateHash(processedRows),
+      contentHash: calculateHash(JSON.stringify(processedRows)),
       processedAt: new Date().toISOString()
     }
   };
@@ -220,10 +235,11 @@ async function main() {
 
     // Process each section
     const processedSections = [];
+    const usedIds = new Set();
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
-      const sectionId = generateStableId(section.title, i + 1, idMapping);
       const sectionText = section.lines.join('\n');
+      const sectionId = generateStableId(section.title, sectionText, i + 1, idMapping, usedIds);
 
       console.log(`Processing section ${sectionId}: ${section.title}`);
 

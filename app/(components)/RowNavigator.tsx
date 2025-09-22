@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useShortcuts, SHORTCUTS } from '@/lib/ui/shortcuts';
+import { shortcuts as shortcutManager, SHORTCUTS } from '@/lib/ui/shortcuts';
 
 export interface RowStatus {
   id: number;
@@ -50,18 +50,27 @@ export default function RowNavigator({
   };
 
   // Register keyboard shortcuts using centralized system
-  useShortcuts([
-    {
-      ...SHORTCUTS.JUMP_UP_5,
-      enabled: () => isVisible,
-      handler: () => onJumpRows?.('up', 5)
-    },
-    {
-      ...SHORTCUTS.JUMP_DOWN_5,
-      enabled: () => isVisible,
-      handler: () => onJumpRows?.('down', 5)
+  useEffect(() => {
+    if (isVisible && onJumpRows) {
+      const jumpUpShortcut = {
+        ...SHORTCUTS.JUMP_UP_5,
+        handler: () => onJumpRows('up', 5)
+      };
+
+      const jumpDownShortcut = {
+        ...SHORTCUTS.JUMP_DOWN_5,
+        handler: () => onJumpRows('down', 5)
+      };
+
+      shortcutManager.register(jumpUpShortcut);
+      shortcutManager.register(jumpDownShortcut);
+
+      return () => {
+        shortcutManager.unregister(SHORTCUTS.JUMP_UP_5.key);
+        shortcutManager.unregister(SHORTCUTS.JUMP_DOWN_5.key);
+      };
     }
-  ], [isVisible, onJumpRows]);
+  }, [isVisible, onJumpRows]);
 
   // Auto-scroll to current row
   useEffect(() => {

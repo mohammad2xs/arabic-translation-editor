@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { fuzzySearch, highlightMatches, type Searchable } from '@/lib/ui/fuzzy';
-import { shortcuts, SHORTCUTS, type ShortcutHandler } from '@/lib/ui/shortcuts';
+import { shortcuts as shortcutManager, SHORTCUTS, type ShortcutHandler } from '@/lib/ui/shortcuts';
 
 interface PaletteAction extends Searchable {
   icon?: string;
@@ -49,7 +49,7 @@ export default function CmdPalette({
   const listRef = useRef<HTMLDivElement>(null);
 
   // Build actions dynamically
-  const actions: PaletteAction[] = [
+  const actions: PaletteAction[] = useMemo(() => [
     // Core Actions
     {
       id: 'edit',
@@ -188,15 +188,15 @@ export default function CmdPalette({
         onRunAssistantPreset?.('compress');
       }
     }
-  ];
+  ], [currentRow, totalRows, issues, onNavigateToRow, onToggleAssistant, onToggleEdit, onApprove, onSave, onRunAssistantPreset]);
 
   // Filter actions based on query
-  const filteredActions = query.trim()
-    ? fuzzySearch(actions, query, 8)
-    : actions.slice(0, 8).map(item => ({ item, score: 0, matches: [] }));
+  const results = useMemo(() => query.trim()
+    ? fuzzySearch<PaletteAction>(query, actions, { key: (a) => [a.title, a.subtitle, ...(a.keywords || [])].join(' '), threshold: 0.4, includeMatches: true })
+    : actions.slice(0, 8).map(item => ({ item, score: 1, matches: [] })), [query, actions]);
 
   // Group actions by section
-  const groupedActions = filteredActions.reduce((groups, { item }) => {
+  const groupedActions = results.reduce((groups, { item }) => {
     if (!groups[item.section]) groups[item.section] = [];
     groups[item.section].push(item);
     return groups;
@@ -261,14 +261,13 @@ export default function CmdPalette({
     if (isOpen) {
       const shortcutHandler: ShortcutHandler = {
         ...SHORTCUTS.COMMAND_PALETTE,
-        id: 'command-palette-overlay',
         handler: () => {
           onClose();
         }
       };
 
-      shortcuts.register(shortcutHandler);
-      return () => shortcuts.unregister(shortcutHandler.id);
+      shortcutManager.register(shortcutHandler);
+      return () => shortcutManager.unregister(shortcutHandler.key);
     }
   }, [isOpen, onClose]);
 
@@ -294,13 +293,13 @@ export default function CmdPalette({
 
       {/* Palette */}
       <div
-        className="relative w-full max-w-2xl mx-4 bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200"
+        className="relative w-full max-w-2xl mx-4 overflow-hidden"
         data-command-palette
       >
         {/* Search Input */}
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-bottom-primary">
           <div className="relative">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 color-text-tertiary">
               🔍
             </div>
             <input
@@ -309,8 +308,8 @@ export default function CmdPalette({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type a command or search... | اكتب أمراً أو ابحث..."
-              className="w-full pl-10 pr-4 py-3 text-lg border-0 focus:outline-none bg-transparent placeholder-gray-500"
-              style={{ fontSize: '18px' }} // Dad-Mode friendly
+              className="cmd-palette-search"
+              className="dad-text-large"
             />
           </div>
         </div>
@@ -318,7 +317,7 @@ export default function CmdPalette({
         {/* Results */}
         <div ref={listRef} className="max-h-96 overflow-y-auto">
           {flatActions.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center color-text-secondary">
               <div className="text-2xl mb-2">🤷‍♂️</div>
               <div className="text-lg">No results found • لا توجد نتائج</div>
             </div>
@@ -328,8 +327,8 @@ export default function CmdPalette({
               if (!sectionActions?.length) return null;
 
               return (
-                <div key={section} className="border-b border-gray-100 last:border-b-0">
-                  <div className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-50">
+                <div key={section} className="border-bottom-primary last:border-b-0">
+                  <div className="px-4 py-2 text-sm font-medium color-text-secondary bg-tertiary">
                     {getSectionTitle(section)}
                   </div>
                   {sectionActions.map((action, index) => {
@@ -339,9 +338,7 @@ export default function CmdPalette({
                     return (
                       <div
                         key={action.id}
-                        className={`px-4 py-3 cursor-pointer transition-colors ${
-                          isSelected ? 'bg-blue-50 border-r-2 border-blue-500' : 'hover:bg-gray-50'
-                        }`}
+                        className="cmd-palette-item"
                         onClick={() => {
                           action.action();
                           onClose();
@@ -355,15 +352,15 @@ export default function CmdPalette({
                             <div>
                               <div
                                 className="font-medium text-gray-900"
-                                style={{ fontSize: '16px' }} // Dad-Mode friendly
+                                className="dad-text-normal"
                                 dangerouslySetInnerHTML={{
-                                  __html: highlightMatches(action.title, [])
+                                  __html: highlightMatches(action.title, results.find(r => r.item === action)?.matches?.filter(m => action.title.includes(m.value)) || [])
                                 }}
                               />
                               {action.subtitle && (
                                 <div
                                   className="text-sm text-gray-600 mt-1"
-                                  style={{ fontSize: '14px' }}
+                                  className="dad-text-small"
                                 >
                                   {action.subtitle}
                                 </div>
@@ -386,7 +383,7 @@ export default function CmdPalette({
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-gray-200 text-xs text-gray-500 flex justify-between items-center">
+        <div className="px-4 py-2 text-xs flex justify-between items-center border-top-primary color-text-tertiary">
           <div>↑↓ navigate • ⏎ select • esc close</div>
           <div>⌘K to toggle • ⌘ K للتبديل</div>
         </div>

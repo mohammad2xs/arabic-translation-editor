@@ -158,10 +158,10 @@ export default function FinalPreview({
         <div className="preview-header">
           <h2 className="preview-title">Final Preview • معاينة نهائية</h2>
           <button
+            type="button"
             onClick={onClose}
-            className="preview-close"
+            className="preview-close dad-button-large"
             aria-label="Close preview"
-            style={{ fontSize: '20px', minWidth: '44px', minHeight: '44px' }} // Dad-Mode
           >
             ✕
           </button>
@@ -169,16 +169,18 @@ export default function FinalPreview({
 
         <div className="preview-tabs">
           <button
-            className={`preview-tab ${activeTab === 'triview' ? 'active' : ''}`}
+            type="button"
+            className={`preview-tab dad-button-normal ${activeTab === 'triview' ? 'active' : ''}`}
             onClick={() => setActiveTab('triview')}
-            style={{ minHeight: '44px', fontSize: '16px' }} // Dad-Mode
+            aria-label="Switch to tri-view mode"
           >
             📊 Tri-View • عرض ثلاثي
           </button>
           <button
-            className={`preview-tab ${activeTab === 'book' ? 'active' : ''}`}
+            type="button"
+            className={`preview-tab dad-button-normal ${activeTab === 'book' ? 'active' : ''}`}
             onClick={() => setActiveTab('book')}
-            style={{ minHeight: '44px', fontSize: '16px' }} // Dad-Mode
+            aria-label="Switch to book preview mode"
           >
             📖 Book Preview • معاينة الكتاب
           </button>
@@ -187,7 +189,7 @@ export default function FinalPreview({
         <div className="preview-content">
           {loading && (
             <div className="flex items-center justify-center h-64">
-              <div className="text-gray-500" style={{ fontSize: '18px' }}>
+              <div className="text-gray-500 dad-text-large">
                 Loading preview... • جاري تحميل المعاينة...
               </div>
             </div>
@@ -196,14 +198,14 @@ export default function FinalPreview({
           {error && (
             <div className="p-6">
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <div className="text-red-800 font-medium" style={{ fontSize: '16px' }}>
+                <div className="text-red-800 font-medium dad-text-normal">
                   Error loading preview • خطأ في تحميل المعاينة
                 </div>
-                <div className="text-red-600 text-sm mt-1" style={{ fontSize: '14px' }}>{error}</div>
+                <div className="text-red-600 text-sm mt-1 dad-text-small">{error}</div>
                 <button
                   onClick={fetchPreviewData}
                   className="mt-2 text-red-600 text-sm underline hover:no-underline"
-                  style={{ fontSize: '14px', minHeight: '32px' }}
+                  className="dad-text-small"
                 >
                   Try again • حاول مرة أخرى
                 </button>

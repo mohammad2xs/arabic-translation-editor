@@ -87,8 +87,7 @@ function parseReference(ref: string): { type: 'quran' | 'hadith', identifier: st
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const reference = searchParams.get('ref');
+    const reference = request.nextUrl.searchParams.get('ref');
 
     if (!reference) {
       return NextResponse.json(

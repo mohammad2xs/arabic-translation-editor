@@ -71,7 +71,7 @@ export default function RowCard({
   onFocus,
   isFocused = false,
 }: RowCardProps) {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('original');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('english');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [noteCount, setNoteCount] = useState(0);
@@ -367,10 +367,10 @@ export default function RowCard({
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="flex">
             <button
-              onClick={() => setActiveTab('original')}
-              className={tabClasses('original')}
+              onClick={() => setActiveTab('english')}
+              className={tabClasses('english')}
             >
-              📖 Original Arabic
+              🌍 English Translation
             </button>
             <button
               onClick={() => setActiveTab('enhanced')}
@@ -379,10 +379,10 @@ export default function RowCard({
               ✨ Enhanced Arabic
             </button>
             <button
-              onClick={() => setActiveTab('english')}
-              className={tabClasses('english')}
+              onClick={() => setActiveTab('original')}
+              className={tabClasses('original')}
             >
-              🌍 English Translation
+              📖 Original Arabic
             </button>
           </div>
         </div>
@@ -452,6 +452,8 @@ export default function RowCard({
 
               {canEditContent ? (
                 <textarea
+                  id={`enhanced-arabic-${row.id}`}
+                  name={`enhanced-arabic-${row.id}`}
                   ref={enhancedTextareaRef}
                   value={row.enhanced}
                   onChange={(e) => onRowChange('enhanced', e.target.value)}
@@ -512,6 +514,8 @@ export default function RowCard({
 
               {canEditContent ? (
                 <textarea
+                  id={`english-translation-${row.id}`}
+                  name={`english-translation-${row.id}`}
                   ref={englishTextareaRef}
                   value={row.english}
                   onChange={(e) => onRowChange('english', e.target.value)}
