@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { readFile } from 'fs/promises'
+import { NextRequest, NextResponse } from 'next/server'
 import { join } from 'path'
-import { validateEnvironment, detectDeployment } from '../../../lib/env'
-import { storage } from '../../../lib/share/production-storage'
 import { getDocUrl } from '../../../lib/config/docs'
+import { detectDeployment, validateEnvironment } from '../../../lib/env'
+import { logger } from '../../../lib/logging/console-ninja'
+import { storage } from '../../../lib/share/production-storage'
 // import { getAssistantHealthSummary } from '../../../lib/assistant/health-utils'
 
 interface BuildMetadata {
@@ -234,12 +235,24 @@ async function testStorageConnection(): Promise<{ ping: boolean; driver: string;
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  const startTime = Date.now()
+  const requestId = `health_${Date.now()}_${Math.random().toString(36).slice(2)}`
+
+  logger.info('Health check request started', {
+    requestId,
+    component: 'health-api',
+    userAgent: request.headers.get('user-agent')
+  });
+
   try {
     const detailed = request.nextUrl.searchParams.get('detailed') === 'true'
     const quality = request.nextUrl.searchParams.get('quality') === 'true'
     const warnings = request.nextUrl.searchParams.get('warnings') === 'true'
 
+    logger.debug('Health check parameters', { requestId, detailed, quality, warnings });
+
     // Gather all health data
+    logger.debug('Gathering health data', { requestId });
     const [
       buildMetadata,
       assistantHealth,
@@ -253,6 +266,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       Promise.resolve(validateEnvironment()),
       Promise.resolve(detectDeployment()),
     ])
+    
+    logger.debug('Health data gathered successfully', { 
+      requestId,
+      buildMetadata: !!buildMetadata,
+      assistantHealth: !!assistantHealth,
+      storageHealth: storageHealth.ping,
+      environmentValid: environmentValidation.success,
+      deployment: deployment
+    });
 
     // Determine LLM provider
     const provider = process.env.LLM_PROVIDER || 'claude'
@@ -361,14 +383,31 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       status: status === 'unhealthy' ? 503 : 200,
     })
 
+    const totalDuration = Date.now() - startTime
+    logger.info('Health check completed successfully', {
+      requestId,
+      duration: totalDuration,
+      status,
+      detailed,
+      quality,
+      warnings
+    });
+
   } catch (error) {
-    console.error('Health check failed:', error)
+    const totalDuration = Date.now() - startTime
+    logger.error('Health check failed', {
+      requestId,
+      duration: totalDuration,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    })
 
     return NextResponse.json({
       ok: false,
       status: 'unhealthy',
       error: error instanceof Error ? error.message : 'Health check failed',
       timestamp: new Date().toISOString(),
+      requestId
     }, { status: 503 })
   }
 }

@@ -1,13 +1,14 @@
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
-import { getRoleFromRequest, canComment, validateRoleAccess } from '../../../../lib/dadmode/access';
-import { getLLMRouter } from '../../../../lib/llm/router';
+import { join } from 'path';
+import { createCacheRequest, getAssistantCache } from '../../../../lib/assistant/cache';
 import { buildContext, getCompactContext } from '../../../../lib/assistant/context';
 import { getPromptForTask } from '../../../../lib/assistant/prompt';
-import { generateWordDiff, calculateConfidence, generateContentHash } from '../../../../lib/assistant/tools';
-import { getAssistantCache, createCacheRequest } from '../../../../lib/assistant/cache';
-import { formatScriptureForAssistant, generateScriptureFootnote, validateScripturePreservation } from '../../../../lib/scripture/index';
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
-import { join } from 'path';
+import { calculateConfidence, generateContentHash, generateWordDiff } from '../../../../lib/assistant/tools';
+import { canComment, getRoleFromRequest } from '../../../../lib/dadmode/access';
+import { getLLMRouter } from '../../../../lib/llm/router';
+import { logger } from '../../../../lib/logging/console-ninja';
+import { generateScriptureFootnote, validateScripturePreservation } from '../../../../lib/scripture/index';
 
 interface ChatRequestBody {
   row_id: string;
@@ -239,13 +240,22 @@ async function parseClaudeResponse(
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const requestId = `req_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const startTime = Date.now();
+
+  logger.info('Assistant chat request started', {
+    requestId,
+    component: 'assistant-chat',
+    action: 'request-start'
+  });
 
   try {
     // Parse request body
     let body: ChatRequestBody;
     try {
       body = await request.json();
+      logger.debug('Request body parsed successfully', { requestId, bodyKeys: Object.keys(body) });
     } catch (error) {
+      logger.error('Invalid JSON in request body', { requestId, error: error.message });
       return NextResponse.json(
         { error: 'Invalid JSON in request body' },
         { status: 400 }
@@ -254,6 +264,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Validate required fields
     if (!body.row_id || !body.section_id || !body.task) {
+      logger.warn('Missing required fields in request', { 
+        requestId, 
+        missingFields: ['row_id', 'section_id', 'task'].filter(field => !body[field as keyof ChatRequestBody])
+      });
       return NextResponse.json(
         { error: 'Missing required fields: row_id, section_id, task' },
         { status: 400 }
@@ -262,7 +276,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Get user role and check permissions
     const userRole = getRoleFromRequest(request);
+    logger.debug('User role retrieved', { requestId, userRole });
+    
     if (!canComment(userRole)) {
+      logger.warn('Insufficient permissions for chat request', { requestId, userRole });
       return NextResponse.json(
         { error: 'Insufficient permissions. Commenter access required.' },
         { status: 403 }
@@ -274,6 +291,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const rateCheck = checkRateLimit(rateLimitKey);
 
     if (!rateCheck.allowed) {
+      logger.warn('Rate limit exceeded', { requestId, rateLimitKey, reason: rateCheck.reason });
       return NextResponse.json(
         { error: rateCheck.reason },
         { status: 429 }
@@ -281,19 +299,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Build context for the request
+    logger.debug('Building context for request', { requestId, task: body.task });
     const context = await buildContext(
       body.row_id,
       body.section_id,
       body.selection,
       body.task
     );
+    logger.debug('Context built successfully', { 
+      requestId, 
+      contextKeys: Object.keys(context),
+      scriptureCount: context.scripture?.length || 0
+    });
 
     // Enforce scripture check cache-only policy
     if (body.task === 'scripture_check' && (!context.scripture || context.scripture.length === 0)) {
+      logger.warn('Scripture check attempted without cached reference', { requestId });
       return NextResponse.json({ error: 'Scripture check requires cached reference. No API call allowed without cache hit.' }, { status: 400 });
     }
 
     // Check cache first
+    logger.debug('Checking cache for request', { requestId });
     const cache = getAssistantCache();
     const cacheRequest = createCacheRequest(
       body.row_id,
@@ -309,6 +335,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const cached = cache.get(cacheRequest);
     if (cached) {
+      logger.info('Cache hit for assistant request', { 
+        requestId, 
+        suggestionsCount: cached.suggestions.length,
+        usage: cached.usage
+      });
       logUsage({
         requestId,
         userRole,
@@ -327,17 +358,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Get prompts for the task
+    logger.debug('Getting prompts for task', { requestId, task: body.task });
     const prompts = getPromptForTask(body.task, context, body.query);
 
     // Call LLM via router (supports Claude default, optional Gemini)
+    logger.debug('Initializing LLM router', { requestId });
     const router = getLLMRouter();
     if (!router.isConfigured()) {
+      logger.error('LLM service not configured', { requestId });
       return NextResponse.json(
         { error: 'LLM service not configured. Please contact administrator.' },
         { status: 503 }
       );
     }
 
+    logger.info('Calling LLM for assistant request', { 
+      requestId, 
+      task: body.task,
+      temperature: body.temperature ?? 0.2,
+      seed: body.seed ?? 42
+    });
+    
+    const llmStartTime = Date.now();
     const chatResponse = await router.chat({
       system: prompts.system,
       user: prompts.user,
@@ -345,8 +387,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       temperature: body.temperature ?? 0.2,
       seed: body.seed ?? 42,
     });
+    const llmDuration = Date.now() - llmStartTime;
+    
+    logger.performance('LLM API call', llmDuration, {
+      requestId,
+      task: body.task,
+      usage: chatResponse.usage
+    });
 
     // Parse response into suggestions
+    logger.debug('Parsing LLM response into suggestions', { requestId });
     const suggestions = await parseClaudeResponse(
       chatResponse.content,
       context.row.en_translation,
@@ -354,11 +404,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       context,
       chatResponse.usage
     );
+    logger.info('Suggestions parsed successfully', { 
+      requestId, 
+      suggestionsCount: suggestions.length,
+      averageConfidence: suggestions.reduce((acc, s) => acc + s.confidence, 0) / suggestions.length
+    });
 
     // Update rate limits
     updateRateLimit(rateLimitKey, chatResponse.usage.totalTokens);
 
     // Cache the response
+    logger.debug('Caching response', { requestId });
     cache.set(cacheRequest, {
       suggestions,
       generatedAt: new Date().toISOString(),
@@ -389,10 +445,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       requestId,
     };
 
+    const totalDuration = Date.now() - startTime;
+    logger.info('Assistant chat request completed successfully', {
+      requestId,
+      duration: totalDuration,
+      suggestionsCount: suggestions.length,
+      usage: chatResponse.usage,
+      cached: false
+    });
+
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Assistant chat error:', error);
+    const totalDuration = Date.now() - startTime;
+    logger.error('Assistant chat request failed', {
+      requestId,
+      duration: totalDuration,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      body: body ? { row_id: body.row_id, section_id: body.section_id, task: body.task } : undefined
+    });
 
     logUsage({
       requestId,

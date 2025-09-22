@@ -244,7 +244,7 @@ export default function AudioControls({
     return () => {
       handleStop();
     };
-  }, []);
+  }, [handleStop]);
 
   const buttonSize = large ? 'w-16 h-16' : 'w-12 h-12';
   const iconSize = large ? 'text-2xl' : 'text-lg';

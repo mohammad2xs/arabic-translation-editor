@@ -489,7 +489,7 @@ async function processNextJob(lane: Lane) {
     await fs.mkdir(outputDir, { recursive: true });
 
     // Calculate total duration and file sizes
-    let totalDuration = 0;
+    const totalDuration = 0;
     let totalFileSize = 0;
     const segmentDetails = [];
 

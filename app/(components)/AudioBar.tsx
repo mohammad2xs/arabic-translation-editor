@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { canPlayAudio, getUserRole } from '../../lib/dadmode/access';
-import { generateSSML } from '../../lib/audio/ssml';
+// import { generateSSML } from '../../lib/audio/ssml';
 import type { Lane } from '../../lib/audio/types';
-import { getVoiceRegistry, type VoiceSettings } from '../../lib/audio/voices';
+import { getVoiceRegistry } from '../../lib/audio/voices';
 
 interface AudioBarProps {
   text: string;
@@ -276,7 +276,7 @@ export default function AudioBar({
   };
 
   // Start chapter playback
-  const playChapter = async () => {
+  const _playChapter = async () => {
     if (!chapterId) {
       alert('Chapter playback is not yet supported - coming soon!');
       return;
@@ -390,7 +390,7 @@ export default function AudioBar({
     return () => {
       handleStop();
     };
-  }, []);
+  }, [handleStop]);
 
   const currentText = getCurrentText();
   const laneConfig = voiceRegistry.getLaneConfig(currentLane);

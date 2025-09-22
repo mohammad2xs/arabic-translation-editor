@@ -14,7 +14,7 @@ interface AssistantSidebarProps {
     ar_enhanced: string;
     en_translation: string;
   };
-  onApplySuggestion?: (suggestion: any, range?: string) => void;
+  onApplySuggestion?: (suggestion: Suggestion, range?: string) => void;
 }
 
 interface Suggestion {
@@ -50,7 +50,7 @@ export default function AssistantSidebar({
   onToggle,
   currentRowId,
   currentSectionId,
-  currentRowData,
+  currentRowData: _unused,
   onApplySuggestion,
 }: AssistantSidebarProps) {
   const [query, setQuery] = useState('');
@@ -60,7 +60,7 @@ export default function AssistantSidebar({
   const [isListening, setIsListening] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   const userRole = getUserRole();
   const canUseAssistant = canComment(userRole); // commenter+ can use assistant
@@ -90,13 +90,13 @@ export default function AssistantSidebar({
   // Speech recognition setup
   useEffect(() => {
     if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition;
+      const SpeechRecognition = (window as { webkitSpeechRecognition: new () => SpeechRecognition }).webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
       recognitionRef.current.lang = 'en-US';
 
-      recognitionRef.current.onresult = (event: any) => {
+      recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
         const transcript = event.results[0][0].transcript;
         setQuery(transcript);
         setIsListening(false);
@@ -348,7 +348,7 @@ export default function AssistantSidebar({
           </div>
           {selectedText && (
             <div className="assistant-selection-hint">
-              📝 Selected: "{selectedText.slice(0, 50)}{selectedText.length > 50 ? '...' : ''}"
+              📝 Selected: &ldquo;{selectedText.slice(0, 50)}{selectedText.length > 50 ? '...' : ''}&rdquo;
             </div>
           )}
         </div>

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useEnvironmentHealth, processEnvironmentWarnings, type EnvironmentStatus, type ServiceStatus, type WarningLevel, type ProcessedWarning, type EnvironmentAction } from '../../lib/client/environment-status';
+import React, { useEffect, useState } from 'react';
+import { processEnvironmentWarnings, useEnvironmentHealth, type EnvironmentAction, type ProcessedWarning, type ServiceStatus } from '../../lib/client/environment-status';
+import { logger } from '../../lib/logging/console-ninja';
 
 interface EnvironmentWarningProps {
   /** Whether to show as a compact indicator (e.g., in header) or full banner */
@@ -30,6 +31,21 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
   const [dismissedWarnings, setDismissedWarnings] = useState<Set<string>>(new Set());
   const [internalExpandedDetails, setInternalExpandedDetails] = useState(false);
 
+  // Log component lifecycle
+  useEffect(() => {
+    logger.debug('EnvironmentWarning component mounted', {
+      component: 'environment-warning',
+      compact,
+      criticalOnly
+    });
+
+    return () => {
+      logger.debug('EnvironmentWarning component unmounted', {
+        component: 'environment-warning'
+      });
+    };
+  }, [compact, criticalOnly]);
+
   // Use controlled expanded state if provided, otherwise use internal state
   const expandedDetails = expanded !== undefined ? expanded : internalExpandedDetails;
   const handleToggle = (newExpanded: boolean) => {
@@ -45,10 +61,18 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
     try {
       const stored = sessionStorage.getItem('dismissed-env-warnings');
       if (stored) {
-        setDismissedWarnings(new Set(JSON.parse(stored)));
+        const warnings = JSON.parse(stored);
+        setDismissedWarnings(new Set(warnings));
+        logger.debug('Loaded dismissed warnings from session storage', {
+          component: 'environment-warning',
+          warningCount: warnings.length
+        });
       }
     } catch (error) {
-      console.warn('Failed to load dismissed warnings:', error);
+      logger.warn('Failed to load dismissed warnings from session storage', {
+        component: 'environment-warning',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   }, []);
 
@@ -58,21 +82,52 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
     newDismissed.add(warningId);
     setDismissedWarnings(newDismissed);
 
+    logger.userAction('Environment warning dismissed', {
+      component: 'environment-warning',
+      warningId,
+      totalDismissed: newDismissed.size
+    });
+
     try {
       sessionStorage.setItem('dismissed-env-warnings', JSON.stringify(Array.from(newDismissed)));
+      logger.debug('Dismissed warnings saved to session storage', {
+        component: 'environment-warning',
+        warningId
+      });
     } catch (error) {
-      console.warn('Failed to save dismissed warnings:', error);
+      logger.warn('Failed to save dismissed warnings to session storage', {
+        component: 'environment-warning',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
 
     onDismiss?.(warningId);
   };
 
+  const allWarnings = status ? processEnvironmentWarnings(status, criticalOnly) : [];
+  const visibleWarnings = allWarnings.filter(w => !dismissedWarnings.has(w.id));
+
+  // Log warning status
+  useEffect(() => {
+    if (visibleWarnings.length > 0) {
+      logger.info('Environment warnings displayed', {
+        component: 'environment-warning',
+        totalWarnings: visibleWarnings.length,
+        criticalCount: visibleWarnings.filter(w => w.level === 'error').length,
+        warningCount: visibleWarnings.filter(w => w.level === 'warning').length
+      });
+    }
+  }, [visibleWarnings.length]);
+
   if (isLoading || error || !status) {
+    if (error) {
+      logger.error('Environment health check failed', {
+        component: 'environment-warning',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
     return null;
   }
-
-  const allWarnings = processEnvironmentWarnings(status, criticalOnly);
-  const visibleWarnings = allWarnings.filter(w => !dismissedWarnings.has(w.id));
 
   // Don't show banner if only success state is visible
   const nonSuccessWarnings = visibleWarnings.filter(w => w.level !== 'success');
@@ -151,8 +206,8 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
       </div>
 
       <div className="env-warning-actions">
-        {primaryWarning.actions?.map((action, index) => (
-          <ActionButton key={index} action={action} />
+        {primaryWarning.actions?.map((action) => (
+          <ActionButton key={action.label} action={action} />
         ))}
         {primaryWarning.dismissible && (
           <button
@@ -195,7 +250,7 @@ const CompactWarningIndicator: React.FC<{
       onClick={onClick}
       title={warning.message}
       aria-controls={bannerId}
-      aria-expanded={expanded}
+      aria-expanded={expanded ? 'true' : 'false'}
       aria-label={`Environment status: ${warning.level}. ${expanded ? 'Hide' : 'Show'} details.`}
     >
       <div className={`w-2 h-2 rounded-full ${statusColor}`} />
