@@ -121,6 +121,12 @@ export default function AudioBar({
 
     if (!response.ok) {
       const errorData = await response.json();
+
+      // Handle preview mode (503 status)
+      if (response.status === 503 && errorData.previewMode) {
+        throw new Error(`${errorData.message}\n${errorData.guidance?.solution || 'Configure ElevenLabs API key to enable audio generation'}`);
+      }
+
       throw new Error(errorData.error || 'Failed to generate audio');
     }
 

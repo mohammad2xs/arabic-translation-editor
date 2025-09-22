@@ -117,7 +117,13 @@ export default function AudioControls({
           throw new Error('TTS generation failed');
         }
       } else {
-        throw new Error('TTS generation failed');
+        // Handle preview mode and other non-2xx responses
+        const errorData = await ttsResponse.json();
+        if (ttsResponse.status === 503 && errorData.previewMode) {
+          throw new Error(`Professional audio unavailable: ${errorData.message}\n\n${errorData.guidance?.solution || 'Configure ElevenLabs API key to enable professional audio generation'}`);
+        } else {
+          throw new Error(errorData.error || 'TTS generation failed');
+        }
       }
     } catch (error) {
       console.error('ElevenLabs generation error:', error);

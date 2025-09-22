@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { getUserRole, formatRoleDisplay, getRoleIcon, canShare, canComment } from '../../lib/dadmode/access';
 import { disableDadMode, getViewMode, setViewMode, getContextSize, setContextSize } from '../../lib/dadmode/prefs';
 import ShareDialog from './ShareDialog';
+import EnvironmentWarning from './EnvironmentWarning';
+import { useEnvironmentHealth, getServiceStatusSummary } from '../../lib/client/environment-status';
 
 interface DadHeaderProps {
   currentSection: string;
@@ -27,6 +29,59 @@ interface DadHeaderProps {
   onOpenPreview?: () => void;
   onOpenCommandPalette?: () => void;
   syncStatus?: React.ReactNode;
+}
+
+// Service Status Mini-Badges Component
+function ServiceStatusBadges() {
+  const { status } = useEnvironmentHealth({
+    pollInterval: 60000, // Check every minute
+    detailed: false,
+    autoRefresh: true
+  });
+
+  if (!status?.services) {
+    return null;
+  }
+
+  const getServiceBadge = (serviceName: string, service: any) => {
+    const statusColor = service.status === 'healthy' ? 'bg-green-500' :
+      service.status === 'degraded' ? 'bg-amber-500' : 'bg-red-500';
+
+    const serviceIcon = serviceName === 'llm_provider' ? '🤖' :
+      serviceName === 'storage' ? '💾' :
+      serviceName === 'elevenlabs' ? '🔊' :
+      serviceName === 'analytics' ? '📊' : '⚙️';
+
+    const title = `${serviceName.replace('_', ' ')}: ${service.status}${service.message ? ` - ${service.message}` : ''}`;
+
+    return (
+      <div
+        key={serviceName}
+        className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors ${statusColor} text-white`}
+        title={title}
+      >
+        <span>{serviceIcon}</span>
+        <div className={`w-1.5 h-1.5 rounded-full ${statusColor === 'bg-green-500' ? 'bg-green-300' : statusColor === 'bg-amber-500' ? 'bg-amber-300' : 'bg-red-300'}`} />
+      </div>
+    );
+  };
+
+  // Show only critical services and TTS service
+  const servicesToShow = Object.entries(status.services)
+    .filter(([name, service]) =>
+      service.critical || name === 'elevenlabs'
+    )
+    .slice(0, 3); // Limit to 3 badges max
+
+  if (servicesToShow.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center space-x-1">
+      {servicesToShow.map(([name, service]) => getServiceBadge(name, service))}
+    </div>
+  );
 }
 
 export default function DadHeader({
@@ -95,6 +150,16 @@ export default function DadHeader({
                 <span>{getRoleIcon(userRole)}</span>
                 <span>{formatRoleDisplay(userRole)}</span>
               </div>
+
+              {/* Environment Status Indicator */}
+              <EnvironmentWarning
+                compact={true}
+                criticalOnly={true}
+                className="terminal-button terminal-button-ghost"
+              />
+
+              {/* Service Status Badges */}
+              <ServiceStatusBadges />
             </div>
 
             <div className="flex items-center space-x-4">
@@ -343,6 +408,13 @@ export default function DadHeader({
           )}
         </div>
       </header>
+
+      {/* Full Environment Warning Banner */}
+      <EnvironmentWarning
+        compact={false}
+        criticalOnly={false}
+        className="show"
+      />
 
       {showShareDialog && (
         <ShareDialog

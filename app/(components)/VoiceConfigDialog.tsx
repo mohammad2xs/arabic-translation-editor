@@ -55,6 +55,25 @@ export default function VoiceConfigDialog({
         setCurrentConfig(data.currentConfig);
         setSelectedEnglishVoice(data.currentConfig.english_voice);
         setSelectedArabicVoice(data.currentConfig.arabic_voice);
+      } else {
+        // Handle preview mode and other non-2xx responses
+        try {
+          const errorData = await response.json();
+          if (response.status === 503 && errorData.previewMode) {
+            // Show preview mode with empty voices list
+            setVoices([]);
+            setCurrentConfig(errorData.currentConfig || {
+              english_voice: 'preview-mode',
+              arabic_voice: 'preview-mode',
+              model: 'preview-mode'
+            });
+            console.warn('Voice configuration in preview mode:', errorData.message);
+          } else {
+            console.error('Failed to load voices:', errorData.error || 'Unknown error');
+          }
+        } catch (parseError) {
+          console.error('Failed to parse voice configuration error:', parseError);
+        }
       }
     } catch (error) {
       console.error('Failed to load voices:', error);
@@ -91,6 +110,14 @@ export default function VoiceConfigDialog({
         if (data.success && data.audioUrl) {
           const audio = new Audio(`/api/audio${data.audioUrl.replace('/outputs/audio', '')}`);
           audio.play();
+        }
+      } else {
+        // Handle preview mode for voice testing
+        const errorData = await response.json();
+        if (response.status === 503 && errorData.previewMode) {
+          alert(`Voice testing unavailable: ${errorData.message}\n\n${errorData.guidance?.solution || 'Configure ElevenLabs API key to enable voice testing'}`);
+        } else {
+          console.error('Voice test failed:', errorData.error || 'Unknown error');
         }
       }
     } catch (error) {

@@ -71,9 +71,33 @@ export async function POST(request: NextRequest) {
     // Check if we have the ElevenLabs API key
     const apiKey = process.env.ELEVENLABS_API_KEY;
     if (!apiKey) {
+      // Detect environment for context-aware messaging
+      const isProduction = process.env.NODE_ENV === 'production';
+      const isDevelopment = process.env.NODE_ENV === 'development';
+
       return NextResponse.json(
-        { error: 'ElevenLabs API key not configured' },
-        { status: 500 }
+        {
+          success: false,
+          previewMode: true,
+          message: "TTS features are in preview-only mode",
+          guidance: {
+            reason: "ELEVENLABS_API_KEY not configured",
+            impact: "Audio generation is unavailable",
+            solution: isProduction
+              ? "Contact your administrator to configure the ElevenLabs API key"
+              : "Set ELEVENLABS_API_KEY environment variable to enable full functionality",
+            documentation: "See DEPLOYMENT.md for setup instructions",
+            environment: isProduction ? "production" : isDevelopment ? "development" : "unknown"
+          },
+          alternatives: [
+            "Use text-only mode for content review",
+            "Configure API key for audio generation",
+            ...(isProduction ? ["Contact administrator for access"] : ["Check .env.local file for missing variables"])
+          ],
+          // Legacy error field for backward compatibility
+          error: 'ElevenLabs API key not configured'
+        },
+        { status: 503 } // Service Unavailable instead of Internal Server Error
       );
     }
 
@@ -474,9 +498,34 @@ export async function GET(request: NextRequest) {
   try {
     const apiKey = process.env.ELEVENLABS_API_KEY;
     if (!apiKey) {
+      // Detect environment for context-aware messaging
+      const isProduction = process.env.NODE_ENV === 'production';
+      const isDevelopment = process.env.NODE_ENV === 'development';
+
       return NextResponse.json(
-        { error: 'ElevenLabs API key not configured' },
-        { status: 500 }
+        {
+          success: false,
+          previewMode: true,
+          message: "Voice configuration is in preview-only mode",
+          guidance: {
+            reason: "ELEVENLABS_API_KEY not configured",
+            impact: "Voice listing and configuration features are unavailable",
+            solution: isProduction
+              ? "Contact your administrator to configure the ElevenLabs API key"
+              : "Set ELEVENLABS_API_KEY environment variable to enable voice management",
+            documentation: "See DEPLOYMENT.md for setup instructions",
+            environment: isProduction ? "production" : isDevelopment ? "development" : "unknown"
+          },
+          voices: [],
+          currentConfig: {
+            english_voice: "preview-mode",
+            arabic_voice: "preview-mode",
+            model: "preview-mode"
+          },
+          // Legacy error field for backward compatibility
+          error: 'ElevenLabs API key not configured'
+        },
+        { status: 503 } // Service Unavailable instead of Internal Server Error
       );
     }
 
