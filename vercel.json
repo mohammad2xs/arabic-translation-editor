@@ -6,14 +6,8 @@
   "devCommand": "npm run dev",
   "regions": ["iad1"],
   "env": {
-    "NEXT_PUBLIC_APP_URL": "@app_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "@nextauth_url",
-    "EMAIL_SERVICE_API_KEY": "@email_service_api_key",
-    "KV_URL": "@kv_url",
-    "KV_REST_API_URL": "@kv_rest_api_url",
-    "KV_REST_API_TOKEN": "@kv_rest_api_token",
-    "KV_REST_API_READ_ONLY_TOKEN": "@kv_rest_api_read_only_token"
+    "NEXT_PUBLIC_APP_URL": "https://arabic2-translation-editor.vercel.app",
+    "NEXTAUTH_URL": "https://arabic2-translation-editor.vercel.app"
   },
   "headers": [
     {
