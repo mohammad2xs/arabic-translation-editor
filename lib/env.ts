@@ -210,15 +210,17 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
 
   if (!result.success) {
     const errorList = result.error?.errors || []
-    errorList.forEach((e) => {
+    if (Array.isArray(errorList)) {
+      errorList.forEach((e) => {
       const path = e.path.join('.')
       errors.push(`${path}: ${e.message}`)
 
-      // Track missing variables
-      if ((e.code === 'invalid_type' && e.received === 'undefined') || (e.code === 'custom' && e.message.toLowerCase().includes('required'))) {
-        missing.push(path)
-      }
-    })
+        // Track missing variables
+        if ((e.code === 'invalid_type' && e.received === 'undefined') || (e.code === 'custom' && e.message.toLowerCase().includes('required'))) {
+          missing.push(path)
+        }
+      })
+    }
   }
 
   // Add deployment-specific warnings
@@ -234,7 +236,9 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
   const storageConfig = validateStorageConfig()
   if (!storageConfig.valid) {
     const storageErrors = storageConfig.errors || []
-    storageErrors.forEach(error => warnings.push(`Storage: ${error}`))
+    if (Array.isArray(storageErrors)) {
+      storageErrors.forEach(error => warnings.push(`Storage: ${error}`))
+    }
   }
 
   return {
@@ -248,14 +252,14 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
 
 // Print missing variables helper
 export function printMissing(validation: ValidationResult): void {
-  if (validation.missing.length > 0) {
+  if (validation.missing?.length > 0) {
     console.error('Missing required environment variables:')
     validation.missing.forEach((variable) => {
       console.error(`  - ${variable}`)
     })
   }
 
-  if (validation.warnings.length > 0) {
+  if (validation.warnings?.length > 0) {
     console.warn('Environment warnings:')
     validation.warnings.forEach((warning) => {
       console.warn(`  - ${warning}`)
@@ -273,7 +277,7 @@ export function getValidatedEnv(): z.infer<typeof BaseEnvSchema> {
 
   if (!validation.success) {
     console.error('Environment validation failed:')
-    validation.errors.forEach((error) => {
+    validation.errors?.forEach((error) => {
       console.error(`  - ${error}`)
     })
     throw new Error('Invalid environment configuration')
