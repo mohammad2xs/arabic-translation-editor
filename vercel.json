@@ -4,12 +4,25 @@
   "outputDirectory": ".next",
   "installCommand": "npm ci",
   "devCommand": "npm run dev",
-  "regions": [
-    "iad1"
-  ],
   "env": {
-    "NEXT_PUBLIC_APP_URL": "https://arabic2-translation-editor.vercel.app",
-    "NEXTAUTH_URL": "https://arabic2-translation-editor.vercel.app"
+    "NEXT_PUBLIC_APP_URL": "@next-public-app-url",
+    "NEXTAUTH_URL": "@nextauth-url",
+    "SHARE_KEY": "@share-key",
+    "NODE_ENV": "production",
+    "LLM_PROVIDER": "@llm-provider",
+    "ANTHROPIC_API_KEY": "@anthropic-api-key",
+    "GOOGLE_VERTEX_KEY": "@google-vertex-key",
+    "GOOGLE_API_KEY": "@google-api-key",
+    "OPENAI_API_KEY": "@openai-api-key",
+    "STORAGE_DRIVER": "@storage-driver",
+    "VERCEL_BLOB_READ_WRITE_TOKEN": "@vercel-blob-read-write-token",
+    "AWS_ACCESS_KEY_ID": "@aws-access-key-id",
+    "AWS_SECRET_ACCESS_KEY": "@aws-secret-access-key",
+    "AWS_S3_BUCKET": "@aws-s3-bucket",
+    "ELEVENLABS_API_KEY": "@elevenlabs-api-key",
+    "DEPLOY_AUTO_PREWARM": "@deploy-auto-prewarm",
+    "VERCEL_GIT_COMMIT_SHA": "@vercel-git-commit-sha",
+    "VERCEL_GIT_COMMIT_MESSAGE": "@vercel-git-commit-message"
   },
   "headers": [
     {
@@ -30,6 +43,66 @@
         {
           "key": "Permissions-Policy",
           "value": "microphone=(self), camera=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/health",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=30"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        }
+      ]
+    },
+    {
+      "source": "/api/files/audio/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, immutable"
+        },
+        {
+          "key": "Accept-Ranges",
+          "value": "bytes"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        }
+      ]
+    },
+    {
+      "source": "/_meta.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'"
         }
       ]
     },
@@ -90,20 +163,60 @@
     }
   ],
   "functions": {
+    "app/api/health/route.ts": {
+      "memory": 512,
+      "maxDuration": 30,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/tts/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/audio/job/route.ts": {
+      "memory": 1024,
+      "maxDuration": 300,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/files/[...path]/route.ts": {
+      "memory": 256,
+      "maxDuration": 30,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/assistant/health/route.ts": {
+      "memory": 256,
+      "maxDuration": 15,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/assistant/chat/route.ts": {
+      "memory": 512,
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
+    },
     "app/api/share/create/route.ts": {
-      "maxDuration": 10
+      "memory": 256,
+      "maxDuration": 10,
+      "runtime": "nodejs20.x"
     },
     "app/api/share/email/route.ts": {
-      "maxDuration": 30
+      "memory": 512,
+      "maxDuration": 30,
+      "runtime": "nodejs20.x"
     },
     "app/api/share/validate/route.ts": {
-      "maxDuration": 5
+      "memory": 128,
+      "maxDuration": 5,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/storage/**/route.ts": {
+      "memory": 512,
+      "maxDuration": 30,
+      "runtime": "nodejs20.x"
+    },
+    "app/api/cleanup/route.ts": {
+      "memory": 256,
+      "maxDuration": 300,
+      "runtime": "nodejs20.x"
     }
-  },
-  "crons": [
-    {
-      "path": "/api/cleanup",
-      "schedule": "0 2 * * *"
-    }
-  ]
+  }
 }

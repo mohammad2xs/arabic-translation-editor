@@ -72,6 +72,24 @@ interface AssistantHealthSummary {
 }
 
 
+// Load deployment configuration for expected artifacts
+async function getExpectedArtifacts(): Promise<string[]> {
+  try {
+    const configPath = join(process.cwd(), 'config', 'deployment-gates.json')
+    const configContent = await readFile(configPath, 'utf-8')
+    const config = JSON.parse(configContent)
+    return config.deploymentRequirements?.requiredArtifacts || []
+  } catch {
+    // Fallback to static list
+    return [
+      'outputs/book-final.docx',
+      'outputs/triview.json',
+      'outputs/book.epub',
+      'reports/quality-gates.json'
+    ]
+  }
+}
+
 // Read enhanced build metadata from _meta.json if available
 async function getBuildMetadata(): Promise<BuildMetadata> {
   try {
@@ -79,13 +97,13 @@ async function getBuildMetadata(): Promise<BuildMetadata> {
     const metaContent = await readFile(metaPath, 'utf-8')
     const metadata = JSON.parse(metaContent)
 
-    // Calculate artifact status
+    // Calculate artifact status using dynamic expected artifacts
     let artifactStatus: 'complete' | 'partial' | 'missing' = 'missing'
     let artifactCount = 0
     if (metadata.artifacts?.checksums) {
       const checksums = metadata.artifacts.checksums
       artifactCount = Object.keys(checksums).length
-      const expectedArtifacts = ['outputs/book-final.docx', 'outputs/triview.json', 'outputs/book.epub', 'reports/quality-gates.json']
+      const expectedArtifacts = await getExpectedArtifacts()
       const hasAll = expectedArtifacts.every(artifact => checksums[artifact])
       artifactStatus = hasAll ? 'complete' : (artifactCount > 0 ? 'partial' : 'missing')
     }
@@ -189,16 +207,27 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // Determine overall health status
     let status: 'ready' | 'degraded' | 'unhealthy' = 'ready'
 
-    // Include quality gates in health determination
+    // Check if quality gates should affect health status
+    const includeQualityInHealth = process.env.HEALTH_INCLUDE_QUALITY === 'true'
+
+    // Quality gate checks
     const qualityHealthy = !buildMetadata.quality || buildMetadata.quality.overallPass
     const deploymentReady = !buildMetadata.quality || buildMetadata.quality.deploymentReady
 
-    // Unhealthy conditions
-    if (!environmentValidation.success || !assistantHealth.ok || (buildMetadata.quality && !qualityHealthy)) {
+    // Unhealthy conditions (always check env validation and assistant health)
+    if (!environmentValidation.success || !assistantHealth.ok) {
+      status = 'unhealthy'
+    }
+    // Include quality gates in health check if flag is set
+    else if (includeQualityInHealth && buildMetadata.quality && !qualityHealthy) {
       status = 'unhealthy'
     }
     // Degraded conditions
-    else if (!storageHealth.ping || assistantHealth.status === 'degraded' || (buildMetadata.quality && !deploymentReady)) {
+    else if (!storageHealth.ping || assistantHealth.status === 'degraded') {
+      status = 'degraded'
+    }
+    // Include deployment readiness in degraded check if flag is set
+    else if (includeQualityInHealth && buildMetadata.quality && !deploymentReady) {
       status = 'degraded'
     }
 

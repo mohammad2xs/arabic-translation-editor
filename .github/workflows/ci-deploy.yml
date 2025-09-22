@@ -1,0 +1,452 @@
+name: CI/CD - Deploy and Verify
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+        - preview
+        - production
+
+env:
+  NODE_VERSION: '20'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  setup:
+    name: Setup and Dependencies
+    runs-on: ubuntu-latest
+    outputs:
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
+      node-modules-hash: ${{ steps.hash.outputs.hash }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Generate dependency hash
+        id: hash
+        run: echo "hash=${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ steps.hash.outputs.hash }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+  validate:
+    name: Environment and Code Validation
+    runs-on: ubuntu-latest
+    needs: setup
+    env:
+      SHARE_KEY: ${{ secrets.SHARE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      VERCEL_BLOB_READ_WRITE_TOKEN: ${{ secrets.VERCEL_BLOB_READ_WRITE_TOKEN }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+      LLM_PROVIDER: claude
+      STORAGE_DRIVER: vercel-blob
+      NODE_ENV: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ needs.setup.outputs.node-modules-hash }}
+
+      - name: Environment validation
+        run: npm run env:check:prod
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build validation
+        run: npm run build:validate
+
+  quality-gates:
+    name: Quality Gates and Build Metadata
+    runs-on: ubuntu-latest
+    needs: [setup, validate]
+    outputs:
+      deployment-ready: ${{ steps.quality.outputs.ready }}
+      build-metadata: ${{ steps.metadata.outputs.data }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ needs.setup.outputs.node-modules-hash }}
+
+      - name: Run quality validation
+        id: quality
+        run: |
+          npm run validate:quality 2>&1 | tee quality.log
+          if [ $? -eq 0 ]; then
+            echo "ready=true" >> $GITHUB_OUTPUT
+          else
+            echo "ready=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate build metadata
+        id: metadata
+        run: |
+          echo "data={\"commit\":\"${{ github.sha }}\",\"branch\":\"${{ github.ref_name }}\",\"workflow\":\"${{ github.run_id }}\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" >> $GITHUB_OUTPUT
+
+      - name: Upload quality report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: quality-report
+          path: quality.log
+
+  deploy-preview:
+    name: Deploy Preview Environment
+    runs-on: ubuntu-latest
+    needs: [setup, validate, quality-gates]
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preview')
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.preview-url }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SHARE_KEY: ${{ secrets.SHARE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      VERCEL_BLOB_READ_WRITE_TOKEN: ${{ secrets.VERCEL_BLOB_READ_WRITE_TOKEN }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+      DEPLOY_AUTO_PREWARM: true
+      LLM_PROVIDER: claude
+      STORAGE_DRIVER: vercel-blob
+    outputs:
+      preview-url: ${{ steps.deploy.outputs.preview-url }}
+      health-status: ${{ steps.health.outputs.status }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ needs.setup.outputs.node-modules-hash }}
+
+      - name: Deploy to preview
+        id: deploy
+        run: |
+          npm run deploy:preview 2>&1 | tee deploy.log
+
+          # Try to parse JSON output first
+          json_line=$(grep '^{' deploy.log | head -1)
+          if [ -n "$json_line" ]; then
+            preview_url=$(echo "$json_line" | jq -r '.url // .alias // empty')
+          else
+            # Fallback to regex extraction
+            preview_url=$(grep -o 'https://[^[:space:]]*' deploy.log | head -1)
+          fi
+
+          echo "preview-url=$preview_url" >> $GITHUB_OUTPUT
+          echo "Preview deployed to: $preview_url"
+
+      - name: Wait for deployment
+        run: sleep 30
+
+      - name: Health check
+        id: health
+        run: |
+          preview_url="${{ steps.deploy.outputs.preview-url }}"
+          health_url="${preview_url}/api/health?detailed=true"
+
+          response=$(curl -s -w "%{http_code}" -o health.json "$health_url")
+          http_code=${response: -3}
+
+          if [ "$http_code" = "200" ]; then
+            status=$(jq -r '.status' health.json)
+            echo "status=$status" >> $GITHUB_OUTPUT
+            echo "Health check passed: $status"
+            cat health.json | jq '.'
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "Health check failed with HTTP $http_code"
+            exit 1
+          fi
+
+      - name: Prewarm endpoints
+        if: env.DEPLOY_AUTO_PREWARM == 'true'
+        run: |
+          preview_url="${{ steps.deploy.outputs.preview-url }}"
+          npm run postdeploy:prewarm -- "$preview_url"
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.deploy.outputs.preview-url }}';
+            const healthStatus = '${{ steps.health.outputs.status }}';
+            const qualityReady = '${{ needs.quality-gates.outputs.deployment-ready }}';
+
+            const body = `## 🚀 Preview Deployment
+
+            **Preview URL:** ${previewUrl}
+            **Health Status:** ${healthStatus === 'ready' ? '✅' : healthStatus === 'degraded' ? '⚠️' : '❌'} ${healthStatus}
+            **Quality Gates:** ${qualityReady === 'true' ? '✅' : '⚠️'} ${qualityReady === 'true' ? 'Passed' : 'Failed'}
+
+            ### Health Check
+            - **Endpoint:** [${previewUrl}/api/health](${previewUrl}/api/health?detailed=true)
+            - **Status:** ${healthStatus}
+
+            ### Quick Links
+            - 📊 [Health Dashboard](${previewUrl}/api/health?detailed=true)
+            - 🎯 [Preview Application](${previewUrl})
+
+            *Deployed from commit: \`${{ github.sha }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  deploy-production:
+    name: Deploy Production Environment
+    runs-on: ubuntu-latest
+    needs: [setup, validate, quality-gates]
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.production-url }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SHARE_KEY: ${{ secrets.SHARE_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      VERCEL_BLOB_READ_WRITE_TOKEN: ${{ secrets.VERCEL_BLOB_READ_WRITE_TOKEN }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+      DEPLOY_AUTO_PREWARM: true
+      LLM_PROVIDER: claude
+      STORAGE_DRIVER: vercel-blob
+      NODE_ENV: production
+    outputs:
+      production-url: ${{ steps.deploy.outputs.production-url }}
+      health-status: ${{ steps.health.outputs.status }}
+      deployment-id: ${{ steps.deploy.outputs.deployment-id }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ needs.setup.outputs.node-modules-hash }}
+
+      - name: Verify quality gates
+        if: needs.quality-gates.outputs.deployment-ready != 'true'
+        run: |
+          echo "❌ Quality gates failed - blocking production deployment"
+          echo "Quality status: ${{ needs.quality-gates.outputs.deployment-ready }}"
+          exit 1
+
+      - name: Deploy to production
+        id: deploy
+        run: |
+          npm run deploy:prod 2>&1 | tee deploy.log
+
+          # Try to parse JSON output first
+          json_line=$(grep '^{' deploy.log | head -1)
+          if [ -n "$json_line" ]; then
+            production_url=$(echo "$json_line" | jq -r '.url // .alias // empty')
+            deployment_id=$(echo "$json_line" | jq -r '.deploymentId // .id // empty')
+          else
+            # Fallback to regex extraction
+            production_url=$(grep -o 'https://[^[:space:]]*' deploy.log | head -1)
+            deployment_id=$(grep -o 'dpl_[A-Za-z0-9]*' deploy.log | head -1)
+          fi
+
+          echo "production-url=$production_url" >> $GITHUB_OUTPUT
+          echo "deployment-id=$deployment_id" >> $GITHUB_OUTPUT
+          echo "Production deployed to: $production_url"
+
+      - name: Wait for deployment
+        run: sleep 45
+
+      - name: Comprehensive health check
+        id: health
+        run: |
+          production_url="${{ steps.deploy.outputs.production-url }}"
+          health_url="${production_url}/api/health?detailed=true&quality=true"
+
+          echo "Running comprehensive health check..."
+          response=$(curl -s -w "%{http_code}" -o health.json "$health_url")
+          http_code=${response: -3}
+
+          if [ "$http_code" = "200" ]; then
+            status=$(jq -r '.status' health.json)
+            quality_status=$(jq -r '.quality.status // "unknown"' health.json)
+            echo "status=$status" >> $GITHUB_OUTPUT
+            echo "Health check passed: $status (Quality: $quality_status)"
+            cat health.json | jq '.'
+
+            if [ "$status" != "ready" ] && [ "$status" != "degraded" ]; then
+              echo "❌ Production deployment health check failed"
+              exit 1
+            fi
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "❌ Health check failed with HTTP $http_code"
+            exit 1
+          fi
+
+      - name: Production prewarm
+        run: |
+          production_url="${{ steps.deploy.outputs.production-url }}"
+          npm run postdeploy:prewarm -- "$production_url"
+
+      - name: Deployment verification
+        run: |
+          production_url="${{ steps.deploy.outputs.production-url }}"
+          echo "🔍 Verifying production deployment..."
+
+          # Test core endpoints
+          curl -f -s "$production_url/api/health" > /dev/null || (echo "❌ Health endpoint failed" && exit 1)
+          curl -f -s "$production_url/" > /dev/null || (echo "❌ Homepage failed" && exit 1)
+
+          echo "✅ Production deployment verified successfully"
+
+  post-deployment:
+    name: Post-Deployment Verification and Monitoring
+    runs-on: ubuntu-latest
+    needs: [deploy-preview, deploy-production]
+    if: always() && (needs.deploy-preview.result == 'success' || needs.deploy-production.result == 'success')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate deployment report
+        run: |
+          echo "# Deployment Report" > deployment-report.md
+          echo "" >> deployment-report.md
+          echo "**Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> deployment-report.md
+          echo "**Commit:** ${{ github.sha }}" >> deployment-report.md
+          echo "**Workflow:** ${{ github.run_id }}" >> deployment-report.md
+          echo "" >> deployment-report.md
+
+          if [ "${{ needs.deploy-preview.result }}" = "success" ]; then
+            echo "## Preview Deployment ✅" >> deployment-report.md
+            echo "- **URL:** ${{ needs.deploy-preview.outputs.preview-url }}" >> deployment-report.md
+            echo "- **Health:** ${{ needs.deploy-preview.outputs.health-status }}" >> deployment-report.md
+          fi
+
+          if [ "${{ needs.deploy-production.result }}" = "success" ]; then
+            echo "## Production Deployment 🚀" >> deployment-report.md
+            echo "- **URL:** ${{ needs.deploy-production.outputs.production-url }}" >> deployment-report.md
+            echo "- **Health:** ${{ needs.deploy-production.outputs.health-status }}" >> deployment-report.md
+            echo "- **Deployment ID:** ${{ needs.deploy-production.outputs.deployment-id }}" >> deployment-report.md
+          fi
+
+      - name: Upload deployment report
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment-report
+          path: deployment-report.md
+
+      - name: Setup monitoring (production only)
+        if: needs.deploy-production.result == 'success'
+        run: |
+          echo "🔍 Setting up post-deployment monitoring..."
+          production_url="${{ needs.deploy-production.outputs.production-url }}"
+
+          # Schedule health monitoring (this would integrate with your monitoring system)
+          echo "Health monitoring setup for: $production_url"
+          echo "Deployment ID: ${{ needs.deploy-production.outputs.deployment-id }}"
+
+  cleanup:
+    name: Cleanup and Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-preview, deploy-production, post-deployment]
+    if: always()
+    steps:
+      - name: Cleanup artifacts
+        run: |
+          echo "🧹 Cleaning up temporary artifacts..."
+          # Add any cleanup logic here
+
+      - name: Notify deployment status
+        if: needs.deploy-production.result == 'success'
+        run: |
+          echo "🎉 Production deployment completed successfully!"
+          echo "URL: ${{ needs.deploy-production.outputs.production-url }}"
+          echo "Health: ${{ needs.deploy-production.outputs.health-status }}"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment workflow failed"
+          echo "Check the logs for details and retry if necessary"

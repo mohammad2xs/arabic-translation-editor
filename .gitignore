@@ -59,3 +59,4 @@ outputs/cost-*.json
 
 # MCP
 mcp-*.log
+.vercel

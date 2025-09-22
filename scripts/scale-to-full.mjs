@@ -17,8 +17,7 @@ class ScaleToFull {
       { name: 'Quality Validation', command: 'tsx', args: ['scripts/quality-validation.mjs'] },
       { name: 'Build DOCX', command: 'node', args: ['build/docx.mjs'] },
       { name: 'Build EPUB', command: 'node', args: ['build/epub.mjs'] },
-      { name: 'Audio Prep', command: 'node', args: ['build/audio_prep.mjs'] },
-      { name: 'Final Report', command: 'tsx', args: ['scripts/generate-final-report.ts'] }
+      { name: 'Audio Prep', command: 'node', args: ['build/audio_prep.mjs'] }
     ];
   }
 
@@ -96,7 +95,7 @@ class ScaleToFull {
       console.log('\n🏗️  Generating build metadata...');
 
       // Import git utilities
-      const { getBuildMetadata } = require('../lib/build/git-utils.ts');
+      const { getBuildMetadata } = await import('../lib/build/git-utils.ts');
       const buildInfo = getBuildMetadata();
 
       // Read quality gates data
@@ -134,14 +133,23 @@ class ScaleToFull {
           coverage: {
             percentage: qualityData.metrics?.coverage?.percentage || 0
           },
-          gates: {
-            passed: qualityData.gates ? Object.entries(qualityData.gates)
-              .filter(([_, gate]) => gate.pass)
-              .map(([name]) => name) : [],
-            failed: qualityData.gates ? Object.entries(qualityData.gates)
-              .filter(([_, gate]) => !gate.pass)
-              .map(([name]) => name) : []
-          }
+          gates: (() => {
+            try {
+              if (!qualityData.gates || typeof qualityData.gates !== 'object') {
+                return { passed: [], failed: [] };
+              }
+              const passed = Object.entries(qualityData.gates)
+                .filter(([_, gate]) => gate && typeof gate === 'object' && gate.pass === true)
+                .map(([name]) => name);
+              const failed = Object.entries(qualityData.gates)
+                .filter(([_, gate]) => gate && typeof gate === 'object' && gate.pass !== true)
+                .map(([name]) => name);
+              return { passed, failed };
+            } catch (error) {
+              console.warn('⚠️  Error processing quality gates:', error.message);
+              return { passed: [], failed: [] };
+            }
+          })()
         } : null,
         artifacts: {
           checksums,
@@ -241,6 +249,9 @@ class ScaleToFull {
 
       // Generate build metadata after quality gates check
       await this.generateBuildMetadata();
+
+      // Generate final report after metadata is available
+      await this.runCommand({ name: 'Final Report', command: 'tsx', args: ['scripts/generate-final-report.ts'] });
 
       // Print final inventory
       await this.printArtifactInventory();

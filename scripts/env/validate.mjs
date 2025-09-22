@@ -1,369 +1,468 @@
 #!/usr/bin/env node
 
-import { readFile } from 'fs/promises'
-import { join } from 'path'
-import process from 'process'
+import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-// Import validation logic (will be transpiled from TypeScript)
-async function importValidation() {
-  try {
-    await import('tsx/register');
-    return await import('../../lib/env.ts');
-  } catch {
-    try {
-      // Fallback to compiled JavaScript
-      return await import('../../lib/env.js')
-    } catch {
-      // Final fallback: implement minimal validation directly
-      return null
-    }
-  }
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const projectRoot = join(__dirname, '../..');
 
-// CLI argument parsing
-function parseArgs() {
-  const args = process.argv.slice(2)
-  const options = {
-    mode: 'development',
-    format: 'table',
-    strict: false,
-    help: false,
-  }
-
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i]
-    switch (arg) {
-      case '--mode':
-        options.mode = args[++i] || 'development'
-        break
-      case '--format':
-        options.format = args[++i] || 'table'
-        break
-      case '--strict':
-        options.strict = true
-        break
-      case '--help':
-      case '-h':
-        options.help = true
-        break
-    }
-  }
-
-  return options
-}
-
-// Color formatting for console output
 const colors = {
   reset: '\x1b[0m',
-  bright: '\x1b[1m',
   red: '\x1b[31m',
   green: '\x1b[32m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
+  magenta: '\x1b[35m',
   cyan: '\x1b[36m',
-  gray: '\x1b[90m',
-}
+  bold: '\x1b[1m',
+  dim: '\x1b[2m'
+};
 
-function colorize(text, color) {
-  return process.stdout.isTTY ? `${colors[color]}${text}${colors.reset}` : text
-}
+const log = {
+  info: (msg) => console.log(`${colors.blue}ℹ${colors.reset} ${msg}`),
+  success: (msg) => console.log(`${colors.green}✅${colors.reset} ${msg}`),
+  warn: (msg) => console.log(`${colors.yellow}⚠️${colors.reset} ${msg}`),
+  error: (msg) => console.log(`${colors.red}❌${colors.reset} ${msg}`),
+  check: (msg) => console.log(`${colors.cyan}🔍${colors.reset} ${msg}`)
+};
 
-// Mask secrets for display
-function maskSecret(value, show = 8) {
-  if (!value || typeof value !== 'string') return 'not set'
-  if (value.length <= show) return value
-  return `${value.substring(0, show)}...`
-}
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const config = {
+    mode: process.env.NODE_ENV || 'development',
+    format: 'table',
+    strict: false,
+    vercel: false,
+    help: false
+  };
 
-// Manual environment validation (fallback)
-function manualValidation(mode) {
-  const env = process.env
-  const errors = []
-  const warnings = []
-  const missing = []
-
-  const required = ['SHARE_KEY']
-  const llmProviders = ['claude', 'gemini', 'openai']
-
-  // Check required core variables
-  if (!env.SHARE_KEY) {
-    errors.push('SHARE_KEY is required')
-    missing.push('SHARE_KEY')
-  }
-
-  // Check LLM provider configuration
-  const llmProvider = env.LLM_PROVIDER || 'claude'
-  if (!llmProviders.includes(llmProvider)) {
-    errors.push(`LLM_PROVIDER must be one of: ${llmProviders.join(', ')}`)
-  }
-
-  // Check provider-specific API keys
-  switch (llmProvider) {
-    case 'claude':
-      if (!env.ANTHROPIC_API_KEY) {
-        errors.push('ANTHROPIC_API_KEY is required when LLM_PROVIDER=claude')
-        missing.push('ANTHROPIC_API_KEY')
-      }
-      break
-    case 'gemini':
-      if (!env.GOOGLE_VERTEX_KEY && !env.GOOGLE_API_KEY) {
-        errors.push('GOOGLE_VERTEX_KEY or GOOGLE_API_KEY is required when LLM_PROVIDER=gemini')
-        missing.push('GOOGLE_VERTEX_KEY')
-      }
-      break
-    case 'openai':
-      if (!env.OPENAI_API_KEY) {
-        errors.push('OPENAI_API_KEY is required when LLM_PROVIDER=openai')
-        missing.push('OPENAI_API_KEY')
-      }
-      break
-  }
-
-  // Production-specific checks
-  if (mode === 'production' || env.NODE_ENV === 'production') {
-    if (!env.NEXT_PUBLIC_APP_URL) {
-      errors.push('NEXT_PUBLIC_APP_URL is required in production')
-      missing.push('NEXT_PUBLIC_APP_URL')
+  for (let i = 0; i < args.length; i++) {
+    switch (args[i]) {
+      case '--mode':
+        config.mode = args[++i] || config.mode;
+        break;
+      case '--format':
+        config.format = args[++i] || config.format;
+        break;
+      case '--strict':
+        config.strict = true;
+        break;
+      case '--vercel':
+        config.vercel = true;
+        break;
+      case '--help':
+      case '-h':
+        config.help = true;
+        break;
+      default:
+        log.warn(`Unknown argument: ${args[i]}`);
     }
   }
 
-  // Storage configuration
-  const storageDriver = env.STORAGE_DRIVER || 'vercel-blob'
-  if (storageDriver === 's3') {
-    if (!env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY || !env.AWS_S3_BUCKET) {
-      errors.push('AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_S3_BUCKET are required when STORAGE_DRIVER=s3')
-      if (!env.AWS_ACCESS_KEY_ID) missing.push('AWS_ACCESS_KEY_ID')
-      if (!env.AWS_SECRET_ACCESS_KEY) missing.push('AWS_SECRET_ACCESS_KEY')
-      if (!env.AWS_S3_BUCKET) missing.push('AWS_S3_BUCKET')
-    }
-  }
-
-  // Optional services warnings
-  if (!env.ELEVENLABS_API_KEY) {
-    warnings.push('ELEVENLABS_API_KEY is not set - TTS features will be unavailable')
-  }
-
-  return {
-    success: errors.length === 0,
-    errors,
-    warnings,
-    missing,
-    data: {
-      NODE_ENV: env.NODE_ENV || 'development',
-      LLM_PROVIDER: llmProvider,
-      STORAGE_DRIVER: storageDriver,
-    }
-  }
+  return config;
 }
 
-// Format validation results as table
-function formatTable(validation, env) {
-  const variables = [
-    { name: 'SHARE_KEY', value: env.SHARE_KEY, required: true, secret: true },
-    { name: 'NODE_ENV', value: env.NODE_ENV || 'development', required: false, secret: false },
-    { name: 'NEXT_PUBLIC_APP_URL', value: env.NEXT_PUBLIC_APP_URL, required: env.NODE_ENV === 'production', secret: false },
-    { name: 'LLM_PROVIDER', value: env.LLM_PROVIDER || 'claude', required: false, secret: false },
-    { name: 'ANTHROPIC_API_KEY', value: env.ANTHROPIC_API_KEY, required: (env.LLM_PROVIDER || 'claude') === 'claude', secret: true },
-    { name: 'GOOGLE_VERTEX_KEY', value: env.GOOGLE_VERTEX_KEY, required: env.LLM_PROVIDER === 'gemini' && !env.GOOGLE_API_KEY, secret: true },
-    { name: 'GOOGLE_API_KEY', value: env.GOOGLE_API_KEY, required: env.LLM_PROVIDER === 'gemini' && !env.GOOGLE_VERTEX_KEY, secret: true },
-    { name: 'OPENAI_API_KEY', value: env.OPENAI_API_KEY, required: env.LLM_PROVIDER === 'openai', secret: true },
-    { name: 'STORAGE_DRIVER', value: env.STORAGE_DRIVER || 'vercel-blob', required: false, secret: false },
-    { name: 'AWS_ACCESS_KEY_ID', value: env.AWS_ACCESS_KEY_ID, required: env.STORAGE_DRIVER === 's3', secret: true },
-    { name: 'AWS_SECRET_ACCESS_KEY', value: env.AWS_SECRET_ACCESS_KEY, required: env.STORAGE_DRIVER === 's3', secret: true },
-    { name: 'AWS_S3_BUCKET', value: env.AWS_S3_BUCKET, required: env.STORAGE_DRIVER === 's3', secret: false },
-    { name: 'ELEVENLABS_API_KEY', value: env.ELEVENLABS_API_KEY, required: false, secret: true },
-  ]
-
-  console.log(colorize('\n📋 Environment Variable Status\n', 'bright'))
-  console.log('┌─────────────────────────┬──────────┬─────────────────────────┬──────────────────┐')
-  console.log('│ Variable                │ Required │ Status                  │ Value            │')
-  console.log('├─────────────────────────┼──────────┼─────────────────────────┼──────────────────┤')
-
-  variables.forEach(({ name, value, required, secret }) => {
-    const hasValue = !!value
-    const isValid = !required || hasValue
-
-    let status, statusColor
-    if (!required && !hasValue) {
-      status = 'Optional'
-      statusColor = 'gray'
-    } else if (isValid) {
-      status = 'Valid'
-      statusColor = 'green'
-    } else {
-      status = 'Missing'
-      statusColor = 'red'
-    }
-
-    const displayValue = secret ? maskSecret(value) : (value || 'not set')
-    const requiredText = required ? 'Yes' : 'No'
-
-    console.log(
-      `│ ${name.padEnd(23)} │ ${requiredText.padEnd(8)} │ ${colorize(status, statusColor).padEnd(31)} │ ${displayValue.padEnd(16)} │`
-    )
-  })
-
-  console.log('└─────────────────────────┴──────────┴─────────────────────────┴──────────────────┘\n')
-
-  // Summary
-  const validCount = variables.filter(v => !v.required || !!v.value).length
-  const totalRequired = variables.filter(v => v.required).length
-  const totalOptional = variables.filter(v => !v.required).length
-
-  console.log(colorize('📊 Summary:', 'bright'))
-  console.log(`   ✅ Valid: ${validCount}/${variables.length}`)
-  console.log(`   🔴 Required: ${totalRequired} (${validation.missing.length} missing)`)
-  console.log(`   ⚪ Optional: ${totalOptional}`)
-
-  if (validation.errors.length > 0) {
-    console.log(colorize('\n❌ Errors:', 'red'))
-    validation.errors.forEach(error => {
-      console.log(`   • ${error}`)
-    })
-  }
-
-  if (validation.warnings.length > 0) {
-    console.log(colorize('\n⚠️  Warnings:', 'yellow'))
-    validation.warnings.forEach(warning => {
-      console.log(`   • ${warning}`)
-    })
-  }
-}
-
-// Format validation results as JSON
-function formatJson(validation, env) {
-  const result = {
-    success: validation.success,
-    environment: {
-      NODE_ENV: env.NODE_ENV || 'development',
-      LLM_PROVIDER: env.LLM_PROVIDER || 'claude',
-      STORAGE_DRIVER: env.STORAGE_DRIVER || 'vercel-blob',
-    },
-    validation: {
-      errors: validation.errors,
-      warnings: validation.warnings,
-      missing: validation.missing,
-    },
-    variables: {
-      required: validation.missing.length === 0,
-      missing: validation.missing,
-      warnings: validation.warnings.length,
-    }
-  }
-
-  console.log(JSON.stringify(result, null, 2))
-}
-
-// Format validation results as summary
-function formatSummary(validation) {
-  const status = validation.success ? 'READY' : 'INCOMPLETE'
-  const statusColor = validation.success ? 'green' : 'red'
-
-  console.log(colorize(`Status: ${status}`, statusColor))
-  console.log(`Errors: ${validation.errors.length}`)
-  console.log(`Warnings: ${validation.warnings.length}`)
-  console.log(`Missing: ${validation.missing.length}`)
-
-  if (validation.errors.length > 0) {
-    console.log('\nCritical Issues:')
-    validation.errors.slice(0, 3).forEach(error => {
-      console.log(`  - ${error}`)
-    })
-    if (validation.errors.length > 3) {
-      console.log(`  ... and ${validation.errors.length - 3} more`)
-    }
-  }
-}
-
-// Show help
 function showHelp() {
   console.log(`
-${colorize('Environment Validation Tool', 'bright')}
+${colors.bold}Environment Variable Validation${colors.reset}
 
-Validates environment variables for deployment readiness.
+Usage: node scripts/env/validate.mjs [options]
 
-${colorize('Usage:', 'cyan')}
-  npm run env:check [options]
+Options:
+  --mode <env>          Environment mode (dev|test|prod) - overrides NODE_ENV
+  --format <type>       Output format (table|json|summary) - default: table
+  --strict              Fail on warnings in development
+  --vercel              Include Vercel-specific validation
+  --help, -h            Show this help message
 
-${colorize('Options:', 'cyan')}
-  --mode <mode>     Set environment mode (dev|test|prod)
-  --format <format> Output format (table|json|summary)
-  --strict          Fail on warnings in development mode
-  --help, -h        Show this help
+Examples:
+  node scripts/env/validate.mjs
+  node scripts/env/validate.mjs --mode prod --format json
+  node scripts/env/validate.mjs --strict --vercel
 
-${colorize('Examples:', 'cyan')}
-  npm run env:check                    # Check with table output
-  npm run env:check --mode prod        # Check production requirements
-  npm run env:check --format json     # Machine-readable output
-  npm run env:check --strict          # Strict mode for CI/CD
-
-${colorize('Exit Codes:', 'cyan')}
-  0  All required variables present
-  1  Missing required variables
-  2  Invalid configuration
-`)
+Exit Codes:
+  0    All required variables present and valid
+  1    Missing required variables in production mode
+  2    Invalid variable format or values
+  3    Storage configuration invalid
+`);
 }
 
-// Main execution
-async function main() {
-  const options = parseArgs()
+function maskSecret(value, showLength = 8) {
+  if (!value || typeof value !== 'string') return 'undefined';
+  if (value.length <= showLength) return '•'.repeat(value.length);
+  return value.substring(0, showLength) + '•'.repeat(Math.min(value.length - showLength, 20));
+}
 
-  if (options.help) {
-    showHelp()
-    process.exit(0)
-  }
-
+async function loadEnvironmentValidation(mode) {
   try {
-    // Try to use the TypeScript validation, fall back to manual
-    let validationModule
-    try {
-      validationModule = await importValidation()
-    } catch (error) {
-      console.warn(colorize('⚠️  Using fallback validation (TypeScript module not available)', 'yellow'))
-    }
+    // Execute the environment validation from lib/env.ts
+    const result = execSync(`npx tsx -e "
+      import { validateEnvironment, getValidatedEnv } from './lib/env.ts';
 
-    const validation = validationModule
-      ? validationModule.validateEnvironment(options.mode)
-      : manualValidation(options.mode)
+      const validation = validateEnvironment('${mode}');
 
-    // Format output
-    switch (options.format) {
-      case 'json':
-        formatJson(validation, process.env)
-        break
-      case 'summary':
-        formatSummary(validation)
-        break
-      case 'table':
-      default:
-        formatTable(validation, process.env)
-        break
-    }
+      console.log(JSON.stringify({
+        success: validation.success,
+        data: validation.data,
+        errors: validation.errors,
+        warnings: validation.warnings,
+        missing: validation.missing,
+        env: process.env
+      }));
+    "`, {
+      cwd: projectRoot,
+      encoding: 'utf8',
+      stdio: 'pipe'
+    });
 
-    // Determine exit code
-    let exitCode = 0
+    return JSON.parse(result);
+  } catch (error) {
+    log.error(`Failed to load environment validation: ${error.message}`);
+    return { success: false, error: error.message };
+  }
+}
 
-    if (!validation.success) {
-      exitCode = 1
-    } else if (options.strict && validation.warnings.length > 0) {
-      exitCode = 1
-      if (options.format === 'table') {
-        console.log(colorize('\n❌ Strict mode: failing due to warnings', 'red'))
+function categorizeVariables(validationResult, processEnv) {
+  const categories = {
+    required: [],
+    optional: [],
+    conditional: [],
+    deployment: [],
+    unknown: []
+  };
+
+  // Core required variables (from validation result)
+  const coreRequired = [
+    'SHARE_KEY',
+    'LLM_PROVIDER',
+    'NODE_ENV'
+  ];
+
+  // LLM provider keys (conditional based on LLM_PROVIDER)
+  const llmProviders = {
+    'claude': ['ANTHROPIC_API_KEY'],
+    'gemini': ['GOOGLE_VERTEX_KEY', 'GOOGLE_API_KEY'],
+    'openai': ['OPENAI_API_KEY']
+  };
+
+  // Storage configuration variables
+  const storageVars = [
+    'STORAGE_DRIVER',
+    'VERCEL_BLOB_READ_WRITE_TOKEN',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY',
+    'AWS_S3_BUCKET'
+  ];
+
+  // Optional enhancement variables
+  const optionalVars = [
+    'ELEVENLABS_API_KEY',
+    'NEXT_PUBLIC_APP_URL'
+  ];
+
+  // Deployment variables
+  const deploymentVars = [
+    'VERCEL_TOKEN',
+    'VERCEL_ORG_ID',
+    'VERCEL_PROJECT_ID',
+    'DEPLOY_AUTO_PREWARM'
+  ];
+
+  // Process missing variables from validation result
+  if (validationResult.missing) {
+    for (const varName of validationResult.missing) {
+      const varInfo = {
+        name: varName,
+        value: undefined,
+        present: false,
+        masked: 'undefined'
+      };
+
+      if (coreRequired.includes(varName)) {
+        categories.required.push({ ...varInfo, category: 'core' });
+      } else if (Object.values(llmProviders).flat().includes(varName)) {
+        categories.required.push({ ...varInfo, category: 'llm' });
+      } else if (storageVars.includes(varName)) {
+        categories.conditional.push({ ...varInfo, category: 'storage' });
+      } else {
+        categories.required.push({ ...varInfo, category: 'other' });
       }
     }
+  }
 
-    process.exit(exitCode)
+  // Categorize all environment variables that are present
+  for (const [varName, value] of Object.entries(processEnv)) {
+    if (!varName.match(/^[A-Z_]+$/)) continue; // Skip non-env vars
+    if (validationResult.missing?.includes(varName)) continue; // Skip missing (already processed)
 
-  } catch (error) {
-    console.error(colorize('❌ Validation failed:', 'red'), error.message)
-    process.exit(2)
+    const varInfo = {
+      name: varName,
+      value: value,
+      present: Boolean(value),
+      masked: maskSecret(value)
+    };
+
+    if (coreRequired.includes(varName)) {
+      categories.required.push({ ...varInfo, category: 'core' });
+    } else if (Object.values(llmProviders).flat().includes(varName)) {
+      categories.required.push({ ...varInfo, category: 'llm' });
+    } else if (optionalVars.includes(varName)) {
+      categories.optional.push({ ...varInfo, category: 'enhancement' });
+    } else if (storageVars.includes(varName)) {
+      categories.conditional.push({ ...varInfo, category: 'storage' });
+    } else if (deploymentVars.includes(varName)) {
+      categories.deployment.push({ ...varInfo, category: 'deployment' });
+    } else if (varName.includes('API_KEY') || varName.includes('TOKEN') || varName.includes('SECRET')) {
+      categories.unknown.push({ ...varInfo, category: 'unknown' });
+    }
+  }
+
+  return categories;
+}
+
+function validateStorageConfiguration(categories, mode) {
+  const storageVars = categories.conditional.filter(v => v.category === 'storage');
+  const blobToken = storageVars.find(v => v.name === 'VERCEL_BLOB_READ_WRITE_TOKEN');
+  const awsVars = storageVars.filter(v => v.name.startsWith('AWS_'));
+  const storageDriver = storageVars.find(v => v.name === 'STORAGE_DRIVER');
+
+  let storageValid = false;
+  let storageType = storageDriver?.value || 'unknown';
+  let storageErrors = [];
+
+  // Check based on storage driver setting
+  switch (storageType) {
+    case 'vercel-blob':
+      if (blobToken?.present) {
+        storageValid = true;
+      } else {
+        storageErrors.push('VERCEL_BLOB_READ_WRITE_TOKEN required for vercel-blob storage');
+      }
+      break;
+    case 's3':
+      const requiredAwsVars = ['AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'AWS_S3_BUCKET'];
+      const missingAwsVars = requiredAwsVars.filter(varName =>
+        !storageVars.find(v => v.name === varName && v.present)
+      );
+      if (missingAwsVars.length === 0) {
+        storageValid = true;
+      } else {
+        storageErrors.push(`Missing AWS variables: ${missingAwsVars.join(', ')}`);
+      }
+      break;
+    case 'fs':
+      storageValid = true; // Filesystem storage requires no additional config
+      break;
+    default:
+      // Auto-detect if no driver specified
+      if (blobToken?.present) {
+        storageValid = true;
+        storageType = 'vercel-blob';
+      } else if (awsVars.length >= 3 && awsVars.every(v => v.present)) {
+        storageValid = true;
+        storageType = 's3';
+      } else {
+        storageType = 'fs'; // Default to filesystem
+        storageValid = true;
+      }
+  }
+
+  if (!storageValid && mode === 'production') {
+    storageErrors.push('Storage configuration invalid for production');
+  }
+
+  return { storageValid, storageType, storageErrors };
+}
+
+function generateTableOutput(categories, validationResult, config) {
+  console.log(`\n${colors.bold}🔍 ENVIRONMENT VALIDATION${colors.reset}`);
+  console.log(`Mode: ${config.mode.toUpperCase()}`);
+
+  const storageResult = validateStorageConfiguration(categories, config.mode);
+  console.log(`Storage: ${storageResult.storageType}`);
+  console.log('='.repeat(70));
+
+  function printCategory(vars, title, icon) {
+    if (vars.length === 0) return;
+
+    console.log(`\n${icon} ${colors.bold}${title}${colors.reset}`);
+    console.log('─'.repeat(70));
+
+    for (const variable of vars) {
+      const status = variable.present ? colors.green + '✅' : colors.red + '❌';
+      const name = variable.name.padEnd(25);
+      const value = variable.present ? variable.masked : colors.dim + 'undefined';
+      const hint = getVariableHint(variable.name);
+
+      console.log(`${status}${colors.reset} ${name} ${value}`);
+      if (hint && (!variable.present || config.format === 'verbose')) {
+        console.log(`   ${colors.dim}${hint}${colors.reset}`);
+      }
+    }
+  }
+
+  printCategory(categories.required, 'Required Variables', '🔴');
+  printCategory(categories.conditional, 'Storage Configuration', '🟡');
+  printCategory(categories.optional, 'Optional Variables', '🟢');
+
+  if (config.vercel) {
+    printCategory(categories.deployment, 'Deployment Variables', '🚀');
+  }
+
+  // Summary
+  console.log('\n' + '='.repeat(70));
+  const requiredMissing = categories.required.filter(v => !v.present).length;
+  const conditionalMissing = categories.conditional.filter(v => !v.present).length;
+
+  if (requiredMissing === 0 && storageResult.storageValid) {
+    log.success('All required variables present and storage configured');
+  } else {
+    if (requiredMissing > 0) {
+      log.error(`${requiredMissing} required variable(s) missing`);
+    }
+    if (!storageResult.storageValid) {
+      log.error('Storage configuration invalid');
+    }
+  }
+
+  // Storage errors
+  for (const error of storageResult.storageErrors) {
+    log.warn(error);
   }
 }
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (error) => {
-  console.error(colorize('❌ Unhandled error:', 'red'), error)
-  process.exit(2)
-})
+function generateJSONOutput(categories, validationResult, config) {
+  const storageResult = validateStorageConfiguration(categories, config.mode);
 
-main()
+  const output = {
+    mode: config.mode,
+    timestamp: new Date().toISOString(),
+    validation: {
+      success: validationResult.success,
+      storage: storageResult
+    },
+    categories,
+    summary: {
+      required: {
+        total: categories.required.length,
+        present: categories.required.filter(v => v.present).length,
+        missing: categories.required.filter(v => !v.present).length
+      },
+      optional: {
+        total: categories.optional.length,
+        present: categories.optional.filter(v => v.present).length
+      },
+      conditional: {
+        total: categories.conditional.length,
+        present: categories.conditional.filter(v => v.present).length
+      }
+    }
+  };
+
+  console.log(JSON.stringify(output, null, 2));
+}
+
+function generateSummaryOutput(categories, validationResult, config) {
+  const storageResult = validateStorageConfiguration(categories, config.mode);
+  const requiredMissing = categories.required.filter(v => !v.present).length;
+  const requiredPresent = categories.required.filter(v => v.present).length;
+  const optionalPresent = categories.optional.filter(v => v.present).length;
+
+  console.log(`Environment: ${config.mode}`);
+  console.log(`Required: ${requiredPresent}/${categories.required.length}`);
+  console.log(`Optional: ${optionalPresent}/${categories.optional.length}`);
+  console.log(`Storage: ${storageResult.storageType}`);
+
+  if (requiredMissing > 0) {
+    console.log(`Missing: ${categories.required.filter(v => !v.present).map(v => v.name).join(', ')}`);
+  }
+
+  if (!storageResult.storageValid && config.mode === 'production') {
+    console.log('Warning: No valid storage configuration');
+  }
+}
+
+function getVariableHint(varName) {
+  const hints = {
+    'SHARE_KEY': 'Secret key for sharing functionality',
+    'LLM_PROVIDER': 'LLM provider (anthropic, openai, google, groq)',
+    'ANTHROPIC_API_KEY': 'Get from https://console.anthropic.com/',
+    'OPENAI_API_KEY': 'Get from https://platform.openai.com/',
+    'GOOGLE_AI_API_KEY': 'Get from https://makersuite.google.com/',
+    'GROQ_API_KEY': 'Get from https://console.groq.com/',
+    'ELEVENLABS_API_KEY': 'Optional - enables TTS features',
+    'BLOB_READ_WRITE_TOKEN': 'Vercel Blob storage token',
+    'AWS_ACCESS_KEY_ID': 'AWS credentials for S3 storage',
+    'AWS_SECRET_ACCESS_KEY': 'AWS credentials for S3 storage',
+    'AWS_REGION': 'AWS region for S3 storage',
+    'VERCEL_TOKEN': 'Vercel CLI authentication token',
+    'DEPLOY_AUTO_PREWARM': 'Enable automatic endpoint prewarming'
+  };
+
+  return hints[varName] || null;
+}
+
+function getExitCode(categories, storageResult, config) {
+  const requiredMissing = categories.required.filter(v => !v.present).length;
+
+  if (requiredMissing > 0 && config.mode === 'production') {
+    return 1; // Missing required variables in production
+  }
+
+  if (!storageResult.storageValid && config.mode === 'production') {
+    return 3; // Storage configuration invalid
+  }
+
+  const optionalMissing = categories.optional.filter(v => !v.present).length;
+  if (config.strict && optionalMissing > 0) {
+    return 1; // Strict mode with missing optional variables
+  }
+
+  return 0; // All good
+}
+
+async function main() {
+  const config = parseArgs();
+
+  if (config.help) {
+    showHelp();
+    process.exit(0);
+  }
+
+  log.check('Validating environment variables...');
+
+  const validationResult = await loadEnvironmentValidation(config.mode);
+  if (!validationResult.success && validationResult.error) {
+    log.error('Environment validation setup failed');
+    process.exit(2);
+  }
+
+  const categories = categorizeVariables(validationResult, validationResult.env);
+  const storageResult = validateStorageConfiguration(categories, config.mode);
+
+  switch (config.format) {
+    case 'json':
+      generateJSONOutput(categories, validationResult, config);
+      break;
+    case 'summary':
+      generateSummaryOutput(categories, validationResult, config);
+      break;
+    case 'table':
+    default:
+      generateTableOutput(categories, validationResult, config);
+      break;
+  }
+
+  const exitCode = getExitCode(categories, storageResult, config);
+  process.exit(exitCode);
+}
+
+main().catch(error => {
+  log.error(`Validation failed: ${error.message}`);
+  console.error(error.stack);
+  process.exit(2);
+});
