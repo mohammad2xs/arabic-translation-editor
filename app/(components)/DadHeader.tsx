@@ -83,15 +83,15 @@ export default function DadHeader({
 
   return (
     <>
-      <header className="bg-white shadow-lg border-b-2 border-gray-200 sticky top-0 z-20">
+      <header className="terminal-panel terminal-theme terminal-header sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 py-4">
           {/* Top row - Title and mode toggle */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-4">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="terminal-header-title">
                 📖 Al-Insān Translation Editor
               </h1>
-              <div className="flex items-center space-x-2 text-lg text-gray-600">
+              <div className="flex items-center space-x-2 text-lg" style={{ color: 'var(--muted)' }}>
                 <span>{getRoleIcon(userRole)}</span>
                 <span>{formatRoleDisplay(userRole)}</span>
               </div>
@@ -107,7 +107,8 @@ export default function DadHeader({
               {onOpenPreview && (
                 <button
                   onClick={onOpenPreview}
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
+                  className="terminal-button terminal-button-success"
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                   aria-label="Open final preview"
                 >
                   👁️ Preview
@@ -117,22 +118,43 @@ export default function DadHeader({
               {onOpenCommandPalette && (
                 <button
                   onClick={onOpenCommandPalette}
-                  className="px-6 py-3 bg-indigo-600 text-white rounded-lg text-lg font-medium hover:bg-indigo-700 transition-colors focus:ring-4 focus:ring-indigo-200"
+                  className="terminal-button"
+                  style={{
+                    minHeight: 'var(--dad-touch-target)',
+                    background: 'var(--violet)',
+                    color: 'var(--bg0)',
+                    borderColor: 'var(--violet)',
+                    position: 'relative'
+                  }}
                   aria-label="Open command palette"
                   title="Press ⌘K to open command palette"
                 >
                   ⌘K
+                  <span className="terminal-cmd-palette-shortcut" style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    fontSize: '10px',
+                    background: 'var(--blue)',
+                    color: 'var(--bg0)',
+                    padding: '2px 4px',
+                    borderRadius: '4px'
+                  }}>
+                    hint
+                  </span>
                 </button>
               )}
 
               {canComment(userRole) && onToggleAssistant && (
                 <button
                   onClick={onToggleAssistant}
-                  className={`px-6 py-3 rounded-lg text-lg font-medium transition-colors focus:ring-4 ${
-                    isAssistantOpen
-                      ? 'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-200'
-                      : 'bg-purple-500 text-white hover:bg-purple-600 focus:ring-purple-200'
-                  }`}
+                  className="terminal-button"
+                  style={{
+                    minHeight: 'var(--dad-touch-target)',
+                    background: isAssistantOpen ? 'var(--violet)' : 'var(--panel)',
+                    color: isAssistantOpen ? 'var(--bg0)' : 'var(--ink)',
+                    borderColor: 'var(--violet)'
+                  }}
                   aria-label={isAssistantOpen ? 'Close Assistant' : 'Open Assistant'}
                 >
                   🤖 Assistant {isAssistantOpen ? '✓' : ''}
@@ -143,7 +165,8 @@ export default function DadHeader({
                 <>
                   <button
                     onClick={() => setShowShareDialog(true)}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
+                    className="terminal-button terminal-button-primary"
+                    style={{ minHeight: 'var(--dad-touch-target)' }}
                   >
                     📤 Share
                   </button>
@@ -158,7 +181,8 @@ export default function DadHeader({
 
                         // Show success toast
                         const toast = document.createElement('div');
-                        toast.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.className = 'fixed top-4 right-4 terminal-panel text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.style.background = 'var(--green)';
                         toast.textContent = '📋 Public review link copied!';
                         document.body.appendChild(toast);
                         setTimeout(() => document.body.removeChild(toast), 3000);
@@ -166,23 +190,31 @@ export default function DadHeader({
                         console.error('Failed to create share link:', error);
                         // Show error toast
                         const toast = document.createElement('div');
-                        toast.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.className = 'fixed top-4 right-4 terminal-panel text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        toast.style.background = 'var(--red)';
                         toast.textContent = '❌ Failed to create share link';
                         document.body.appendChild(toast);
                         setTimeout(() => document.body.removeChild(toast), 3000);
                       }
                     }}
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
-                    aria-label="Copy public review link"
+                    className="terminal-button terminal-button-success"
+                    style={{ minHeight: 'var(--dad-touch-target)' }}
+                    aria-label="Copy reviewer link"
                   >
-                    📋 Copy Public Link
+                    📋 Copy Reviewer Link
                   </button>
                 </>
               )}
 
               <button
                 onClick={() => window.open('/review', '_blank')}
-                className="px-6 py-3 bg-orange-600 text-white rounded-lg text-lg font-medium hover:bg-orange-700 transition-colors focus:ring-4 focus:ring-orange-200"
+                className="terminal-button"
+                style={{
+                  minHeight: 'var(--dad-touch-target)',
+                  background: 'var(--amber)',
+                  color: 'var(--bg0)',
+                  borderColor: 'var(--amber)'
+                }}
                 aria-label="Open code review interface"
               >
                 🔍 Review
@@ -190,7 +222,8 @@ export default function DadHeader({
 
               <button
                 onClick={handleToggleDadMode}
-                className="px-6 py-3 bg-gray-600 text-white rounded-lg text-lg font-medium hover:bg-gray-700 transition-colors focus:ring-4 focus:ring-gray-200"
+                className="terminal-button terminal-button-ghost"
+                style={{ minHeight: 'var(--dad-touch-target)' }}
                 aria-label="Exit Dad Mode"
               >
                 👓 Exit Dad Mode
@@ -202,15 +235,15 @@ export default function DadHeader({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-3">
-                <label htmlFor="dad-section-select" className="text-lg font-medium text-gray-700">
+                <label htmlFor="dad-section-select" className="text-lg font-medium" style={{ color: 'var(--ink)' }}>
                   📂 Section:
                 </label>
                 <select
                   id="dad-section-select"
                   value={currentSection}
                   onChange={(e) => onSectionChange(e.target.value)}
-                  className="text-lg px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 min-w-[280px]"
-                  style={{ minHeight: '48px' }}
+                  className="terminal-input text-lg min-w-[280px]"
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                 >
                   {availableSections.map((section) => (
                     <option key={section.id} value={section.id}>
@@ -221,15 +254,15 @@ export default function DadHeader({
               </div>
 
               <div className="flex items-center space-x-3">
-                <label htmlFor="dad-view-mode-select" className="text-lg font-medium text-gray-700">
+                <label htmlFor="dad-view-mode-select" className="text-lg font-medium" style={{ color: 'var(--ink)' }}>
                   👁️ View Mode:
                 </label>
                 <select
                   id="dad-view-mode-select"
                   value={currentViewMode}
                   onChange={(e) => handleViewModeChange(e.target.value as 'focus' | 'context' | 'all' | 'preview')}
-                  className="text-lg px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 min-w-[200px]"
-                  style={{ minHeight: '48px' }}
+                  className="terminal-input text-lg min-w-[200px]"
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                 >
                   <option value="focus">Focus Row</option>
                   <option value="context">±N Rows</option>
@@ -239,15 +272,15 @@ export default function DadHeader({
 
                 {currentViewMode === 'context' && (
                   <div className="flex items-center space-x-2">
-                    <label htmlFor="dad-context-size-select" className="text-lg font-medium text-gray-700">
+                    <label htmlFor="dad-context-size-select" className="text-lg font-medium" style={{ color: 'var(--ink)' }}>
                       Size:
                     </label>
                     <select
                       id="dad-context-size-select"
                       value={currentContextSize}
                       onChange={(e) => handleContextSizeChange(parseInt(e.target.value))}
-                      className="text-lg px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 min-w-[80px]"
-                      style={{ minHeight: '48px' }}
+                      className="terminal-input text-lg min-w-[80px]"
+                      style={{ minHeight: 'var(--dad-touch-target)' }}
                     >
                       <option value={3}>3</option>
                       <option value={5}>5</option>
@@ -258,7 +291,7 @@ export default function DadHeader({
                 )}
               </div>
 
-              <div className="text-xl font-medium text-gray-700">
+              <div className="text-xl font-medium" style={{ color: 'var(--ink)' }}>
                 📍 Row {currentRow + 1} of {totalRows}
               </div>
             </div>
@@ -266,15 +299,15 @@ export default function DadHeader({
             <div className="flex items-center space-x-4">
               {/* Progress indicator */}
               <div className="flex items-center space-x-3">
-                <div className="bg-gray-200 rounded-full h-3 w-32">
+                <div className="terminal-progress">
                   <div
-                    className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                    className="terminal-progress-bar"
                     style={{
                       width: `${totalRows > 0 ? ((currentRow + 1) / totalRows) * 100 : 0}%`
                     }}
                   />
                 </div>
-                <span className="text-lg text-gray-600">
+                <span className="text-lg" style={{ color: 'var(--muted)' }}>
                   {totalRows > 0 ? Math.round(((currentRow + 1) / totalRows) * 100) : 0}%
                 </span>
               </div>
@@ -282,7 +315,8 @@ export default function DadHeader({
               {onFinishSection && (
                 <button
                   onClick={onFinishSection}
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
+                  className="terminal-button terminal-button-success"
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                   aria-label="Mark section as complete"
                 >
                   ✅ Finish Section
@@ -322,38 +356,38 @@ export default function DadHeader({
 
 export function DadHeaderSkeleton() {
   return (
-    <header className="bg-white shadow-lg border-b-2 border-gray-200 sticky top-0 z-20">
+    <header className="terminal-panel terminal-theme terminal-header sticky top-0 z-20">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
-            <div className="h-8 w-96 bg-gray-300 rounded animate-pulse"></div>
-            <div className="h-6 w-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-8 w-96 rounded animate-pulse" style={{ background: 'var(--muted)' }}></div>
+            <div className="h-6 w-32 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="h-12 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
-            <div className="h-12 w-32 bg-gray-200 rounded-lg animate-pulse"></div>
+            <div className="h-12 w-24 rounded-lg animate-pulse" style={{ background: 'var(--bg1)' }}></div>
+            <div className="h-12 w-32 rounded-lg animate-pulse" style={{ background: 'var(--bg1)' }}></div>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
-            <div className="h-12 w-80 bg-gray-200 rounded-lg animate-pulse"></div>
-            <div className="h-6 w-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-12 w-80 rounded-lg animate-pulse" style={{ background: 'var(--bg1)' }}></div>
+            <div className="h-6 w-32 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="h-3 w-32 bg-gray-200 rounded-full animate-pulse"></div>
-            <div className="h-6 w-12 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-12 w-36 bg-gray-200 rounded-lg animate-pulse"></div>
+            <div className="h-3 w-32 rounded-full animate-pulse" style={{ background: 'var(--bg1)' }}></div>
+            <div className="h-6 w-12 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
+            <div className="h-12 w-36 rounded-lg animate-pulse" style={{ background: 'var(--bg1)' }}></div>
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-200">
+        <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(147, 164, 177, 0.3)' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <div className="h-6 w-24 bg-gray-200 rounded animate-pulse"></div>
-              <div className="h-6 w-24 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-6 w-24 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
+              <div className="h-6 w-24 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
             </div>
-            <div className="h-4 w-64 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-4 w-64 rounded animate-pulse" style={{ background: 'var(--bg1)' }}></div>
           </div>
         </div>
       </div>

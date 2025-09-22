@@ -233,13 +233,23 @@ export default function RowCard({
   }, [row.id]);
 
   const tabClasses = (tab: ActiveTab) => `
-    flex-1 py-4 px-6 text-xl font-medium rounded-t-lg transition-all duration-200
-    ${activeTab === tab
-      ? 'bg-white text-blue-700 border-b-4 border-blue-500 shadow-lg -mb-[2px]'
-      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800'
-    }
-    focus:outline-none focus:ring-4 focus:ring-blue-200
+    terminal-tab
+    ${activeTab === tab ? 'active' : ''}
+    ${compact ? 'text-lg py-3 px-4' : 'text-xl py-4 px-6'}
   `;
+
+  const getLaneBadgeClass = (tab: ActiveTab) => {
+    switch (tab) {
+      case 'english':
+        return 'lane-badge lane-badge-english';
+      case 'enhanced':
+        return 'lane-badge lane-badge-arabic-enhanced';
+      case 'original':
+        return 'lane-badge lane-badge-arabic-original';
+      default:
+        return 'lane-badge';
+    }
+  };
 
   const getSaveStatusMessage = () => {
     switch (saveStatus) {
@@ -257,18 +267,21 @@ export default function RowCard({
   return (
     <>
       <div className={`
-        bg-white rounded-lg shadow-lg border-2
-        ${isFocused ? 'border-blue-500 ring-4 ring-blue-200' : 'border-gray-200'}
+        terminal-panel terminal-theme
+        ${isFocused ? 'terminal-focus-ring' : ''}
         ${compact ? 'shadow-md' : 'shadow-lg'}
       `}>
         {/* Header with quality indicator and actions */}
-        <div className={`border-b border-gray-200 ${compact ? 'p-4' : 'p-6'}`}>
+        <div className={`terminal-scanline-header ${compact ? 'p-4' : 'p-6'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h3 className={`font-bold text-gray-900 ${compact ? 'text-lg' : 'text-2xl'}`}>
+              <h3 className={`font-bold ${compact ? 'text-lg' : 'text-2xl'}`} style={{ color: 'var(--ink)' }}>
                 Row {row.id}
-                {isFocused && <span className="ml-2 text-blue-600">⭐</span>}
+                {isFocused && <span className="ml-2" style={{ color: 'var(--blue)' }}>⭐</span>}
               </h3>
+              <span className={getLaneBadgeClass(activeTab)}>
+                {activeTab === 'english' ? 'EN' : activeTab === 'enhanced' ? 'AR-E' : 'AR-O'}
+              </span>
               <QualityChipSimple status={getQualityStatus(row)} large />
             </div>
 
@@ -277,13 +290,8 @@ export default function RowCard({
               {showFocusButton && (
                 <button
                   onClick={onFocus}
-                  className={`
-                    px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                    ${isFocused
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                    }
-                  `}
+                  className={`terminal-button ${isFocused ? 'terminal-button-primary' : 'terminal-button-ghost'}`}
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                 >
                   {isFocused ? '⭐ Focused' : '🎯 Focus'}
                 </button>
@@ -302,10 +310,8 @@ export default function RowCard({
                   {onUndo && (
                     <button
                       onClick={onUndo}
-                      className={`
-                        bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors focus:ring-4 focus:ring-gray-200
-                        ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-lg'}
-                      `}
+                      className="terminal-button terminal-button-ghost"
+                      style={{ minHeight: 'var(--dad-touch-target)' }}
                     >
                       ↶ Undo
                     </button>
@@ -314,10 +320,8 @@ export default function RowCard({
                     <button
                       onClick={onSave}
                       disabled={saveStatus === 'saving'}
-                      className={`
-                        bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors focus:ring-4 focus:ring-blue-200
-                        ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-lg'}
-                      `}
+                      className="terminal-button terminal-button-primary"
+                      style={{ minHeight: 'var(--dad-touch-target)' }}
                     >
                       {saveStatus === 'saving' ? '💾 Saving...' : '💾 Save'}
                     </button>
@@ -328,10 +332,8 @@ export default function RowCard({
               {canApproveContent && onApprove && (
                 <button
                   onClick={onApprove}
-                  className={`
-                    bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200
-                    ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-lg'}
-                  `}
+                  className="terminal-button terminal-button-success"
+                  style={{ minHeight: 'var(--dad-touch-target)' }}
                 >
                   ✅ Approve
                 </button>
@@ -339,10 +341,13 @@ export default function RowCard({
 
               <button
                 onClick={() => setShowNotes(true)}
-                className={`
-                  bg-yellow-500 text-white rounded-lg font-medium hover:bg-yellow-600 transition-colors focus:ring-4 focus:ring-yellow-200
-                  ${compact ? 'px-4 py-2 text-sm' : 'px-6 py-3 text-lg'}
-                `}
+                className="terminal-button"
+                style={{
+                  minHeight: 'var(--dad-touch-target)',
+                  background: 'var(--amber)',
+                  color: 'var(--bg0)',
+                  borderColor: 'var(--amber)'
+                }}
               >
                 📝 Add Note
               </button>
@@ -364,27 +369,31 @@ export default function RowCard({
         </div>
 
         {/* Tabs */}
-        <div className="bg-gray-50 border-b border-gray-200">
-          <div className="flex">
-            <button
-              onClick={() => setActiveTab('english')}
-              className={tabClasses('english')}
-            >
-              🌍 English Translation
-            </button>
-            <button
-              onClick={() => setActiveTab('enhanced')}
-              className={tabClasses('enhanced')}
-            >
-              ✨ Enhanced Arabic
-            </button>
-            <button
-              onClick={() => setActiveTab('original')}
-              className={tabClasses('original')}
-            >
-              📖 Original Arabic
-            </button>
-          </div>
+        <div className="terminal-tabs">
+          <button
+            onClick={() => setActiveTab('english')}
+            className={tabClasses('english')}
+            style={{ minHeight: 'var(--dad-touch-target)' }}
+          >
+            <span className={getLaneBadgeClass('english')}>EN</span>
+            🌍 English Translation
+          </button>
+          <button
+            onClick={() => setActiveTab('enhanced')}
+            className={tabClasses('enhanced')}
+            style={{ minHeight: 'var(--dad-touch-target)' }}
+          >
+            <span className={getLaneBadgeClass('enhanced')}>AR-E</span>
+            ✨ Enhanced Arabic
+          </button>
+          <button
+            onClick={() => setActiveTab('original')}
+            className={tabClasses('original')}
+            style={{ minHeight: 'var(--dad-touch-target)' }}
+          >
+            <span className={getLaneBadgeClass('original')}>AR-O</span>
+            📖 Original Arabic
+          </button>
         </div>
 
         {/* Content area */}
@@ -435,14 +444,15 @@ export default function RowCard({
                     <button
                       onClick={() => startVoiceInput('enhanced')}
                       disabled={isRecording}
-                      className={`
-                        px-4 py-2 rounded-lg font-medium transition-colors
-                        ${isRecording
-                          ? 'bg-red-500 text-white'
-                          : 'bg-blue-500 hover:bg-blue-600 text-white'
-                        }
-                        focus:ring-4 focus:ring-blue-200
-                      `}
+                      className={`terminal-button ${isRecording ? '' : 'terminal-button-primary'}`}
+                      style={{
+                        minHeight: 'var(--dad-touch-target)',
+                        ...(isRecording ? {
+                          background: 'var(--red)',
+                          color: 'var(--bg0)',
+                          borderColor: 'var(--red)'
+                        } : {})
+                      }}
                     >
                       {isRecording ? '🎤 Recording...' : '🎤 Voice'}
                     </button>
@@ -457,13 +467,7 @@ export default function RowCard({
                   ref={enhancedTextareaRef}
                   value={row.enhanced}
                   onChange={(e) => onRowChange('enhanced', e.target.value)}
-                  className={`
-                    w-full border-2 border-gray-300 rounded-lg font-arabic resize-none focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500
-                    ${compact
-                      ? 'h-32 p-3 text-lg leading-relaxed'
-                      : 'h-64 p-6 text-xl leading-relaxed'
-                    }
-                  `}
+                  className={`terminal-input terminal-arabic ${compact ? 'h-32' : 'h-64'}`}
                   dir="rtl"
                   placeholder="Enter enhanced Arabic text..."
                 />
@@ -497,14 +501,15 @@ export default function RowCard({
                     <button
                       onClick={() => startVoiceInput('english')}
                       disabled={isRecording}
-                      className={`
-                        px-4 py-2 rounded-lg font-medium transition-colors
-                        ${isRecording
-                          ? 'bg-red-500 text-white'
-                          : 'bg-blue-500 hover:bg-blue-600 text-white'
-                        }
-                        focus:ring-4 focus:ring-blue-200
-                      `}
+                      className={`terminal-button ${isRecording ? '' : 'terminal-button-primary'}`}
+                      style={{
+                        minHeight: 'var(--dad-touch-target)',
+                        ...(isRecording ? {
+                          background: 'var(--red)',
+                          color: 'var(--bg0)',
+                          borderColor: 'var(--red)'
+                        } : {})
+                      }}
                     >
                       {isRecording ? '🎤 Recording...' : '🎤 Voice'}
                     </button>
@@ -519,13 +524,7 @@ export default function RowCard({
                   ref={englishTextareaRef}
                   value={row.english}
                   onChange={(e) => onRowChange('english', e.target.value)}
-                  className={`
-                    w-full border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500
-                    ${compact
-                      ? 'h-32 p-3 text-lg leading-relaxed'
-                      : 'h-64 p-6 text-xl leading-relaxed'
-                    }
-                  `}
+                  className={`terminal-input ${compact ? 'h-32' : 'h-64'}`}
                   placeholder="Enter English translation..."
                 />
               ) : (
@@ -589,19 +588,22 @@ export default function RowCard({
             <div className="flex space-x-3">
               <button
                 onClick={acceptTranscript}
-                className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors focus:ring-4 focus:ring-green-200"
+                className="flex-1 terminal-button terminal-button-success"
+                style={{ minHeight: 'var(--dad-touch-target)' }}
               >
                 ✅ Accept
               </button>
               <button
                 onClick={rejectTranscript}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-200"
+                className="flex-1 terminal-button terminal-button-primary"
+                style={{ minHeight: 'var(--dad-touch-target)' }}
               >
                 🎤 Try Again
               </button>
               <button
                 onClick={() => setPendingTranscript(null)}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors focus:ring-4 focus:ring-gray-200"
+                className="terminal-button terminal-button-ghost"
+                style={{ minHeight: 'var(--dad-touch-target)' }}
               >
                 ❌ Cancel
               </button>

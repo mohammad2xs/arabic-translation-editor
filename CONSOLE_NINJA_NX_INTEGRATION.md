@@ -5,6 +5,7 @@ This document outlines the integration of Console Ninja and Nx Console extension
 ## 🚀 Features
 
 ### Console Ninja Integration
+
 - **Enhanced Debugging**: Structured logging with context and metadata
 - **Performance Monitoring**: Real-time performance tracking and memory usage
 - **Error Tracking**: Comprehensive error logging with stack traces
@@ -12,12 +13,14 @@ This document outlines the integration of Console Ninja and Nx Console extension
 - **Persistent Logs**: Logs persist across sessions for better debugging
 
 ### Nx Console Integration
+
 - **Intelligent Code Generation**: Automated code generation for components, services, and utilities
 - **Auto-Fixing**: Intelligent fixing of common TypeScript, React, and Next.js issues
 - **Code Quality**: Automated code quality improvements and best practices
 - **Dependency Management**: Smart dependency resolution and updates
 
 ### Self-Healing System
+
 - **Health Monitoring**: Continuous monitoring of platform health
 - **Automatic Fixes**: Self-healing capabilities for common issues
 - **Performance Optimization**: Automatic performance improvements
@@ -46,6 +49,7 @@ lib/
 ### 1. Install Extensions
 
 Install the following VS Code extensions:
+
 - **Console Ninja**: `console-ninja.console-ninja`
 - **Nx Console**: `nrwl.angular-console`
 
@@ -148,23 +152,28 @@ const status = selfHealingSystem.getHealthStatus();
 ## 📊 Available Scripts
 
 ### Development
+
 - `npm run dev` - Start development server
 - `npm run dev:monitored` - Start with monitoring
 - `npm run dev:full` - Start with full auto-fixing and monitoring
 
 ### Monitoring
+
 - `npm run monitor:start` - Start self-healing monitoring
 - `npm run monitor:stop` - Stop monitoring
 - `npm run monitor:health` - Run health checks
 
 ### Auto-Fixing
+
 - `npm run fix:intelligent` - Enable intelligent fixer
 - `npm run fix:all` - Run all fixes (lint, type-check, intelligent)
 
 ### Console Ninja
+
 - `npm run console:ninja` - Test Console Ninja integration
 
 ### Nx Console
+
 - `npm run nx:generate` - Generate code with Nx
 - `npm run nx:run` - Run Nx commands
 - `npm run nx:build` - Build with Nx
@@ -176,26 +185,31 @@ const status = selfHealingSystem.getHealthStatus();
 The intelligent fixer includes rules for:
 
 ### Import Fixes
+
 - Missing React imports
 - Incorrect import paths
 - Unused imports
 
 ### TypeScript Fixes
+
 - Missing type annotations
 - Interface exports
 - Type safety improvements
 
 ### React Fixes
+
 - Missing use client directives
 - Performance optimizations (useCallback, useMemo)
 - Accessibility improvements
 
 ### Next.js Fixes
+
 - API route structure
 - Middleware configuration
 - Static generation optimizations
 
 ### Console Ninja Integration
+
 - Replace console.log with structured logging
 - Add error tracking
 - Performance monitoring
@@ -205,16 +219,19 @@ The intelligent fixer includes rules for:
 The self-healing system monitors:
 
 ### Critical Checks
+
 - Database connectivity
 - API endpoints health
 - File system permissions
 
 ### Warning Checks
+
 - Memory usage
 - TypeScript compilation
 - Performance metrics
 
 ### Info Checks
+
 - Cache status
 - Dependencies
 - Configuration
@@ -222,6 +239,7 @@ The self-healing system monitors:
 ## 🚨 Alerts and Notifications
 
 The system provides alerts for:
+
 - Critical health issues
 - High error rates
 - Memory usage spikes
@@ -231,6 +249,7 @@ The system provides alerts for:
 ## 📈 Metrics and Monitoring
 
 ### Platform Metrics
+
 - Uptime
 - Error rate
 - Response time
@@ -238,6 +257,7 @@ The system provides alerts for:
 - Active users
 
 ### Logging Metrics
+
 - Log volume
 - Error frequency
 - Performance bottlenecks
@@ -246,6 +266,7 @@ The system provides alerts for:
 ## 🔧 Configuration
 
 ### Console Ninja Configuration
+
 ```json
 {
   "console-ninja.customLoggers": {
@@ -258,6 +279,7 @@ The system provides alerts for:
 ```
 
 ### Nx Console Configuration
+
 ```json
 {
   "nx-console.generateWithDryRun": true,
@@ -279,6 +301,7 @@ The system provides alerts for:
 ## 🔄 Continuous Improvement
 
 The system continuously improves by:
+
 - Learning from error patterns
 - Optimizing performance based on metrics
 - Updating fixing rules based on common issues

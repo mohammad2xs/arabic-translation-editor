@@ -14,6 +14,9 @@
 /* iOS-Specific Mobile Optimizations */
 @import url('../styles/ios.css');
 
+/* Terminal Theme - Cursor-style Design System */
+@import url('../styles/terminal.css');
+
 /* Dad-Mode Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
 
@@ -399,6 +402,23 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Terminal Theme RTL Numeral Support */
+[dir="rtl"] .terminal-arabic {
+  unicode-bidi: embed;
+  direction: rtl;
+}
+
+/* Terminal Theme Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .terminal-theme *,
+  .terminal-theme *::before,
+  .terminal-theme *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
