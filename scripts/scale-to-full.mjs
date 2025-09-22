@@ -4,6 +4,9 @@ import { spawn } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 class ScaleToFull {
   constructor() {
@@ -88,6 +91,85 @@ class ScaleToFull {
     return checksums;
   }
 
+  async generateBuildMetadata() {
+    try {
+      console.log('\n🏗️  Generating build metadata...');
+
+      // Import git utilities
+      const { getBuildMetadata } = require('../lib/build/git-utils.ts');
+      const buildInfo = getBuildMetadata();
+
+      // Read quality gates data
+      let qualityData = null;
+      try {
+        const gatesPath = 'reports/quality-gates.json';
+        const gatesContent = await fs.readFile(gatesPath, 'utf8');
+        qualityData = JSON.parse(gatesContent);
+      } catch (error) {
+        console.warn('⚠️  Could not read quality gates data:', error.message);
+      }
+
+      // Calculate checksums and get inventory
+      const checksums = await this.calculateChecksums();
+      const inventory = Object.keys(checksums);
+
+      // Calculate build duration
+      const buildDuration = Math.round((Date.now() - this.startTime) / 1000);
+
+      // Generate comprehensive metadata
+      const metadata = {
+        sha: buildInfo.sha,
+        shortSha: buildInfo.shortSha,
+        time: new Date().toISOString(),
+        version: buildInfo.version,
+        branch: buildInfo.branch,
+        buildDuration,
+        quality: qualityData ? {
+          overallPass: qualityData.overallPass || false,
+          deploymentReady: qualityData.deploymentReady || false,
+          lpr: {
+            average: qualityData.metrics?.lpr?.average || 0,
+            minimum: qualityData.metrics?.lpr?.minimum || 0
+          },
+          coverage: {
+            percentage: qualityData.metrics?.coverage?.percentage || 0
+          },
+          gates: {
+            passed: qualityData.gates ? Object.entries(qualityData.gates)
+              .filter(([_, gate]) => gate.pass)
+              .map(([name]) => name) : [],
+            failed: qualityData.gates ? Object.entries(qualityData.gates)
+              .filter(([_, gate]) => !gate.pass)
+              .map(([name]) => name) : []
+          }
+        } : null,
+        artifacts: {
+          checksums,
+          inventory
+        },
+        pipeline: {
+          steps: this.steps.map(step => step.name),
+          completedAt: new Date().toISOString(),
+          environment: buildInfo.environment
+        }
+      };
+
+      // Ensure public directory exists
+      await fs.mkdir('public', { recursive: true });
+
+      // Write metadata to public/_meta.json
+      await fs.writeFile('public/_meta.json', JSON.stringify(metadata, null, 2));
+
+      console.log(`✅ Build metadata generated: ${buildInfo.shortSha} (${buildInfo.branch})`);
+      return metadata;
+
+    } catch (error) {
+      console.warn('⚠️  Failed to generate build metadata:', error.message);
+      // Continue pipeline execution even if metadata generation fails
+      return null;
+    }
+  }
+
   async printArtifactInventory() {
     console.log('\n📦 Artifact Inventory:');
 
@@ -156,6 +238,9 @@ class ScaleToFull {
 
       // Check quality gates
       const gatesPassed = await this.checkQualityGates();
+
+      // Generate build metadata after quality gates check
+      await this.generateBuildMetadata();
 
       // Print final inventory
       await this.printArtifactInventory();

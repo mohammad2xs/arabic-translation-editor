@@ -4,7 +4,9 @@
   "outputDirectory": ".next",
   "installCommand": "npm ci",
   "devCommand": "npm run dev",
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "env": {
     "NEXT_PUBLIC_APP_URL": "https://arabic2-translation-editor.vercel.app",
     "NEXTAUTH_URL": "https://arabic2-translation-editor.vercel.app"

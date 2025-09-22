@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
 import { getCostSummary } from '../lib/cost';
+import { getBuildMetadata } from '../lib/build/git-utils';
 
 class FinalReportGenerator {
   constructor() {
@@ -11,6 +12,7 @@ class FinalReportGenerator {
     this.costSummary = {};
     this.qualityGates = {};
     this.artifacts = {};
+    this.buildMetadata = {};
   }
 
   async loadData() {
@@ -21,6 +23,17 @@ class FinalReportGenerator {
 
       // Load cost summary
       this.costSummary = await getCostSummary();
+
+      // Load build metadata
+      try {
+        const metaPath = 'public/_meta.json';
+        const metaContent = await fs.readFile(metaPath, 'utf8');
+        this.buildMetadata = JSON.parse(metaContent);
+        console.log(`✅ Build metadata loaded: ${this.buildMetadata.shortSha} (${this.buildMetadata.branch})`);
+      } catch (error) {
+        console.warn('⚠️  Build metadata not found, using fallback git info');
+        this.buildMetadata = getBuildMetadata();
+      }
 
       // Load quality gates results
       try {
@@ -135,18 +148,72 @@ class FinalReportGenerator {
     return `![${label}](https://img.shields.io/badge/${label}-${text}-${color})`;
   }
 
+  async validateConsistency() {
+    const consistency = {
+      metadataQualityMatch: true,
+      artifactChecksumMatch: true,
+      deploymentReadinessMatch: true,
+      issues: []
+    };
+
+    // Check if quality gates in metadata match the quality gates report
+    if (this.buildMetadata.quality && this.qualityGates.overallPass !== undefined) {
+      if (this.buildMetadata.quality.overallPass !== this.qualityGates.overallPass) {
+        consistency.metadataQualityMatch = false;
+        consistency.issues.push(`Quality gates mismatch: metadata=${this.buildMetadata.quality.overallPass}, report=${this.qualityGates.overallPass}`);
+      }
+    }
+
+    // Check if artifact checksums match between metadata and actual files
+    if (this.buildMetadata.artifacts?.checksums) {
+      for (const [artifact, metaChecksum] of Object.entries(this.buildMetadata.artifacts.checksums)) {
+        const actualChecksum = this.artifacts.checksums[artifact];
+        if (actualChecksum && actualChecksum !== metaChecksum) {
+          consistency.artifactChecksumMatch = false;
+          consistency.issues.push(`Checksum mismatch for ${artifact}: metadata=${metaChecksum.substring(0, 8)}, actual=${actualChecksum.substring(0, 8)}`);
+        }
+      }
+    }
+
+    // Check deployment readiness consistency
+    const overallScore = this.calculateOverallScore();
+    const meetsMinimumScore = overallScore >= this.config.deploymentRequirements.minimumOverallScore;
+    const allRequiredArtifacts = Object.values(this.artifacts.required).every(artifact => artifact.exists);
+    const actualDeploymentReady = this.qualityGates.overallPass && meetsMinimumScore && allRequiredArtifacts;
+
+    if (this.buildMetadata.quality?.deploymentReady !== actualDeploymentReady) {
+      consistency.deploymentReadinessMatch = false;
+      consistency.issues.push(`Deployment readiness mismatch: metadata=${this.buildMetadata.quality?.deploymentReady}, actual=${actualDeploymentReady}`);
+    }
+
+    return consistency;
+  }
+
   async generateJsonReport() {
     const overallScore = this.calculateOverallScore();
     const meetsMinimumScore = overallScore >= this.config.deploymentRequirements.minimumOverallScore;
     const allRequiredArtifacts = Object.values(this.artifacts.required).every(artifact => artifact.exists);
-
     const deploymentReady = this.qualityGates.overallPass && meetsMinimumScore && allRequiredArtifacts;
+    const consistency = await this.validateConsistency();
 
     const report = {
       timestamp: new Date().toISOString(),
       deploymentReady,
       overallScore,
       meetsMinimumScore,
+      build: {
+        sha: this.buildMetadata.sha || 'unknown',
+        shortSha: this.buildMetadata.shortSha || 'unknown',
+        branch: this.buildMetadata.branch || 'unknown',
+        time: this.buildMetadata.time || new Date().toISOString(),
+        duration: this.buildMetadata.buildDuration || 0,
+        environment: this.buildMetadata.pipeline?.environment || 'unknown',
+        pipeline: {
+          steps: this.buildMetadata.pipeline?.steps || [],
+          completedAt: this.buildMetadata.pipeline?.completedAt || this.buildMetadata.time
+        }
+      },
+      consistency,
       qualityGates: {
         overallPass: this.qualityGates.overallPass,
         requiredFailed: this.qualityGates.requiredFailed || [],
@@ -190,6 +257,18 @@ ${badges.join(' ')}
 **Overall Score:** ${report.overallScore.toFixed(1)}/100
 **Deployment Ready:** ${report.deploymentReady ? '✅ YES' : '❌ NO'}
 
+## 🏗️ Build Information
+
+- **SHA:** \`${report.build.shortSha}\` (${report.build.branch})
+- **Build Time:** ${report.build.time}
+- **Duration:** ${report.build.duration}s
+- **Environment:** ${report.build.environment}
+
+${report.consistency.issues.length > 0 ? `### ⚠️ Consistency Issues
+
+${report.consistency.issues.map(issue => `- ${issue}`).join('\n')}
+
+` : ''}
 ---
 
 ## 📊 Quality Gates Summary
@@ -334,6 +413,7 @@ All quality gates passed and required artifacts are available. This build is rea
     console.log('\n📊 Final Deployment Report Summary:');
     console.log('=====================================');
 
+    console.log(`🏗️  Build: ${report.build.shortSha} (${report.build.branch}) - ${report.build.duration}s`);
     console.log(`🎯 Overall Score: ${report.overallScore.toFixed(1)}/100`);
     console.log(`💰 Total Cost: $${report.cost.total.toFixed(4)}`);
     console.log(`🔢 Total Tokens: ${this.formatTokens(report.cost.totalTokens)}`);
@@ -351,6 +431,12 @@ All quality gates passed and required artifacts are available. This build is rea
     console.log(`\n📦 Required Artifacts: ${requiredMissing.length === 0 ? '✅ ALL PRESENT' : `❌ ${requiredMissing.length} MISSING`}`);
     if (requiredMissing.length > 0) {
       console.log(`❌ Missing: ${requiredMissing.join(', ')}`);
+    }
+
+    // Report consistency issues
+    if (report.consistency.issues.length > 0) {
+      console.log(`\n⚠️  Consistency Issues:`);
+      report.consistency.issues.forEach(issue => console.log(`   - ${issue}`));
     }
 
     console.log(`\n🚀 Deployment Ready: ${report.deploymentReady ? '✅ YES' : '❌ NO'}`);
