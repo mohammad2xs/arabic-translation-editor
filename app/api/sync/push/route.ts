@@ -118,6 +118,11 @@ async function truncateOldEntries(streamFile: string): Promise<void> {
   }
 }
 
+// Legacy wrapper function for compatibility
+export async function pushChange(section: string, rowId: string, changes: Record<string, any>): Promise<void> {
+  return updateTriviewData(section, rowId, changes);
+}
+
 async function updateTriviewData(section: string, rowId: string, changes: Record<string, any>): Promise<void> {
   try {
     const triviewFile = path.join(process.cwd(), 'outputs/triview.json')

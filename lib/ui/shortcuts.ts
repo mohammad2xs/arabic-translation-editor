@@ -68,4 +68,7 @@ export const SHORTCUTS = {
   FOCUS_2: { key: '2', modifiers: [] as const, description: 'Focus column 2' },
   FOCUS_3: { key: '3', modifiers: [] as const, description: 'Focus column 3' },
 };
-if (typeof window !== 'undefined') document.addEventListener('keydown', e=>shortcuts.handleKeyDown(e));
+
+if (typeof window !== 'undefined') {
+  document.addEventListener('keydown', e => shortcuts.handleKeyDown(e));
+}

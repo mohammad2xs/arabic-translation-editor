@@ -8,6 +8,9 @@
 /* Cursor-Style UI Components */
 @import url('../styles/ui.css');
 
+/* Terminal Simple Theme */
+@import url('../styles/terminal-simple.css');
+
 /* Context Classes */
 @import url('../styles/context.css');
 
@@ -100,7 +103,7 @@
 }
 
 /* Enhanced focus styles for accessibility */
-.dad-mode *:focus {
+.dad-mode :not(.terminal-theme *)*:focus {
   outline: 3px solid #3B82F6 !important;
   outline-offset: 2px !important;
 }

@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { canPlayAudio, getUserRole } from '../../lib/dadmode/access';
-import { generateSSML, type Lane } from '../../lib/audio/ssml';
+import { generateSSML } from '../../lib/audio/ssml';
+import type { Lane } from '../../lib/audio/types';
 import { getVoiceRegistry, type VoiceSettings } from '../../lib/audio/voices';
 
 interface AudioBarProps {
@@ -56,16 +57,28 @@ export default function AudioBar({
 
   // Get current text based on selected lane
   const getCurrentText = (): string => {
+    let currentText: string;
     switch (currentLane) {
       case 'en':
-        return text;
+        currentText = text;
+        break;
       case 'ar_enhanced':
-        return enhancedText || text;
+        currentText = enhancedText || text;
+        if (!enhancedText) {
+          console.warn(`No enhanced Arabic text available for row ${rowId}, falling back to base text`);
+        }
+        break;
       case 'ar_original':
-        return originalText || enhancedText || text;
+        currentText = originalText || enhancedText || text;
+        if (!originalText) {
+          console.warn(`No original Arabic text available for row ${rowId}, falling back to ${enhancedText ? 'enhanced' : 'base'} text`);
+        }
+        break;
       default:
-        return text;
+        currentText = text;
     }
+
+    return currentText || '';
   };
 
   // Generate audio for current text and lane
@@ -220,16 +233,78 @@ export default function AudioBar({
 
   // Start section playback
   const playSection = async () => {
-    // TODO: Implement section-level playback
-    // This would require fetching all rows in the current section
-    alert('Section playback not yet implemented');
+    if (!sectionId) {
+      alert('No section ID available for section playback');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Trigger audiobook job for the current section
+      const response = await fetch('/api/audio/job', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          scope: 'section',
+          lane: currentLane,
+          scopeId: sectionId,
+          scopeName: `Section ${sectionId}`
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create section audio job');
+      }
+
+      const data = await response.json();
+      alert(`Section audio generation started! Job ID: ${data.job.id}. Check the Audiobook Panel for progress.`);
+    } catch (error) {
+      console.error('Section playback error:', error);
+      alert(`Failed to start section playback: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Start chapter playback
   const playChapter = async () => {
-    // TODO: Implement chapter-level playback
-    // This would require fetching all rows in the current chapter
-    alert('Chapter playback not yet implemented');
+    if (!chapterId) {
+      alert('Chapter playback is not yet supported - coming soon!');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Trigger audiobook job for the current chapter
+      const response = await fetch('/api/audio/job', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          scope: 'chapter',
+          lane: currentLane,
+          scopeId: chapterId,
+          scopeName: `Chapter ${chapterId}`
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create chapter audio job');
+      }
+
+      const data = await response.json();
+      alert(`Chapter audio generation started! Job ID: ${data.job.id}. Check the Audiobook Panel for progress.`);
+    } catch (error) {
+      console.error('Chapter playback error:', error);
+      alert(`Failed to start chapter playback: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Download current audio
@@ -238,16 +313,25 @@ export default function AudioBar({
       setIsLoading(true);
       const audioUrl = await generateAudio();
 
+      // Create more descriptive filename with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
+      const laneConfig = voiceRegistry.getLaneConfig(currentLane);
+      const fileName = `${rowId}_${currentLane}_${laneConfig.displayName.replace(/\s+/g, '_')}_${timestamp}.mp3`;
+
       // Create download link
       const link = document.createElement('a');
       link.href = audioUrl;
-      link.download = `${rowId}_${currentLane}.mp3`;
+      link.download = fileName;
+      link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // Show success message with filename
+      alert(`Audio downloaded: ${fileName}`);
     } catch (error) {
       console.error('Download error:', error);
-      alert('Failed to download audio');
+      alert(`Failed to download audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }
@@ -384,9 +468,10 @@ export default function AudioBar({
               </button>
 
               <button
-                onClick={playChapter}
-                className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors"
-                title="Play entire chapter"
+                onClick={() => alert('Chapter playback is coming soon!')}
+                disabled={true}
+                className="px-3 py-1 text-sm bg-gray-100 text-gray-400 rounded cursor-not-allowed opacity-50"
+                title="Chapter playback coming soon"
               >
                 Chapter
               </button>

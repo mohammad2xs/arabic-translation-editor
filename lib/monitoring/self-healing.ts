@@ -160,6 +160,11 @@ class SelfHealingSystem {
             id: 'typescript-compilation',
             name: 'TypeScript Compilation',
             check: async () => {
+                // Only run on server side
+                if (typeof window !== 'undefined') {
+                    return true; // Skip on client side
+                }
+                
                 try {
                     // Check if there are any TypeScript errors
                     const { exec } = await import('child_process');
@@ -174,6 +179,11 @@ class SelfHealingSystem {
                 }
             },
             fix: async () => {
+                // Only run on server side
+                if (typeof window !== 'undefined') {
+                    return; // Skip on client side
+                }
+                
                 logger.info('Attempting to fix TypeScript compilation errors');
                 // Run the intelligent fixer on TypeScript files
                 const glob = await import('glob');

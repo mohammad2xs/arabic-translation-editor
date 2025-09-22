@@ -304,7 +304,7 @@ export default function RowCard({
                 large={!compact}
               />
 
-              {/* Action buttons */}
+              {/* Action buttons - sticky actions intentionally omitted as actions are provided in header */}
               {canEditContent && (
                 <>
                   {onUndo && (
@@ -357,11 +357,11 @@ export default function RowCard({
           {/* Save status */}
           {saveStatus !== 'idle' && (
             <div className="mt-3">
-              <span className={`text-sm font-medium ${
-                saveStatus === 'saved' ? 'text-green-600' :
-                saveStatus === 'error' ? 'text-red-600' :
-                'text-blue-600'
-              }`}>
+              <span className="text-sm font-medium" style={{
+                color: saveStatus === 'saved' ? 'var(--green)' :
+                       saveStatus === 'error' ? 'var(--red)' :
+                       'var(--blue)'
+              }}>
                 {getSaveStatusMessage()}
               </span>
             </div>
@@ -402,7 +402,7 @@ export default function RowCard({
           {activeTab === 'original' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-xl font-semibold text-gray-800">
+                <h4 className="text-xl font-semibold" style={{ color: 'var(--ink)' }}>
                   📖 Original Arabic Text
                 </h4>
                 <AudioControls
@@ -429,7 +429,7 @@ export default function RowCard({
           {activeTab === 'enhanced' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-xl font-semibold text-gray-800">
+                <h4 className="text-xl font-semibold" style={{ color: 'var(--ink)' }}>
                   ✨ Enhanced Arabic Text
                 </h4>
                 <div className="flex items-center space-x-3">
@@ -486,7 +486,7 @@ export default function RowCard({
           {activeTab === 'english' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-xl font-semibold text-gray-800">
+                <h4 className="text-xl font-semibold" style={{ color: 'var(--ink)' }}>
                   🌍 English Translation
                 </h4>
                 <div className="flex items-center space-x-3">

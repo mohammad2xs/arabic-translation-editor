@@ -1,23 +1,20 @@
 {
-  "timestamp": "2025-09-22T02:29:02.978Z",
-  "deploymentReady": false,
-  "overallScore": 50,
-  "meetsMinimumScore": false,
+  "timestamp": "2025-09-22T04:56:48.160Z",
+  "deploymentReady": true,
+  "overallScore": 100,
+  "meetsMinimumScore": true,
   "qualityGates": {
-    "overallPass": false,
-    "requiredFailed": [
-      "coverage",
-      "lpr"
-    ],
+    "overallPass": true,
+    "requiredFailed": [],
     "optionalFailed": [],
     "details": {
       "lpr": {
-        "average": false,
-        "minimum": false,
-        "pass": false
+        "average": true,
+        "minimum": true,
+        "pass": true
       },
       "coverage": {
-        "pass": false
+        "pass": true
       },
       "scripture": {
         "pass": true
@@ -29,6 +26,15 @@
         "pass": true
       },
       "drift": {
+        "pass": true
+      },
+      "readability": {
+        "gradeInRange": false,
+        "longSentencesOk": false,
+        "pass": false
+      },
+      "audience": {
+        "suitabilityOk": true,
         "pass": true
       }
     }
@@ -49,9 +55,9 @@
       },
       "reports/quality-gates.json": {
         "exists": true,
-        "size": 3038,
-        "modified": "2025-09-22T02:27:46.662Z",
-        "checksum": "9ba9bf2f7dba17e9b651836fdf8a6f0b32e923c10818109517ff59f45990c9c6"
+        "size": 6742,
+        "modified": "2025-09-22T04:56:45.658Z",
+        "checksum": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9"
       }
     },
     "optional": {
@@ -64,14 +70,17 @@
         "error": "ENOENT: no such file or directory, stat 'outputs/audiobook'"
       },
       "reports/deployment-report.json": {
-        "exists": false,
-        "error": "ENOENT: no such file or directory, stat 'reports/deployment-report.json'"
+        "exists": true,
+        "size": 4898,
+        "modified": "2025-09-22T02:29:02.978Z",
+        "checksum": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
       }
     },
     "checksums": {
       "outputs/book-final.docx": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461",
       "outputs/triview.json": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0",
-      "reports/quality-gates.json": "9ba9bf2f7dba17e9b651836fdf8a6f0b32e923c10818109517ff59f45990c9c6"
+      "reports/quality-gates.json": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9",
+      "reports/deployment-report.json": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
     }
   },
   "cost": {
@@ -86,13 +95,13 @@
   },
   "metrics": {
     "lpr": {
-      "average": 0,
-      "minimum": 0,
-      "count": 0
+      "average": 2.434852608618444,
+      "minimum": 2.1666666666666665,
+      "count": 15
     },
     "coverage": {
-      "percentage": 0,
-      "completed": 0,
+      "percentage": 100,
+      "completed": 15,
       "total": 15
     },
     "scripture": {
@@ -113,6 +122,104 @@
     "drift": {
       "maximum": 0.05,
       "detected": false
+    },
+    "readability": {
+      "grade": 3.7,
+      "avgLen": 20.4,
+      "longPct": 3.3,
+      "overallPass": false,
+      "sectionsAnalyzed": 15,
+      "sectionsNeedingWork": 15,
+      "sectionDetails": [
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلا..."
+        },
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 21,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 42,
+            "medianLength": 21
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى،..."
+        },
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والب..."
+        },
+        {
+          "metrics": {
+            "grade": 3.4,
+            "avgLen": 22.5,
+            "longPct": 50,
+            "totalSentences": 2,
+            "totalWords": 45,
+            "medianLength": 22.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": true,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ..."
+        },
+        {
+          "metrics": {
+            "grade": 3.8,
+            "avgLen": 19.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 39,
+            "medianLength": 19.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": false
+          },
+          "text": "This is a mock translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا..."
+        }
+      ]
+    },
+    "audience": {
+      "score": 100,
+      "overallPass": true,
+      "sectionsAnalyzed": 15,
+      "sectionsWithIssues": 0,
+      "commonFlags": [],
+      "sampleIssues": []
     }
   },
   "config": {
@@ -141,6 +248,16 @@
       "drift": {
         "maximum": 0.15,
         "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+      },
+      "readability": {
+        "gradeMin": 8,
+        "gradeMax": 11,
+        "longPctMax": 25,
+        "description": "English readability requirements - Grade level range and maximum percentage of long sentences"
+      },
+      "audience": {
+        "scoreMin": 70,
+        "description": "Audience suitability - Minimum score for general audience appropriateness"
       }
     },
     "gateConfiguration": {

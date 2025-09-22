@@ -6,9 +6,9 @@ import {
   getVoiceRegistry,
   getVoiceIdForLane,
   getVoiceSettingsForLane,
-  getModelIdForLane,
-  type Lane
+  getModelIdForLane
 } from '../../../lib/audio/voices';
+import type { Lane } from '../../../lib/audio/types';
 import { generateSSMLWithLexicon, extractTextFromSSML } from '../../../lib/audio/ssml';
 
 interface TTSRequest {
@@ -77,10 +77,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rate limiting check for batch processing
-    if (textArray.length > 100) {
+    // Enhanced rate limiting with dynamic limits based on text complexity
+    const maxSegments = textArray.length > 1 ? 50 : 1; // Lower limit for batch requests
+    const totalCharacters = textArray.reduce((sum, text) => sum + text.length, 0);
+    const maxCharacters = 50000; // 50K characters max per request
+
+    if (textArray.length > maxSegments) {
       return NextResponse.json(
-        { error: 'Maximum 100 text segments allowed per request' },
+        { error: `Maximum ${maxSegments} text segments allowed per request for batch processing` },
+        { status: 400 }
+      );
+    }
+
+    if (totalCharacters > maxCharacters) {
+      return NextResponse.json(
+        { error: `Total text length (${totalCharacters}) exceeds maximum of ${maxCharacters} characters` },
         { status: 400 }
       );
     }
@@ -93,53 +104,70 @@ export async function POST(request: NextRequest) {
     await fs.mkdir(segmentsDir, { recursive: true });
     await fs.mkdir(laneDir, { recursive: true });
 
-    // Process each text segment
+    // Pre-process texts for optimal chunk sizes
+    const processedTexts = await preprocessTextsForOptimalProcessing(textArray, lane);
+
+    // Process each text segment with improved batch handling
     const results = [];
+    const batchSize = Math.min(5, textArray.length); // Process in smaller batches
 
-    for (let i = 0; i < textArray.length; i++) {
-      const text = textArray[i].trim();
-      const segmentId = body.rowId
-        ? `${body.rowId}_${lane}${textArray.length > 1 ? `_${i}` : ''}`
-        : createHash('md5').update(`${text}-${lane}`).digest('hex');
+    for (let batchStart = 0; batchStart < processedTexts.length; batchStart += batchSize) {
+      const batchEnd = Math.min(batchStart + batchSize, processedTexts.length);
+      const batch = processedTexts.slice(batchStart, batchEnd);
 
-      try {
-        const result = await processSingleText(
-          text,
-          lane,
-          segmentId,
-          body.ssml,
-          body.voiceKey,
-          body.voiceSettings,
-          segmentsDir,
-          laneDir,
-          apiKey,
-          body.ssmlOptions
-        );
-        results.push(result);
+      // Process batch concurrently but with controlled concurrency
+      const batchPromises = batch.map(async (textInfo, localIndex) => {
+        const globalIndex = batchStart + localIndex;
+        const text = textInfo.text.trim();
+        const segmentId = body.rowId
+          ? `${body.rowId}_${lane}${processedTexts.length > 1 ? `_${globalIndex}` : ''}`
+          : createHash('md5').update(`${text}-${lane}-${globalIndex}`).digest('hex');
 
-        // Add delay between requests to respect rate limits
-        if (i < textArray.length - 1 && textArray.length > 1) {
-          await new Promise(resolve => setTimeout(resolve, 200));
+        try {
+          const result = await processSingleText(
+            text,
+            lane,
+            segmentId,
+            body.ssml,
+            body.voiceKey,
+            body.voiceSettings,
+            segmentsDir,
+            laneDir,
+            apiKey,
+            body.ssmlOptions
+          );
+          return { ...result, originalIndex: textInfo.originalIndex };
+        } catch (error) {
+          console.error(`Error processing segment ${globalIndex}:`, error);
+          return {
+            success: false,
+            segmentId,
+            originalIndex: textInfo.originalIndex,
+            error: error instanceof Error ? error.message : 'Unknown error'
+          };
         }
+      });
 
-      } catch (error) {
-        console.error(`Error processing segment ${i}:`, error);
-        results.push({
-          success: false,
-          segmentId,
-          error: error instanceof Error ? error.message : 'Unknown error'
-        });
+      // Wait for batch to complete
+      const batchResults = await Promise.all(batchPromises);
+      results.push(...batchResults);
+
+      // Add delay between batches for rate limiting
+      if (batchEnd < processedTexts.length) {
+        const delayMs = calculateBatchDelay(batchSize, lane);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
 
     // Return single result for single text, array for batch
-    if (textArray.length === 1) {
+    // Fix: When single input text is chunked, return all segments
+    if (textArray.length === 1 && processedTexts.length === 1) {
       return NextResponse.json(results[0]);
     } else {
       const successCount = results.filter(r => r.success).length;
       return NextResponse.json({
         success: successCount > 0,
-        totalSegments: textArray.length,
+        totalSegments: processedTexts.length,
         successfulSegments: successCount,
         results,
         manifest: results.filter(r => r.success).map(r => ({
@@ -235,7 +263,8 @@ async function processSingleText(
     ssml,
     voiceKey,
     customVoiceSettings,
-    apiKey
+    apiKey,
+    ssmlOptions
   );
 
   // Save audio file to both locations
@@ -247,8 +276,8 @@ async function processSingleText(
   return {
     success: true,
     segmentId,
-    audioUrl: `/outputs/audio/segments/${fileName}`,
-    laneUrl: `/outputs/audio/${lane}/${fileName}`,
+    audioUrl: `/api/files/audio/segments/${fileName}`,
+    laneUrl: `/api/files/audio/${lane}/${fileName}`,
     cached: false,
     generatedAt: new Date().toISOString(),
   };
@@ -260,7 +289,8 @@ async function generateAudioWithElevenLabs(
   ssml?: string,
   voiceKey?: string,
   customVoiceSettings?: Partial<ElevenLabsVoiceSettings>,
-  apiKey?: string
+  apiKey?: string,
+  ssmlOptions?: { includeFootnotes?: boolean; customRate?: number; customPitch?: number }
 ): Promise<Buffer> {
   const key = apiKey || process.env.ELEVENLABS_API_KEY!;
 
@@ -290,7 +320,7 @@ async function generateAudioWithElevenLabs(
     try {
       content = await generateSSMLWithLexicon(text, {
         lane,
-        ...ssmlOptions
+        ...(ssmlOptions || {})
       });
       contentType = 'ssml';
     } catch (error) {
@@ -338,6 +368,105 @@ async function generateAudioWithElevenLabs(
 
   const arrayBuffer = await response.arrayBuffer();
   return Buffer.from(arrayBuffer);
+}
+
+// Helper function to preprocess texts for optimal processing
+async function preprocessTextsForOptimalProcessing(textArray: string[], lane: Lane): Promise<Array<{text: string, originalIndex: number}>> {
+  const maxChunkSize = 2000; // Max characters per chunk
+  const processedTexts: Array<{text: string, originalIndex: number}> = [];
+
+  for (let i = 0; i < textArray.length; i++) {
+    const text = textArray[i];
+
+    if (text.length <= maxChunkSize) {
+      processedTexts.push({ text, originalIndex: i });
+    } else {
+      // Split long texts into smaller chunks at sentence boundaries
+      const chunks = splitTextIntoOptimalChunks(text, maxChunkSize, lane);
+      chunks.forEach(chunk => {
+        processedTexts.push({ text: chunk, originalIndex: i });
+      });
+    }
+  }
+
+  return processedTexts;
+}
+
+// Split text into optimal chunks respecting sentence boundaries
+function splitTextIntoOptimalChunks(text: string, maxSize: number, lane: Lane): string[] {
+  if (text.length <= maxSize) return [text];
+
+  const chunks: string[] = [];
+  let currentChunk = '';
+
+  // Different sentence splitting patterns for different lanes with capturing groups to preserve punctuation
+  const sentenceDelimiters = lane === 'en'
+    ? /([.!?])\s+/g
+    : /([.!؟])\s+/g; // Include Arabic question mark
+
+  // Split text while preserving punctuation using capturing groups
+  const parts = text.split(sentenceDelimiters);
+  const sentences: string[] = [];
+
+  for (let i = 0; i < parts.length; i += 2) {
+    const sentence = parts[i];
+    const punctuation = parts[i + 1];
+    if (sentence) {
+      sentences.push(sentence + (punctuation || ''));
+    }
+  }
+
+  for (const sentence of sentences) {
+    if (currentChunk.length + sentence.length <= maxSize) {
+      currentChunk += (currentChunk ? ' ' : '') + sentence;
+    } else {
+      if (currentChunk) {
+        chunks.push(currentChunk.trim());
+        currentChunk = '';
+      }
+
+      // If single sentence is too long, split by words
+      if (sentence.length > maxSize) {
+        const words = sentence.split(/\s+/);
+        for (const word of words) {
+          if (currentChunk.length + word.length + 1 <= maxSize) {
+            currentChunk += (currentChunk ? ' ' : '') + word;
+          } else {
+            if (currentChunk) {
+              chunks.push(currentChunk.trim());
+            }
+            currentChunk = word;
+          }
+        }
+      } else {
+        currentChunk = sentence;
+      }
+    }
+  }
+
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks.filter(chunk => chunk.length > 0);
+}
+
+// Calculate appropriate delay between batches based on lane and batch size
+function calculateBatchDelay(batchSize: number, lane: Lane): number {
+  // Base delay in milliseconds
+  const baseDelay = 500;
+
+  // Lane-specific multipliers (Arabic processing might need more time)
+  const laneMultiplier = {
+    'en': 1.0,
+    'ar_enhanced': 1.2,
+    'ar_original': 1.5
+  }[lane] || 1.0;
+
+  // Batch size multiplier (larger batches need longer delays)
+  const batchMultiplier = Math.min(batchSize / 5, 2.0);
+
+  return Math.round(baseDelay * laneMultiplier * batchMultiplier);
 }
 
 // GET endpoint to retrieve available voices

@@ -1,54 +1,30 @@
 /**
  * Audio Job Management API
  *
- * This API handles audiobook generation jobs and provides real-time updates via Server-Sent Events (SSE).
+ * This API handles audiobook generation jobs and provides real-time updates via NDJSON streaming.
  *
  * API Contract:
  * - POST /api/audio/job: Create new audiobook job
  * - GET /api/audio/job: List all jobs (JSON response)
- * - GET /api/audio/job?stream=true: Real-time job updates via SSE
+ * - GET /api/audio/job?stream=true: Real-time job updates via NDJSON streaming
  * - DELETE /api/audio/job: Cancel existing job
  *
  * Real-time Updates:
- * - Uses Server-Sent Events (SSE) for real-time job progress updates
+ * - Uses NDJSON streaming for real-time job progress updates
  * - Connect to GET /api/audio/job?stream=true to receive updates
- * - Events are sent as JSON in the format: data: {"type": "job_update", "job": {...}}
- * - Connection sends initial active jobs and continues to send updates
+ * - Events are sent as JSON objects separated by newlines: {"type": "connected"}\n{"type": "job_update", "job": {...}}\n
+ * - Connection sends initial connected message and active jobs, then continues to send updates
  *
- * Note: This API uses SSE, not NDJSON streaming. Client implementations should use
- * EventSource API for real-time updates rather than fetch() with streaming response.
+ * Note: This API uses NDJSON streaming with Content-Type: application/x-ndjson. Client implementations should use
+ * fetch() with streaming response reader rather than EventSource API.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { createHash } from 'crypto';
-import type { Lane } from '../../../../lib/audio/voices';
+import type { Lane, AudioJob } from '../../../../lib/audio/types';
 
-interface AudioJob {
-  id: string;
-  scope: 'section' | 'chapter' | 'book';
-  lane: Lane;
-  scopeId: string;
-  scopeName: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  progress: number;
-  totalSegments: number;
-  processedSegments: number;
-  audioUrl?: string;
-  m4bUrl?: string;
-  error?: string;
-  createdAt: string;
-  updatedAt: string;
-  estimatedDuration?: number;
-  actualDuration?: number;
-  metadata?: {
-    totalCharacters: number;
-    estimatedCost: number;
-    voiceId: string;
-    voiceName: string;
-  };
-}
 
 interface JobCreateRequest {
   scope: 'section' | 'chapter' | 'book';
@@ -66,8 +42,8 @@ const jobs = new Map<string, AudioJob>();
 const jobQueues = new Map<string, string[]>(); // lane -> job IDs
 const activeJobs = new Set<string>();
 
-// SSE connections for real-time updates
-const sseConnections = new Set<ReadableStreamDefaultController>();
+// NDJSON streaming connections for real-time updates
+const ndjsonConnections = new Set<ReadableStreamDefaultController>();
 
 // POST: Create new audiobook job
 export async function POST(request: NextRequest) {
@@ -96,7 +72,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate job ID
+    // Check for existing jobs with same scope/lane/scopeId
+    const existingJobKey = `${body.scope}-${body.lane}-${body.scopeId}`;
+    const existingJob = Array.from(jobs.values()).find(job =>
+      job.scope === body.scope &&
+      job.lane === body.lane &&
+      job.scopeId === body.scopeId &&
+      (job.status === 'pending' || job.status === 'processing')
+    );
+
+    if (existingJob) {
+      return NextResponse.json(
+        { error: `A ${body.scope} job for ${body.lane} lane is already ${existingJob.status}. Job ID: ${existingJob.id}` },
+        { status: 409 }
+      );
+    }
+
+    // Generate job ID with deduplication key
     const jobId = createHash('md5')
       .update(`${body.scope}-${body.lane}-${body.scopeId}-${Date.now()}`)
       .digest('hex');
@@ -135,9 +127,24 @@ export async function POST(request: NextRequest) {
     // Store job
     jobs.set(jobId, job);
 
-    // Add to queue
+    // Add to queue with priority (section < chapter < book)
     const queue = jobQueues.get(body.lane) || [];
-    queue.push(jobId);
+    const priority = { section: 0, chapter: 1, book: 2 }[body.scope];
+
+    // Insert job based on priority (lower number = higher priority)
+    const insertIndex = queue.findIndex(queuedJobId => {
+      const queuedJob = jobs.get(queuedJobId);
+      if (!queuedJob) return true; // Insert before invalid jobs
+      const queuedPriority = { section: 0, chapter: 1, book: 2 }[queuedJob.scope];
+      return queuedPriority > priority;
+    });
+
+    if (insertIndex === -1) {
+      queue.push(jobId);
+    } else {
+      queue.splice(insertIndex, 0, jobId);
+    }
+
     jobQueues.set(body.lane, queue);
 
     // Start processing if no active job for this lane
@@ -175,33 +182,36 @@ export async function GET(request: NextRequest) {
   const stream = searchParams.get('stream');
 
   if (stream === 'true') {
-    // Server-Sent Events for real-time updates
+    // NDJSON streaming for real-time updates
     let ctrl: ReadableStreamDefaultController | undefined;
+    const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
         ctrl = controller;
-        sseConnections.add(controller);
+        ndjsonConnections.add(controller);
 
         // Send initial connection message
-        controller.enqueue(`data: ${JSON.stringify({ type: 'connected' })}\n\n`);
+        const connectedMessage = JSON.stringify({ type: 'connected' }) + '\n';
+        controller.enqueue(encoder.encode(connectedMessage));
 
         // Send current active jobs
         for (const job of jobs.values()) {
           if (job.status === 'processing' || job.status === 'pending') {
-            controller.enqueue(`data: ${JSON.stringify({ type: 'job_update', job })}\n\n`);
+            const jobMessage = JSON.stringify({ type: 'job_update', job }) + '\n';
+            controller.enqueue(encoder.encode(jobMessage));
           }
         }
       },
       cancel() {
         if (ctrl) {
-          sseConnections.delete(ctrl);
+          ndjsonConnections.delete(ctrl);
         }
       }
     });
 
     return new Response(stream, {
       headers: {
-        'Content-Type': 'text/event-stream',
+        'Content-Type': 'application/x-ndjson',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
       },
@@ -245,11 +255,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Update job status
-    job.status = 'cancelled';
-    job.updatedAt = new Date().toISOString();
-
-    // Remove from queue if pending
+    // Remove from queue if pending (do this before updating status)
     if (job.status === 'pending') {
       const queue = jobQueues.get(job.lane) || [];
       const index = queue.indexOf(job.id);
@@ -258,6 +264,10 @@ export async function DELETE(request: NextRequest) {
         jobQueues.set(job.lane, queue);
       }
     }
+
+    // Update job status
+    job.status = 'cancelled';
+    job.updatedAt = new Date().toISOString();
 
     // Remove from active jobs
     activeJobs.delete(job.id);
@@ -369,6 +379,13 @@ async function processNextJob(lane: Lane) {
   }
 
   try {
+    // Check if job was cancelled before we start processing
+    if (job.status === 'cancelled') {
+      // Exit gracefully and don't mark as failed
+      activeJobs.delete(jobId);
+      processNextJob(lane);
+      return;
+    }
     // Mark job as processing
     job.status = 'processing';
     job.updatedAt = new Date().toISOString();
@@ -379,90 +396,160 @@ async function processNextJob(lane: Lane) {
     const textData = await getTextDataForScope(job.scope, job.scopeId, job.lane);
     job.totalSegments = textData.length;
 
-    // Process each text segment
+    // Process each text segment with retry logic
     const audioSegments: string[] = [];
+    const failedSegments: number[] = [];
+    const maxRetries = 3;
 
     for (let i = 0; i < textData.length; i++) {
       if (job.status === 'cancelled') {
-        throw new Error('Job was cancelled');
+        // Job was cancelled during processing, exit gracefully
+        activeJobs.delete(jobId);
+        processNextJob(lane);
+        return;
       }
 
       const text = textData[i];
       const segmentId = `${job.id}_segment_${i}`;
+      let retryCount = 0;
+      let segmentSuccess = false;
 
-      try {
-        // Call TTS API for this segment
-        const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/tts`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            text,
-            lane: job.lane,
-            rowId: segmentId
-          }),
-        });
+      while (retryCount < maxRetries && !segmentSuccess) {
+        try {
+          // Call TTS API for this segment
+          const baseUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL;
+          if (!baseUrl) {
+            throw new Error('APP_URL environment variable is not set for internal API calls');
+          }
+          const response = await fetch(`${baseUrl}/api/tts`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              text,
+              lane: job.lane,
+              rowId: segmentId
+            }),
+          });
 
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.audioUrl) {
-            audioSegments.push(data.audioUrl);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.audioUrl) {
+              audioSegments.push(data.audioUrl);
+              segmentSuccess = true;
+            } else {
+              throw new Error(`TTS API returned unsuccessful response: ${data.error || 'Unknown error'}`);
+            }
+          } else {
+            const errorText = await response.text();
+            throw new Error(`TTS API error: ${response.status} ${errorText}`);
+          }
+
+        } catch (segmentError) {
+          retryCount++;
+          console.error(`Error processing segment ${i} (attempt ${retryCount}/${maxRetries}):`, segmentError);
+
+          if (retryCount < maxRetries) {
+            // Exponential backoff for retries
+            const delay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          } else {
+            // Mark as failed after all retries
+            failedSegments.push(i);
+            console.error(`Segment ${i} failed after ${maxRetries} attempts`);
           }
         }
-
-        // Update progress
-        job.processedSegments = i + 1;
-        job.progress = Math.round((job.processedSegments / job.totalSegments) * 100);
-        job.updatedAt = new Date().toISOString();
-        broadcastJobUpdate(job);
-
-        // Small delay to prevent overwhelming the API
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-      } catch (segmentError) {
-        console.error(`Error processing segment ${i}:`, segmentError);
-        // Continue with next segment
       }
+
+      // Update progress
+      job.processedSegments = i + 1;
+      job.progress = Math.round((job.processedSegments / job.totalSegments) * 100);
+      job.updatedAt = new Date().toISOString();
+      broadcastJobUpdate(job);
+
+      // Small delay to prevent overwhelming the API
+      await new Promise(resolve => setTimeout(resolve, 200));
     }
 
+    // Check completion status
     if (audioSegments.length === 0) {
       throw new Error('No audio segments were generated successfully');
     }
 
-    // Create manifest for M4B generation
+    // Warn about failed segments but continue if we have some successful ones
+    if (failedSegments.length > 0) {
+      const warningMessage = `${failedSegments.length} segments failed to generate: ${failedSegments.join(', ')}`;
+      console.warn(warningMessage);
+      job.error = warningMessage;
+    }
+
+    // Create enhanced manifest for M4B generation
     const outputDir = join(process.cwd(), 'outputs', 'audio', job.scope, job.lane);
     await fs.mkdir(outputDir, { recursive: true });
+
+    // Calculate total duration and file sizes
+    let totalDuration = 0;
+    let totalFileSize = 0;
+    const segmentDetails = [];
+
+    for (let i = 0; i < audioSegments.length; i++) {
+      const segmentUrl = audioSegments[i];
+      try {
+        // Extract file path from URL
+        const fileName = segmentUrl.split('/').pop();
+        const segmentPath = join(process.cwd(), 'outputs', 'audio', 'segments', fileName || '');
+
+        // Get file stats if available
+        try {
+          const stats = await fs.stat(segmentPath);
+          totalFileSize += stats.size;
+        } catch {
+          // File may not exist yet
+        }
+
+        segmentDetails.push({
+          index: i,
+          url: segmentUrl,
+          text: textData[i] || '',
+          duration: 0, // Could be calculated from audio metadata in future
+          fileSize: 0 // Could be read from file stats
+        });
+      } catch (error) {
+        console.warn(`Could not process segment ${i}:`, error);
+      }
+    }
 
     const manifest = {
       jobId: job.id,
       scope: job.scope,
+      scopeId: job.scopeId,
+      scopeName: job.scopeName,
       lane: job.lane,
-      segments: audioSegments,
-      metadata: job.metadata
+      status: job.status,
+      createdAt: job.createdAt,
+      completedAt: new Date().toISOString(),
+      segments: segmentDetails,
+      summary: {
+        totalSegments: audioSegments.length,
+        totalDuration: totalDuration,
+        totalFileSize: totalFileSize,
+        averageSegmentDuration: audioSegments.length > 0 ? totalDuration / audioSegments.length : 0
+      },
+      metadata: {
+        ...job.metadata,
+        voiceId: job.metadata?.voiceId || '',
+        voiceName: job.metadata?.voiceName || '',
+        actualCost: (audioSegments.length * 0.30) // Rough estimate
+      },
+      m4bReady: false, // Will be set to true when M4B is generated
+      version: '1.0'
     };
 
     const manifestPath = join(outputDir, `${job.id}_manifest.json`);
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 
-    // Generate M4B audiobook
-    try {
-      console.log(`Starting M4B generation for job ${job.id}...`);
-
-      // Dynamic import of M4B builder
-      const { M4BBuilder } = await import('../../../build/m4b.mjs');
-      const builder = new M4BBuilder();
-
-      const m4bResult = await builder.createAudiobook(manifestPath);
-
-      if (m4bResult.success) {
-        job.m4bUrl = m4bResult.url;
-        console.log(`M4B created successfully: ${m4bResult.url}`);
-      }
-    } catch (m4bError) {
-      console.error('M4B generation failed:', m4bError);
-      // Continue without M4B - manifest is still available
-    }
+    // TODO: M4B audiobook generation can be added later as a separate build step
 
     // Mark job as completed
     job.status = 'completed';
@@ -475,29 +562,56 @@ async function processNextJob(lane: Lane) {
   } catch (error) {
     console.error(`Job ${jobId} failed:`, error);
 
-    job.status = 'failed';
-    job.error = error instanceof Error ? error.message : 'Unknown error';
-    job.updatedAt = new Date().toISOString();
-    activeJobs.delete(jobId);
-    broadcastJobUpdate(job);
+    // Check if job was cancelled during processing
+    if (job.status === 'cancelled') {
+      // Don't mark as failed, already handled
+      activeJobs.delete(jobId);
+      broadcastJobUpdate(job);
+    } else {
+      job.status = 'failed';
+      job.error = error instanceof Error ? error.message : 'Unknown error';
+      job.updatedAt = new Date().toISOString();
+      activeJobs.delete(jobId);
+      broadcastJobUpdate(job);
+    }
   }
 
   // Process next job in queue
   setTimeout(() => processNextJob(lane), 1000);
 }
 
+// Job cleanup - remove completed jobs older than 24 hours
+function cleanupOldJobs() {
+  const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+  const now = Date.now();
+
+  for (const [jobId, job] of jobs.entries()) {
+    if (job.status === 'completed' || job.status === 'failed' || job.status === 'cancelled') {
+      const jobAge = now - new Date(job.updatedAt).getTime();
+      if (jobAge > maxAge) {
+        jobs.delete(jobId);
+        console.log(`Cleaned up old job: ${jobId}`);
+      }
+    }
+  }
+}
+
+// Run cleanup every hour
+setInterval(cleanupOldJobs, 60 * 60 * 1000);
+
 function broadcastJobUpdate(job: AudioJob) {
-  const message = JSON.stringify({ type: 'job_update', job });
+  const message = JSON.stringify({ type: 'job_update', job }) + '\n';
+  const encoder = new TextEncoder();
 
   // Create a copy of connections to iterate over (avoiding modification during iteration)
-  const connections = Array.from(sseConnections);
+  const connections = Array.from(ndjsonConnections);
 
   for (const controller of connections) {
     try {
-      controller.enqueue(`data: ${message}\n\n`);
+      controller.enqueue(encoder.encode(message));
     } catch (error) {
       // Connection was closed, remove it
-      sseConnections.delete(controller);
+      ndjsonConnections.delete(controller);
     }
   }
 }

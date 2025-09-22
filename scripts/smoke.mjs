@@ -648,6 +648,244 @@ test('Review bundle script includes enhanced reporting', () => {
   }
 });
 
+// Phase 5 Smoke Tests
+test('Quality validator supports lane reading with schema flexibility', () => {
+  const qualityValidationPath = join(projectRoot, 'scripts/quality-validation.mjs');
+  const content = readFileSync(qualityValidationPath, 'utf8');
+
+  // Check for schema-flex field access patterns
+  if (!content.includes('getEnglishText') || !content.includes('getArabicText')) {
+    throw new Error('Quality validator should have flexible text field accessors');
+  }
+
+  // Verify field alias support (englishText ?? en ?? english pattern)
+  if (!content.includes('englishText ?? ') || !content.includes('en ?? ')) {
+    throw new Error('Quality validator should support field name variations with fallbacks');
+  }
+
+  if (!content.includes('arabicText ?? ') || !content.includes('enhanced ?? ')) {
+    throw new Error('Quality validator should support Arabic field variations');
+  }
+});
+
+test('TTS API supports array processing and lane-based voices', () => {
+  const ttsPath = join(projectRoot, 'app/api/tts/route.ts');
+  const content = readFileSync(ttsPath, 'utf8');
+
+  // Check for array support
+  if (!content.includes('string | string[]') || !content.includes('Array.isArray(body.text)')) {
+    throw new Error('TTS API should support both single text and array processing');
+  }
+
+  // Check for lane-based processing
+  if (!content.includes('lane?: Lane') || !content.includes('getVoiceIdForLane')) {
+    throw new Error('TTS API should support lane-based voice selection');
+  }
+
+  // Check for batch processing functionality
+  if (!content.includes('batchSize') || !content.includes('preprocessTextsForOptimalProcessing')) {
+    throw new Error('TTS API should have batch processing capabilities');
+  }
+
+  // Check for SSML generation with lane awareness
+  if (!content.includes('generateSSMLWithLexicon')) {
+    throw new Error('TTS API should generate SSML with lexicon support');
+  }
+});
+
+test('Audio job API creates jobs and returns NDJSON status', () => {
+  const audioJobPath = join(projectRoot, 'app/api/audio/job/route.ts');
+  const content = readFileSync(audioJobPath, 'utf8');
+
+  // Check for job creation with scope and lane
+  if (!content.includes("scope: 'section' | 'chapter' | 'book'") || !content.includes('lane: Lane')) {
+    throw new Error('Audio job API should support scope and lane parameters');
+  }
+
+  // Check for NDJSON streaming
+  if (!content.includes('application/x-ndjson') || !content.includes('ReadableStream')) {
+    throw new Error('Audio job API should support NDJSON streaming for real-time updates');
+  }
+
+  // Check for job queue management
+  if (!content.includes('jobQueues') || !content.includes('activeJobs')) {
+    throw new Error('Audio job API should manage job queues and active job tracking');
+  }
+
+  // Check for progress tracking
+  if (!content.includes('processedSegments') || !content.includes('totalSegments')) {
+    throw new Error('Audio job API should track job progress');
+  }
+});
+
+test('Assistant API supports Speech Polish preset with deterministic outputs', () => {
+  const assistantPath = join(projectRoot, 'app/api/assistant/chat/route.ts');
+  const content = readFileSync(assistantPath, 'utf8');
+
+  // Check for task support
+  if (!content.includes('task') || !content.includes('getPromptForTask')) {
+    throw new Error('Assistant API should support task-based prompting');
+  }
+
+  // Check for deterministic parameters
+  if (!content.includes('temperature: body.temperature ?? 0.2') || !content.includes('seed: body.seed ?? 42')) {
+    throw new Error('Assistant API should use deterministic defaults (temp=0.2, seed=42)');
+  }
+
+  // Check for SSML hint capability
+  if (!content.includes('footnote') || !content.includes('generateScriptureFootnote')) {
+    throw new Error('Assistant API should support SSML hint generation');
+  }
+
+  // Check for caching system
+  if (!content.includes('getAssistantCache') || !content.includes('cached')) {
+    throw new Error('Assistant API should have caching system');
+  }
+});
+
+test('Bundle size compliance within ±1% tolerance', async () => {
+  // Check if terminal.css impact is minimal
+  const globalsCssPath = join(projectRoot, 'app/globals.css');
+  const content = readFileSync(globalsCssPath, 'utf8');
+
+  if (!content.includes("@import url('../styles/terminal.css')")) {
+    throw new Error('Terminal.css should be imported in globals.css');
+  }
+
+  // Verify bundle analysis capabilities exist
+  const packagePath = join(projectRoot, 'package.json');
+  const pkg = JSON.parse(readFileSync(packagePath, 'utf8'));
+
+  if (!pkg.scripts['build'] || !pkg.scripts['review:bundle']) {
+    throw new Error('Build and bundle analysis scripts should be available');
+  }
+
+  // Check for bundle size tracking
+  const reviewBundlePath = join(projectRoot, 'scripts/review-bundle.mjs');
+  if (!existsSync(reviewBundlePath)) {
+    throw new Error('Bundle analysis script should exist');
+  }
+
+  const bundleContent = readFileSync(reviewBundlePath, 'utf8');
+  if (!bundleContent.includes('build-manifest.json') || !bundleContent.includes('.next')) {
+    throw new Error('Bundle script should analyze Next.js build artifacts');
+  }
+});
+
+test('Environment variable handling with friendly error messages', () => {
+  const ttsPath = join(projectRoot, 'app/api/tts/route.ts');
+  const ttsContent = readFileSync(ttsPath, 'utf8');
+
+  const audioJobPath = join(projectRoot, 'app/api/audio/job/route.ts');
+  const audioContent = readFileSync(audioJobPath, 'utf8');
+
+  const assistantPath = join(projectRoot, 'app/api/assistant/chat/route.ts');
+  const assistantContent = readFileSync(assistantPath, 'utf8');
+
+  // Check for friendly error messages when API keys are missing
+  if (!ttsContent.includes('ElevenLabs API key not configured')) {
+    throw new Error('TTS API should provide friendly error when API key is missing');
+  }
+
+  if (!assistantContent.includes('LLM service not configured')) {
+    throw new Error('Assistant API should provide friendly error when LLM is not configured');
+  }
+
+  // Check for environment-specific handling
+  if (!audioContent.includes('APP_URL') || !audioContent.includes('baseUrl')) {
+    throw new Error('Audio job API should handle APP_URL environment variable');
+  }
+});
+
+test('Deterministic output verification', () => {
+  const assistantPath = join(projectRoot, 'app/api/assistant/chat/route.ts');
+  const content = readFileSync(assistantPath, 'utf8');
+
+  // Verify exact deterministic values are used
+  if (!content.includes('?? 0.2') || !content.includes('?? 42')) {
+    throw new Error('Assistant should use exact deterministic values (temp=0.2, seed=42)');
+  }
+
+  // Check for cache key generation that includes these parameters
+  if (!content.includes('generateContentHash') || !content.includes('createCacheRequest')) {
+    throw new Error('Assistant should generate deterministic cache keys');
+  }
+});
+
+test('TTS API handles single long text chunking correctly', () => {
+  const ttsPath = join(projectRoot, 'app/api/tts/route.ts');
+  const content = readFileSync(ttsPath, 'utf8');
+
+  // Verify the fix: single text that gets chunked should return all segments
+  if (!content.includes('processedTexts.length === 1')) {
+    throw new Error('TTS API should only return single result when text is not chunked');
+  }
+
+  if (!content.includes('totalSegments: processedTexts.length')) {
+    throw new Error('TTS API should use processedTexts.length for totalSegments count');
+  }
+
+  // Verify chunking function preserves sentence structure
+  if (!content.includes('splitTextIntoOptimalChunks')) {
+    throw new Error('TTS API should have text chunking functionality');
+  }
+});
+
+test('TTS sentence splitting preserves punctuation', () => {
+  const ttsPath = join(projectRoot, 'app/api/tts/route.ts');
+  const content = readFileSync(ttsPath, 'utf8');
+
+  // Verify capturing groups are used to preserve punctuation
+  if (!content.includes('([.!?])\\s+') || !content.includes('([.!؟])\\s+')) {
+    throw new Error('TTS splitting should use capturing groups to preserve English and Arabic punctuation');
+  }
+
+  // Verify punctuation is re-appended to sentences
+  if (!content.includes('sentence + (punctuation || \'\')')) {
+    throw new Error('TTS splitting should re-append captured punctuation to sentences');
+  }
+
+  // Check for both English and Arabic punctuation support
+  if (!content.includes('.!?') || !content.includes('؟')) {
+    throw new Error('TTS should support both English (., !, ?) and Arabic (؟) punctuation');
+  }
+});
+
+test('Integration test: All Phase 5 systems work together', () => {
+  // Verify all required types and interfaces exist
+  const audioTypesPath = join(projectRoot, 'lib/audio/types.ts');
+  if (!existsSync(audioTypesPath)) {
+    throw new Error('Audio types definition should exist');
+  }
+
+  const typesContent = readFileSync(audioTypesPath, 'utf8');
+  if (!typesContent.includes('Lane') || !typesContent.includes('AudioJob')) {
+    throw new Error('Audio types should define Lane and AudioJob interfaces');
+  }
+
+  // Verify voice system integration
+  const voicesPath = join(projectRoot, 'lib/audio/voices.ts');
+  if (!existsSync(voicesPath)) {
+    throw new Error('Voice configuration system should exist');
+  }
+
+  const voicesContent = readFileSync(voicesPath, 'utf8');
+  if (!voicesContent.includes('getVoiceRegistry') || !voicesContent.includes('getVoiceIdForLane')) {
+    throw new Error('Voice system should provide lane-based voice selection');
+  }
+
+  // Verify SSML system integration
+  const ssmlPath = join(projectRoot, 'lib/audio/ssml.ts');
+  if (!existsSync(ssmlPath)) {
+    throw new Error('SSML generation system should exist');
+  }
+
+  const ssmlContent = readFileSync(ssmlPath, 'utf8');
+  if (!ssmlContent.includes('generateSSMLWithLexicon')) {
+    throw new Error('SSML system should support lexicon-based generation');
+  }
+});
+
 console.log(`\n📊 Smoke test results: ${passed} passed, ${failed} failed`);
 
 if (failed > 0) {

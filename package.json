@@ -47,7 +47,11 @@
     "nx:run": "nx run",
     "nx:build": "nx build",
     "nx:test": "nx test",
-    "nx:lint": "nx lint"
+    "nx:lint": "nx lint",
+    "superdesign:start": "tsx -e \"import('./lib/superdesign/workflows.ts').then(m => m.superdesignWorkflows.startWorkflows())\"",
+    "superdesign:stop": "tsx -e \"import('./lib/superdesign/workflows.ts').then(m => m.superdesignWorkflows.stopWorkflows())\"",
+    "superdesign:test": "tsx -e \"import('./lib/superdesign/integration.ts').then(m => m.superdesignIntegration.connect())\"",
+    "superdesign:generate": "tsx -e \"import('./lib/superdesign/utils.ts').then(m => console.log('Superdesign utils loaded'))\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.63.0",

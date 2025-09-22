@@ -1,0 +1,200 @@
+{
+    "id": "calc-001",
+    "name": "Calculator UI",
+    "description": "A modern calculator interface with Arabic translation support",
+    "version": "1.0.0",
+    "createdAt": "2024-01-15T10:00:00Z",
+    "components": [
+        {
+            "id": "calc-display",
+            "name": "CalculatorDisplay",
+            "type": "display",
+            "props": {
+                "value": "0",
+                "maxLength": 12,
+                "readOnly": true
+            },
+            "styles": {
+                "backgroundColor": "#1a1a1a",
+                "color": "#ffffff",
+                "fontSize": "2rem",
+                "fontWeight": "300",
+                "textAlign": "right",
+                "padding": "1rem",
+                "borderRadius": "0.5rem",
+                "marginBottom": "1rem",
+                "minHeight": "4rem",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "flex-end"
+            },
+            "metadata": {
+                "description": "Main display showing calculator output",
+                "accessibility": "aria-label: Calculator display"
+            }
+        },
+        {
+            "id": "calc-button",
+            "name": "CalculatorButton",
+            "type": "button",
+            "props": {
+                "text": "0",
+                "variant": "number",
+                "size": "large"
+            },
+            "styles": {
+                "backgroundColor": "#333333",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "0.5rem",
+                "fontSize": "1.5rem",
+                "fontWeight": "500",
+                "padding": "1rem",
+                "cursor": "pointer",
+                "transition": "all 0.2s ease",
+                "minHeight": "4rem",
+                "minWidth": "4rem",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center"
+            },
+            "metadata": {
+                "description": "Standard calculator button",
+                "hover": "backgroundColor: #444444",
+                "active": "backgroundColor: #555555"
+            }
+        },
+        {
+            "id": "calc-operator",
+            "name": "CalculatorOperator",
+            "type": "button",
+            "props": {
+                "text": "+",
+                "variant": "operator"
+            },
+            "styles": {
+                "backgroundColor": "#ff9500",
+                "color": "#ffffff",
+                "border": "none",
+                "borderRadius": "0.5rem",
+                "fontSize": "1.5rem",
+                "fontWeight": "500",
+                "padding": "1rem",
+                "cursor": "pointer",
+                "transition": "all 0.2s ease",
+                "minHeight": "4rem",
+                "minWidth": "4rem",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center"
+            },
+            "metadata": {
+                "description": "Operator button (+, -, ×, ÷)",
+                "hover": "backgroundColor: #ffad33",
+                "active": "backgroundColor: #cc7700"
+            }
+        },
+        {
+            "id": "calc-function",
+            "name": "CalculatorFunction",
+            "type": "button",
+            "props": {
+                "text": "C",
+                "variant": "function"
+            },
+            "styles": {
+                "backgroundColor": "#a6a6a6",
+                "color": "#000000",
+                "border": "none",
+                "borderRadius": "0.5rem",
+                "fontSize": "1.5rem",
+                "fontWeight": "500",
+                "padding": "1rem",
+                "cursor": "pointer",
+                "transition": "all 0.2s ease",
+                "minHeight": "4rem",
+                "minWidth": "4rem",
+                "display": "flex",
+                "alignItems": "center",
+                "justifyContent": "center"
+            },
+            "metadata": {
+                "description": "Function button (C, CE, ±, %)",
+                "hover": "backgroundColor: "#b8b8b8","active": "backgroundColor": "#8a8a8a"
+            }
+        }
+    ],
+    "layout": {
+        "type": "grid",
+        "rows": 6,
+        "columns": 4,
+        "gap": "0.5rem",
+        "padding": "1rem",
+        "backgroundColor": "#000000",
+        "borderRadius": "1rem",
+        "maxWidth": "320px",
+        "margin": "0 auto"
+    },
+    "theme": {
+        "colors": {
+            "primary": "#ff9500",
+            "secondary": "#a6a6a6",
+            "background": "#000000",
+            "surface": "#333333",
+            "text": "#ffffff",
+            "textSecondary": "#000000"
+        },
+        "typography": {
+            "fontFamily": "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
+            "fontSizes": {
+                "display": "2rem",
+                "button": "1.5rem",
+                "small": "1rem"
+            },
+            "fontWeights": {
+                "light": "300",
+                "medium": "500",
+                "bold": "700"
+            }
+        },
+        "spacing": {
+            "xs": "0.25rem",
+            "sm": "0.5rem",
+            "md": "1rem",
+            "lg": "1.5rem",
+            "xl": "2rem"
+        },
+        "borderRadius": {
+            "sm": "0.25rem",
+            "md": "0.5rem",
+            "lg": "1rem"
+        }
+    },
+    "accessibility": {
+        "ariaLabels": {
+            "display": "Calculator display showing current value",
+            "button": "Calculator button",
+            "operator": "Mathematical operator",
+            "function": "Calculator function"
+        },
+        "keyboardSupport": true,
+        "screenReaderSupport": true
+    },
+    "responsive": {
+        "breakpoints": {
+            "mobile": "320px",
+            "tablet": "768px",
+            "desktop": "1024px"
+        },
+        "adaptations": {
+            "mobile": {
+                "fontSize": "1.25rem",
+                "padding": "0.75rem"
+            },
+            "tablet": {
+                "fontSize": "1.5rem",
+                "padding": "1rem"
+            }
+        }
+    }
+}

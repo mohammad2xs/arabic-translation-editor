@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRoleFromRequest, canComment, validateRoleAccess } from '../../../../lib/dadmode/access';
-import { getAnthropicClient } from '../../../../lib/assistant/anthropic';
+import { getLLMRouter } from '../../../../lib/llm/router';
 import { buildContext, getCompactContext } from '../../../../lib/assistant/context';
 import { getPromptForTask } from '../../../../lib/assistant/prompt';
 import { generateWordDiff, calculateConfidence, generateContentHash } from '../../../../lib/assistant/tools';
@@ -329,16 +329,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Get prompts for the task
     const prompts = getPromptForTask(body.task, context, body.query);
 
-    // Call Anthropic API
-    const client = getAnthropicClient();
-    if (!client.isConfigured()) {
+    // Call LLM via router (supports Claude default, optional Gemini)
+    const router = getLLMRouter();
+    if (!router.isConfigured()) {
       return NextResponse.json(
-        { error: 'Assistant service not configured. Please contact administrator.' },
+        { error: 'LLM service not configured. Please contact administrator.' },
         { status: 503 }
       );
     }
 
-    const chatResponse = await client.chat({
+    const chatResponse = await router.chat({
       system: prompts.system,
       user: prompts.user,
       maxTokens: 2000,
@@ -379,6 +379,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       outputTokens: chatResponse.usage.outputTokens,
       suggestionsCount: suggestions.length,
       model: chatResponse.model,
+      provider: chatResponse.provider,
     });
 
     const response: ChatResponse = {
@@ -423,16 +424,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 // Health check endpoint
 export async function GET(): Promise<NextResponse> {
-  const client = getAnthropicClient();
-  const config = client.getConfig();
-  const stats = client.getUsageStats();
+  const router = getLLMRouter();
+  const config = router.getConfig();
+  const stats = router.getUsageStats();
+  const providerStatus = router.getProviderStatus();
 
   return NextResponse.json({
     status: 'healthy',
-    configured: client.isConfigured(),
+    configured: router.isConfigured(),
+    provider: providerStatus.provider,
     model: config.model,
     maxTokens: config.maxTokens,
     usage: stats,
+    providerStatus: router.getAllProviderStatus(),
     limits: {
       maxDailyTokens: MAX_DAILY_TOKENS,
       maxRPM: MAX_RPM,

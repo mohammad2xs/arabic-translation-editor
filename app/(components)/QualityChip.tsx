@@ -49,11 +49,11 @@ export default function QualityChip({ row, large = false }: QualityChipProps) {
     if (hasScripture && row.metadata?.qualityGates?.scripture) {
       return {
         status: 'scripture',
-        label: 'Scripture note added',
+        label: 'Scripture',
         description: 'This translation contains verified scripture references',
         icon: '📖',
-        color: 'text-blue-800',
-        bgColor: 'bg-blue-100',
+        color: 'terminal-quality-good',
+        bgColor: '',
       };
     }
 
@@ -61,11 +61,11 @@ export default function QualityChip({ row, large = false }: QualityChipProps) {
     if (!isProcessed || !row.english) {
       return {
         status: 'pending',
-        label: 'Needs translation',
+        label: 'Pending',
         description: 'This row has not been translated yet',
         icon: '⏳',
-        color: 'text-gray-800',
-        bgColor: 'bg-gray-100',
+        color: 'terminal-quality-poor',
+        bgColor: '',
       };
     }
 
@@ -73,35 +73,35 @@ export default function QualityChip({ row, large = false }: QualityChipProps) {
     if (lpr >= 0.8 && confidence >= 0.8) {
       return {
         status: 'good',
-        label: 'Looks good',
+        label: 'Excellent',
         description: `High quality translation (LPR: ${lpr.toFixed(2)}, Confidence: ${(confidence * 100).toFixed(0)}%)`,
         icon: '✅',
-        color: 'text-green-800',
-        bgColor: 'bg-green-100',
+        color: 'terminal-quality-excellent',
+        bgColor: '',
       };
     }
 
     // Needs improvement
     return {
       status: 'needs-work',
-      label: 'Needs a touch more English',
+      label: 'Needs Work',
       description: `Translation could be improved (LPR: ${lpr.toFixed(2)}, Confidence: ${(confidence * 100).toFixed(0)}%)`,
       icon: '⚠️',
-      color: 'text-amber-800',
-      bgColor: 'bg-amber-100',
+      color: 'terminal-quality-needs-work',
+      bgColor: '',
     };
   };
 
   const qualityInfo = getQualityInfo();
 
   const baseClasses = large
-    ? 'inline-flex items-center px-4 py-3 rounded-lg text-lg font-medium'
-    : 'inline-flex items-center px-3 py-2 rounded-md text-sm font-medium';
+    ? 'terminal-quality-indicator px-4 py-3 text-lg'
+    : 'terminal-quality-indicator px-3 py-2 text-sm';
 
   return (
     <div className="relative">
       <div
-        className={`${baseClasses} ${qualityInfo.color} ${qualityInfo.bgColor} cursor-help transition-all duration-200 hover:shadow-md`}
+        className={`${baseClasses} ${qualityInfo.color} cursor-help transition-all duration-200 hover:shadow-md`}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip(!showTooltip)}
@@ -114,12 +114,12 @@ export default function QualityChip({ row, large = false }: QualityChipProps) {
 
       {showTooltip && (
         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50">
-          <div className="bg-gray-900 text-white p-3 rounded-lg shadow-lg max-w-xs text-sm whitespace-normal">
-            <div className="font-medium mb-1">{qualityInfo.label}</div>
-            <div className="text-gray-300">{qualityInfo.description}</div>
+          <div className="terminal-panel p-3 shadow-lg max-w-xs text-sm whitespace-normal" style={{ background: 'var(--panel)', color: 'var(--ink)' }}>
+            <div className="font-medium mb-1" style={{ fontFamily: 'var(--mono)' }}>{qualityInfo.label}</div>
+            <div style={{ color: 'var(--muted)' }}>{qualityInfo.description}</div>
 
             {row.metadata && (
-              <div className="mt-2 pt-2 border-t border-gray-700 text-xs space-y-1">
+              <div className="mt-2 pt-2 text-xs space-y-1" style={{ borderTop: '1px solid rgba(147, 164, 177, 0.3)', fontFamily: 'var(--mono)' }}>
                 {row.metadata.confidence && (
                   <div>Confidence: {(row.metadata.confidence * 100).toFixed(0)}%</div>
                 )}
@@ -139,7 +139,7 @@ export default function QualityChip({ row, large = false }: QualityChipProps) {
 
             {/* Tooltip arrow */}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-              <div className="border-4 border-transparent border-t-gray-900"></div>
+              <div className="border-4 border-transparent" style={{ borderTopColor: 'var(--panel)' }}></div>
             </div>
           </div>
         </div>
@@ -157,38 +157,34 @@ export function QualityChipSimple({
 }) {
   const configs = {
     good: {
-      label: 'Looks good',
+      label: 'Excellent',
       icon: '✅',
-      color: 'text-green-800',
-      bgColor: 'bg-green-100',
+      color: 'terminal-quality-excellent',
     },
     'needs-work': {
-      label: 'Needs a touch more English',
+      label: 'Needs Work',
       icon: '⚠️',
-      color: 'text-amber-800',
-      bgColor: 'bg-amber-100',
+      color: 'terminal-quality-needs-work',
     },
     scripture: {
-      label: 'Scripture note added',
+      label: 'Scripture',
       icon: '📖',
-      color: 'text-blue-800',
-      bgColor: 'bg-blue-100',
+      color: 'terminal-quality-good',
     },
     pending: {
-      label: 'Needs translation',
+      label: 'Pending',
       icon: '⏳',
-      color: 'text-gray-800',
-      bgColor: 'bg-gray-100',
+      color: 'terminal-quality-poor',
     },
   };
 
   const config = configs[status];
   const baseClasses = large
-    ? 'inline-flex items-center px-4 py-3 rounded-lg text-lg font-medium'
-    : 'inline-flex items-center px-3 py-2 rounded-md text-sm font-medium';
+    ? 'terminal-quality-indicator px-4 py-3 text-lg'
+    : 'terminal-quality-indicator px-3 py-2 text-sm';
 
   return (
-    <div className={`${baseClasses} ${config.color} ${config.bgColor}`}>
+    <div className={`${baseClasses} ${config.color}`}>
       <span className={large ? 'text-xl mr-3' : 'text-sm mr-2'}>
         {config.icon}
       </span>

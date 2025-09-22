@@ -14,6 +14,7 @@ let analyzeAudienceSuitability, checkAudienceFlags, getAudienceSuitabilitySummar
 
 async function loadEnglishModules() {
   try {
+    // Try importing compiled .js files first
     const readabilityModule = await import(path.join(__dirname, '../lib/en/readability.js'));
     const audienceModule = await import(path.join(__dirname, '../lib/en/audience.js'));
 
@@ -27,7 +28,39 @@ async function loadEnglishModules() {
 
     return true;
   } catch (error) {
-    console.warn('⚠️  English analysis modules not compiled, skipping readability validation');
+    // Try TypeScript import fallback if allowed
+    if (process.env.ALLOW_TS_IMPORT === '1') {
+      try {
+        // Dynamically register ts-node
+        const tsNode = await import('ts-node');
+        tsNode.register({
+          transpileOnly: true,
+          compilerOptions: {
+            module: 'es2020',
+            target: 'es2020'
+          }
+        });
+
+        const readabilityModule = await import(path.join(__dirname, '../lib/en/readability.ts'));
+        const audienceModule = await import(path.join(__dirname, '../lib/en/audience.ts'));
+
+        analyzeReadability = readabilityModule.analyzeReadability;
+        checkReadabilityFlags = readabilityModule.checkReadabilityFlags;
+        getReadabilitySummary = readabilityModule.getReadabilitySummary;
+
+        analyzeAudienceSuitability = audienceModule.analyzeAudienceSuitability;
+        checkAudienceFlags = audienceModule.checkAudienceFlags;
+        getAudienceSuitabilitySummary = audienceModule.getAudienceSuitabilitySummary;
+
+        return true;
+      } catch (tsError) {
+        console.warn('⚠️  Failed to import TypeScript modules:', tsError.message);
+      }
+    }
+
+    console.warn('⚠️  English analysis modules missing: readability gate will be skipped/fail');
+    console.warn('   Build step required: run `pnpm build` to compile lib/en/*.ts to .js');
+    console.warn('   Or set ALLOW_TS_IMPORT=1 to try direct TypeScript import');
     return false;
   }
 }
@@ -38,6 +71,15 @@ class QualityValidator {
     this.gates = {};
     this.config = {};
     this.englishModulesAvailable = false;
+  }
+
+  // Helper functions to centralize field alias logic
+  getEnglishText(row) {
+    return row.englishText ?? row.en ?? row.english ?? row.translation ?? row.englishTranslation ?? '';
+  }
+
+  getArabicText(row) {
+    return row.arabicText ?? row.arOriginal ?? row.arabic_original ?? row.ar ?? row.arabic_enhanced ?? row.enhanced ?? row.original ?? row.arabic ?? '';
   }
 
   async loadConfigs() {
@@ -68,7 +110,10 @@ class QualityValidator {
   calculateLPRMetrics() {
     const rows = this.triview.rows || [];
     const lprValues = rows
-      .map(r => ({ en: r.englishText ?? r.english, ar: r.arabicText ?? r.original }))
+      .map(r => ({
+        en: this.getEnglishText(r),
+        ar: this.getArabicText(r)
+      }))
       .filter(r => r.en && r.ar)
       .map(({ en, ar }) => ar.length > 0 ? en.length / ar.length : 0)
       .filter(lpr => lpr > 0);
@@ -84,10 +129,12 @@ class QualityValidator {
   }
 
   calculateCoverageMetrics() {
-    const totalRows = this.triview.rows.length;
-    const completedRows = this.triview.rows.filter(row =>
-      row.englishText && row.englishText.trim().length > 0
-    ).length;
+    const rows = this.triview.rows || [];
+    const totalRows = rows.length;
+    const completedRows = rows.filter(row => {
+      const en = this.getEnglishText(row);
+      return en && en.trim().length > 0;
+    }).length;
 
     const percentage = totalRows > 0 ? (completedRows / totalRows) * 100 : 0;
 
@@ -95,25 +142,55 @@ class QualityValidator {
   }
 
   calculateScriptureMetrics() {
-    const scriptureRows = this.triview.rows.filter(row =>
-      row.scripture && (row.scripture.reference || row.scripture.normalized)
-    );
+    const rows = this.triview.rows || [];
+
+    // Handle both old format (row.scripture) and new format (row.scriptureRefs)
+    const scriptureRows = rows.filter(row => {
+      if (row.scripture && (row.scripture.reference || row.scripture.normalized)) {
+        return true;
+      }
+      if (row.scriptureRefs && Array.isArray(row.scriptureRefs) && row.scriptureRefs.length > 0) {
+        return true;
+      }
+      return false;
+    });
 
     if (scriptureRows.length === 0) {
       return { percentage: 100, valid: 0, total: 0 };
     }
 
     const validRefs = scriptureRows.filter(row => {
-      const ref = row.scripture.reference || row.scripture.normalized;
-      if (!ref || ref.trim() === '') return true; // Context-only refs are valid
+      // Handle old format
+      if (row.scripture) {
+        const ref = row.scripture.reference || row.scripture.normalized;
+        if (!ref || ref.trim() === '') return true; // Context-only refs are valid
 
-      // Basic validation for Quran references (surah:ayah format)
-      if (row.scripture.type === 'quran') {
-        return /^\d+:\d+(-\d+)?$/.test(ref.trim());
+        // Basic validation for Quran references (surah:ayah format)
+        if (row.scripture.type === 'quran') {
+          return /^\d+:\d+(-\d+)?$/.test(ref.trim());
+        }
+
+        // For other types, assume valid if non-empty
+        return ref.trim().length > 0;
       }
 
-      // For other types, assume valid if non-empty
-      return ref.trim().length > 0;
+      // Handle new format (scriptureRefs array)
+      if (row.scriptureRefs && Array.isArray(row.scriptureRefs)) {
+        return row.scriptureRefs.every(scriptureRef => {
+          const ref = scriptureRef.reference || scriptureRef.normalized;
+          if (!ref || ref.trim() === '') return true; // Context-only refs are valid
+
+          // Basic validation for Quran references (surah:ayah format)
+          if (scriptureRef.type === 'quran') {
+            return /^\d+:\d+(-\d+)?$/.test(ref.trim());
+          }
+
+          // For other types, assume valid if non-empty
+          return ref.trim().length > 0;
+        });
+      }
+
+      return false;
     });
 
     const percentage = (validRefs.length / scriptureRows.length) * 100;
@@ -150,28 +227,42 @@ class QualityValidator {
 
   calculateReadabilityMetrics() {
     if (!this.englishModulesAvailable) {
-      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: false, reason: 'modules_missing', sectionsAnalyzed: 0 };
+      const readabilityConfig = this.config.thresholds?.readability || {};
+      const skipIfModulesMissing = readabilityConfig.skipIfModulesMissing;
+      const reason = skipIfModulesMissing ? 'modules_missing_skipped' : 'modules_missing';
+      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: skipIfModulesMissing, reason, sectionsAnalyzed: 0, failingRowIds: [] };
     }
 
-    const englishSections = (this.triview.rows || [])
-      .map(r => r.englishText ?? r.english)
-      .filter(t => t && t.trim().length > 50);
+    const rows = this.triview.rows || [];
+    const rowsWithText = rows
+      .map((row, index) => ({
+        rowId: row.id || row.rowId || index,
+        text: this.getEnglishText(row),
+        originalRow: row
+      }))
+      .filter(r => r.text && r.text.trim().length > (this.config.thresholds?.readability?.minChars ?? 50));
 
-    if (englishSections.length === 0) {
-      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: true, sectionsAnalyzed: 0 };
+    if (rowsWithText.length === 0) {
+      return { grade: 9.5, avgLen: 18, longPct: 15, overallPass: true, sectionsAnalyzed: 0, failingRowIds: [] };
     }
 
-    // Analyze each section
-    const sectionMetrics = englishSections.map(text => {
+    // Analyze each section with row tracking
+    const sectionAnalyses = rowsWithText.map(({ rowId, text, originalRow }) => {
       const metrics = analyzeReadability(text);
       const flags = checkReadabilityFlags(metrics);
-      return { metrics, flags, text: text.slice(0, 100) + '...' };
+      return {
+        rowId,
+        metrics,
+        flags,
+        text: text.slice(0, 100) + '...',
+        originalRow
+      };
     });
 
     // Calculate aggregate metrics
-    const avgGrade = sectionMetrics.reduce((sum, s) => sum + s.metrics.grade, 0) / sectionMetrics.length;
-    const avgLength = sectionMetrics.reduce((sum, s) => sum + s.metrics.avgLen, 0) / sectionMetrics.length;
-    const avgLongPct = sectionMetrics.reduce((sum, s) => sum + s.metrics.longPct, 0) / sectionMetrics.length;
+    const avgGrade = sectionAnalyses.reduce((sum, s) => sum + s.metrics.grade, 0) / sectionAnalyses.length;
+    const avgLength = sectionAnalyses.reduce((sum, s) => sum + s.metrics.avgLen, 0) / sectionAnalyses.length;
+    const avgLongPct = sectionAnalyses.reduce((sum, s) => sum + s.metrics.longPct, 0) / sectionAnalyses.length;
 
     // Check if overall targets are met using configurable thresholds
     const readabilityConfig = this.config.thresholds?.readability || { gradeMin: 8, gradeMax: 11, longPctMax: 25 };
@@ -179,8 +270,17 @@ class QualityValidator {
     const longPctAcceptable = avgLongPct <= readabilityConfig.longPctMax;
     const overallPass = gradeInRange && longPctAcceptable;
 
+    // Identify failing rows - those with grade outside [8,11] or longPct > 25%
+    const failingRows = sectionAnalyses.filter(s => {
+      const gradeOutOfRange = s.metrics.grade < readabilityConfig.gradeMin || s.metrics.grade > readabilityConfig.gradeMax;
+      const tooManyLongSentences = s.metrics.longPct > readabilityConfig.longPctMax;
+      return gradeOutOfRange || tooManyLongSentences;
+    });
+
+    const failingRowIds = failingRows.map(s => s.rowId);
+
     // Count sections that need improvement
-    const sectionsNeedingWork = sectionMetrics.filter(s =>
+    const sectionsNeedingWork = sectionAnalyses.filter(s =>
       s.flags.gradeOutOfRange || s.flags.tooManyLongSentences
     );
 
@@ -189,9 +289,20 @@ class QualityValidator {
       avgLen: Number(avgLength.toFixed(1)),
       longPct: Number(avgLongPct.toFixed(1)),
       overallPass,
-      sectionsAnalyzed: sectionMetrics.length,
+      sectionsAnalyzed: sectionAnalyses.length,
       sectionsNeedingWork: sectionsNeedingWork.length,
-      sectionDetails: sectionMetrics.slice(0, 5) // Include first 5 for reporting
+      failingRowIds,
+      failingRowDetails: failingRows.map(r => ({
+        rowId: r.rowId,
+        grade: r.metrics.grade,
+        longPct: r.metrics.longPct,
+        issues: [
+          ...(r.metrics.grade < readabilityConfig.gradeMin ? [`Grade ${r.metrics.grade} below minimum ${readabilityConfig.gradeMin}`] : []),
+          ...(r.metrics.grade > readabilityConfig.gradeMax ? [`Grade ${r.metrics.grade} above maximum ${readabilityConfig.gradeMax}`] : []),
+          ...(r.metrics.longPct > readabilityConfig.longPctMax ? [`${r.metrics.longPct}% long sentences exceeds ${readabilityConfig.longPctMax}%`] : [])
+        ]
+      })),
+      sectionDetails: sectionAnalyses.slice(0, 5) // Include first 5 for reporting
     };
   }
 
@@ -201,8 +312,8 @@ class QualityValidator {
     }
 
     const englishSections = (this.triview.rows || [])
-      .map(r => r.englishText ?? r.english)
-      .filter(t => t && t.trim().length > 50);
+      .map(r => this.getEnglishText(r))
+      .filter(t => t && t.trim().length > (this.config.thresholds?.readability?.minChars ?? 50));
 
     if (englishSections.length === 0) {
       return { score: 85, overallPass: true, sectionsAnalyzed: 0 };
@@ -233,6 +344,22 @@ class QualityValidator {
       commonFlags: this.aggregateAudienceFlags(sectionAnalyses),
       sampleIssues: sectionAnalyses.slice(0, 3).map(s => s.analysis.flags).flat().slice(0, 5)
     };
+  }
+
+  getReadabilityGateResult(readability) {
+    if (!this.englishModulesAvailable) {
+      const readabilityConfig = this.config.thresholds?.readability || {};
+      const skipIfModulesMissing = readabilityConfig.skipIfModulesMissing;
+      const isReadabilityRequired = this.config.gateConfiguration?.requiredGates?.includes('readability');
+
+      if (skipIfModulesMissing && !isReadabilityRequired) {
+        return true; // Skip and pass
+      } else if (isReadabilityRequired && !skipIfModulesMissing) {
+        throw new Error('Readability gate is required but English analysis modules are missing. Set thresholds.readability.skipIfModulesMissing to true to skip when modules are unavailable.');
+      }
+      return false; // Fail by default
+    }
+    return readability.overallPass;
   }
 
   aggregateAudienceFlags(analyses) {
@@ -294,7 +421,7 @@ class QualityValidator {
       readability: {
         gradeInRange: this.englishModulesAvailable ? readability.overallPass && (readability.grade >= (this.config.thresholds?.readability?.gradeMin || 8) && readability.grade <= (this.config.thresholds?.readability?.gradeMax || 11)) : false,
         longSentencesOk: this.englishModulesAvailable ? readability.overallPass && (readability.longPct <= (this.config.thresholds?.readability?.longPctMax || 25)) : false,
-        pass: this.englishModulesAvailable ? readability.overallPass : false
+        pass: this.getReadabilityGateResult(readability)
       },
       audience: {
         suitabilityOk: this.englishModulesAvailable ? (audience.score >= (this.config.thresholds?.audience?.scoreMin || 70)) : false,
@@ -387,7 +514,14 @@ ${validation.metrics.readability.reason === 'modules_missing' ? '- **Status**: N
 - **Long Sentences**: ${validation.metrics.readability.longPct}% (Target: ≤${this.config.thresholds?.readability?.longPctMax || 25}%) ${validation.gates.readability.longSentencesOk ? '✅' : '❌'}
 - **Average Length**: ${validation.metrics.readability.avgLen} words
 - **Sections Analyzed**: ${validation.metrics.readability.sectionsAnalyzed}
-- **Sections Needing Work**: ${validation.metrics.readability.sectionsNeedingWork || 0}`}
+- **Sections Needing Work**: ${validation.metrics.readability.sectionsNeedingWork || 0}
+- **Failing Row IDs**: ${validation.metrics.readability.failingRowIds && validation.metrics.readability.failingRowIds.length > 0 ? validation.metrics.readability.failingRowIds.join(', ') : 'None'}`}${validation.metrics.readability.failingRowDetails && validation.metrics.readability.failingRowDetails.length > 0 ? `
+
+#### Failing Row Details
+${validation.metrics.readability.failingRowDetails.map(detail =>
+  `- **Row ${detail.rowId}**: Grade ${detail.grade}, ${detail.longPct}% long sentences
+  - Issues: ${detail.issues.join(', ')}`
+).join('\n')}` : ''}
 
 ### Audience Suitability
 ${validation.metrics.audience.reason === 'modules_missing' ? '- **Status**: Not evaluated: modules missing ❌' : `- **Suitability Score**: ${validation.metrics.audience.score}/100 (Target: ≥${this.config.thresholds?.audience?.scoreMin || 70}) ${validation.gates.audience.suitabilityOk ? '✅' : '❌'}
@@ -422,6 +556,9 @@ ${validation.metrics.audience.reason === 'modules_missing' ? '- **Status**: Not 
     console.log(`🏆 Golden: ${metrics.golden.passRate.toFixed(1)}% pass rate ${validation.gates.golden.pass ? '✅' : '❌'}`);
     console.log(`📈 Drift: ${metrics.drift.maximum.toFixed(3)} max ${validation.gates.drift.pass ? '✅' : '❌'}`);
     console.log(`📖 Readability: grade ${metrics.readability.grade}, ${metrics.readability.longPct}% long ${validation.gates.readability.pass ? '✅' : '❌'}`);
+    if (metrics.readability.failingRowIds && metrics.readability.failingRowIds.length > 0) {
+      console.log(`   ⚠️  Failing row IDs: ${metrics.readability.failingRowIds.join(', ')}`);
+    }
     console.log(`👥 Audience: ${metrics.audience.score}/100 suitability ${validation.gates.audience.pass ? '✅' : '❌'}`);
 
     console.log(`\n${validation.overallPass ? '✅ All gates passed!' : '❌ Quality gates failed!'}`);

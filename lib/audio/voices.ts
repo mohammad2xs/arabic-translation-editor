@@ -1,12 +1,4 @@
-export type Lane = 'en' | 'ar_enhanced' | 'ar_original';
-
-export interface VoiceSettings {
-  stability: number;
-  similarity_boost: number;
-  style: number;
-  use_speaker_boost: boolean;
-  clarity?: number; // For ElevenLabs Pro voices
-}
+export type { Lane, VoiceSettings } from './types';
 
 export interface VoiceConfig {
   voiceId: string;

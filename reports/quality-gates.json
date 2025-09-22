@@ -1,19 +1,16 @@
 {
-  "timestamp": "2025-09-22T02:27:46.661Z",
-  "overallPass": false,
-  "requiredFailed": [
-    "coverage",
-    "lpr"
-  ],
+  "timestamp": "2025-09-22T05:25:45.827Z",
+  "overallPass": true,
+  "requiredFailed": [],
   "optionalFailed": [],
   "gates": {
     "lpr": {
-      "average": false,
-      "minimum": false,
-      "pass": false
+      "average": true,
+      "minimum": true,
+      "pass": true
     },
     "coverage": {
-      "pass": false
+      "pass": true
     },
     "scripture": {
       "pass": true
@@ -26,23 +23,32 @@
     },
     "drift": {
       "pass": true
+    },
+    "readability": {
+      "gradeInRange": false,
+      "longSentencesOk": false,
+      "pass": false
+    },
+    "audience": {
+      "suitabilityOk": true,
+      "pass": true
     }
   },
   "metrics": {
     "lpr": {
-      "average": 0,
-      "minimum": 0,
-      "count": 0
+      "average": 2.434852608618444,
+      "minimum": 2.1666666666666665,
+      "count": 15
     },
     "coverage": {
-      "percentage": 0,
-      "completed": 0,
+      "percentage": 100,
+      "completed": 15,
       "total": 15
     },
     "scripture": {
       "percentage": 100,
-      "valid": 0,
-      "total": 0
+      "valid": 2,
+      "total": 2
     },
     "glossary": {
       "consistency": 100,
@@ -57,6 +63,391 @@
     "drift": {
       "maximum": 0.05,
       "detected": false
+    },
+    "readability": {
+      "grade": 3.7,
+      "avgLen": 20.4,
+      "longPct": 3.3,
+      "overallPass": false,
+      "sectionsAnalyzed": 15,
+      "sectionsNeedingWork": 15,
+      "failingRowIds": [
+        "S001-001",
+        "S001-002",
+        "S001-003",
+        "S001-004",
+        "S001-005",
+        "S001-006",
+        "S001-007",
+        "S001-008",
+        "S001-009",
+        "S001-010",
+        "S001-011",
+        "S001-012",
+        "S001-013",
+        "S001-014",
+        "S001-015"
+      ],
+      "failingRowDetails": [
+        {
+          "rowId": "S001-001",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-002",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-003",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-004",
+          "grade": 3.4,
+          "longPct": 50,
+          "issues": [
+            "Grade 3.4 below minimum 8",
+            "50% long sentences exceeds 25%"
+          ]
+        },
+        {
+          "rowId": "S001-005",
+          "grade": 3.8,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.8 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-006",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-007",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-008",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-009",
+          "grade": 3.6,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.6 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-010",
+          "grade": 3.5,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.5 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-011",
+          "grade": 3.7,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.7 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-012",
+          "grade": 4.1,
+          "longPct": 0,
+          "issues": [
+            "Grade 4.1 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-013",
+          "grade": 3.9,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.9 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-014",
+          "grade": 3.8,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.8 below minimum 8"
+          ]
+        },
+        {
+          "rowId": "S001-015",
+          "grade": 3.8,
+          "longPct": 0,
+          "issues": [
+            "Grade 3.8 below minimum 8"
+          ]
+        }
+      ],
+      "sectionDetails": [
+        {
+          "rowId": "S001-001",
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلا...",
+          "originalRow": {
+            "id": "S001-001",
+            "original": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+            "enhanced": "بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.",
+            "english": "This is a mock translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلاة والسلام على أشرف المرسلين سيدنا محمد وعلى آله وصحبه أجمعين.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+            "complexity": 2,
+            "scriptureRefs": [],
+            "metadata": {
+              "laneHash": "809d17b9bd7ae751",
+              "sectionId": "S001",
+              "rowIndex": 0,
+              "wordCount": 18,
+              "charCount": 107,
+              "processedAt": "2025-09-21T18:25:21.642Z",
+              "lpr": 2.1578947368421053,
+              "qualityGates": {
+                "lpr": true,
+                "coverage": true,
+                "drift": true,
+                "semantic": true,
+                "scripture": true
+              },
+              "recommendation": "accept",
+              "confidence": 1
+            }
+          }
+        },
+        {
+          "rowId": "S001-002",
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 21,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 42,
+            "medianLength": 21
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى،...",
+          "originalRow": {
+            "id": "S001-002",
+            "original": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+            "enhanced": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+            "english": "This is a mock translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+            "complexity": 3,
+            "scriptureRefs": [
+              {
+                "type": "quran",
+                "reference": "17:70",
+                "normalized": "الإسراء:70"
+              }
+            ],
+            "metadata": {
+              "laneHash": "6fcb2434a177094f",
+              "sectionId": "S001",
+              "rowIndex": 1,
+              "wordCount": 19,
+              "charCount": 98,
+              "processedAt": "2025-09-21T18:25:21.642Z",
+              "lpr": 2.1,
+              "qualityGates": {
+                "lpr": true,
+                "coverage": true,
+                "drift": true,
+                "semantic": true,
+                "scripture": true
+              },
+              "recommendation": "accept",
+              "confidence": 1
+            }
+          }
+        },
+        {
+          "rowId": "S001-003",
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والب...",
+          "originalRow": {
+            "id": "S001-003",
+            "original": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+            "enhanced": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+            "english": "This is a mock translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+            "complexity": 4,
+            "scriptureRefs": [
+              {
+                "type": "quran",
+                "reference": "17:70",
+                "normalized": "الإسراء:70"
+              }
+            ],
+            "metadata": {
+              "laneHash": "502ca90dddf5e4b5",
+              "sectionId": "S001",
+              "rowIndex": 2,
+              "wordCount": 20,
+              "charCount": 112,
+              "processedAt": "2025-09-21T18:25:21.642Z",
+              "lpr": 2.1578947368421053,
+              "qualityGates": {
+                "lpr": true,
+                "coverage": true,
+                "drift": true,
+                "semantic": true,
+                "scripture": true
+              },
+              "recommendation": "accept",
+              "confidence": 1
+            }
+          }
+        },
+        {
+          "rowId": "S001-004",
+          "metrics": {
+            "grade": 3.4,
+            "avgLen": 22.5,
+            "longPct": 50,
+            "totalSentences": 2,
+            "totalWords": 45,
+            "medianLength": 22.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": true,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ...",
+          "originalRow": {
+            "id": "S001-004",
+            "original": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+            "enhanced": "وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.",
+            "english": "This is a mock translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ميز الله به الإنسان عن سائر المخلوقات، والقدرة على التفكير والتدبر في آيات الله.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+            "complexity": 3,
+            "scriptureRefs": [],
+            "metadata": {
+              "laneHash": "a36e71d1510db955",
+              "sectionId": "S001",
+              "rowIndex": 3,
+              "wordCount": 22,
+              "charCount": 124,
+              "processedAt": "2025-09-21T18:25:21.642Z",
+              "lpr": 1.9565217391304348,
+              "qualityGates": {
+                "lpr": true,
+                "coverage": true,
+                "drift": true,
+                "semantic": true,
+                "scripture": true
+              },
+              "recommendation": "accept",
+              "confidence": 1
+            }
+          }
+        },
+        {
+          "rowId": "S001-005",
+          "metrics": {
+            "grade": 3.8,
+            "avgLen": 19.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 39,
+            "medianLength": 19.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": false
+          },
+          "text": "This is a mock translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا...",
+          "originalRow": {
+            "id": "S001-005",
+            "original": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+            "enhanced": "كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.",
+            "english": "This is a mock translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا ما يجعله يحمل مسؤولية عظيمة أمام الله تعالى.\". The translation preserves semantic content while ensuring clarity and readability for English speakers.",
+            "complexity": 2,
+            "scriptureRefs": [],
+            "metadata": {
+              "laneHash": "563de21b46dc69ae",
+              "sectionId": "S001",
+              "rowIndex": 4,
+              "wordCount": 17,
+              "charCount": 92,
+              "processedAt": "2025-09-21T18:25:21.642Z",
+              "lpr": 2.2941176470588234,
+              "qualityGates": {
+                "lpr": true,
+                "coverage": true,
+                "drift": true,
+                "semantic": true,
+                "scripture": true
+              },
+              "recommendation": "accept",
+              "confidence": 1
+            }
+          }
+        }
+      ]
+    },
+    "audience": {
+      "score": 100,
+      "overallPass": true,
+      "sectionsAnalyzed": 15,
+      "sectionsWithIssues": 0,
+      "commonFlags": [],
+      "sampleIssues": []
     }
   },
   "config": {
@@ -85,6 +476,16 @@
       "drift": {
         "maximum": 0.15,
         "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+      },
+      "readability": {
+        "gradeMin": 8,
+        "gradeMax": 11,
+        "longPctMax": 25,
+        "description": "English readability requirements - Grade level range and maximum percentage of long sentences"
+      },
+      "audience": {
+        "scoreMin": 70,
+        "description": "Audience suitability - Minimum score for general audience appropriateness"
       }
     },
     "gateConfiguration": {

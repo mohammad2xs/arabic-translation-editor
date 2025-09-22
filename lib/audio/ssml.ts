@@ -1,7 +1,7 @@
 // Dynamic imports for Node.js modules (server-side only)
 // These will be imported conditionally when needed
 
-export type Lane = 'en' | 'ar_enhanced' | 'ar_original';
+export type { Lane } from './types';
 
 export interface SSMLOptions {
   lane: Lane;
@@ -18,24 +18,24 @@ export interface ProsodySettings {
   emphasis?: 'strong' | 'moderate' | 'none' | 'reduced';
 }
 
-// Lane-specific prosody defaults
+// Lane-specific prosody defaults optimized for ElevenLabs voices
 const LANE_PROSODY_DEFAULTS: Record<Lane, ProsodySettings> = {
   en: {
-    rate: '+6%', // Slightly faster for English
-    pitch: 'medium', // Neutral pitch
+    rate: '+8%', // Slightly faster for English fluency
+    pitch: 'medium', // Neutral pitch for clear narration
     volume: 'medium',
     emphasis: 'moderate'
   },
   ar_enhanced: {
-    rate: '-4%', // Slower for clearer articulation
-    pitch: '+2%', // Slightly higher for clarity
-    volume: 'medium',
+    rate: '-2%', // Slightly slower for enhanced Arabic clarity
+    pitch: '+3%', // Slightly higher for better articulation
+    volume: '+2%', // Slightly louder for emphasis
     emphasis: 'strong'
   },
   ar_original: {
-    rate: '-6%', // Slowest for maximum clarity of classical Arabic
-    pitch: 'medium',
-    volume: '+5%', // Slightly louder
+    rate: '-8%', // Much slower for classical Arabic pronunciation
+    pitch: '+1%', // Slightly raised for reverent tone
+    volume: '+8%', // Noticeably louder for emphasis
     emphasis: 'strong'
   }
 };
@@ -70,12 +70,17 @@ const ISLAMIC_TERMS_EMPHASIS = [
 // Load lexicon for pronunciation overrides (server-side only)
 async function loadLexicon(): Promise<Record<string, { ipa: string; phoneme?: string }>> {
   // Only load lexicon on server-side
+  // Only run on server side
   if (typeof window !== 'undefined') {
-    // Client-side: return empty lexicon
     return {};
   }
 
   try {
+    // Only load on server side
+    if (typeof window !== 'undefined') {
+      return {};
+    }
+    
     // Dynamic import of Node.js modules
     const { readFileSync } = await import('fs');
     const { join } = await import('path');
@@ -157,15 +162,31 @@ export function generateSSML(text: string, options: SSMLOptions): string {
     processedText = processedText.replace(/\(\d+\)/g, ''); // Remove (1), (2), etc.
   }
 
-  // Apply pronunciation substitutions from lexicon overrides
+  // Apply pronunciation substitutions from lexicon overrides with better handling
   for (const [term, substitution] of Object.entries(lexicon)) {
-    const replacement = typeof substitution === 'string'
-      ? substitution
-      : `<phoneme alphabet="ipa" ph="${substitution.ipa}">${term}</phoneme>`;
+    let replacement: string;
 
-    // Use word boundary regex for exact matches
+    if (typeof substitution === 'string') {
+      replacement = substitution;
+    } else if (substitution.phoneme) {
+      // Use phoneme over IPA for better TTS compatibility
+      replacement = `<phoneme alphabet="x-sampa" ph="${substitution.phoneme}">${term}</phoneme>`;
+    } else if (substitution.ipa) {
+      replacement = `<phoneme alphabet="ipa" ph="${substitution.ipa}">${term}</phoneme>`;
+    } else {
+      continue; // Skip invalid entries
+    }
+
+    // Use word boundary regex for exact matches, preserve case
     const regex = new RegExp(`\\b${escapeRegex(term)}\\b`, 'gi');
-    processedText = processedText.replace(regex, replacement);
+    processedText = processedText.replace(regex, (match) => {
+      // Preserve original case in the replacement
+      if (match === term) return replacement;
+      if (match === term.toLowerCase()) return replacement.toLowerCase();
+      if (match === term.toUpperCase()) return replacement.toUpperCase();
+      // For mixed case, use title case
+      return replacement.charAt(0).toUpperCase() + replacement.slice(1).toLowerCase();
+    });
   }
 
   // Add emphasis for Islamic terms
@@ -193,40 +214,75 @@ export function generateSSML(text: string, options: SSMLOptions): string {
 function addNaturalPauses(text: string, lane: Lane): string {
   let processedText = text;
 
-  // Sentence endings - use appropriate pause length based on lane
-  const pauseLength = lane === 'en' ? '500ms' : '700ms'; // Longer pauses for Arabic
+  // Lane-specific pause configurations
+  const pauseConfig = {
+    en: {
+      sentence: '600ms',
+      comma: '250ms',
+      paragraph: '1.2s',
+      colon: '350ms',
+      semicolon: '300ms'
+    },
+    ar_enhanced: {
+      sentence: '800ms',
+      comma: '350ms',
+      paragraph: '1.5s',
+      colon: '400ms',
+      semicolon: '350ms'
+    },
+    ar_original: {
+      sentence: '1s',
+      comma: '400ms',
+      paragraph: '2s',
+      colon: '500ms',
+      semicolon: '450ms'
+    }
+  }[lane];
 
   // Add pauses after sentence endings
   if (lane === 'en') {
-    // English: Look for punctuation followed by capital letters
-    processedText = processedText.replace(/[.!?](?=\s+[A-Z])/g, `$&<break time="${pauseLength}"/>`);
+    // English: Look for punctuation followed by capital letters or whitespace
+    processedText = processedText.replace(/[.!?](?=\s+[A-Z])/g, `$&<break time="${pauseConfig.sentence}"/>`);
+    processedText = processedText.replace(/[.!?](?=\s+$)/gm, `$&<break time="${pauseConfig.sentence}"/>`);
   } else {
-    // Arabic: Use different punctuation and patterns
-    // Arabic question mark ؟ and regular punctuation followed by whitespace
-    processedText = processedText.replace(/[.!؟](?=\s)/g, `$&<break time="${pauseLength}"/>`);
-    // Also handle end of lines and Arabic sentence patterns
-    processedText = processedText.replace(/[.!؟](?=\n)/g, `$&<break time="${pauseLength}"/>`);
-    processedText = processedText.replace(/[.!؟]$/gm, `$&<break time="${pauseLength}"/>`);
+    // Arabic: Use Arabic-specific punctuation patterns
+    processedText = processedText.replace(/[.!؟](?=\s)/g, `$&<break time="${pauseConfig.sentence}"/>`);
+    processedText = processedText.replace(/[.!؟](?=\n)/g, `$&<break time="${pauseConfig.sentence}"/>`);
+    processedText = processedText.replace(/[.!؟]$/gm, `$&<break time="${pauseConfig.sentence}"/>`);
   }
 
-  // Add shorter pauses after commas and Arabic comma ،
-  const commaLength = lane === 'en' ? '200ms' : '300ms';
+  // Add pauses after commas (including Arabic comma)
   if (lane === 'en') {
-    processedText = processedText.replace(/,(?=\s)/g, `$&<break time="${commaLength}"/>`);
+    processedText = processedText.replace(/,(?=\s)/g, `$&<break time="${pauseConfig.comma}"/>`);
   } else {
-    // Handle both regular comma and Arabic comma
-    processedText = processedText.replace(/[,،](?=\s)/g, `$&<break time="${commaLength}"/>`);
+    // Handle both regular comma and Arabic comma ،
+    processedText = processedText.replace(/[,،](?=\s)/g, `$&<break time="${pauseConfig.comma}"/>`);
   }
 
-  // Add longer pauses for paragraph breaks (indicated by double newlines)
-  processedText = processedText.replace(/\n\s*\n/g, `<break time="1s"/>\n\n`);
+  // Add longer pauses for paragraph breaks
+  processedText = processedText.replace(/\n\s*\n/g, `<break time="${pauseConfig.paragraph}"/>\n\n`);
 
-  // Add emphasis breaks for colons (indicating explanations)
-  processedText = processedText.replace(/:(?=\s)/g, `$&<break time="300ms"/>`);
-  // Arabic colon is sometimes used differently
+  // Add emphasis breaks for colons and explanatory punctuation
+  processedText = processedText.replace(/:(?=\s)/g, `$&<break time="${pauseConfig.colon}"/>`);
+
+  // Handle semicolons and Arabic semicolon
+  processedText = processedText.replace(/;(?=\s)/g, `$&<break time="${pauseConfig.semicolon}"/>`);
   if (lane !== 'en') {
-    processedText = processedText.replace(/؛(?=\s)/g, `$&<break time="300ms"/>`); // Arabic semicolon
+    processedText = processedText.replace(/؛(?=\s)/g, `$&<break time="${pauseConfig.semicolon}"/>`);
   }
+
+  // Add subtle pauses after quotation marks for better flow
+  processedText = processedText.replace(/"(?=\s)/g, `$&<break time="200ms"/>`);
+  processedText = processedText.replace(/'(?=\s)/g, `$&<break time="200ms"/>`);
+
+  // Add breathing pauses after long sentences (more than 100 characters)
+  const sentences = processedText.split(/(?<=[.!?؟])/);
+  processedText = sentences.map(sentence => {
+    if (sentence.trim().length > 100 && !sentence.includes('<break')) {
+      return sentence.replace(/([.!?؟])(\s*)$/, `$1<break time="200ms"/>$2`);
+    }
+    return sentence;
+  }).join('');
 
   return processedText;
 }
@@ -268,9 +324,10 @@ export function buildSSMLWithProsody(
   return generateSSML(text, options);
 }
 
-// Validate SSML markup
-export function validateSSML(ssml: string): { valid: boolean; errors: string[] } {
+// Enhanced SSML validation with comprehensive checks
+export function validateSSML(ssml: string): { valid: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
+  const warnings: string[] = [];
 
   // Check for required elements
   if (!ssml.includes('<speak')) {
@@ -281,22 +338,99 @@ export function validateSSML(ssml: string): { valid: boolean; errors: string[] }
     errors.push('Missing closing </speak> tag');
   }
 
-  // Check for unclosed tags (basic validation)
-  const openTags = ssml.match(/<[^/][^>]*>/g) || [];
-  const closeTags = ssml.match(/<\/[^>]*>/g) || [];
+  // Check for proper XML structure
+  try {
+    // Basic XML structure validation
+    const speakMatch = ssml.match(/<speak[^>]*>/);
+    if (speakMatch && !speakMatch[0].includes('xmlns=')) {
+      warnings.push('Missing xmlns namespace declaration in <speak> element');
+    }
 
-  if (openTags.length !== closeTags.length) {
-    errors.push('Mismatched opening and closing tags');
+    if (speakMatch && !speakMatch[0].includes('xml:lang=')) {
+      warnings.push('Missing xml:lang attribute in <speak> element');
+    }
+  } catch (error) {
+    errors.push('Invalid XML structure');
+  }
+
+  // Check for unclosed tags (improved validation)
+  const selfClosingTags = ['break', 'phoneme'];
+  const openTags = ssml.match(/<(?!\/)([^\s>]+)[^>]*>/g) || [];
+  const closeTags = ssml.match(/<\/[^>]+>/g) || [];
+  const selfClosing = ssml.match(/<[^>]+\/>/g) || [];
+
+  // Filter out self-closing tags
+  const actualOpenTags = openTags.filter(tag => {
+    const tagName = tag.match(/<([^\s>]+)/)?.[1];
+    return !selfClosingTags.includes(tagName || '') && !tag.endsWith('/>');
+  });
+
+  if (actualOpenTags.length !== closeTags.length) {
+    errors.push(`Mismatched opening and closing tags: ${actualOpenTags.length} open, ${closeTags.length} close`);
   }
 
   // Check for invalid characters that might break TTS
-  if (ssml.includes('&') && !ssml.includes('&amp;') && !ssml.includes('&lt;') && !ssml.includes('&gt;')) {
-    errors.push('Unescaped ampersand detected - use &amp; instead');
+  if (ssml.includes('&') && !/&(amp|lt|gt|quot|apos);/.test(ssml)) {
+    errors.push('Unescaped special characters detected - use XML entities (&amp;, &lt;, &gt;)');
+  }
+
+  // Check for extremely long content that might cause issues
+  const textContent = extractTextFromSSML(ssml);
+  if (textContent.length > 5000) {
+    warnings.push(`Text content is very long (${textContent.length} characters) - consider splitting into smaller segments`);
+  }
+
+  // Check for excessive nested tags
+  const maxNestingDepth = 5;
+  let currentDepth = 0;
+  let maxDepth = 0;
+
+  for (const char of ssml) {
+    if (char === '<') {
+      currentDepth++;
+      maxDepth = Math.max(maxDepth, currentDepth);
+    } else if (char === '>') {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+  }
+
+  if (maxDepth > maxNestingDepth) {
+    warnings.push(`Deep tag nesting detected (depth: ${maxDepth}) - may cause TTS issues`);
+  }
+
+  // Check for potentially problematic break times
+  const breakMatches = ssml.match(/<break time="([^"]+)"/g) || [];
+  for (const breakTag of breakMatches) {
+    const time = breakTag.match(/time="([^"]+)"/)?.[1];
+    if (time) {
+      const numericValue = parseFloat(time);
+      if (numericValue > 10) {
+        warnings.push(`Very long break time detected: ${time} - may cause awkward pauses`);
+      }
+    }
+  }
+
+  // Check for valid prosody values
+  const prosodyMatches = ssml.match(/<prosody[^>]*>/g) || [];
+  for (const prosodyTag of prosodyMatches) {
+    if (prosodyTag.includes('rate=')) {
+      const rate = prosodyTag.match(/rate="([^"]+)"/)?.[1];
+      if (rate && !rate.match(/^(\+|-)?(\d+%|x-slow|slow|medium|fast|x-fast)$/)) {
+        warnings.push(`Invalid prosody rate value: ${rate}`);
+      }
+    }
+    if (prosodyTag.includes('pitch=')) {
+      const pitch = prosodyTag.match(/pitch="([^"]+)"/)?.[1];
+      if (pitch && !pitch.match(/^(\+|-)?(\d+%|\d+Hz|x-low|low|medium|high|x-high)$/)) {
+        warnings.push(`Invalid prosody pitch value: ${pitch}`);
+      }
+    }
   }
 
   return {
     valid: errors.length === 0,
-    errors
+    errors,
+    warnings
   };
 }
 

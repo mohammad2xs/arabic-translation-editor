@@ -96,8 +96,8 @@ Post-translation quality enhancement sequence:
 1. **BASE TRANSLATION**: Complete Arabic → English translation following all above principles
 2. **STYLE GUARD**: Apply `rules/02b_en_style_guard.mdc` - preserve contemplative tone, authorial voice, and philosophical register while ensuring US punctuation and glossary consistency
 3. **READABILITY PASS**: Apply `rules/02c_en_readability.mdc` - optimize for grade 8-11 readability through sentence structure, lexical simplification, and clarity enhancement without content addition
-4. **LPR ADJUSTMENT**: If Length Preservation Ratio < 1.08, expand for clarity without adding new ideas or interpretations
-5. **QUALITY VALIDATION**: Verify grade ∈ [8,11], longPct ≤ 25%, and all quality gates per `lib/guards.ts`
+4. **LPR ADJUSTMENT**: If Length Preservation Ratio < 1.08, expand for clarity without adding new ideas or interpretations - only enhance existing content for better readability
+5. **QUALITY VALIDATION**: Verify grade ∈ [8,11], longPct ≤ 25%, and identify failing row_ids using `scripts/quality-validation.mjs` - address specific failing sections as needed
 
 ### Quality Verification
 - **BACK-TRANSLATION**: Check meaning preservation through reverse translation

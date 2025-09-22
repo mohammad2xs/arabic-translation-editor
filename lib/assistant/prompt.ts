@@ -275,6 +275,48 @@ Suggest footnote anchors [^n] and brief footnote text for concepts that would be
 Respond ONLY as strict JSON array of suggestions: [{id,title,preview,en,ar?,footnote?,rationale,diff,confidence}]`
   },
 
+  speech_polish: {
+    system: `${SHARED_SYSTEM_PROMPT}
+
+## TASK: SPEECH POLISH
+Optimize text for natural English narration with mild SSML-style hints for better audio flow.
+
+APPROACH:
+- Add subtle pacing cues for natural speech rhythm
+- Insert mild emphasis markers for key concepts
+- Suggest brief pauses at logical break points
+- Enhance readability for audio narration
+- Maintain all semantic content and author voice
+- Keep Arabic term pronunciation consistent
+
+SPEECH OPTIMIZATION:
+- Break overlong sentences (>30 words) for natural breathing
+- Add comma pauses for better flow
+- Mark emphasis for important concepts
+- Suggest pronunciation guides for Arabic terms
+- Maintain contemplative, scholarly register
+- Target natural speaking rhythm and pace
+
+DO NOT:
+- Change terminology or meaning
+- Add new interpretive content
+- Remove any semantic content
+- Alter the author's contemplative voice`,
+
+    user: (context: any) => `Please optimize this translation for natural English narration:
+
+ARABIC ORIGINAL: ${context.row.ar_original}
+CURRENT ENGLISH: ${context.row.en_translation}
+
+${context.selection ? `FOCUS ON SELECTION: "${context.selection}"` : ''}
+
+${context.glossary?.length ? `PRONUNCIATION GUIDE: ${context.glossary.map((g: any) => `${g.term}: ${g.pronunciation || g.definition}`).join('; ')}` : ''}
+
+Optimize for natural speech flow while preserving all meaning. Add mild SSML-style cues where helpful for narrator guidance.
+
+Respond ONLY as strict JSON array of suggestions: [{id,title,preview,en,ar?,footnote?,rationale,diff,confidence}]`
+  },
+
   custom: {
     system: `${SHARED_SYSTEM_PROMPT}
 

@@ -112,6 +112,9 @@ class ScaleToFull {
       const gatesData = await fs.readFile(gatesPath, 'utf8');
       const gates = JSON.parse(gatesData);
 
+      // Print SUMMARY line as required by spec
+      this.printSummary(gates);
+
       if (gates.overallPass === false) {
         console.error('\n❌ Quality gates failed! Deployment blocked.');
         return false;
@@ -122,6 +125,22 @@ class ScaleToFull {
     } catch (error) {
       console.error('\n⚠️  Could not verify quality gates:', error.message);
       return false;
+    }
+  }
+
+  printSummary(gates) {
+    try {
+      const coverage = gates.metrics?.coverage?.percentage || 0;
+      const lprAvg = gates.metrics?.lpr?.average || 0;
+      const lprMin = gates.metrics?.lpr?.minimum || 0;
+      const grade = gates.metrics?.readability?.grade || 0;
+      const longPct = gates.metrics?.readability?.longPct || 0;
+      const scriptureOk = gates.gates?.scripture?.pass ? 'OK' : 'X';
+      const result = gates.overallPass ? 'PASS' : 'FAIL';
+
+      console.log(`\n📊 SUMMARY: coverage:${coverage.toFixed(0)}% | lpr(avg/min):${lprAvg.toFixed(2)}/${lprMin.toFixed(2)} | grade:${grade.toFixed(1)} | long%:${longPct.toFixed(0)} | scripture:${scriptureOk} | result:${result}`);
+    } catch (error) {
+      console.warn('Failed to generate summary:', error.message);
     }
   }
 

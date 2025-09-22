@@ -2,32 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { canShare, getUserRole } from '../../lib/dadmode/access';
-import type { Lane } from '../../lib/audio/voices';
+import type { Lane, AudioJob } from '../../lib/audio/types';
 
-interface AudioJob {
-  id: string;
-  scope: 'section' | 'chapter' | 'book';
-  lane: Lane;
-  scopeId: string;
-  scopeName: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  progress: number;
-  totalSegments: number;
-  processedSegments: number;
-  audioUrl?: string;
-  m4bUrl?: string;
-  error?: string;
-  createdAt: string;
-  updatedAt: string;
-  estimatedDuration?: number;
-  actualDuration?: number;
-  metadata?: {
-    totalCharacters: number;
-    estimatedCost: number;
-    voiceId: string;
-    voiceName: string;
-  };
-}
 
 interface AudiobookPanelProps {
   isOpen: boolean;
@@ -47,8 +23,10 @@ export default function AudiobookPanel({
   const [selectedLane, setSelectedLane] = useState<Lane>('en');
   const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [jobProgress, setJobProgress] = useState<Record<string, AudioJob>>({});
+  const [jobFilter, setJobFilter] = useState<'all' | 'pending' | 'processing' | 'completed' | 'failed'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const eventSourceRef = useRef<EventSource | null>(null);
+  const streamReaderRef = useRef<{ reader: ReadableStreamDefaultReader; controller: AbortController } | null>(null);
 
   const userRole = getUserRole();
   const canCreateJobs = canShare(userRole);
@@ -57,7 +35,7 @@ export default function AudiobookPanel({
   useEffect(() => {
     if (isOpen) {
       loadJobs();
-      setupEventSource();
+      setupNDJSONStream();
     }
 
     return () => {
@@ -65,50 +43,124 @@ export default function AudiobookPanel({
     };
   }, [isOpen]);
 
-  // Setup Server-Sent Events for real-time updates
-  // Note: Uses SSE (EventSource API) for real-time job progress updates
+  // Setup NDJSON streaming for real-time updates
+  // Note: Uses NDJSON streaming over fetch for real-time job progress updates
   // See /api/audio/job/route.ts for API contract documentation
-  const setupEventSource = () => {
+  const setupNDJSONStream = () => {
     cleanup();
 
-    eventSourceRef.current = new EventSource('/api/audio/job?stream=true');
+    try {
+      const controller = new AbortController();
 
-    eventSourceRef.current.onmessage = (event) => {
-      try {
-        const update = JSON.parse(event.data);
-
-        if (update.type === 'job_update') {
-          setJobProgress(prev => ({
-            ...prev,
-            [update.job.id]: update.job
-          }));
-
-          // Update jobs list if job status changed
-          if (update.job.status === 'completed' || update.job.status === 'failed') {
-            loadJobs();
+      fetch('/api/audio/job?stream=true', {
+        signal: controller.signal,
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
-        }
-      } catch (error) {
-        console.error('Failed to parse SSE data:', error);
-      }
-    };
 
-    eventSourceRef.current.onerror = (error) => {
-      console.error('EventSource error:', error);
-      // Attempt to reconnect after a delay
+          if (!response.body) {
+            throw new Error('No response body available for streaming');
+          }
+
+          const reader = response.body.getReader();
+          streamReaderRef.current = { reader, controller };
+
+          console.log('NDJSON stream established for audiobook jobs');
+
+          // Process the stream
+          const decoder = new TextDecoder();
+          let buffer = '';
+
+          const processStream = async () => {
+            try {
+              while (true) {
+                const { done, value } = await reader.read();
+
+                if (done) {
+                  console.log('NDJSON stream completed');
+                  break;
+                }
+
+                // Decode the chunk and add to buffer
+                buffer += decoder.decode(value, { stream: true });
+
+                // Process complete lines
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+                for (const line of lines) {
+                  if (line.trim()) {
+                    try {
+                      const update = JSON.parse(line);
+
+                      if (update.type === 'job_update') {
+                        setJobProgress(prev => ({
+                          ...prev,
+                          [update.job.id]: update.job
+                        }));
+
+                        // Update jobs list if job status changed significantly
+                        if (update.job.status === 'completed' || update.job.status === 'failed' || update.job.status === 'cancelled') {
+                          // Debounce the loadJobs call to avoid excessive requests
+                          setTimeout(loadJobs, 500);
+                        }
+                      } else if (update.type === 'connected') {
+                        console.log('NDJSON stream connection confirmed for audiobook panel');
+                      }
+                    } catch (error) {
+                      console.error('Failed to parse NDJSON line:', error, 'Line:', line);
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              if (error instanceof Error && error.name !== 'AbortError') {
+                console.error('NDJSON stream reading error:', error);
+
+                // Attempt to reconnect after a delay with exponential backoff
+                const reconnectDelay = Math.min(5000 * Math.pow(2, Math.random()), 30000);
+                setTimeout(() => {
+                  if (isOpen && !streamReaderRef.current) {
+                    setupNDJSONStream();
+                  }
+                }, reconnectDelay);
+              }
+            }
+          };
+
+          processStream();
+        })
+        .catch(error => {
+          if (error.name !== 'AbortError') {
+            console.error('Failed to setup NDJSON stream:', error);
+            // Retry connection after a longer delay
+            setTimeout(() => {
+              if (isOpen) {
+                setupNDJSONStream();
+              }
+            }, 10000);
+          }
+        });
+
+    } catch (error) {
+      console.error('Failed to setup NDJSON stream:', error);
+      // Retry connection after a longer delay
       setTimeout(() => {
         if (isOpen) {
-          setupEventSource();
+          setupNDJSONStream();
         }
-      }, 5000);
-    };
+      }, 10000);
+    }
   };
 
-  // Cleanup EventSource
+  // Cleanup NDJSON stream
   const cleanup = () => {
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      eventSourceRef.current = null;
+    if (streamReaderRef.current) {
+      streamReaderRef.current.controller.abort();
+      streamReaderRef.current.reader.releaseLock();
+      streamReaderRef.current = null;
     }
   };
 
@@ -159,6 +211,20 @@ export default function AudiobookPanel({
           break;
       }
 
+      // Check for duplicate jobs
+      const existingJob = jobs.find(job =>
+        job.scope === selectedScope &&
+        job.lane === selectedLane &&
+        job.scopeId === scopeId &&
+        (job.status === 'pending' || job.status === 'processing')
+      );
+
+      if (existingJob) {
+        alert(`A ${selectedScope} job for ${getLaneDisplayName(selectedLane)} lane is already ${existingJob.status}. Please wait for it to complete or cancel it first.`);
+        setIsCreatingJob(false);
+        return;
+      }
+
       const response = await fetch('/api/audio/job', {
         method: 'POST',
         headers: {
@@ -178,7 +244,10 @@ export default function AudiobookPanel({
       }
 
       const data = await response.json();
-      alert(`Audiobook job created successfully! Job ID: ${data.job.id}`);
+
+      // More informative success message
+      const laneDisplay = getLaneDisplayName(selectedLane);
+      alert(`✅ Audiobook job created successfully!\n\nScope: ${scopeName}\nLane: ${laneDisplay}\nJob ID: ${data.job.id}\nEstimated segments: ${data.job.estimatedSegments}\n\nCheck the "Active Jobs" section below for real-time progress updates.`);
 
       // Refresh jobs list
       loadJobs();
@@ -222,12 +291,36 @@ export default function AudiobookPanel({
       return;
     }
 
+    // Create descriptive filename with timestamp
+    const timestamp = new Date(job.updatedAt).toISOString().split('T')[0];
+    const laneDisplay = getLaneDisplayName(job.lane).replace(/\s+/g, '_');
+    const scopeDisplay = job.scopeName.replace(/\s+/g, '_');
+
+    let fileName: string;
+    let fileExtension: string;
+
+    if (job.m4bUrl) {
+      fileExtension = 'm4b';
+      fileName = `${scopeDisplay}_${laneDisplay}_${timestamp}.${fileExtension}`;
+    } else {
+      fileExtension = 'json';
+      fileName = `${scopeDisplay}_${laneDisplay}_manifest_${timestamp}.${fileExtension}`;
+    }
+
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${job.scopeName}_${job.lane}.${job.m4bUrl ? 'm4b' : 'mp3'}`;
+    link.download = fileName;
+    link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    // Show success message with file info
+    if (job.m4bUrl) {
+      alert(`📱 M4B audiobook downloaded: ${fileName}\n\nYou can now import this file into your audiobook player.`);
+    } else {
+      alert(`📄 Manifest file downloaded: ${fileName}\n\nThis JSON file contains metadata and links to all audio segments.`);
+    }
   };
 
   // Get status color
@@ -272,6 +365,29 @@ export default function AudiobookPanel({
       default:
         return lane;
     }
+  };
+
+  // Filter jobs based on current filters
+  const getFilteredJobs = (jobList: AudioJob[]): AudioJob[] => {
+    return jobList.filter(job => {
+      // Status filter
+      if (jobFilter !== 'all' && job.status !== jobFilter) {
+        return false;
+      }
+
+      // Search filter
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        return (
+          job.scopeName.toLowerCase().includes(query) ||
+          job.id.toLowerCase().includes(query) ||
+          getLaneDisplayName(job.lane).toLowerCase().includes(query) ||
+          job.scope.toLowerCase().includes(query)
+        );
+      }
+
+      return true;
+    });
   };
 
   if (!isOpen) return null;
@@ -463,14 +579,49 @@ export default function AudiobookPanel({
           {/* Job History */}
           <div className="p-4 border-t border-gray-200">
             <h3 className="font-medium text-gray-900 mb-3">
-              Recent Jobs ({jobs.length})
+              Job History ({jobs.length})
             </h3>
+
+            {/* Job Filters and Search */}
+            <div className="mb-4 space-y-2">
+              {/* Search */}
+              <input
+                type="text"
+                placeholder="Search jobs by name, ID, or lane..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              />
+
+              {/* Status Filter */}
+              <select
+                value={jobFilter}
+                onChange={(e) => setJobFilter(e.target.value as any)}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="all">All Jobs</option>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="completed">Completed</option>
+                <option value="failed">Failed</option>
+              </select>
+            </div>
 
             {jobs.length === 0 ? (
               <p className="text-sm text-gray-500">No jobs created yet</p>
-            ) : (
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {jobs.slice(0, 10).map((job) => (
+            ) : (() => {
+              const filteredJobs = getFilteredJobs(jobs);
+              return filteredJobs.length === 0 ? (
+                <p className="text-sm text-gray-500">No jobs match the current filters</p>
+              ) : (
+                <>
+                  {filteredJobs.length !== jobs.length && (
+                    <p className="text-xs text-gray-500 mb-2">
+                      Showing {Math.min(filteredJobs.length, 10)} of {filteredJobs.length} filtered jobs
+                    </p>
+                  )}
+                  <div className="space-y-2 max-h-64 overflow-y-auto">
+                    {filteredJobs.slice(0, 10).map((job) => (
                   <div key={job.id} className="bg-gray-50 rounded-lg p-3">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium text-gray-900">
@@ -513,9 +664,11 @@ export default function AudiobookPanel({
                       </div>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
