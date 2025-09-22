@@ -209,7 +209,8 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
   const missing: string[] = []
 
   if (!result.success) {
-    result.error.errors.forEach((e) => {
+    const errorList = result.error?.errors || []
+    errorList.forEach((e) => {
       const path = e.path.join('.')
       errors.push(`${path}: ${e.message}`)
 
@@ -232,7 +233,8 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
   // Add storage-specific warnings
   const storageConfig = validateStorageConfig()
   if (!storageConfig.valid) {
-    storageConfig.errors.forEach(error => warnings.push(`Storage: ${error}`))
+    const storageErrors = storageConfig.errors || []
+    storageErrors.forEach(error => warnings.push(`Storage: ${error}`))
   }
 
   return {
