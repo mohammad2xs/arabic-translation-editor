@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { getDocUrl } from '../config/docs';
 
 // Types for environment status
 export interface EnvironmentStatus {
@@ -219,6 +220,23 @@ export function useEnvironmentWarnings(status: EnvironmentStatus | null, options
 }
 
 /**
+ * Helper function to create conditional actions based on doc URL availability
+ */
+function createConditionalActions(actions: { type: 'link'; label: string; docType: keyof import('../config/docs').DocsConfig; icon: string }[]): EnvironmentAction[] {
+  return actions
+    .map(action => {
+      const url = getDocUrl(action.docType);
+      return url ? {
+        type: 'link' as const,
+        label: action.label,
+        url,
+        icon: action.icon
+      } : null;
+    })
+    .filter((action): action is EnvironmentAction => action !== null);
+}
+
+/**
  * Process environment status into user-friendly warnings
  */
 export function processEnvironmentWarnings(
@@ -237,20 +255,20 @@ export function processEnvironmentWarnings(
       details: `Missing variables: ${status.environment.missingRequired.join(', ')}`,
       icon: '⚠️',
       color: 'red',
-      actions: [
+      actions: createConditionalActions([
         {
           type: 'link',
           label: 'Setup Guide',
-          url: '/docs/deployment',
+          docType: 'deployment',
           icon: '📚'
         },
         {
           type: 'link',
           label: 'Environment Template',
-          url: '/.env.example',
+          docType: 'envExample',
           icon: '📄'
         }
-      ],
+      ]),
       dismissible: false
     });
   }
@@ -268,14 +286,14 @@ export function processEnvironmentWarnings(
       details: criticalServices.map(([name, service]) => `${name}: ${service.message || 'Unavailable'}`).join(', '),
       icon: '🚨',
       color: 'red',
-      actions: [
+      actions: createConditionalActions([
         {
           type: 'link',
           label: 'Service Configuration',
-          url: '/docs/services',
+          docType: 'services',
           icon: '⚙️'
         }
-      ],
+      ]),
       dismissible: false
     });
   }
@@ -300,14 +318,14 @@ export function processEnvironmentWarnings(
         details: 'Configure ElevenLabs API key to enable audio generation',
         icon: '🔊',
         color: 'amber',
-        actions: [
+        actions: createConditionalActions([
           {
             type: 'link',
             label: 'Enable TTS',
-            url: '/docs/tts-setup',
+            docType: 'ttsSetup',
             icon: '🔧'
           }
-        ],
+        ]),
         dismissible: true
       });
     }
@@ -322,14 +340,14 @@ export function processEnvironmentWarnings(
         details: `Limited functionality for: ${otherServices.map(([name]) => name).join(', ')}`,
         icon: '⚠️',
         color: 'amber',
-        actions: [
+        actions: createConditionalActions([
           {
             type: 'link',
             label: 'Optional Features',
-            url: '/docs/optional-services',
+            docType: 'optionalServices',
             icon: '✨'
           }
-        ],
+        ]),
         dismissible: true
       });
     }
@@ -345,14 +363,14 @@ export function processEnvironmentWarnings(
       details: `Available features: ${status.environment.missingOptional.join(', ')}`,
       icon: 'ℹ️',
       color: 'blue',
-      actions: [
+      actions: createConditionalActions([
         {
           type: 'link',
           label: 'Optional Features',
-          url: '/docs/optional-features',
+          docType: 'optionalFeatures',
           icon: '✨'
         }
-      ],
+      ]),
       dismissible: true
     });
   }
@@ -369,14 +387,14 @@ export function processEnvironmentWarnings(
         details: failedChecks.map(check => `${check.name}: ${check.message}`).join(', '),
         icon: '🚀',
         color: 'amber',
-        actions: [
+        actions: createConditionalActions([
           {
             type: 'link',
             label: 'Deployment Guide',
-            url: '/docs/deployment',
+            docType: 'deployment',
             icon: '📚'
           }
-        ],
+        ]),
         dismissible: true
       });
     }

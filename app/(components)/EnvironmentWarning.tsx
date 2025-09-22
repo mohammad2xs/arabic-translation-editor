@@ -97,14 +97,27 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
         hasMultiple={hasMultipleWarnings}
         className={className}
         onClick={() => handleToggle(!expandedDetails)}
+        bannerId={`env-warning-banner-${primaryWarning.id}`}
+        expanded={expandedDetails}
       />
     );
   }
 
+  // Generate unique ID for this banner instance
+  const bannerId = `env-warning-banner-${primaryWarning.id}`;
+
   return (
-    <div className={`env-warning ${primaryWarning.level === 'error' ? 'env-warning-error' :
-      primaryWarning.level === 'warning' ? 'env-warning-warning' :
-      primaryWarning.level === 'success' ? 'env-warning-success' : 'env-warning-info'} ${className}`}>
+    <div
+      id={bannerId}
+      className={`env-warning ${primaryWarning.level === 'error' ? 'env-warning-error' :
+        primaryWarning.level === 'warning' ? 'env-warning-warning' :
+        primaryWarning.level === 'success' ? 'env-warning-success' : 'env-warning-info'} ${className}`}
+      role="region"
+      aria-live="polite"
+      aria-label="Environment status banner"
+    >
+      {/* Visually hidden heading for screen readers */}
+      <h2 className="sr-only">Environment Status</h2>
       <div className="env-warning-content">
         <div className="env-warning-message">
           <p>
@@ -169,7 +182,9 @@ const CompactWarningIndicator: React.FC<{
   hasMultiple: boolean;
   className: string;
   onClick: () => void;
-}> = ({ warning, hasMultiple, className, onClick }) => {
+  bannerId: string;
+  expanded: boolean;
+}> = ({ warning, hasMultiple, className, onClick, bannerId, expanded }) => {
   const statusColor = warning.level === 'error' ? 'bg-red-500' :
     warning.level === 'warning' ? 'bg-amber-500' :
     warning.level === 'success' ? 'bg-green-500' : 'bg-blue-500';
@@ -179,6 +194,9 @@ const CompactWarningIndicator: React.FC<{
       className={`inline-flex items-center gap-2 px-3 py-1 rounded-md text-sm font-medium transition-colors hover:opacity-80 ${className}`}
       onClick={onClick}
       title={warning.message}
+      aria-controls={bannerId}
+      aria-expanded={expanded}
+      aria-label={`Environment status: ${warning.level}. ${expanded ? 'Hide' : 'Show'} details.`}
     >
       <div className={`w-2 h-2 rounded-full ${statusColor}`} />
       <span className="hidden sm:inline">Environment</span>
