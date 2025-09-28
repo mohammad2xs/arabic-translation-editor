@@ -1,0 +1,47 @@
+{
+  "id": "S083-003",
+  "sectionId": "S083",
+  "original": "إ ن هذه الحقيقة التي جلبت انتباه وفكر ليفي ما هي إلا تجليات فكرية حقيقيه عن حقيقة الإنسان إلا أنه لم يستطع أن يعطي لها التفسير والمعنى الحقيقي، لإنه معمي ومغيب عن عقله وفكره حقيقة كينونة الإنسان ومنشئه ومبدئه، ففلسفته ألا عقلانية والمادية البحتة والتي ترفض الموضوعية في البحث في الواقع وفي اللغة وترفض الوجودية وإنسانية الإنسان وفكره وعلومه الإنسانية, على الرغم من أن بحثه يركز على الذات الإنسانية و يجد فيه أن الإنسان يختلف عن ما حوله من الحيوانات لإن الإنسان في بحثه عن الأشياء يبحث عن مادة للتواصل معها ومخاطبتها لا كالحيوان يبحث عن الأشياء ليأكلها, فالإنسان يبحث في الأشياء عن الطرق والوسائل لاستخدامها كرمز في حياته له معنى معين.",
+  "enhanced": "إ ن هذه الحقيقة التي جلبت انتباه وفكر ليفي ما هي إلا تجليات فكرية حقيقيه عن حقيقة الإنسان إلا أنه لم يستطع أن يعطي لها التفسير والمعنى الحقيقي، لإنه معمي ومغيب عن عقله وفكره حقيقة كينونة الإنسان ومنشئه ومبدئه، ففلسفته ألا عقلانية والمادية البحتة والتي ترفض الموضوعية في البحث في الواقع وفي اللغة وترفض الوجودية وإنسانية الإنسان وفكره وعلومه الإنسانية, على الرغم من أن بحثه يركز على الذات الإنسانية و يجد فيه أن الإنسان يختلف عن ما حوله من الحيوانات لإن الإنسان في بحثه عن الأشياء يبحث عن مادة للتواصل معها ومخاطبتها لا كالحيوان يبحث عن الأشياء ليأكلها, فالإنسان يبحث في الأشياء عن الطرق والوسائل لاستخدامها كرمز في حياته له معنى معين.",
+  "english": "This is a mock translation of the Arabic text with approximately 134 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S083",
+    "rowIndex": 2,
+    "wordCount": 112,
+    "charCount": 634,
+    "laneHash": "18d7d96181ad7761",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 634,
+    "processedAt": "2025-09-24T03:40:06.047Z",
+    "lpr": 0.4017857142857143,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6079931972789115,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

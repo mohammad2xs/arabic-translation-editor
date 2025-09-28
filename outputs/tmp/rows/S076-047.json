@@ -1,0 +1,46 @@
+{
+  "id": "S076-047",
+  "sectionId": "S076",
+  "original": "ولهذا يعد كتاب المناظر نقطة انطلاقه مهمه في تاريخ المنهج العلمي وتاريخ علم البصريات .",
+  "enhanced": "ولهذا يعد كتاب المناظر نقطة انطلاقه مهمه في تاريخ المنهج العلمي وتاريخ علم البصريات .",
+  "english": "This is a mock translation of the Arabic text with approximately 18 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S076",
+    "rowIndex": 46,
+    "wordCount": 15,
+    "charCount": 85,
+    "laneHash": "fd0b1699d9e86bfb",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 85,
+    "processedAt": "2025-09-24T03:39:45.471Z",
+    "lpr": 3,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

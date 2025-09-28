@@ -1,0 +1,46 @@
+{
+  "id": "S016-007",
+  "sectionId": "S016",
+  "original": "7% فقط, إلا ان تلك القردة ابعد ما تكون عن العلم المعرفي الانساني الفطري .",
+  "enhanced": "7% فقط, إلا ان تلك القردة ابعد ما تكون عن العلم المعرفي الانساني الفطري .",
+  "english": "This is a mock translation of the Arabic text with approximately 18 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S016",
+    "rowIndex": 6,
+    "wordCount": 15,
+    "charCount": 73,
+    "laneHash": "a0d87bc7b4c2a807",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 73,
+    "processedAt": "2025-09-24T03:38:14.244Z",
+    "lpr": 3,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

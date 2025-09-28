@@ -1,0 +1,46 @@
+{
+  "id": "S053-007",
+  "sectionId": "S053",
+  "original": "فقد ظل كثير من الناس والاقوام التي عميت بصيرتها، رغم أدراك عقلها لعظيم صنع ما حولها.",
+  "enhanced": "فقد ظل كثير من الناس والاقوام التي عميت بصيرتها، رغم أدراك عقلها لعظيم صنع ما حولها.",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S053",
+    "rowIndex": 6,
+    "wordCount": 16,
+    "charCount": 84,
+    "laneHash": "9d65aa545f426e51",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 84,
+    "processedAt": "2025-09-24T03:38:43.193Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

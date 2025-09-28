@@ -1,0 +1,46 @@
+{
+  "id": "S071-027",
+  "sectionId": "S071",
+  "original": "لقد جاء هذا القرآن ليخاطب العقل البشري ويحثه على التفكر والتدبر والنظر فيما حوله من خلق الله.",
+  "enhanced": "لقد جاء هذا القرآن ليخاطب العقل البشري ويحثه على التفكر والتدبر والنظر فيما حوله من خلق الله.",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 26,
+    "wordCount": 17,
+    "charCount": 93,
+    "laneHash": "ab9bf0d8b2793267",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 93,
+    "processedAt": "2025-09-24T03:39:26.096Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

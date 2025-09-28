@@ -1,0 +1,47 @@
+{
+  "id": "S030-001",
+  "sectionId": "S030",
+  "original": "فالقلوب التي غشيتها ظلمات 1هوى النفس و 2غوى الشيطان ووساوسه و3غوى بني البشر , فهي في ظلمات ثلاث , لا تدرك النور ابدا , فمن لم يجعل الله له نور فما له من نور, يقول تعالى في سورة النور (( أو كظلمات في بحر لجي يغشاه موج من فوقه موج من فوقه سحاب ظلمات بعضها فوق بعض اذا اخرج يداه لم يكد يراها , ومن لم يجعل الله له نور فما له من نور ))(67) فالظلمتان الاوليتان من امواج البحر هما من داخل البحر واللذان هما يمثلان في الإنسان هوى النفس و وساوس الشيطان الذي يجري في الانسان كمجرى الدم في شرايينه , واما السحاب فهو الظلال والظلام القادم من المحيط الخارجي من شياطين الانس , وهم اللذين يحيطون بالإنسان من كل جانب كإحاطة السحاب بالبحر, فهذا الانسان الذي غشته تلك الظلمات الثلاث, لا يمكن أن يرى النور, ولو حشر عليه كل شيء قبلا , يدعونه لنور الله . فمن لم يجعل الله له نور فما له من نور.",
+  "enhanced": "فالقلوب التي غشيتها ظلمات 1هوى النفس و 2غوى الشيطان ووساوسه و3غوى بني البشر , فهي في ظلمات ثلاث , لا تدرك النور ابدا , فمن لم يجعل الله له نور فما له من نور, يقول تعالى في سورة النور (( أو كظلمات في بحر لجي يغشاه موج من فوقه موج من فوقه سحاب ظلمات بعضها فوق بعض اذا اخرج يداه لم يكد يراها , ومن لم يجعل الله له نور فما له من نور ))(67) فالظلمتان الاوليتان من امواج البحر هما من داخل البحر واللذان هما يمثلان في الإنسان هوى النفس و وساوس الشيطان الذي يجري في الانسان كمجرى الدم في شرايينه , واما السحاب فهو الظلال والظلام القادم من المحيط الخارجي من شياطين الانس , وهم اللذين يحيطون بالإنسان من كل جانب كإحاطة السحاب بالبحر, فهذا الانسان الذي غشته تلك الظلمات الثلاث, لا يمكن أن يرى النور, ولو حشر عليه كل شيء قبلا , يدعونه لنور الله . فمن لم يجعل الله له نور فما له من نور.",
+  "english": "This is a mock translation of the Arabic text with approximately 190 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S030",
+    "rowIndex": 0,
+    "wordCount": 159,
+    "charCount": 773,
+    "laneHash": "22c12ba7164bce6c",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 773,
+    "processedAt": "2025-09-24T03:38:20.864Z",
+    "lpr": 0.2830188679245283,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.29102088948787064,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

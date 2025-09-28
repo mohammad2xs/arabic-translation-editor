@@ -1,0 +1,47 @@
+{
+  "id": "S010-004",
+  "sectionId": "S010",
+  "original": "وقد وصف الدبوسي رحمه الله،التفاعلات الحاصلة في جسم الانسان بين النفس والروح بالصراع , وهو ما نسميه في عصرنا الحاضر بالأمراض والعقد النفسية ,التي أرهقت مجتمعاتنا الحاضرة, والتي نتج منها كل تلك الازمات والشطحات والنطحات الفكرية الشاذة والغريبة عن فكر الانسان الطبيعي , والتي ادت الى الصراعات والخلافات الفكرية التي باعده بين بني البشر , وفرقة بينهم , وأدت الى الصراعات والنزعات والحروب القائمة .",
+  "enhanced": "وقد وصف الدبوسي رحمه الله،التفاعلات الحاصلة في جسم الانسان بين النفس والروح بالصراع , وهو ما نسميه في عصرنا الحاضر بالأمراض والعقد النفسية ,التي أرهقت مجتمعاتنا الحاضرة, والتي نتج منها كل تلك الازمات والشطحات والنطحات الفكرية الشاذة والغريبة عن فكر الانسان الطبيعي , والتي ادت الى الصراعات والخلافات الفكرية التي باعده بين بني البشر , وفرقة بينهم , وأدت الى الصراعات والنزعات والحروب القائمة .",
+  "english": "This is a mock translation of the Arabic text with approximately 78 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S010",
+    "rowIndex": 3,
+    "wordCount": 65,
+    "charCount": 393,
+    "laneHash": "20c3ece690a2b552",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 393,
+    "processedAt": "2025-09-24T03:38:12.423Z",
+    "lpr": 0.6923076923076923,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6421703296703296,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

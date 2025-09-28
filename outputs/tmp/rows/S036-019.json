@@ -1,0 +1,46 @@
+{
+  "id": "S036-019",
+  "sectionId": "S036",
+  "original": "من الذين عميه بصيرتهم بالمر، فعبدوا النار والبقر والحجر.",
+  "enhanced": "من الذين عميه بصيرتهم بالمر، فعبدوا النار والبقر والحجر.",
+  "english": "This is a mock translation of the Arabic text with approximately 10 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S036",
+    "rowIndex": 18,
+    "wordCount": 9,
+    "charCount": 56,
+    "laneHash": "fa7a08f78af954ba",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 56,
+    "processedAt": "2025-09-24T03:38:27.900Z",
+    "lpr": 5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

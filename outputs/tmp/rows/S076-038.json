@@ -1,0 +1,46 @@
+{
+  "id": "S076-038",
+  "sectionId": "S076",
+  "original": "والكلاسيكيات وبالأخص اعمال الفيلسوف الاغريقي أرسطو .",
+  "enhanced": "والكلاسيكيات وبالأخص اعمال الفيلسوف الاغريقي أرسطو .",
+  "english": "This is a mock translation of the Arabic text with approximately 8 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S076",
+    "rowIndex": 37,
+    "wordCount": 7,
+    "charCount": 52,
+    "laneHash": "06c39faaa725f398",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 52,
+    "processedAt": "2025-09-24T03:39:44.058Z",
+    "lpr": 6.428571428571429,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

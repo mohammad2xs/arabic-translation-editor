@@ -1,0 +1,46 @@
+{
+  "id": "S081-002",
+  "sectionId": "S081",
+  "original": "وهناك مدارس أخرى تنظر للعقل ونتائجه المعرفية على أنها نسبية.",
+  "enhanced": "وهناك مدارس أخرى تنظر للعقل ونتائجه المعرفية على أنها نسبية.",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S081",
+    "rowIndex": 1,
+    "wordCount": 10,
+    "charCount": 60,
+    "laneHash": "f16ecb64d45db504",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 60,
+    "processedAt": "2025-09-24T03:39:54.239Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

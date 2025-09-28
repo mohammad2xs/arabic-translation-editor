@@ -1,0 +1,47 @@
+{
+  "id": "S030-016",
+  "sectionId": "S030",
+  "original": "وكذلك بين الله سبب عدم ايمان بني إسرائيل وجحودهم بما جاء به محمد صلى الله عليه وسلم , أنه كان استكبارا وحسدا , لإنهم ظنوا ان الرسالة الخاتمة التي أخبرهم بها رسولهم موسى عليه السلام , سوف تكون في بني اسرائيل ,ولذلك جحدوا بها حين لم تنزل فيهم, وقد استيقنت ها انفسهم ظلما وعلوى, وقد عرفوها كما يعرفون ابنائهم .",
+  "enhanced": "وكذلك بين الله سبب عدم ايمان بني إسرائيل وجحودهم بما جاء به محمد صلى الله عليه وسلم , أنه كان استكبارا وحسدا , لإنهم ظنوا ان الرسالة الخاتمة التي أخبرهم بها رسولهم موسى عليه السلام , سوف تكون في بني اسرائيل ,ولذلك جحدوا بها حين لم تنزل فيهم, وقد استيقنت ها انفسهم ظلما وعلوى, وقد عرفوها كما يعرفون ابنائهم .",
+  "english": "This is a mock translation of the Arabic text with approximately 72 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S030",
+    "rowIndex": 15,
+    "wordCount": 60,
+    "charCount": 307,
+    "laneHash": "9b8bd7ce6d16b622",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 307,
+    "processedAt": "2025-09-24T03:38:21.555Z",
+    "lpr": 0.75,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.7142857142857143,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

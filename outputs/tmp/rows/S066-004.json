@@ -1,0 +1,47 @@
+{
+  "id": "S066-004",
+  "sectionId": "S066",
+  "original": "وهو على هذه الأرض يتعلم أو يتعرف كل يوم على شيء جديد، ويكتشف امر جديد، فيتطور فكره وعقله وتتوسع مداركه، فيستخدم ما أدركه وأستكشفه في صنع ما يحتاجه من اختراعات، وهكذا تطورت وتوسعت مداركه، فتعلم كيف يتعامل مع ظواهر الارض الطبيعية، وكيف يستكشف الاشياء الغير المنظور منها , فكتشف الموجات الصوتية والضوئية والموجات الكهربائية والمغناطيسية ثم تعلم كيف يستلم ويرسل تلك الموجات , وهكذا تطور الانسان على هذه الارض ,و تطورت مداركه لما حوله من الاشياء , وتطورت مفاهيمه وعلومه على قدر تلك الادراكات .",
+  "enhanced": "وهو على هذه الأرض يتعلم أو يتعرف كل يوم على شيء جديد، ويكتشف امر جديد، فيتطور فكره وعقله وتتوسع مداركه، فيستخدم ما أدركه وأستكشفه في صنع ما يحتاجه من اختراعات، وهكذا تطورت وتوسعت مداركه، فتعلم كيف يتعامل مع ظواهر الارض الطبيعية، وكيف يستكشف الاشياء الغير المنظور منها , فكتشف الموجات الصوتية والضوئية والموجات الكهربائية والمغناطيسية ثم تعلم كيف يستلم ويرسل تلك الموجات , وهكذا تطور الانسان على هذه الارض ,و تطورت مداركه لما حوله من الاشياء , وتطورت مفاهيمه وعلومه على قدر تلك الادراكات .",
+  "english": "This is a mock translation of the Arabic text with approximately 102 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S066",
+    "rowIndex": 3,
+    "wordCount": 85,
+    "charCount": 488,
+    "laneHash": "7aeed5c639dfc42b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 488,
+    "processedAt": "2025-09-24T03:39:10.544Z",
+    "lpr": 0.5294117647058824,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.4604341736694678,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

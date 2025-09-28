@@ -1,0 +1,46 @@
+{
+  "id": "S035-014",
+  "sectionId": "S035",
+  "original": "وهناك الكثير من الضالين من يؤمن بهذه الفكر الى يومنا هذا، تهربا من الحساب والعقاب.",
+  "enhanced": "وهناك الكثير من الضالين من يؤمن بهذه الفكر الى يومنا هذا، تهربا من الحساب والعقاب.",
+  "english": "This is a mock translation of the Arabic text with approximately 18 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S035",
+    "rowIndex": 13,
+    "wordCount": 15,
+    "charCount": 82,
+    "laneHash": "cba82092fc7efe34",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 82,
+    "processedAt": "2025-09-24T03:38:26.653Z",
+    "lpr": 3,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

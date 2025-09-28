@@ -1,0 +1,46 @@
+{
+  "id": "S007-017",
+  "sectionId": "S007",
+  "original": "فالنية الحسنة التي اتت بالعمل الحسن وطهرت سوء النية التي اتت بالعمل السيئ.",
+  "enhanced": "فالنية الحسنة التي اتت بالعمل الحسن وطهرت سوء النية التي اتت بالعمل السيئ.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 16,
+    "wordCount": 13,
+    "charCount": 74,
+    "laneHash": "fbc0c3432ebe7ecb",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 74,
+    "processedAt": "2025-09-24T03:38:12.008Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

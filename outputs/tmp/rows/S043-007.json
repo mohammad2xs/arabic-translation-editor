@@ -1,0 +1,46 @@
+{
+  "id": "S043-007",
+  "sectionId": "S043",
+  "original": "وجميعها لا تدرك إلا بالعقل السليم والفهم السليم.",
+  "enhanced": "وجميعها لا تدرك إلا بالعقل السليم والفهم السليم.",
+  "english": "This is a mock translation of the Arabic text with approximately 9 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S043",
+    "rowIndex": 6,
+    "wordCount": 8,
+    "charCount": 48,
+    "laneHash": "ba61812a22e3c42a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 48,
+    "processedAt": "2025-09-24T03:38:34.145Z",
+    "lpr": 5.625,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

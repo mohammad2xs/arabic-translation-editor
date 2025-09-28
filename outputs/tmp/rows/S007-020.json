@@ -1,0 +1,47 @@
+{
+  "id": "S007-020",
+  "sectionId": "S007",
+  "original": "والذيوالدنيا، وقد فرضت على المسلم المجاهدة في هذه الأربع ابتغاء مرضاة الله وطلب هدايته حتى ينال الفوز بالجنة، فالله سبحانه وتعالى عندما خلق الإنسان جعل فيه نفسين: النفس الأمارة، والنفس المطمئنة، وهما متعاديتان فما يرضي النفس المطمئنة لا يرضي النفس الأمارة، وما يرضي النفس الأمارة لا يرضي النفس المطمئنة؛",
+  "enhanced": "والذيوالدنيا، وقد فرضت على المسلم المجاهدة في هذه الأربع ابتغاء مرضاة الله وطلب هدايته حتى ينال الفوز بالجنة، فالله سبحانه وتعالى عندما خلق الإنسان جعل فيه نفسين: النفس الأمارة، والنفس المطمئنة، وهما متعاديتان فما يرضي النفس المطمئنة لا يرضي النفس الأمارة، وما يرضي النفس الأمارة لا يرضي النفس المطمئنة؛",
+  "english": "This is a mock translation of the Arabic text with approximately 58 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 19,
+    "wordCount": 49,
+    "charCount": 303,
+    "laneHash": "8485696dcd2f0ba1",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 303,
+    "processedAt": "2025-09-24T03:38:12.087Z",
+    "lpr": 0.9183673469387755,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8539844509232264,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

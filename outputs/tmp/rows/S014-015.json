@@ -1,0 +1,46 @@
+{
+  "id": "S014-015",
+  "sectionId": "S014",
+  "original": "وقد أنزل الله هذا التبيان بعد ان أكتمل نضج الإنسان فأصبح قادرا على ان يفهم ما أنزل اليه من ربه .",
+  "enhanced": "وقد أنزل الله هذا التبيان بعد ان أكتمل نضج الإنسان فأصبح قادرا على ان يفهم ما أنزل اليه من ربه .",
+  "english": "This is a mock translation of the Arabic text with approximately 25 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S014",
+    "rowIndex": 14,
+    "wordCount": 21,
+    "charCount": 96,
+    "laneHash": "90d3d3a811312f54",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 96,
+    "processedAt": "2025-09-24T03:38:13.706Z",
+    "lpr": 2.142857142857143,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S082-035",
+  "sectionId": "S082",
+  "original": "وتتبدى الرغبة في التواصل في واقع أن الإنسان ينتج أنظمة إشارية.",
+  "enhanced": "وتتبدى الرغبة في التواصل في واقع أن الإنسان ينتج أنظمة إشارية.",
+  "english": "This is a mock translation of the Arabic text with approximately 13 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S082",
+    "rowIndex": 34,
+    "wordCount": 11,
+    "charCount": 62,
+    "laneHash": "1c33804dc280fb50",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 62,
+    "processedAt": "2025-09-24T03:40:03.813Z",
+    "lpr": 4.090909090909091,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S004-020",
+  "sectionId": "S004",
+  "original": "(المصدر: الدرر السنية من موقع علوي بن عبد القادر السقاف).",
+  "enhanced": "(المصدر: الدرر السنية من موقع علوي بن عبد القادر السقاف).",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 19,
+    "wordCount": 10,
+    "charCount": 57,
+    "laneHash": "005395326d94cf56",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 57,
+    "processedAt": "2025-09-24T03:38:11.456Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

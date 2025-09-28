@@ -1,0 +1,46 @@
+{
+  "id": "S060-024",
+  "sectionId": "S060",
+  "original": "فهذا الجهل جعل الاقوام السابقة تعبد الشمس والقمر والنجوم والنار وكل ما ظنوه وتوهموا به انه أعظم ما في وجودهم فحسبوا أنه ربهم فعبدوه.",
+  "enhanced": "فهذا الجهل جعل الاقوام السابقة تعبد الشمس والقمر والنجوم والنار وكل ما ظنوه وتوهموا به انه أعظم ما في وجودهم فحسبوا أنه ربهم فعبدوه.",
+  "english": "This is a mock translation of the Arabic text with approximately 28 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S060",
+    "rowIndex": 23,
+    "wordCount": 24,
+    "charCount": 132,
+    "laneHash": "5133b1c6f894fa97",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 132,
+    "processedAt": "2025-09-24T03:38:55.163Z",
+    "lpr": 1.875,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

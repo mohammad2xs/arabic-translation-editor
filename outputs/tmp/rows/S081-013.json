@@ -1,0 +1,47 @@
+{
+  "id": "S081-013",
+  "sectionId": "S081",
+  "original": "( فمثلا القاضي الذي يحكم بقانون العقل المطلق وينظر الى القضية فقط من ملابساتها الظاهرية يصبح حكمه وكأنه كومبيوتر أو أله حاسبه , لا ينطر في ملابسات القضية من الناحية الحسيه والإنسانية والنفسية للمدعي او للمدعة عليه, ليرى ابعادها ودوافعها, فقط ينطلق حكمه من الوقائع المادية الظاهرية , فالأحاسيس ليس من عمل العقل , ولذا لا تدخل في حسابات الحكم في القانون العقلي الصرف , فالقاضي في المحاكم الامريكية ه يجلس على مكتبه وبيده ألة حاسبه يحسب بها عدد الجنح ليصدر الحكم من غير النظر في الملابسات الاخرى للقضية ,او المتعلقات الأخلاقية والمجتمعية التي قد تنشء عن ذلك الحكم , فالعملية عقلية بحته وحسابيه ليس فيها التقدير الظرفي والحالات النفسية والحسيه.",
+  "enhanced": "( فمثلا القاضي الذي يحكم بقانون العقل المطلق وينظر الى القضية فقط من ملابساتها الظاهرية يصبح حكمه وكأنه كومبيوتر أو أله حاسبه , لا ينطر في ملابسات القضية من الناحية الحسيه والإنسانية والنفسية للمدعي او للمدعة عليه, ليرى ابعادها ودوافعها, فقط ينطلق حكمه من الوقائع المادية الظاهرية , فالأحاسيس ليس من عمل العقل , ولذا لا تدخل في حسابات الحكم في القانون العقلي الصرف , فالقاضي في المحاكم الامريكية ه يجلس على مكتبه وبيده ألة حاسبه يحسب بها عدد الجنح ليصدر الحكم من غير النظر في الملابسات الاخرى للقضية ,او المتعلقات الأخلاقية والمجتمعية التي قد تنشء عن ذلك الحكم , فالعملية عقلية بحته وحسابيه ليس فيها التقدير الظرفي والحالات النفسية والحسيه.",
+  "english": "This is a mock translation of the Arabic text with approximately 133 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S081",
+    "rowIndex": 12,
+    "wordCount": 111,
+    "charCount": 640,
+    "laneHash": "e06b99473b61b792",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 640,
+    "processedAt": "2025-09-24T03:39:56.899Z",
+    "lpr": 0.40540540540540543,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.44305019305019305,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": "1.0",
+  "description": "Golden dataset for translation quality validation with challenging row IDs from the manuscript",
+  "createdAt": "2025-01-11T15:00:00.000Z",
+  "testCases": [
+    {
+      "id": "S001-002",
+      "category": "scripture_reference",
+      "difficulty": "high",
+      "reason": "Contains Quranic reference (17:70) with complex theological concepts",
+      "expectedFeatures": {
+        "scriptureRefs": ["17:70"],
+        "minLPR": 0.95,
+        "complexGrammar": true,
+        "theologicalTerms": ["أشرف المخلوقات", "أكرمها", "أحسن تقويم"]
+      }
+    },
+    {
+      "id": "S001-003",
+      "category": "direct_quotation",
+      "difficulty": "high",
+      "reason": "Direct Quranic quotation requiring exact preservation and footnoting",
+      "expectedFeatures": {
+        "scriptureRefs": ["17:70"],
+        "directQuote": true,
+        "arabicPreservation": true,
+        "footnoteRequired": true
+      }
+    },
+    {
+      "id": "S001-004",
+      "category": "complex_grammar",
+      "difficulty": "medium",
+      "reason": "Complex sentence structure with multiple dependent clauses",
+      "expectedFeatures": {
+        "multipleSubjects": true,
+        "dependentClauses": 3,
+        "abstractConcepts": ["العقل", "التفكير", "التدبر"]
+      }
+    },
+    {
+      "id": "S001-005",
+      "category": "theological_concepts",
+      "difficulty": "medium",
+      "reason": "Key Islamic concepts of worship and stewardship",
+      "expectedFeatures": {
+        "islamicTerms": ["العبادة", "الخلافة", "مسؤولية"],
+        "minLPR": 0.95,
+        "contemplativeTone": true
+      }
+    },
+    {
+      "id": "S001-007",
+      "category": "methodological_statement",
+      "difficulty": "medium",
+      "reason": "Academic methodology with Islamic sources citation",
+      "expectedFeatures": {
+        "islamicSources": ["القرآن الكريم", "السنة النبوية"],
+        "academicRegister": true,
+        "methodologyLanguage": true
+      }
+    },
+    {
+      "id": "S001-008",
+      "category": "contemporary_application",
+      "difficulty": "medium",
+      "reason": "Bridging classical Islamic texts with modern contexts",
+      "expectedFeatures": {
+        "temporalConcepts": ["النصوص الشرعية", "الواقع المعاصر"],
+        "balanceConcept": true,
+        "applicationFocus": true
+      }
+    },
+    {
+      "id": "S001-009",
+      "category": "holistic_approach",
+      "difficulty": "high",
+      "reason": "Complex philosophical concepts about human nature in Islam",
+      "expectedFeatures": {
+        "contrastStructure": true,
+        "comprehensiveScope": ["شامل", "متكامل"],
+        "dualNature": ["الجانب الروحي", "الجانب المادي"]
+      }
+    },
+    {
+      "id": "S001-010",
+      "category": "philosophical_definition",
+      "difficulty": "high",
+      "reason": "Sophisticated metaphysical concepts requiring precise translation",
+      "expectedFeatures": {
+        "negationPattern": true,
+        "unityConcept": ["وحدة متكاملة"],
+        "harmonyNotion": ["انسجام تام"],
+        "minLPR": 1.05
+      }
+    },
+    {
+      "id": "S001-011",
+      "category": "comprehensive_impact",
+      "difficulty": "medium",
+      "reason": "Multiple parallel structures and broad application scope",
+      "expectedFeatures": {
+        "parallelStructures": 4,
+        "scopeProgression": ["العبادة", "المعاملات", "الأخلاق", "السلوك الاجتماعي"],
+        "systematicView": true
+      }
+    },
+    {
+      "id": "S001-012",
+      "category": "academic_requirement",
+      "difficulty": "medium",
+      "reason": "Scholarly methodology with Islamic jurisprudential terms",
+      "expectedFeatures": {
+        "deepStudyEmphasis": true,
+        "islamicScholarly": ["النصوص الشرعية", "مقاصدها", "حكمها"],
+        "academicPrerequisites": true
+      }
+    },
+    {
+      "id": "S001-013",
+      "category": "methodological_balance",
+      "difficulty": "high",
+      "reason": "Balancing contemporary methodology with Islamic constants",
+      "expectedFeatures": {
+        "methodologicalIntegration": true,
+        "contemporaryScience": ["المنهج العلمي المعاصر"],
+        "islamicConstants": ["الثوابت الشرعية"],
+        "balanceRequirement": true
+      }
+    },
+    {
+      "id": "S001-014",
+      "category": "research_contribution",
+      "difficulty": "medium",
+      "reason": "Academic contribution statement with Islamic scholarly tradition",
+      "expectedFeatures": {
+        "contributionStatement": true,
+        "islamicLibrary": ["المكتبة الإسلامية"],
+        "researchScope": ["دراسة معمقة"],
+        "humanNatureFocus": true
+      }
+    },
+    {
+      "id": "S001-015",
+      "category": "prayer_conclusion",
+      "difficulty": "low",
+      "reason": "Traditional Islamic conclusion with prayer language",
+      "expectedFeatures": {
+        "prayerLanguage": true,
+        "divineInvocation": ["والله نسأل"],
+        "beneficiaryMention": ["طلاب العلم", "الباحثين"],
+        "humbleConclusion": true
+      }
+    }
+  ],
+  "qualityMetrics": {
+    "targetLPR": {
+      "minimum": 0.95,
+      "ideal": 1.05,
+      "maximum": 1.20
+    },
+    "coverageRequirements": {
+      "allClauses": true,
+      "scripturePreservation": true,
+      "termConsistency": true
+    },
+    "styleRequirements": {
+      "contemplativeTone": true,
+      "scholarlyPrecision": true,
+      "americanEnglishClarity": true
+    }
+  },
+  "validationCriteria": {
+    "semanticFidelity": {
+      "weight": 0.4,
+      "threshold": 0.85
+    },
+    "lengthPreservation": {
+      "weight": 0.3,
+      "threshold": 0.95
+    },
+    "styleConsistency": {
+      "weight": 0.2,
+      "threshold": 0.80
+    },
+    "culturalSensitivity": {
+      "weight": 0.1,
+      "threshold": 0.90
+    }
+  },
+  "challengeAreas": [
+    "Quranic quotation preservation",
+    "Islamic theological terminology",
+    "Complex Arabic grammar structures",
+    "Contemporary-classical integration",
+    "Philosophical concept translation",
+    "Academic register maintenance",
+    "Contemplative tone preservation",
+    "Multi-clause sentence handling",
+    "Abstract concept clarification",
+    "Cultural context sensitivity"
+  ],
+  "expectedPerformance": {
+    "processingTime": {
+      "simple": "< 30 seconds",
+      "medium": "< 60 seconds",
+      "high": "< 120 seconds"
+    },
+    "qualityGates": {
+      "semanticGuard": "> 95% pass rate",
+      "lprCheck": "> 90% pass rate",
+      "scriptureVerify": "100% pass rate"
+    },
+    "overallAccuracy": "> 85% meeting all criteria"
+  }
+}

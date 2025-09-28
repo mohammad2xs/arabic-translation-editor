@@ -1,0 +1,46 @@
+{
+  "id": "S035-020",
+  "sectionId": "S035",
+  "original": "فهؤلاء هم الذين قال الله عنهم، يحرفون الكلام عن مواضعه , ونسوا حظا مما ذكروا به.",
+  "enhanced": "فهؤلاء هم الذين قال الله عنهم، يحرفون الكلام عن مواضعه , ونسوا حظا مما ذكروا به.",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S035",
+    "rowIndex": 19,
+    "wordCount": 16,
+    "charCount": 80,
+    "laneHash": "6d45b9338b8016a0",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 80,
+    "processedAt": "2025-09-24T03:38:26.852Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

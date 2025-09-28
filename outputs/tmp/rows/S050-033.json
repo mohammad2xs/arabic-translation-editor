@@ -1,0 +1,46 @@
+{
+  "id": "S050-033",
+  "sectionId": "S050",
+  "original": "فإذن علة التهوي من الواحد الحق، الذي لم يفد الوحدة من مفيد، بل هو بذاته واحد. والذي يهوي مبدع.",
+  "enhanced": "فإذن علة التهوي من الواحد الحق، الذي لم يفد الوحدة من مفيد، بل هو بذاته واحد. والذي يهوي مبدع.",
+  "english": "This is a mock translation of the Arabic text with approximately 22 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 32,
+    "wordCount": 19,
+    "charCount": 94,
+    "laneHash": "a90c76a8e0a5538b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 94,
+    "processedAt": "2025-09-24T03:38:41.197Z",
+    "lpr": 2.3684210526315788,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

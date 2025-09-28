@@ -1,0 +1,46 @@
+{
+  "id": "S021-002",
+  "sectionId": "S021",
+  "original": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+  "enhanced": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S021",
+    "rowIndex": 1,
+    "wordCount": 17,
+    "charCount": 100,
+    "laneHash": "2e0c6e22c2082681",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 100,
+    "processedAt": "2025-09-24T03:38:15.276Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

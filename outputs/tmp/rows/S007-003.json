@@ -1,0 +1,47 @@
+{
+  "id": "S007-003",
+  "sectionId": "S007",
+  "original": "أما فلاسفة الاسلام فقد ردوا على فلاسفة الغرب بمنطقهم، ليدحضوا حججهم، فبين أبن الرشد أن النفس تبقى خالدة بعد موت الجسم، وفسر رأيه استنادا إلى قولين للغزالي: \"إن النفس إن عدمت لم يخل عدمها من ثلاثة أحوال: إما أن تعدم مع البدن، وإما أن تعدم من قبل ضد موجود لها، أو تعدم بقدرة القادر.",
+  "enhanced": "أما فلاسفة الاسلام فقد ردوا على فلاسفة الغرب بمنطقهم، ليدحضوا حججهم، فبين أبن الرشد أن النفس تبقى خالدة بعد موت الجسم، وفسر رأيه استنادا إلى قولين للغزالي: \"إن النفس إن عدمت لم يخل عدمها من ثلاثة أحوال: إما أن تعدم مع البدن، وإما أن تعدم من قبل ضد موجود لها، أو تعدم بقدرة القادر.",
+  "english": "This is a mock translation of the Arabic text with approximately 64 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 2,
+    "wordCount": 54,
+    "charCount": 280,
+    "laneHash": "db5170e03f3ea887",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 280,
+    "processedAt": "2025-09-24T03:38:11.676Z",
+    "lpr": 0.8333333333333334,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8134920634920635,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

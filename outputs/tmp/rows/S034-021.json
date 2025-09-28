@@ -1,0 +1,47 @@
+{
+  "id": "S034-021",
+  "sectionId": "S034",
+  "original": "‏ فبما ان طهارة القلب تستوجب طاعة الله، فأن الطاعة تجلب رضى الله وتأييده ونصره , فتكتمل الحلقة ويصبح العبد في دائرة العناية الإلاهية وفي معية الله , كما كانت معية الله مع رسوله محمد صلى الله عليه وسلم في الغار , وكما كانت معية الله مع رسوله موسى عندما لحق به فرعون وجنوده .",
+  "enhanced": "‏ فبما ان طهارة القلب تستوجب طاعة الله، فأن الطاعة تجلب رضى الله وتأييده ونصره , فتكتمل الحلقة ويصبح العبد في دائرة العناية الإلاهية وفي معية الله , كما كانت معية الله مع رسوله محمد صلى الله عليه وسلم في الغار , وكما كانت معية الله مع رسوله موسى عندما لحق به فرعون وجنوده .",
+  "english": "This is a mock translation of the Arabic text with approximately 66 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S034",
+    "rowIndex": 20,
+    "wordCount": 55,
+    "charCount": 273,
+    "laneHash": "5d3d0a80653c34ea",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 273,
+    "processedAt": "2025-09-24T03:38:25.555Z",
+    "lpr": 0.8181818181818182,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8896103896103896,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

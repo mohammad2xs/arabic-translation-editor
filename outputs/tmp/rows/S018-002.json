@@ -1,0 +1,46 @@
+{
+  "id": "S018-002",
+  "sectionId": "S018",
+  "original": "فقد يأخذ الانسان من طبائع الحيوانات التي يأكل من لحومها.",
+  "enhanced": "فقد يأخذ الانسان من طبائع الحيوانات التي يأكل من لحومها.",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S018",
+    "rowIndex": 1,
+    "wordCount": 10,
+    "charCount": 56,
+    "laneHash": "1dd5f9a947747c3b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 56,
+    "processedAt": "2025-09-24T03:38:14.520Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

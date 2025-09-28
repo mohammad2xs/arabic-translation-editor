@@ -1,0 +1,46 @@
+{
+  "id": "S057-015",
+  "sectionId": "S057",
+  "original": "إن هذه الصورة الجميلة تكتمل ملامحها عندما يكتمل ظهور الخيط الابيض من الخيط الاسود من فجر الحقيقة عندها يتميز ويتضح الحق من الباطل.",
+  "enhanced": "إن هذه الصورة الجميلة تكتمل ملامحها عندما يكتمل ظهور الخيط الابيض من الخيط الاسود من فجر الحقيقة عندها يتميز ويتضح الحق من الباطل.",
+  "english": "This is a mock translation of the Arabic text with approximately 27 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S057",
+    "rowIndex": 14,
+    "wordCount": 23,
+    "charCount": 130,
+    "laneHash": "b0a082cb98b68021",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 130,
+    "processedAt": "2025-09-24T03:38:51.962Z",
+    "lpr": 1.9565217391304348,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

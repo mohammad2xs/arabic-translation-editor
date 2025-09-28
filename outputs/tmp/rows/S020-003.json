@@ -1,0 +1,46 @@
+{
+  "id": "S020-003",
+  "sectionId": "S020",
+  "original": "فكلما كان الصفاء الفطري عالي التركيز كلما كان قادرا على أن ينقي ويصفي المكتسب الخارجي ويؤثر فيه.",
+  "enhanced": "فكلما كان الصفاء الفطري عالي التركيز كلما كان قادرا على أن ينقي ويصفي المكتسب الخارجي ويؤثر فيه.",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S020",
+    "rowIndex": 2,
+    "wordCount": 17,
+    "charCount": 96,
+    "laneHash": "bd05029833cccc07",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 96,
+    "processedAt": "2025-09-24T03:38:15.078Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

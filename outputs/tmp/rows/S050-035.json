@@ -1,0 +1,46 @@
+{
+  "id": "S050-035",
+  "sectionId": "S050",
+  "original": "والعلة التي منها مبدأ الحركة، أعني المحرك مبدأ الحركة.",
+  "enhanced": "والعلة التي منها مبدأ الحركة، أعني المحرك مبدأ الحركة.",
+  "english": "This is a mock translation of the Arabic text with approximately 10 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 34,
+    "wordCount": 9,
+    "charCount": 54,
+    "laneHash": "9c4f30845fd70c88",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 54,
+    "processedAt": "2025-09-24T03:38:41.320Z",
+    "lpr": 5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

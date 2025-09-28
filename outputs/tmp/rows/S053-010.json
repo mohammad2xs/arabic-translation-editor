@@ -1,0 +1,53 @@
+{
+  "id": "S053-010",
+  "sectionId": "S053",
+  "original": "وقد وصل الى تلك النتيجة عالم أخر غير مسلم، لكن جهله بالعلم الرباني فسر تلك النتيجة من خلال نور العقل المفرد فيقول العالم الفيلسوف ايمانويل كانط \" أستطيع ان أصف لك كيف يبدو لي العالم، ولكني لا أستطيع أن أصفه كما هو في الواقع\" (108)، وإني لأجد كانط وكأنه يقول في مقالته تلك، أن ادوات التعبير للوصف الحقيقي للواقع بأبعاده الحقيقية، لا السطحية , لا يمكن إدراكها إلا من خلال نور البصيرة وعينها .",
+  "enhanced": "وقد وصل الى تلك النتيجة عالم أخر غير مسلم، لكن جهله بالعلم الرباني فسر تلك النتيجة من خلال نور العقل المفرد فيقول العالم الفيلسوف ايمانويل كانط \" أستطيع ان أصف لك كيف يبدو لي العالم، ولكني لا أستطيع أن أصفه كما هو في الواقع\" (108)، وإني لأجد كانط وكأنه يقول في مقالته تلك، أن ادوات التعبير للوصف الحقيقي للواقع بأبعاده الحقيقية، لا السطحية , لا يمكن إدراكها إلا من خلال نور البصيرة وعينها .",
+  "english": "This is a mock translation of the Arabic text with approximately 88 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S053",
+    "rowIndex": 9,
+    "wordCount": 74,
+    "charCount": 390,
+    "laneHash": "ae106e14abdac8b0",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 390,
+    "processedAt": "2025-09-24T03:38:43.748Z",
+    "lpr": 0.6081081081081081,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6467181467181466,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "S076-001",
+  "sectionId": "S076",
+  "original": "لقد كان العالم جميعا يعيش في ظلمات الأفكار والمعتقدات البائدة الضالة التي توارثها من الاباء , وكانوا على اثار ابائهم سنين الى أن جاءهم الهدى من رب العالمين من الانبياء والمرسلين , فارسل الله لكل امة رسول كريم بنور مبين , فعاشوا في ظله سنين ثم زاغوا عنه بأهوائهم , فطمسوه وأضاعوا تعاليمه بأهوائهم بمرور السنين ,فرثدوا مدبرين في ظلالهم القديم وقالوا ما قال عنهم القرءان الكريم \"قالوا بل وجدنا اباءنا كذلك يفعلون \" (160) , ثم جاءهم النور المبين من خاتم المرسلين محمد صلى الله عليه وسلم, ليفتح لهم سبل الهدية وطريق العلم والنور , فارشدهم الى المعول والمطرقة التي تهدم اسوار الظلام ولتجري انهار النور في حياتهم , وليروا حقيقة وجودهم و مستقرهم ومأوهم .",
+  "enhanced": "لقد كان العالم جميعا يعيش في ظلمات الأفكار والمعتقدات البائدة الضالة التي توارثها من الاباء , وكانوا على اثار ابائهم سنين الى أن جاءهم الهدى من رب العالمين من الانبياء والمرسلين , فارسل الله لكل امة رسول كريم بنور مبين , فعاشوا في ظله سنين ثم زاغوا عنه بأهوائهم , فطمسوه وأضاعوا تعاليمه بأهوائهم بمرور السنين ,فرثدوا مدبرين في ظلالهم القديم وقالوا ما قال عنهم القرءان الكريم \"قالوا بل وجدنا اباءنا كذلك يفعلون \" (160) , ثم جاءهم النور المبين من خاتم المرسلين محمد صلى الله عليه وسلم, ليفتح لهم سبل الهدية وطريق العلم والنور , فارشدهم الى المعول والمطرقة التي تهدم اسوار الظلام ولتجري انهار النور في حياتهم , وليروا حقيقة وجودهم و مستقرهم ومأوهم .",
+  "english": "This is a mock translation of the Arabic text with approximately 140 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S076",
+    "rowIndex": 0,
+    "wordCount": 117,
+    "charCount": 646,
+    "laneHash": "44ca15d6dcd76d72",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 646,
+    "processedAt": "2025-09-24T03:39:37.748Z",
+    "lpr": 0.38461538461538464,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.41042291042291046,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

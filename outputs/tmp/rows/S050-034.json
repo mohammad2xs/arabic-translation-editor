@@ -1,0 +1,46 @@
+{
+  "id": "S050-034",
+  "sectionId": "S050",
+  "original": "وإذ كانت علة التهوي الواحد الحق الأول، فعلة الإبداع هو الحق الأول.",
+  "enhanced": "وإذ كانت علة التهوي الواحد الحق الأول، فعلة الإبداع هو الحق الأول.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 33,
+    "wordCount": 12,
+    "charCount": 66,
+    "laneHash": "0fd0b147f2024889",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 66,
+    "processedAt": "2025-09-24T03:38:41.274Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

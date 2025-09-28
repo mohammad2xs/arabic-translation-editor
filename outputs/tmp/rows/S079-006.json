@@ -1,0 +1,47 @@
+{
+  "id": "S079-006",
+  "sectionId": "S079",
+  "original": "فبما أن مصادر التلقي للعقل المعرفية هي من الحواس المادية , فصار الحكم على كل شيء من خلال المادة , وصارت مرجعية كل تصرفات الانسان تنطلق وتعتمد على الآمور المادية, فصارة المادة هي الحكم والحاكم في حياة الانسان , وصار من يمتلك المال والقوة يحكم ويتحكم بالمنظومة الأخلاقية , فهو الذي يحدد معايرها واتجاهاتها , وهو الذي يصدر احكامه عليها , ويقرر حسب مفهومه المادي الفارغ من اي قيمه روحيه او عقائدية , فهو وحده الذي يستطيع ان يقرر ما هو الصحيح وما هو الخطء , وما هو الجميل من الاخلاق وما هو القبيح منها , وما هو المقبول وما هو غير المقبول والمحرم , فالقوي هو الذي يعطي للأخلاق مسمياتها , فهو الذي يحدد الظالم من المظلوم , والحق من الباطل , فهو الذي يصحح الصحيح من الخطء , وهو الذي يحدد للأفعال صحيحها وتقبيحها , من منظوره المادي فقط .",
+  "enhanced": "فبما أن مصادر التلقي للعقل المعرفية هي من الحواس المادية , فصار الحكم على كل شيء من خلال المادة , وصارت مرجعية كل تصرفات الانسان تنطلق وتعتمد على الآمور المادية, فصارة المادة هي الحكم والحاكم في حياة الانسان , وصار من يمتلك المال والقوة يحكم ويتحكم بالمنظومة الأخلاقية , فهو الذي يحدد معايرها واتجاهاتها , وهو الذي يصدر احكامه عليها , ويقرر حسب مفهومه المادي الفارغ من اي قيمه روحيه او عقائدية , فهو وحده الذي يستطيع ان يقرر ما هو الصحيح وما هو الخطء , وما هو الجميل من الاخلاق وما هو القبيح منها , وما هو المقبول وما هو غير المقبول والمحرم , فالقوي هو الذي يعطي للأخلاق مسمياتها , فهو الذي يحدد الظالم من المظلوم , والحق من الباطل , فهو الذي يصحح الصحيح من الخطء , وهو الذي يحدد للأفعال صحيحها وتقبيحها , من منظوره المادي فقط .",
+  "english": "This is a mock translation of the Arabic text with approximately 170 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S079",
+    "rowIndex": 5,
+    "wordCount": 142,
+    "charCount": 728,
+    "laneHash": "438a80cff0317721",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 728,
+    "processedAt": "2025-09-24T03:39:50.819Z",
+    "lpr": 0.31690140845070425,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.2979642561249852,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

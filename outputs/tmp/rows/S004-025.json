@@ -1,0 +1,53 @@
+{
+  "id": "S004-025",
+  "sectionId": "S004",
+  "original": "فالله الخالق القادر كما جعل للنفس البشرية قابلية فعل الخير والشر، جعل للأشياء المسخرة له القابلية لها وفي نفسها على ان تعين الانسان في فعل الخير والشر، متى ما شاء واختار، قال تعالى يقول في سورة نوح (والله جعل لكم الأرض بساطا (19) لتسلكوا منها سبلا فجاجا*20)(7) اي بسطها وسهل كل ما عليها لخدمة الإنسان، وطوعها لرغباته، ليسلك فيها سبلا فجاجا من رغباته واختياراته ليبلغ فيها ما يشاء ويختار. هذا هو الاستخلاف في الارض، الذي جعل الله فيه التمكين للإنسان وجعله السيد المستخلف لينظر كيف يعمل، ثم ليجازيه على عمله بعد ان يكون قد اخذ حظه كاملا في الاختيار، وأستوفى حقه من الحرية في التصرف والاختيار في نفسه وفي ما حوله من الاشياء المسخرة له .",
+  "enhanced": "فالله الخالق القادر كما جعل للنفس البشرية قابلية فعل الخير والشر، جعل للأشياء المسخرة له القابلية لها وفي نفسها على ان تعين الانسان في فعل الخير والشر، متى ما شاء واختار، قال تعالى يقول في سورة نوح (والله جعل لكم الأرض بساطا (19) لتسلكوا منها سبلا فجاجا*20)(7) اي بسطها وسهل كل ما عليها لخدمة الإنسان، وطوعها لرغباته، ليسلك فيها سبلا فجاجا من رغباته واختياراته ليبلغ فيها ما يشاء ويختار. هذا هو الاستخلاف في الارض، الذي جعل الله فيه التمكين للإنسان وجعله السيد المستخلف لينظر كيف يعمل، ثم ليجازيه على عمله بعد ان يكون قد اخذ حظه كاملا في الاختيار، وأستوفى حقه من الحرية في التصرف والاختيار في نفسه وفي ما حوله من الاشياء المسخرة له .",
+  "english": "This is a mock translation of the Arabic text with approximately 139 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 4,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:context"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 24,
+    "wordCount": 116,
+    "charCount": 633,
+    "laneHash": "16d648bd16383725",
+    "isVerse": true,
+    "hasScripture": true,
+    "originalLength": 633,
+    "processedAt": "2025-09-24T03:38:11.540Z",
+    "lpr": 0.3879310344827586,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.43472906403940886,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

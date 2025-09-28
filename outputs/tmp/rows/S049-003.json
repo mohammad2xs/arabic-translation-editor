@@ -1,0 +1,46 @@
+{
+  "id": "S049-003",
+  "sectionId": "S049",
+  "original": "وفي ابراهيم 48 (يوم تبدل الأرض غير الأرض والسماوات ۖ وبرزوا لله الواحد القهار ).",
+  "enhanced": "وفي ابراهيم 48 (يوم تبدل الأرض غير الأرض والسماوات ۖ وبرزوا لله الواحد القهار ).",
+  "english": "This is a mock translation of the Arabic text with approximately 18 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S049",
+    "rowIndex": 2,
+    "wordCount": 15,
+    "charCount": 80,
+    "laneHash": "b402dd36a266290a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 80,
+    "processedAt": "2025-09-24T03:38:38.422Z",
+    "lpr": 3,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

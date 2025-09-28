@@ -1,0 +1,158 @@
+# Meaning QA Rules
+
+## Purpose
+Verify Arabic-English translation fidelity through comprehensive analysis including back-translation checks, qualifier preservation verification, and rhetoric alignment confirmation.
+
+## Fidelity Verification
+
+### Back-Translation Testing
+- **CONCEPTUAL ROUNDTRIP**: English → Arabic → English meaning consistency
+- **INFORMATION PRESERVATION**: All original concepts survive the translation cycle
+- **DETAIL MAINTENANCE**: Specific facts, figures, and qualifications retained
+- **SEMANTIC STABILITY**: Core meaning remains unchanged through back-translation
+- **CULTURAL CONTEXT**: Islamic concepts maintain appropriate significance
+
+### Qualifier Preservation
+- **TEMPORAL MARKERS**: Time-related qualifiers (always, never, before, after, during)
+- **MODAL INDICATORS**: Certainty/possibility markers (must, might, could, should, will)
+- **SCOPE QUALIFIERS**: Extent indicators (all, some, none, only, most, few)
+- **CONDITIONAL STRUCTURES**: If/then relationships and their exact conditions
+- **QUANTITATIVE PRECISION**: Numbers, measurements, and proportional relationships
+
+### Logical Structure Integrity
+- **ARGUMENT PROGRESSION**: Reasoning flows correctly from premises to conclusions
+- **CAUSAL RELATIONSHIPS**: Because/therefore connections properly maintained
+- **COMPARATIVE STRUCTURES**: Better/worse/equal relationships accurately represented
+- **SEQUENTIAL ORDER**: First/then/finally temporal progressions preserved
+- **HIERARCHICAL INFORMATION**: Main points vs. supporting details clearly distinguished
+
+## Rhetoric Alignment
+
+### Question Preservation
+- **RHETORICAL QUESTIONS**: Persuasive intent maintained in English
+- **GENUINE INQUIRIES**: Information-seeking function preserved
+- **COMPLEX QUESTIONS**: Multi-part questions retain complete structure
+- **LEADING QUESTIONS**: Argumentative direction and emphasis maintained
+- **ANSWER IMPLICATIONS**: Questions that suggest specific answers retain that quality
+
+### Emphasis Patterns
+- **STRESS DISTRIBUTION**: Important vs. secondary information hierarchy preserved
+- **REPETITION EFFECTS**: Intentional repetition for emphasis maintained
+- **CONTRAST STRUCTURES**: But/however/nevertheless relationships clear
+- **SUPERLATIVE CLAIMS**: Strongest/most/least assertions properly emphasized
+- **CLIMACTIC ORGANIZATION**: Building intensity or importance patterns preserved
+
+### Stylistic Elements
+- **METAPHORICAL LANGUAGE**: Figurative expressions appropriately translated
+- **IDIOMATIC PATTERNS**: Arabic expressions rendered with equivalent English effect
+- **RHYTHM AND FLOW**: Natural language cadence maintained in translation
+- **VOICE CONSISTENCY**: Author's distinctive style comes through in English
+- **REGISTER MAINTENANCE**: Formal/informal tone level appropriately matched
+
+## Islamic Context Verification
+
+### Sacred Text Accuracy
+- **QURANIC QUOTATIONS**: Verified against authoritative translations and sources
+- **HADITH AUTHENTICITY**: Cross-referenced with established hadith collections
+- **ATTRIBUTION ACCURACY**: Correct source identification and citation format
+- **THEOLOGICAL PRECISION**: Islamic doctrinal concepts accurately represented
+- **SCRIPTURAL CONTEXT**: Religious references maintain appropriate reverence
+
+### Cultural Sensitivity
+- **RELIGIOUS PRACTICES**: Islamic rituals and customs accurately described
+- **HISTORICAL CONTEXT**: Time periods and settings appropriately represented
+- **SOCIAL DYNAMICS**: Islamic community structures and relationships clear
+- **INTERFAITH DIALOGUE**: Respectful treatment of comparative religious content
+- **SPIRITUAL CONCEPTS**: Mystical and devotional elements properly conveyed
+
+### Terminology Consistency
+- **CANONICAL TRANSLATIONS**: Established English terms for Islamic concepts used
+- **GLOSSARY COMPLIANCE**: Project terminology standards followed
+- **CONTEXTUAL ADAPTATION**: Terms adjusted appropriately for sentence context
+- **SYSTEMATIC APPLICATION**: Same Arabic concepts receive consistent English treatment
+- **PRECISION MAINTENANCE**: Technical religious vocabulary used accurately
+
+## Quality Assessment Metrics
+
+### Coverage Analysis
+- **COMPLETE MAPPING**: Every Arabic clause has corresponding English representation
+- **INFORMATION GAPS**: No concepts lost or omitted in translation
+- **DETAIL PRESERVATION**: Specific information and nuances maintained
+- **LOGICAL COMPLETENESS**: Full arguments and reasoning chains present
+- **PROPORTIONAL TREATMENT**: Important sections receive adequate English coverage
+
+### Clarity Evaluation
+- **COMPREHENSION LEVEL**: English accessible to intended audience
+- **AMBIGUITY DETECTION**: Unclear or confusing passages identified
+- **LOGICAL FLOW**: Ideas progress smoothly and understandably
+- **CONTEXTUAL CLARITY**: Background information provided when needed
+- **TERMINOLOGY TRANSPARENCY**: Technical terms explained or made clear
+
+### Error Classification
+- **HARD FAILURES**: Critical meaning changes requiring re-translation
+- **SOFT Warnings**: Minor issues flagged for review but acceptable
+- **Style Issues**: Tone or register problems needing refinement
+- **Technical Errors**: Factual or citation inaccuracies requiring correction
+- **Cultural Sensitivity**: Potential interfaith or cultural appropriateness concerns
+
+## Minimal Edit Guidelines
+
+### Conservative Correction
+- **MEANING PRIORITY**: Preserve original intent over stylistic preferences
+- **MINIMAL INTERVENTION**: Smallest changes necessary to address identified issues
+- **CONSISTENCY MAINTENANCE**: Corrections don't create new inconsistencies
+- **CULTURAL RESPECT**: Edits maintain appropriate treatment of Islamic content
+- **READER FOCUS**: Changes serve comprehension and accuracy goals
+
+### Edit Categories
+- **SEMANTIC CORRECTIONS**: Fix meaning errors or omissions
+- **CLARITY IMPROVEMENTS**: Enhance understanding without changing content
+- **CONSISTENCY ADJUSTMENTS**: Align terminology and style usage
+- **FACTUAL CORRECTIONS**: Fix inaccurate information or citations
+- **CULTURAL REFINEMENTS**: Improve cultural sensitivity and appropriateness
+
+### Quality Validation
+- **POST-EDIT VERIFICATION**: Confirm corrections achieve intended improvements
+- **SIDE-EFFECT CHECKING**: Ensure edits don't create new problems
+- **CONSISTENCY REVIEW**: Verify corrections align with document-wide standards
+- **MEANING PRESERVATION**: Confirm original Arabic concepts still properly represented
+- **READABILITY ASSESSMENT**: Evaluate overall flow and comprehension after edits
+
+## Review Flagging Criteria
+
+### Automatic Flagging
+- **LPR VIOLATIONS**: Length Preservation Ratio below 0.95
+- **COVERAGE GAPS**: Arabic clauses without English counterparts
+- **SCRIPTURE ERRORS**: Inaccurate religious references or quotations
+- **CULTURAL INSENSITIVITY**: Potentially inappropriate treatment of Islamic content
+- **LOGICAL BREAKS**: Disrupted argument flow or reasoning chains
+
+### Human Review Triggers
+- **COMPLEX THEOLOGY**: Sophisticated religious concepts requiring expert verification
+- **CULTURAL NUANCES**: Subtle Islamic cultural elements needing specialist review
+- **PHILOSOPHICAL ARGUMENTS**: Complex reasoning requiring academic verification
+- **INTERFAITH CONTENT**: Comparative religious material needing sensitivity review
+- **HISTORICAL ACCURACY**: Factual claims requiring scholarly confirmation
+
+### Quality Thresholds
+- **ACCEPTABLE RANGE**: Minor variations within established parameters
+- **WARNING LEVELS**: Issues requiring attention but not complete re-translation
+- **FAILURE CONDITIONS**: Problems necessitating full re-processing
+- **EXCELLENCE MARKERS**: Translations exceeding quality expectations
+- **IMPROVEMENT OPPORTUNITIES**: Areas where enhancements could add value
+
+## Processing Integration
+
+### Pipeline Coordination
+- **SEQUENTIAL PROCESSING**: QA follows translation in pipeline order
+- **FEEDBACK LOOPS**: Quality issues inform upstream process improvements
+- **METRIC TRACKING**: Quality scores contribute to overall assessment
+- **ERROR PROPAGATION**: Critical issues halt processing for correction
+- **CONTINUOUS IMPROVEMENT**: QA results refine future translation parameters
+
+### Documentation Requirements
+- **ISSUE LOGGING**: All problems identified and categorized
+- **CORRECTION TRACKING**: Changes made and rationale documented
+- **QUALITY METRICS**: Numerical scores and assessments recorded
+- **REVIEW DECISIONS**: Human review outcomes and reasoning noted
+- **IMPROVEMENT SUGGESTIONS**: Recommendations for process enhancement

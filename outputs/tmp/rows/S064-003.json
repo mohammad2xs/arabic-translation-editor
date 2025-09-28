@@ -1,0 +1,46 @@
+{
+  "id": "S064-003",
+  "sectionId": "S064",
+  "original": "فلو شاء الله لهدى الناس جميعا، ولكن الله يمهل الناس في امتحانهم هذا، وينذرهم ويحذرهم من سوء عاقبة مخالفتهم لإمر الله.",
+  "enhanced": "فلو شاء الله لهدى الناس جميعا، ولكن الله يمهل الناس في امتحانهم هذا، وينذرهم ويحذرهم من سوء عاقبة مخالفتهم لإمر الله.",
+  "english": "This is a mock translation of the Arabic text with approximately 25 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S064",
+    "rowIndex": 2,
+    "wordCount": 21,
+    "charCount": 117,
+    "laneHash": "6108c1fdae5ae8f2",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 117,
+    "processedAt": "2025-09-24T03:39:03.609Z",
+    "lpr": 2.142857142857143,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

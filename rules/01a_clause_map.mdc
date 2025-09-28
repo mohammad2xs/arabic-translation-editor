@@ -1,0 +1,132 @@
+# Clause Mapping Rules
+
+## Purpose
+Enumerate and track minimal semantic clauses in Arabic text for precise coverage verification through the translation pipeline.
+
+## Clause Identification
+
+### Minimal Semantic Units
+- **INDEPENDENT CLAUSES**: Complete thoughts with subject and predicate
+- **DEPENDENT CLAUSES**: Subordinate clauses with specific grammatical function
+- **CONDITIONAL CLAUSES**: If/when/unless constructions with their consequences
+- **RELATIVE CLAUSES**: Descriptive clauses modifying nouns
+
+### Grammatical Boundaries
+- **SENTENCE BREAKS**: Period, question mark, exclamation
+- **CLAUSE SEPARATORS**: Comma, semicolon indicating new grammatical unit
+- **CONJUNCTION POINTS**: و (wa), أو (aw), لكن (lakin) etc.
+- **SUBORDINATION MARKERS**: أن (anna), إذا (idha), لأن (li'anna)
+
+### Islamic Text Considerations
+- **QURANIC VERSES**: Each verse segment as separate clause
+- **HADITH SEGMENTS**: Natural pause points in prophetic sayings
+- **TECHNICAL TERMS**: Multi-word Islamic concepts as single units
+- **INVOCATIONS**: Prayer phrases as complete semantic units
+
+## Numbering System
+
+### Sequential Identification
+- **FORMAT**: [C1], [C2], [C3] etc. in document order
+- **SCOPE**: Within each row/paragraph independently
+- **PERSISTENCE**: Same numbering for identical text across pipeline
+- **RESET**: Counter resets for each new row processed
+
+### Nested Structures
+- **MAIN CLAUSES**: [C1], [C2], [C3]
+- **SUB-CLAUSES**: [C1.1], [C1.2] for dependent clauses
+- **EMBEDDED**: [C1.1.1] for deeply nested structures
+- **PARALLEL**: [C1a], [C1b] for coordinate structures
+
+## Semantic Preservation
+
+### Meaning Units
+- **PRESERVE**: Each clause represents one complete idea
+- **AVOID**: Arbitrary splitting that breaks semantic coherence
+- **MAINTAIN**: Logical relationships between clauses
+- **RESPECT**: Author's intended emphasis and flow
+
+### Context Dependencies
+- **MARK**: Clauses that depend on previous context
+- **IDENTIFY**: Pronouns and references requiring antecedents
+- **PRESERVE**: Temporal and logical sequence indicators
+- **MAINTAIN**: Cohesive devices across clause boundaries
+
+## Quality Markers
+
+### Clause Types
+- **DECLARATIVE**: [C1-DECL] Statement clauses
+- **INTERROGATIVE**: [C1-QUES] Question clauses
+- **IMPERATIVE**: [C1-CMD] Command clauses
+- **CONDITIONAL**: [C1-COND] If/then structures
+- **RELATIVE**: [C1-REL] Descriptive modifiers
+
+### Complexity Indicators
+- **SIMPLE**: [C1-SIMP] Single predicate
+- **COMPOUND**: [C1-COMP] Multiple predicates
+- **COMPLEX**: [C1-CMPLX] Embedded structures
+- **COMPOUND-COMPLEX**: [C1-CC] Mixed structures
+
+## Processing Guidelines
+
+### Conservative Segmentation
+- **PREFER**: Larger semantic units over micro-segmentation
+- **MAINTAIN**: Natural reading flow and comprehension
+- **AVOID**: Splitting that creates incomplete thoughts
+- **PRESERVE**: Rhetorical and stylistic patterns
+
+### Consistency Requirements
+- **APPLY**: Same criteria across entire document
+- **MAINTAIN**: Parallel treatment of similar structures
+- **DOCUMENT**: Decisions for complex or ambiguous cases
+- **VERIFY**: Numbering sequence accuracy
+
+### Scripture Handling
+- **QURANIC TEXT**: Follow traditional verse/clause divisions
+- **HADITH**: Respect traditional transmission boundaries
+- **COMMENTARY**: Distinguish author's voice from quoted material
+- **REFERENCES**: Mark citation boundaries clearly
+
+## Output Format
+
+### Clause List
+```
+[C1] Main subject and predicate
+[C1.1] Dependent subordinate clause
+[C2] Independent coordinate clause
+[C2.1] Relative clause modifier
+[C3] Concluding statement
+```
+
+### Metadata
+- **TOTAL_CLAUSES**: Count for coverage verification
+- **COMPLEX_COUNT**: Number of multi-level structures
+- **QUESTION_COUNT**: Interrogative clauses requiring special handling
+- **SCRIPTURE_COUNT**: Sacred text segments requiring preservation
+
+## Coverage Verification
+
+### Translation Mapping
+- **REQUIREMENT**: Each Arabic clause → ≥1 English clause
+- **TRACKING**: [C1-AR] → [C1-EN], [C1.1-EN]
+- **GAPS**: Identify unmapped Arabic clauses
+- **EXPANSIONS**: Track single Arabic → multiple English mappings
+
+### Quality Gates
+- **COMPLETE COVERAGE**: 100% of Arabic clauses represented
+- **SEMANTIC EQUIVALENCE**: English preserves Arabic clause meaning
+- **LOGICAL FLOW**: English maintains Arabic argument structure
+- **EMPHASIS PRESERVATION**: Important clauses receive proportional treatment
+
+## Error Conditions
+
+### Hard Failures
+- **UNMAPPED CLAUSES**: Arabic clauses with no English counterpart
+- **MEANING DRIFT**: English clauses that don't align with Arabic source
+- **BROKEN LOGIC**: Disrupted argument flow in translation
+- **SACRED TEXT ERRORS**: Mishandled Quranic or hadith segments
+
+### Review Flags
+- **COMPLEX NESTING**: Deep grammatical structures requiring verification
+- **AMBIGUOUS BOUNDARIES**: Unclear clause division points
+- **CULTURAL CONCEPTS**: Terms requiring special translation handling
+- **RHETORICAL DEVICES**: Stylistic elements needing careful preservation

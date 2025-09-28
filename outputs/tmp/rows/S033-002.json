@@ -1,0 +1,47 @@
+{
+  "id": "S033-002",
+  "sectionId": "S033",
+  "original": "نجد في المقابل اصحاب محمد (ص)اصحاب خاتم الرسالات الى البشرية جمعاء، كيف كانت طاعتهم وأمثالهم لأوامر ربهم ورسوله تمثل الإيمان الكامل واليقين الراسخ في صدورهم، لقد أنيره قلوب اصحاب محمد صلى الله عليه وسلم، بما جاءها الحق من ربها، فكانت تلك القلوب تتلقى خطاب رسول ربها إليها وكأن الله يكلمها مباشرة.",
+  "enhanced": "نجد في المقابل اصحاب محمد (ص)اصحاب خاتم الرسالات الى البشرية جمعاء، كيف كانت طاعتهم وأمثالهم لأوامر ربهم ورسوله تمثل الإيمان الكامل واليقين الراسخ في صدورهم، لقد أنيره قلوب اصحاب محمد صلى الله عليه وسلم، بما جاءها الحق من ربها، فكانت تلك القلوب تتلقى خطاب رسول ربها إليها وكأن الله يكلمها مباشرة.",
+  "english": "This is a mock translation of the Arabic text with approximately 61 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S033",
+    "rowIndex": 1,
+    "wordCount": 51,
+    "charCount": 296,
+    "laneHash": "d8e3ee3cf0a65093",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 296,
+    "processedAt": "2025-09-24T03:38:23.895Z",
+    "lpr": 0.8823529411764706,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.9201680672268907,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

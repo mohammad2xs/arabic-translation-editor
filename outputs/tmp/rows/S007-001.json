@@ -1,0 +1,46 @@
+{
+  "id": "S007-001",
+  "sectionId": "S007",
+  "original": "يقول أنقاغورس : إن النفس تموت وتفارق الجسد بعد موته .",
+  "enhanced": "يقول أنقاغورس : إن النفس تموت وتفارق الجسد بعد موته .",
+  "english": "This is a mock translation of the Arabic text with approximately 13 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 0,
+    "wordCount": 11,
+    "charCount": 53,
+    "laneHash": "540a2be2681c0d07",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 53,
+    "processedAt": "2025-09-24T03:38:11.613Z",
+    "lpr": 4.090909090909091,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

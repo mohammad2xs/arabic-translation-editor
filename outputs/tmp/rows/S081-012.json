@@ -1,0 +1,47 @@
+{
+  "id": "S081-012",
+  "sectionId": "S081",
+  "original": "فالمسعى العقلي هو محاولة ضبط وتنظيم الامور المادية المحيطة بالإنسان والعمل على ضبطها والاستفادة منها والسيطرة عليها , وهذه هو مجال وقدرة العلم العقلي , اما المعارف الذوقية والحسيه لحقيقة الاشياء والظواهر فإن منشأها الإحساس القلبي والذوق الانساني الفطري الذي ينميه ويرشده الهدي الالهي المرسل عن طريق رسل الله .",
+  "enhanced": "فالمسعى العقلي هو محاولة ضبط وتنظيم الامور المادية المحيطة بالإنسان والعمل على ضبطها والاستفادة منها والسيطرة عليها , وهذه هو مجال وقدرة العلم العقلي , اما المعارف الذوقية والحسيه لحقيقة الاشياء والظواهر فإن منشأها الإحساس القلبي والذوق الانساني الفطري الذي ينميه ويرشده الهدي الالهي المرسل عن طريق رسل الله .",
+  "english": "This is a mock translation of the Arabic text with approximately 60 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S081",
+    "rowIndex": 11,
+    "wordCount": 50,
+    "charCount": 309,
+    "laneHash": "16e2b319bbd4bd4b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 309,
+    "processedAt": "2025-09-24T03:39:56.899Z",
+    "lpr": 0.9,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "expand",
+    "confidence": 0.9285714285714286,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S021-001",
+  "sectionId": "S021",
+  "original": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+  "enhanced": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S021",
+    "rowIndex": 0,
+    "wordCount": 13,
+    "charCount": 69,
+    "laneHash": "d28b24e54eee6f1a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 69,
+    "processedAt": "2025-09-24T03:38:15.198Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

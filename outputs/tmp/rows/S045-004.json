@@ -1,0 +1,46 @@
+{
+  "id": "S045-004",
+  "sectionId": "S045",
+  "original": "فيقول لهم (أولم يروا أنا نأتي الارض ننقصها من اطرافها * والله يحكم لا معقب لحكمه وهو سريع الحساب) (!",
+  "enhanced": "فيقول لهم (أولم يروا أنا نأتي الارض ننقصها من اطرافها * والله يحكم لا معقب لحكمه وهو سريع الحساب) (!",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S045",
+    "rowIndex": 3,
+    "wordCount": 20,
+    "charCount": 100,
+    "laneHash": "3e8bd12a4497d2cf",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 100,
+    "processedAt": "2025-09-24T03:38:35.139Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S002-007",
+  "sectionId": "S002",
+  "original": "ثم عرجنا الى تلك الفلسفات والنظريات التي تريد من الانسان أن يكون كألة ماكنه حديديه ليس لها مشاعر وتطلعات ,تستخدم لأغراض ومنافع تلك الفئه التي تريد الهيمنة على العالم ومقدراته وثرواته من خلال بث تلك النظريات النفعية الانيه التي تجعل الانسان لا ينطر إلا تحت قدميه , ولا يرفع رأسه ليرى حقيقة هذا العالم.",
+  "enhanced": "ثم عرجنا الى تلك الفلسفات والنظريات التي تريد من الانسان أن يكون كألة ماكنه حديديه ليس لها مشاعر وتطلعات ,تستخدم لأغراض ومنافع تلك الفئه التي تريد الهيمنة على العالم ومقدراته وثرواته من خلال بث تلك النظريات النفعية الانيه التي تجعل الانسان لا ينطر إلا تحت قدميه , ولا يرفع رأسه ليرى حقيقة هذا العالم.",
+  "english": "This is a mock translation of the Arabic text with approximately 64 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S002",
+    "rowIndex": 6,
+    "wordCount": 54,
+    "charCount": 300,
+    "laneHash": "32c678795f77cc74",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 300,
+    "processedAt": "2025-09-24T03:38:11.239Z",
+    "lpr": 0.8333333333333334,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "expand",
+    "confidence": 0.8968253968253967,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

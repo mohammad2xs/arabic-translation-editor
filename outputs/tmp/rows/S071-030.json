@@ -1,0 +1,46 @@
+{
+  "id": "S071-030",
+  "sectionId": "S071",
+  "original": "ويقول الدكتور عبد الله المصلح الامين العام للهيئة العالمية للإعجاز العلمي.",
+  "enhanced": "ويقول الدكتور عبد الله المصلح الامين العام للهيئة العالمية للإعجاز العلمي.",
+  "english": "This is a mock translation of the Arabic text with approximately 13 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 29,
+    "wordCount": 11,
+    "charCount": 74,
+    "laneHash": "dad85410098530f4",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 74,
+    "processedAt": "2025-09-24T03:39:26.431Z",
+    "lpr": 4.090909090909091,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

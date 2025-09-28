@@ -1,0 +1,46 @@
+{
+  "id": "S044-004",
+  "sectionId": "S044",
+  "original": "ونجد هنا ان الله جل وعلا خص الذكر والتذكر والتدبر بأولي الألباب الذين يستمعون القول فيتبعون أحسنه , فتلك العقول تستقي معارفها من القلوب المستنارة بنور القلب .",
+  "enhanced": "ونجد هنا ان الله جل وعلا خص الذكر والتذكر والتدبر بأولي الألباب الذين يستمعون القول فيتبعون أحسنه , فتلك العقول تستقي معارفها من القلوب المستنارة بنور القلب .",
+  "english": "This is a mock translation of the Arabic text with approximately 33 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S044",
+    "rowIndex": 3,
+    "wordCount": 28,
+    "charCount": 158,
+    "laneHash": "b5c394c94def69c6",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 158,
+    "processedAt": "2025-09-24T03:38:34.848Z",
+    "lpr": 1.6071428571428572,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

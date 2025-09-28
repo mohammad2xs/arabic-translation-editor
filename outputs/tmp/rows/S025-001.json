@@ -1,0 +1,53 @@
+{
+  "id": "S025-001",
+  "sectionId": "S025",
+  "original": "فهذا وصف للقرءان الكريم (الممثل بالزجاجة) وكأنه كوكب دري في انارته وبيانه , وما جاء به من الحكمة والموعظة ,التي أنارت بصيرة المؤمنين , وبينت للبشرية جمعاء طريق الخير والصلاح والإصلاح , واخرجت أمما من الظلمات الى النور ,فهو كلئلئه والكوكب الدري في أنارته ووهيج ضيائه ونوره الساطع الذي لا يخفى على من قرئه ونظر فيه بتبصر وبصيره , فهو ساطع وضاء في البيان والتبيان , وفيه شفاء لما في الصدور , ونوره مهيمن على كل الانوار التي جاءت بها الرسل من قبل )) كما قال تعالى (ومهيمنا عليه) اي مهيمنا بنوره الساطع على كل الانوار ويزيدها نور على نور., كما تزداد القلوب النيرة المؤمنة نورا على النور الذي فيها .",
+  "enhanced": "فهذا وصف للقرءان الكريم (الممثل بالزجاجة) وكأنه كوكب دري في انارته وبيانه , وما جاء به من الحكمة والموعظة ,التي أنارت بصيرة المؤمنين , وبينت للبشرية جمعاء طريق الخير والصلاح والإصلاح , واخرجت أمما من الظلمات الى النور ,فهو كلئلئه والكوكب الدري في أنارته ووهيج ضيائه ونوره الساطع الذي لا يخفى على من قرئه ونظر فيه بتبصر وبصيره , فهو ساطع وضاء في البيان والتبيان , وفيه شفاء لما في الصدور , ونوره مهيمن على كل الانوار التي جاءت بها الرسل من قبل )) كما قال تعالى (ومهيمنا عليه) اي مهيمنا بنوره الساطع على كل الانوار ويزيدها نور على نور., كما تزداد القلوب النيرة المؤمنة نورا على النور الذي فيها .",
+  "english": "This is a mock translation of the Arabic text with approximately 133 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 4,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:context"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S025",
+    "rowIndex": 0,
+    "wordCount": 111,
+    "charCount": 593,
+    "laneHash": "f71f68904f2df0b1",
+    "isVerse": true,
+    "hasScripture": true,
+    "originalLength": 593,
+    "processedAt": "2025-09-24T03:38:17.787Z",
+    "lpr": 0.40540540540540543,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.44305019305019305,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

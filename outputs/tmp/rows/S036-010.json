@@ -1,0 +1,47 @@
+{
+  "id": "S036-010",
+  "sectionId": "S036",
+  "original": "م, والذي يعد الفيلسوف اليوناني الاول , المشكلة وحدد اتجاه وطابع كل الفلاسفة السابقة على سقراط، لقد كان التفكير الأساسي في تلك الفترة , أنه لابد أن يوجد وراء الكثرة في العالم مبدأ أقصى واحد,(90) , فهنا نجد ان طاليس تقدم على غيره في التفكير في الوصول الى معرفة الرب ,وحدد وحدانية ,فهذا القرب في تحديد حقيقة الوحدانية يدل على علم فطري انبثق من فطرته , او تسلل معرفي قادم من تعاليم سماوية اوقد في قلبه المعرفة الفطرية والعهد .",
+  "enhanced": "م, والذي يعد الفيلسوف اليوناني الاول , المشكلة وحدد اتجاه وطابع كل الفلاسفة السابقة على سقراط، لقد كان التفكير الأساسي في تلك الفترة , أنه لابد أن يوجد وراء الكثرة في العالم مبدأ أقصى واحد,(90) , فهنا نجد ان طاليس تقدم على غيره في التفكير في الوصول الى معرفة الرب ,وحدد وحدانية ,فهذا القرب في تحديد حقيقة الوحدانية يدل على علم فطري انبثق من فطرته , او تسلل معرفي قادم من تعاليم سماوية اوقد في قلبه المعرفة الفطرية والعهد .",
+  "english": "This is a mock translation of the Arabic text with approximately 96 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S036",
+    "rowIndex": 9,
+    "wordCount": 80,
+    "charCount": 422,
+    "laneHash": "e7e0c5843662d1c1",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 422,
+    "processedAt": "2025-09-24T03:38:27.461Z",
+    "lpr": 0.5625,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5456349206349207,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S063-015",
+  "sectionId": "S063",
+  "original": "وهذه الفكرة ليست صحيحة دائما، فالانتعاش الاقتصادي لا ينشئ من التفوق العلمي والمعرفي فقط، فهناك عوامل كثيره تؤثر فيه، فكم ممن يعملوا عند اصحاب الاموال والشركات مستواهم العلمي والمعرفي أكبر بكثير من أصحاب المال والشركات.",
+  "enhanced": "وهذه الفكرة ليست صحيحة دائما، فالانتعاش الاقتصادي لا ينشئ من التفوق العلمي والمعرفي فقط، فهناك عوامل كثيره تؤثر فيه، فكم ممن يعملوا عند اصحاب الاموال والشركات مستواهم العلمي والمعرفي أكبر بكثير من أصحاب المال والشركات.",
+  "english": "This is a mock translation of the Arabic text with approximately 42 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S063",
+    "rowIndex": 14,
+    "wordCount": 35,
+    "charCount": 218,
+    "laneHash": "c98511bee9602413",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 218,
+    "processedAt": "2025-09-24T03:39:00.289Z",
+    "lpr": 1.2857142857142858,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S076-011",
+  "sectionId": "S076",
+  "original": "لقد امتدت القرون الوسطى المظلمة في تاريخ اوروبا من سقوط الإمبراطورية الرومانية الغربية التي كانت مسيطره على معظم انحاء القاره الأوربية تقريبا من سنة 476 ميلاديه على يد الجرمان والانجلو سكسون والقوط , ولغاية سنة 1453 ميلاديه عند سقوط الإمبراطورية الرومانية الشرقية الدولة البيزنطيين وعاصمتها القسطنطينية على يد مسلمي الدولة العثمانية .",
+  "enhanced": "لقد امتدت القرون الوسطى المظلمة في تاريخ اوروبا من سقوط الإمبراطورية الرومانية الغربية التي كانت مسيطره على معظم انحاء القاره الأوربية تقريبا من سنة 476 ميلاديه على يد الجرمان والانجلو سكسون والقوط , ولغاية سنة 1453 ميلاديه عند سقوط الإمبراطورية الرومانية الشرقية الدولة البيزنطيين وعاصمتها القسطنطينية على يد مسلمي الدولة العثمانية .",
+  "english": "This is a mock translation of the Arabic text with approximately 62 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S076",
+    "rowIndex": 10,
+    "wordCount": 52,
+    "charCount": 334,
+    "laneHash": "bd667d6d8381c445",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 334,
+    "processedAt": "2025-09-24T03:39:39.300Z",
+    "lpr": 0.8653846153846154,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "expand",
+    "confidence": 0.9120879120879121,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

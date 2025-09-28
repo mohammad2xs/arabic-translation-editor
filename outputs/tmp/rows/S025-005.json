@@ -1,0 +1,53 @@
+{
+  "id": "S025-005",
+  "sectionId": "S025",
+  "original": "ثم تقول اية النور بعد ذلك أنه: - (يوقد من شجرة مباركة زيتونة اي أن هذا الكتاب يوقد من قلب المؤمن , اي يضاء نوره ويشع في قلوب المؤمنين , اي تظهر معانيه وأنواره من القلوب المؤمنة التي تستنبط منه الاحكام والمواعظ , والتي تستبين منه عظائم خلق الله وقدرته وعظيم قدره جلى وعلا وشأنه , وهذه الشجرة المباركة هي القلوب المنفطرة السليمة التي زرعها الله في صدر الإنسان , اي ان هذا القرأن لا يوقد ويشع نوره إلا في القلوب المؤمنة والتي فيها الفطرة نقيه وسليمه بما فطرها الله عليها, والفطرة تمثل زيت هذه الشجرة المباركة الزيتونة \"قلب المؤمن\" , والتي فيها العهد والوعد ,كما جاء في أية العهد , فهذا الزيت الفطري يوقد الزجاجة \"القرأن \" في قلب المؤمن , لإنه الزيت الموقد لشعلة نور القرأن , فبهذه الشجرة ينار قلب الانسان وعقله ويهتدي الى سواء السبيل.",
+  "enhanced": "ثم تقول اية النور بعد ذلك أنه: - (يوقد من شجرة مباركة زيتونة اي أن هذا الكتاب يوقد من قلب المؤمن , اي يضاء نوره ويشع في قلوب المؤمنين , اي تظهر معانيه وأنواره من القلوب المؤمنة التي تستنبط منه الاحكام والمواعظ , والتي تستبين منه عظائم خلق الله وقدرته وعظيم قدره جلى وعلا وشأنه , وهذه الشجرة المباركة هي القلوب المنفطرة السليمة التي زرعها الله في صدر الإنسان , اي ان هذا القرأن لا يوقد ويشع نوره إلا في القلوب المؤمنة والتي فيها الفطرة نقيه وسليمه بما فطرها الله عليها, والفطرة تمثل زيت هذه الشجرة المباركة الزيتونة \"قلب المؤمن\" , والتي فيها العهد والوعد ,كما جاء في أية العهد , فهذا الزيت الفطري يوقد الزجاجة \"القرأن \" في قلب المؤمن , لإنه الزيت الموقد لشعلة نور القرأن , فبهذه الشجرة ينار قلب الانسان وعقله ويهتدي الى سواء السبيل.",
+  "english": "This is a mock translation of the Arabic text with approximately 166 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S025",
+    "rowIndex": 4,
+    "wordCount": 139,
+    "charCount": 731,
+    "laneHash": "5b6ed969977aad89",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 731,
+    "processedAt": "2025-09-24T03:38:18.084Z",
+    "lpr": 0.3237410071942446,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.36249571771154504,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

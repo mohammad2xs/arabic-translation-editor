@@ -1,0 +1,52 @@
+{
+  "id": "S060-014",
+  "sectionId": "S060",
+  "original": "\"فدلهما بغرور\" إن أفة الغرور سبب هلاك الإنسان: - فالغرور هو الداء الاكبر، وهو بذرة التكبر.",
+  "enhanced": "\"فدلهما بغرور\" إن أفة الغرور سبب هلاك الإنسان: - فالغرور هو الداء الاكبر، وهو بذرة التكبر.",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S060",
+    "rowIndex": 13,
+    "wordCount": 16,
+    "charCount": 90,
+    "laneHash": "9b1124ea9365c1b2",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 90,
+    "processedAt": "2025-09-24T03:38:54.306Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

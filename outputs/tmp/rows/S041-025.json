@@ -1,0 +1,47 @@
+{
+  "id": "S041-025",
+  "sectionId": "S041",
+  "original": "لقد علم الله الانسان الاسماء كلها , يقول تعالى في سورة البقرة (وعلم ادم الاسماء كلها ثم عرضهم على الملائكة فقال انبأوني بأسماء هؤلاء إن كنتم صادقين , قالوا سبحانك لا علم لنا إلا ما علمتنا انك انت الحكيم العليم )(97) فمعرفة القلب جاءت من العلم الذي وضعه الله فيه والله اعلم .",
+  "enhanced": "لقد علم الله الانسان الاسماء كلها , يقول تعالى في سورة البقرة (وعلم ادم الاسماء كلها ثم عرضهم على الملائكة فقال انبأوني بأسماء هؤلاء إن كنتم صادقين , قالوا سبحانك لا علم لنا إلا ما علمتنا انك انت الحكيم العليم )(97) فمعرفة القلب جاءت من العلم الذي وضعه الله فيه والله اعلم .",
+  "english": "This is a mock translation of the Arabic text with approximately 63 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S041",
+    "rowIndex": 24,
+    "wordCount": 53,
+    "charCount": 274,
+    "laneHash": "ee0d95c73046aff8",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 274,
+    "processedAt": "2025-09-24T03:38:32.159Z",
+    "lpr": 0.8490566037735849,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "expand",
+    "confidence": 0.9043126684636118,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

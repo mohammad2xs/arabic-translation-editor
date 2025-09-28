@@ -1,0 +1,46 @@
+{
+  "id": "S009-003",
+  "sectionId": "S009",
+  "original": "فهو يرى ان الانسان كهيئة ومخلوق على هذه الارض وكجسم انساني، يسيطر عليه ويؤثر فيه اربعة اشياء ! الروح والنفس والقلب والرأس.",
+  "enhanced": "فهو يرى ان الانسان كهيئة ومخلوق على هذه الارض وكجسم انساني، يسيطر عليه ويؤثر فيه اربعة اشياء ! الروح والنفس والقلب والرأس.",
+  "english": "This is a mock translation of the Arabic text with approximately 26 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S009",
+    "rowIndex": 2,
+    "wordCount": 22,
+    "charCount": 122,
+    "laneHash": "0e2d077ccaa4048b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 122,
+    "processedAt": "2025-09-24T03:38:12.378Z",
+    "lpr": 2.0454545454545454,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

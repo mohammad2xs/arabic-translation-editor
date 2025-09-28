@@ -1,0 +1,47 @@
+{
+  "id": "S024-005",
+  "sectionId": "S024",
+  "original": "ثم تقول الآية إن :- (المصباح في زجاجه ) والزجاجة , هنا تمثل كتاب الله القرآن الكريم , فمصباح رسول الله في القرأن ومن القرأن , ,فكان قبس نور محمد (ص) يسرج من نور كتاب الله , والتي هي الزجاجة التي يشع من خلالها سراج رسول الله .",
+  "enhanced": "ثم تقول الآية إن :- (المصباح في زجاجه ) والزجاجة , هنا تمثل كتاب الله القرآن الكريم , فمصباح رسول الله في القرأن ومن القرأن , ,فكان قبس نور محمد (ص) يسرج من نور كتاب الله , والتي هي الزجاجة التي يشع من خلالها سراج رسول الله .",
+  "english": "This is a mock translation of the Arabic text with approximately 57 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S024",
+    "rowIndex": 4,
+    "wordCount": 48,
+    "charCount": 225,
+    "laneHash": "b8e48e1683abb30b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 225,
+    "processedAt": "2025-09-24T03:38:17.575Z",
+    "lpr": 0.9375,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.9464285714285714,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

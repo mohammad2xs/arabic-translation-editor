@@ -1,0 +1,47 @@
+{
+  "id": "S052-004",
+  "sectionId": "S052",
+  "original": "لقد وجد الإنسان مما وجد من عظائم خلق الله هذا التقسيم المنتظم والمتجانس والمتشابه من الذرة الصغيرة الى المخلوقات الاخرى على الارض الى النجوم والاقمار أن كلها تنتظم بنظام واحد يحكمها وينظم انتشارها وتموضعها بطريقه ونسبه واحده أطلق عليها النسبه الذهبية والتي يكون تقسيمها على توزيع العددي (1,1,2,3,5,8,13,34,55,89...",
+  "enhanced": "لقد وجد الإنسان مما وجد من عظائم خلق الله هذا التقسيم المنتظم والمتجانس والمتشابه من الذرة الصغيرة الى المخلوقات الاخرى على الارض الى النجوم والاقمار أن كلها تنتظم بنظام واحد يحكمها وينظم انتشارها وتموضعها بطريقه ونسبه واحده أطلق عليها النسبه الذهبية والتي يكون تقسيمها على توزيع العددي (1,1,2,3,5,8,13,34,55,89...",
+  "english": "This is a mock translation of the Arabic text with approximately 57 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S052",
+    "rowIndex": 3,
+    "wordCount": 48,
+    "charCount": 314,
+    "laneHash": "af7c71afb96f81aa",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 314,
+    "processedAt": "2025-09-24T03:38:42.638Z",
+    "lpr": 0.9375,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "expand",
+    "confidence": 0.9464285714285714,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

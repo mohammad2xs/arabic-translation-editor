@@ -1,0 +1,46 @@
+{
+  "id": "S079-020",
+  "sectionId": "S079",
+  "original": "اي ان الإنسان منساق الى اهوائه وغرائزه، وأنها هي التي تحدد شخصيته.",
+  "enhanced": "اي ان الإنسان منساق الى اهوائه وغرائزه، وأنها هي التي تحدد شخصيته.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S079",
+    "rowIndex": 19,
+    "wordCount": 12,
+    "charCount": 66,
+    "laneHash": "09f2022a5b3975a3",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 66,
+    "processedAt": "2025-09-24T03:39:53.534Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

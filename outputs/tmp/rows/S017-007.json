@@ -1,0 +1,46 @@
+{
+  "id": "S017-007",
+  "sectionId": "S017",
+  "original": "فالله خلق الانسان بدين فطري، فلا تبديل لذلك الخلق.",
+  "enhanced": "فالله خلق الانسان بدين فطري، فلا تبديل لذلك الخلق.",
+  "english": "This is a mock translation of the Arabic text with approximately 10 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S017",
+    "rowIndex": 6,
+    "wordCount": 9,
+    "charCount": 50,
+    "laneHash": "4f64106e3bbd4bda",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 50,
+    "processedAt": "2025-09-24T03:38:14.436Z",
+    "lpr": 5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

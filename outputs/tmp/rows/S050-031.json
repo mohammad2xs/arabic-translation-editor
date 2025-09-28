@@ -1,0 +1,46 @@
+{
+  "id": "S050-031",
+  "sectionId": "S050",
+  "original": "فإذن فيض الوحدة عن الواحد الحق الأول، هو انفعال يوجد ما لم يكن.",
+  "enhanced": "فإذن فيض الوحدة عن الواحد الحق الأول، هو انفعال يوجد ما لم يكن.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 30,
+    "wordCount": 13,
+    "charCount": 63,
+    "laneHash": "0c7939badda6cdd4",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 63,
+    "processedAt": "2025-09-24T03:38:41.196Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

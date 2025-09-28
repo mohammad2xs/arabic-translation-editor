@@ -1,0 +1,47 @@
+{
+  "id": "S045-009",
+  "sectionId": "S045",
+  "original": "ثم يسخر من المتكبرين الذين يحسبون انهم على شيء، والذين يشركون بالله فيقول لهم جل وعلا (يأيها الناس ضرب مثل فاستمعوا له ۚ إن الذين تدعون من دون الله لن يخلقوا ذبابا ولو اجتمعوا له ۖ وإن يسلبهم الذباب شيئا لا يستنقذوه منه ۚ ضعف الطالب والمطلوب * ما قدروا الله حق قدره إن الله لقوي عزيز)(104).",
+  "enhanced": "ثم يسخر من المتكبرين الذين يحسبون انهم على شيء، والذين يشركون بالله فيقول لهم جل وعلا (يأيها الناس ضرب مثل فاستمعوا له ۚ إن الذين تدعون من دون الله لن يخلقوا ذبابا ولو اجتمعوا له ۖ وإن يسلبهم الذباب شيئا لا يستنقذوه منه ۚ ضعف الطالب والمطلوب * ما قدروا الله حق قدره إن الله لقوي عزيز)(104).",
+  "english": "This is a mock translation of the Arabic text with approximately 68 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S045",
+    "rowIndex": 8,
+    "wordCount": 57,
+    "charCount": 290,
+    "laneHash": "4f5f5f0ece6fc6dd",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 290,
+    "processedAt": "2025-09-24T03:38:35.577Z",
+    "lpr": 0.7894736842105263,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "expand",
+    "confidence": 0.8759398496240601,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S074-001",
+  "sectionId": "S074",
+  "original": "لقد كان بداية نزول القرآن هي بداية لإعلان مرحلة الحداثة في عالم الانسان والبشرية، فكانت اول آياته تأمر الإنسان بالقراءة والتعلم، يقول تعالى (اقرء باسم ربك الذي خلق * خلق الانسان من علق* اقرء وربك الاكرم الذي علم بالقلم علم الانسان ما لم يعلم) (159). صدق الله العظيم.",
+  "enhanced": "لقد كان بداية نزول القرآن هي بداية لإعلان مرحلة الحداثة في عالم الانسان والبشرية، فكانت اول آياته تأمر الإنسان بالقراءة والتعلم، يقول تعالى (اقرء باسم ربك الذي خلق * خلق الانسان من علق* اقرء وربك الاكرم الذي علم بالقلم علم الانسان ما لم يعلم) (159). صدق الله العظيم.",
+  "english": "This is a mock translation of the Arabic text with approximately 57 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S074",
+    "rowIndex": 0,
+    "wordCount": 48,
+    "charCount": 266,
+    "laneHash": "2f6a802da3e4063b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 266,
+    "processedAt": "2025-09-24T03:39:35.918Z",
+    "lpr": 0.9375,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "expand",
+    "confidence": 0.9464285714285714,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

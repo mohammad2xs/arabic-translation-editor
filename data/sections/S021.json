@@ -1,0 +1,103 @@
+{
+  "id": "S021",
+  "title": "ما هي العوامل المؤثرة في التفاعل الفطري مع المحيط لتكوين شخصية الانسان وإنسانيته الحضارية:",
+  "rows": [
+    {
+      "id": "S021-001",
+      "original": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+      "enhanced": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+      "english": "",
+      "complexity": 1,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "rowIndex": 0,
+        "wordCount": 13,
+        "charCount": 69,
+        "laneHash": "d28b24e54eee6f1a",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 69
+      }
+    },
+    {
+      "id": "S021-002",
+      "original": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+      "enhanced": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "rowIndex": 1,
+        "wordCount": 17,
+        "charCount": 100,
+        "laneHash": "2e0c6e22c2082681",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 100
+      }
+    },
+    {
+      "id": "S021-003",
+      "original": ", أم ان المحيط هو الذي يصيغ طبع الانسان ويشكل طابعه الحضاري!",
+      "enhanced": ", أم ان المحيط هو الذي يصيغ طبع الانسان ويشكل طابعه الحضاري!",
+      "english": "",
+      "complexity": 1,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "rowIndex": 2,
+        "wordCount": 12,
+        "charCount": 60,
+        "laneHash": "b6d18880cb73672d",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 60
+      }
+    },
+    {
+      "id": "S021-004",
+      "original": "وما العوامل التي تنصر طرف على طرف في هذا التفاعل والتصارع، وما هو دور الدين في هذا الصراع والتفاعل، السؤال الكبير والرئيسي هو: ما هي العوامل الحقيقية في تكوين شخصية الانسان الحضارية؟",
+      "enhanced": "وما العوامل التي تنصر طرف على طرف في هذا التفاعل والتصارع، وما هو دور الدين في هذا الصراع والتفاعل، السؤال الكبير والرئيسي هو: ما هي العوامل الحقيقية في تكوين شخصية الانسان الحضارية؟",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "rowIndex": 3,
+        "wordCount": 32,
+        "charCount": 182,
+        "laneHash": "858632fdfd9bb75e",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 182
+      }
+    },
+    {
+      "id": "S021-005",
+      "original": ": هل أن التأثير الخارج، هو العامل الاكبر والرئيسي في تشكيل طبيعة الإنسان و ثقافته الحضارية كما يعتقد معظم فلاسفة الغرب، او كما يدعي من يؤمن بنظرية دارون , بأن الانسان خلق من تطور الطبيعة , وأنه بدأ من خليه اميبيه فجعلت منه الصدفة والتبيعة الملاءمة انسانا) .",
+      "enhanced": ": هل أن التأثير الخارج، هو العامل الاكبر والرئيسي في تشكيل طبيعة الإنسان و ثقافته الحضارية كما يعتقد معظم فلاسفة الغرب، او كما يدعي من يؤمن بنظرية دارون , بأن الانسان خلق من تطور الطبيعة , وأنه بدأ من خليه اميبيه فجعلت منه الصدفة والتبيعة الملاءمة انسانا) .",
+      "english": "",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "rowIndex": 4,
+        "wordCount": 48,
+        "charCount": 257,
+        "laneHash": "5a6a0330d5b41dca",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 257
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 5,
+    "wordCount": 122,
+    "charCount": 668,
+    "contentHash": "c5faedd888f349c9",
+    "processedAt": "2025-09-24T03:51:07.531Z"
+  }
+}

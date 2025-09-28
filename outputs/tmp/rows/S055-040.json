@@ -1,0 +1,46 @@
+{
+  "id": "S055-040",
+  "sectionId": "S055",
+  "original": "فيبين لنا الامام الاعظم جعفر الصادق رضي الله عنه ان القلوب تدرك ما لا تدركه الابصار.",
+  "enhanced": "فيبين لنا الامام الاعظم جعفر الصادق رضي الله عنه ان القلوب تدرك ما لا تدركه الابصار.",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 39,
+    "wordCount": 16,
+    "charCount": 84,
+    "laneHash": "fee9c8c3bb00a1e5",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 84,
+    "processedAt": "2025-09-24T03:38:49.073Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

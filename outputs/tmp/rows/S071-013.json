@@ -1,0 +1,46 @@
+{
+  "id": "S071-013",
+  "sectionId": "S071",
+  "original": "ولم يتح لنا أن نقدر تماما المعنى العلمي لهذه الآيات إلا في عصرنا هذا.",
+  "enhanced": "ولم يتح لنا أن نقدر تماما المعنى العلمي لهذه الآيات إلا في عصرنا هذا.",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 12,
+    "wordCount": 14,
+    "charCount": 69,
+    "laneHash": "fc1e0f58a1356ce7",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 69,
+    "processedAt": "2025-09-24T03:39:23.912Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

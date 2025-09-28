@@ -1,0 +1,47 @@
+{
+  "id": "S042-012",
+  "sectionId": "S042",
+  "original": "الفكر : فالفكر, هو ناتج من عمل العقل , وعمله هو التفكر للاختيار بين البدائل , فالأمر الذي لا بديل فيه لا عمل للعقل فيه , فعمل العقل افعل ولا تفعل , اي فيه بديل بين شيئين , اي افعل هذا ولا تفعل هذا, فالعمل الذي لا بديل له لا عمل للعقل فيه اي ليس للعقل فيه تفكر او ادراك , وذلك لافتقاد المادة العلمية والمعرفية عنده .",
+  "enhanced": "الفكر : فالفكر, هو ناتج من عمل العقل , وعمله هو التفكر للاختيار بين البدائل , فالأمر الذي لا بديل فيه لا عمل للعقل فيه , فعمل العقل افعل ولا تفعل , اي فيه بديل بين شيئين , اي افعل هذا ولا تفعل هذا, فالعمل الذي لا بديل له لا عمل للعقل فيه اي ليس للعقل فيه تفكر او ادراك , وذلك لافتقاد المادة العلمية والمعرفية عنده .",
+  "english": "This is a mock translation of the Arabic text with approximately 81 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S042",
+    "rowIndex": 11,
+    "wordCount": 68,
+    "charCount": 315,
+    "laneHash": "4b169884e42b2a15",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 315,
+    "processedAt": "2025-09-24T03:38:32.953Z",
+    "lpr": 0.6617647058823529,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5929038281979458,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

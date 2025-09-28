@@ -1,0 +1,47 @@
+{
+  "id": "S043-004",
+  "sectionId": "S043",
+  "original": "فبعد ان اكتمل النضوج، جاءت الرسالة التي تخاطب العقل وتحثه على التفكر والتدبر لمعرفة عظمة الله، فنجد القرآن الكريم يخاطب العقل ويدعوه الى التفكر والتدبر، يقول تعالى (قل إنما أعظكم بواحدة أن تقوموا لله مثنى وفرادى ثم تتفكروا ۚ ما بصاحبكم من جنة ۚ إن هو إلا نذير لكم بين يدي عذاب شديد )(99) .",
+  "enhanced": "فبعد ان اكتمل النضوج، جاءت الرسالة التي تخاطب العقل وتحثه على التفكر والتدبر لمعرفة عظمة الله، فنجد القرآن الكريم يخاطب العقل ويدعوه الى التفكر والتدبر، يقول تعالى (قل إنما أعظكم بواحدة أن تقوموا لله مثنى وفرادى ثم تتفكروا ۚ ما بصاحبكم من جنة ۚ إن هو إلا نذير لكم بين يدي عذاب شديد )(99) .",
+  "english": "This is a mock translation of the Arabic text with approximately 66 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S043",
+    "rowIndex": 3,
+    "wordCount": 55,
+    "charCount": 289,
+    "laneHash": "35e9ff15f1096128",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 289,
+    "processedAt": "2025-09-24T03:38:33.929Z",
+    "lpr": 0.8181818181818182,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "expand",
+    "confidence": 0.8896103896103896,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

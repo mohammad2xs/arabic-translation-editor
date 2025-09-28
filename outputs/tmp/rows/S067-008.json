@@ -1,0 +1,47 @@
+{
+  "id": "S067-008",
+  "sectionId": "S067",
+  "original": "أما المعجزات التي نزلت على الأقوام السابقة فجاءت لتناسب ادراكاتهم ولذى كانت مفيدة ولازمه ومؤثره وعامل ايجابي وحجه على الذين يرونها بأعينهم، اما الذين لم يرونها بأعينهم قد تأتي بنتائج عكسيه وسلبيه على عقولهم وتفكيرهم لإنها تتحدث عن امور خارجه عن مدارك العقل وتصوراته , فتعجز العقول عن ادراكها و تقبلها فتكذبها وتكفر بها , لإن اعينهم لم ترها , مما قد يجعل من تلك المعجزات تأثير سلبي في الاجيال التي لم ترها .",
+  "enhanced": "أما المعجزات التي نزلت على الأقوام السابقة فجاءت لتناسب ادراكاتهم ولذى كانت مفيدة ولازمه ومؤثره وعامل ايجابي وحجه على الذين يرونها بأعينهم، اما الذين لم يرونها بأعينهم قد تأتي بنتائج عكسيه وسلبيه على عقولهم وتفكيرهم لإنها تتحدث عن امور خارجه عن مدارك العقل وتصوراته , فتعجز العقول عن ادراكها و تقبلها فتكذبها وتكفر بها , لإن اعينهم لم ترها , مما قد يجعل من تلك المعجزات تأثير سلبي في الاجيال التي لم ترها .",
+  "english": "This is a mock translation of the Arabic text with approximately 88 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S067",
+    "rowIndex": 7,
+    "wordCount": 74,
+    "charCount": 406,
+    "laneHash": "29faebd43720542d",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 406,
+    "processedAt": "2025-09-24T03:39:13.520Z",
+    "lpr": 0.6081081081081081,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.7062419562419562,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

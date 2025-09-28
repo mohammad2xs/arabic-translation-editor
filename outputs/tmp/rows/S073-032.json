@@ -1,0 +1,46 @@
+{
+  "id": "S073-032",
+  "sectionId": "S073",
+  "original": "فمن وجد في قلبه ولو ثقب صغير من نور الفطرة دخل على قلبه نور الحق وأضاءه.",
+  "enhanced": "فمن وجد في قلبه ولو ثقب صغير من نور الفطرة دخل على قلبه نور الحق وأضاءه.",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S073",
+    "rowIndex": 31,
+    "wordCount": 16,
+    "charCount": 72,
+    "laneHash": "75e4d0b74d0a590e",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 72,
+    "processedAt": "2025-09-24T03:39:35.505Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

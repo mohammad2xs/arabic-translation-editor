@@ -1,0 +1,47 @@
+{
+  "id": "S043-012",
+  "sectionId": "S043",
+  "original": "وفي ال عمران 7(هو الذي أنزل عليك الكتاب منه آيات محكمات هن أم الكتاب وأخر متشابهات ۖ فأما الذين في قلوبهم زيغ فيتبعون ما تشابه منه ابتغاء الفتنة وابتغاء تأويله ۗ وما يعلم تأويله إلا الله ۗ والراسخون في العلم يقولون آمنا به كل من عند ربنا ۗ وما يذكر إلا أولو ألألباب ).",
+  "enhanced": "وفي ال عمران 7(هو الذي أنزل عليك الكتاب منه آيات محكمات هن أم الكتاب وأخر متشابهات ۖ فأما الذين في قلوبهم زيغ فيتبعون ما تشابه منه ابتغاء الفتنة وابتغاء تأويله ۗ وما يعلم تأويله إلا الله ۗ والراسخون في العلم يقولون آمنا به كل من عند ربنا ۗ وما يذكر إلا أولو ألألباب ).",
+  "english": "This is a mock translation of the Arabic text with approximately 64 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S043",
+    "rowIndex": 11,
+    "wordCount": 54,
+    "charCount": 268,
+    "laneHash": "21b214f1301090e4",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 268,
+    "processedAt": "2025-09-24T03:38:34.631Z",
+    "lpr": 0.8333333333333334,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "expand",
+    "confidence": 0.8968253968253967,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

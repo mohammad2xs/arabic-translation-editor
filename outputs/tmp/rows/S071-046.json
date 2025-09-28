@@ -1,0 +1,46 @@
+{
+  "id": "S071-046",
+  "sectionId": "S071",
+  "original": "لقد انتشرت القراءة والكتابة بفضل هذه الدعوة بسرعه في عموم الامة الامية بعد ان كانت محصورة فقط على النخبة القليلة النادرة من اعالي القوم.",
+  "enhanced": "لقد انتشرت القراءة والكتابة بفضل هذه الدعوة بسرعه في عموم الامة الامية بعد ان كانت محصورة فقط على النخبة القليلة النادرة من اعالي القوم.",
+  "english": "This is a mock translation of the Arabic text with approximately 28 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 45,
+    "wordCount": 24,
+    "charCount": 136,
+    "laneHash": "b05df8f300651b2f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 136,
+    "processedAt": "2025-09-24T03:39:28.113Z",
+    "lpr": 1.875,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

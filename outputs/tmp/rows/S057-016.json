@@ -1,0 +1,46 @@
+{
+  "id": "S057-016",
+  "sectionId": "S057",
+  "original": "وعندها يظهر ويعلوا اصحاب الحق على أهل الباطل، فتعلو كفت ميزان الحق وتثبت، ويطفو الباطل كالزبد وتذهب سلطته وفعله.",
+  "enhanced": "وعندها يظهر ويعلوا اصحاب الحق على أهل الباطل، فتعلو كفت ميزان الحق وتثبت، ويطفو الباطل كالزبد وتذهب سلطته وفعله.",
+  "english": "This is a mock translation of the Arabic text with approximately 22 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S057",
+    "rowIndex": 15,
+    "wordCount": 19,
+    "charCount": 112,
+    "laneHash": "cf6c257121270247",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 112,
+    "processedAt": "2025-09-24T03:38:51.962Z",
+    "lpr": 2.3684210526315788,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

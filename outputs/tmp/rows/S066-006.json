@@ -1,0 +1,46 @@
+{
+  "id": "S066-006",
+  "sectionId": "S066",
+  "original": "فكانت رسالة رب العالمين تخاطب الروح والعقل.",
+  "enhanced": "فكانت رسالة رب العالمين تخاطب الروح والعقل.",
+  "english": "This is a mock translation of the Arabic text with approximately 8 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S066",
+    "rowIndex": 5,
+    "wordCount": 7,
+    "charCount": 43,
+    "laneHash": "58f8f169dc2c6ea5",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 43,
+    "processedAt": "2025-09-24T03:39:10.078Z",
+    "lpr": 6.428571428571429,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

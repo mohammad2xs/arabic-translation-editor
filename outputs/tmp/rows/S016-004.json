@@ -1,0 +1,53 @@
+{
+  "id": "S016-004",
+  "sectionId": "S016",
+  "original": "وهكذا فالصفات البشرية، \"الفطرة الإنسانية\" , هي نبراس يميز الانسان عن باقي المخلوقات الأرضية , فهي صفات خلقيه خاص به , يتصف بها الانسان , ويطلق عليها أعمال إنسانيه أو إنسانيته التي يعرف بها , والتي هي من جنس خلقه , فليس لاي مخلوق أخر مهما تطور وتعلم وتهذب وتدرب عن طريق الانسان او الطبيعة أن ينالها أو يقدر ان يصل اليها .",
+  "enhanced": "وهكذا فالصفات البشرية، \"الفطرة الإنسانية\" , هي نبراس يميز الانسان عن باقي المخلوقات الأرضية , فهي صفات خلقيه خاص به , يتصف بها الانسان , ويطلق عليها أعمال إنسانيه أو إنسانيته التي يعرف بها , والتي هي من جنس خلقه , فليس لاي مخلوق أخر مهما تطور وتعلم وتهذب وتدرب عن طريق الانسان او الطبيعة أن ينالها أو يقدر ان يصل اليها .",
+  "english": "This is a mock translation of the Arabic text with approximately 75 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S016",
+    "rowIndex": 3,
+    "wordCount": 63,
+    "charCount": 320,
+    "laneHash": "f20213a086ab3c0c",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 320,
+    "processedAt": "2025-09-24T03:38:14.235Z",
+    "lpr": 0.7142857142857143,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5901360544217686,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

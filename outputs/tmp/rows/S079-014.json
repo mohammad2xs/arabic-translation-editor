@@ -1,0 +1,46 @@
+{
+  "id": "S079-014",
+  "sectionId": "S079",
+  "original": "مما جعلهم يعيشوا في ظلمه موحشة للقلب والروح، المسجونان والمأسوران بقيود العقل الدكتاتور.",
+  "enhanced": "مما جعلهم يعيشوا في ظلمه موحشة للقلب والروح، المسجونان والمأسوران بقيود العقل الدكتاتور.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S079",
+    "rowIndex": 13,
+    "wordCount": 13,
+    "charCount": 88,
+    "laneHash": "25c6fc6fb137991d",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 88,
+    "processedAt": "2025-09-24T03:39:51.476Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

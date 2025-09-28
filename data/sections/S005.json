@@ -1,0 +1,67 @@
+{
+  "id": "S005",
+  "title": "النفس:",
+  "rows": [
+    {
+      "id": "S005-001",
+      "original": "ماهي النفس البشرية؟ لقد اختلف العلماء والباحثين والفلاسفة في تعريف النفس البشرية. وما هو الفرق بين النفس والروح؟ كلام خاض فيه العلماء كثيرا. من المتقدمين والمتأخرين.",
+      "enhanced": "ماهي النفس البشرية؟ لقد اختلف العلماء والباحثين والفلاسفة في تعريف النفس البشرية. وما هو الفرق بين النفس والروح؟ كلام خاض فيه العلماء كثيرا. من المتقدمين والمتأخرين.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S005",
+        "rowIndex": 0,
+        "wordCount": 26,
+        "charCount": 165,
+        "laneHash": "72a3e0f25a354d7e",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 165
+      }
+    },
+    {
+      "id": "S005-002",
+      "original": "حتى أصل بعضهم تعريف النفس الى اربعين تعريفا، وقد قال الشاعر في وصف حيرة المهتمين في تعريف النفس فقال: قد حار في النفس جميع الورى ..................",
+      "enhanced": "حتى أصل بعضهم تعريف النفس الى اربعين تعريفا، وقد قال الشاعر في وصف حيرة المهتمين في تعريف النفس فقال: قد حار في النفس جميع الورى ..................",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S005",
+        "rowIndex": 1,
+        "wordCount": 26,
+        "charCount": 147,
+        "laneHash": "ac8cad31935d3dc0",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 147
+      }
+    },
+    {
+      "id": "S005-003",
+      "original": "والفكر فيها قد غدا ضائعا وبرهن الكل على ما ادعوا.......................... وليس برهنا قاطعا",
+      "enhanced": "والفكر فيها قد غدا ضائعا وبرهن الكل على ما ادعوا.......................... وليس برهنا قاطعا",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S005",
+        "rowIndex": 2,
+        "wordCount": 13,
+        "charCount": 91,
+        "laneHash": "c2a483b0e3c4a417",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 91
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 3,
+    "wordCount": 65,
+    "charCount": 403,
+    "contentHash": "9923b92b7cefce13",
+    "processedAt": "2025-09-24T03:51:07.526Z"
+  }
+}

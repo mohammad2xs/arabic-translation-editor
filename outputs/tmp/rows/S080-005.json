@@ -1,0 +1,47 @@
+{
+  "id": "S080-005",
+  "sectionId": "S080",
+  "original": "إن فساد العقلانية الحداثية حولها إلى عقلانية ذرائعية لا ترى إلا أغراضها والأهداف التي تخدمها، فساقت العلم في نفس الاتجاه، فأصبحت الغاية تبرر الوسيلة من غير أي ضابط اخلاقي, فليس هناك اخلاقيات او مرجعيه تحكم وتوجه العمل , فكل الوسائل والطرق مسموح بها من اجل الوصول الى الغاية المنشودة , فليس هناك محرمات اختلاقيه او التزامات مبدئية او انسانيه تمنع من سلوك اي طريق مهما كان .",
+  "enhanced": "إن فساد العقلانية الحداثية حولها إلى عقلانية ذرائعية لا ترى إلا أغراضها والأهداف التي تخدمها، فساقت العلم في نفس الاتجاه، فأصبحت الغاية تبرر الوسيلة من غير أي ضابط اخلاقي, فليس هناك اخلاقيات او مرجعيه تحكم وتوجه العمل , فكل الوسائل والطرق مسموح بها من اجل الوصول الى الغاية المنشودة , فليس هناك محرمات اختلاقيه او التزامات مبدئية او انسانيه تمنع من سلوك اي طريق مهما كان .",
+  "english": "This is a mock translation of the Arabic text with approximately 80 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S080",
+    "rowIndex": 4,
+    "wordCount": 67,
+    "charCount": 372,
+    "laneHash": "9d5744e05876460b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 372,
+    "processedAt": "2025-09-24T03:39:54.239Z",
+    "lpr": 0.6716417910447762,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.7364960909737029,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

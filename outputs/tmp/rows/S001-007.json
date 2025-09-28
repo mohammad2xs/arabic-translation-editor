@@ -1,0 +1,43 @@
+{
+  "id": "S001-007",
+  "sectionId": "S001",
+  "original": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+  "enhanced": "إن هذا البحث يسعى إلى استكشاف هذه الجوانب من خلال منظور إسلامي أصيل، يستند إلى القرآن الكريم والسنة النبوية الشريفة.",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "laneHash": "13136b89192faa9e",
+    "sectionId": "S001",
+    "rowIndex": 6,
+    "wordCount": 19,
+    "charCount": 109,
+    "processedAt": "2025-09-24T03:38:11.184Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

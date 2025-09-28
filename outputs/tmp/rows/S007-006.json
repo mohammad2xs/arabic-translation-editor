@@ -1,0 +1,46 @@
+{
+  "id": "S007-006",
+  "sectionId": "S007",
+  "original": "وقوى تدرك الكليات المجردة بدون توسط عضو جسمي، وهي العقل أو النفس الناطقة، ولذا فهو يرى: أن كل قوى تدرك الجزئيات بواسطة عضو جسمي هي قوى حسيه.",
+  "enhanced": "وقوى تدرك الكليات المجردة بدون توسط عضو جسمي، وهي العقل أو النفس الناطقة، ولذا فهو يرى: أن كل قوى تدرك الجزئيات بواسطة عضو جسمي هي قوى حسيه.",
+  "english": "This is a mock translation of the Arabic text with approximately 32 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 5,
+    "wordCount": 27,
+    "charCount": 140,
+    "laneHash": "8ecff574a566c178",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 140,
+    "processedAt": "2025-09-24T03:38:11.676Z",
+    "lpr": 1.6666666666666667,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

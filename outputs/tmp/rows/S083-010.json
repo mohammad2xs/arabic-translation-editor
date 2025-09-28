@@ -1,0 +1,46 @@
+{
+  "id": "S083-010",
+  "sectionId": "S083",
+  "original": "بينما تعتبر اللغة خاصية إنسانية محضة لذا يكنى الإنسان بالكائن اللغوي (احمد ابوجوده) (167).",
+  "enhanced": "بينما تعتبر اللغة خاصية إنسانية محضة لذا يكنى الإنسان بالكائن اللغوي (احمد ابوجوده) (167).",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S083",
+    "rowIndex": 9,
+    "wordCount": 14,
+    "charCount": 90,
+    "laneHash": "c3deba65f7a93e4d",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 90,
+    "processedAt": "2025-09-24T03:40:07.190Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

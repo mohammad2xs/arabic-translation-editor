@@ -1,0 +1,43 @@
+{
+  "id": "S001-009",
+  "sectionId": "S001",
+  "original": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+  "enhanced": "وقد تناول الإسلام موضوع الإنسان بشكل شامل ومتكامل، حيث لم يقتصر على الجانب الروحي فحسب، بل شمل الجانب المادي أيضا.",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "laneHash": "52f5bd468f9c5874",
+    "sectionId": "S001",
+    "rowIndex": 8,
+    "wordCount": 20,
+    "charCount": 108,
+    "processedAt": "2025-09-24T03:38:11.184Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

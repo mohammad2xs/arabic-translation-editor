@@ -1,0 +1,46 @@
+{
+  "id": "S079-002",
+  "sectionId": "S079",
+  "original": "لقد أمنت الحداثة الايمان المطلق بالعلم كمنهج للمعرفة.",
+  "enhanced": "لقد أمنت الحداثة الايمان المطلق بالعلم كمنهج للمعرفة.",
+  "english": "This is a mock translation of the Arabic text with approximately 9 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S079",
+    "rowIndex": 1,
+    "wordCount": 8,
+    "charCount": 53,
+    "laneHash": "9d59914752afa322",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 53,
+    "processedAt": "2025-09-24T03:39:49.352Z",
+    "lpr": 5.625,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

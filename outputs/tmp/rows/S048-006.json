@@ -1,0 +1,46 @@
+{
+  "id": "S048-006",
+  "sectionId": "S048",
+  "original": "فسبب استدامت وجود تلك الموجودات هو التقائها وتزاوجها، اي وحدتها واندماجها مع جنسها، فكان ذلك الاندماج هو سبب وجود واستدامة ذلك الوجود الفردي.",
+  "enhanced": "فسبب استدامت وجود تلك الموجودات هو التقائها وتزاوجها، اي وحدتها واندماجها مع جنسها، فكان ذلك الاندماج هو سبب وجود واستدامة ذلك الوجود الفردي.",
+  "english": "This is a mock translation of the Arabic text with approximately 27 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S048",
+    "rowIndex": 5,
+    "wordCount": 23,
+    "charCount": 141,
+    "laneHash": "8c73a9c416b8a613",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 141,
+    "processedAt": "2025-09-24T03:38:36.278Z",
+    "lpr": 1.9565217391304348,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

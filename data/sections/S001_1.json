@@ -1,0 +1,31 @@
+{
+  "id": "S001_1",
+  "title": "المقدمة",
+  "rows": [
+    {
+      "id": "S001_1-001",
+      "original": "الإنسان فطره أم حضارة ؟ وما الطريق للوصول بالحضاره الانسانيه الى مدها؟",
+      "enhanced": "الإنسان فطره أم حضارة ؟ وما الطريق للوصول بالحضاره الانسانيه الى مدها؟",
+      "english": "",
+      "complexity": 1,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S001_1",
+        "rowIndex": 0,
+        "wordCount": 12,
+        "charCount": 70,
+        "laneHash": "7c01a88945c30d10",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 70
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 1,
+    "wordCount": 12,
+    "charCount": 70,
+    "contentHash": "083b50203924edfb",
+    "processedAt": "2025-09-24T03:51:07.523Z"
+  }
+}

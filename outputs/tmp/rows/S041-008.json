@@ -1,0 +1,46 @@
+{
+  "id": "S041-008",
+  "sectionId": "S041",
+  "original": "يقول عز وجل (ولا يحيطون بشيء من علمه إلا بما شاء).",
+  "enhanced": "يقول عز وجل (ولا يحيطون بشيء من علمه إلا بما شاء).",
+  "english": "This is a mock translation of the Arabic text with approximately 13 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S041",
+    "rowIndex": 7,
+    "wordCount": 11,
+    "charCount": 50,
+    "laneHash": "47c3b807c40e3859",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 50,
+    "processedAt": "2025-09-24T03:38:30.885Z",
+    "lpr": 4.090909090909091,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

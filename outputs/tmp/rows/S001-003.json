@@ -1,0 +1,78 @@
+{
+  "id": "S001-003",
+  "sectionId": "S001",
+  "original": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+  "enhanced": "قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا».",
+  "english": "This is a mock translation of the Arabic text with approximately 22 words to meet the LPR requirements[^1]. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 4,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "17:70",
+      "normalized": "الإسراء:70"
+    }
+  ],
+  "resolvedScripture": [
+    {
+      "reference": "17:70",
+      "arabic": "وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ وَحَمَلْنَاهُمْ فِي الْبَرِّ وَالْبَحْرِ وَرَزَقْنَاهُم مِّنَ الطَّيِّبَاتِ وَفَضَّلْنَاهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا",
+      "english": "And We have certainly honored the children of Adam and carried them on the land and sea and provided for them of the good things and preferred them over much of what We have created, with [definite] preference.",
+      "metadata": {
+        "surahName": "الإسراء",
+        "surahNameEn": "Al-Isra",
+        "revelationType": "meccan",
+        "juz": 15,
+        "hizb": 29,
+        "ruku": 9
+      }
+    }
+  ],
+  "footnotes": [
+    {
+      "number": 1,
+      "reference": "17:70",
+      "arabic": "وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ وَحَمَلْنَاهُمْ فِي الْبَرِّ وَالْبَحْرِ وَرَزَقْنَاهُم مِّنَ الطَّيِّبَاتِ وَفَضَّلْنَاهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا",
+      "english": "And We have certainly honored the children of Adam and carried them on the land and sea and provided for them of the good things and preferred them over much of what We have created, with [definite] preference.",
+      "metadata": {
+        "surahName": "الإسراء",
+        "surahNameEn": "Al-Isra",
+        "revelationType": "meccan",
+        "juz": 15,
+        "hizb": 29,
+        "ruku": 9
+      }
+    }
+  ],
+  "metadata": {
+    "laneHash": "502ca90dddf5e4b5",
+    "sectionId": "S001",
+    "rowIndex": 2,
+    "wordCount": 20,
+    "charCount": 112,
+    "processedAt": "2025-09-24T03:38:11.179Z",
+    "lpr": 2.3684210526315788,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

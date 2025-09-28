@@ -1,0 +1,46 @@
+{
+  "id": "S079-003",
+  "sectionId": "S079",
+  "original": "مما اوصل الانسان الى إهمال الحاجات الروحية والمعتقدات الدينية والثقافية.",
+  "enhanced": "مما اوصل الانسان الى إهمال الحاجات الروحية والمعتقدات الدينية والثقافية.",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S079",
+    "rowIndex": 2,
+    "wordCount": 10,
+    "charCount": 72,
+    "laneHash": "3c09f6efeec768cc",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 72,
+    "processedAt": "2025-09-24T03:39:49.352Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

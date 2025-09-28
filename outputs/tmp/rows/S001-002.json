@@ -1,0 +1,78 @@
+{
+  "id": "S001-002",
+  "sectionId": "S001",
+  "original": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+  "enhanced": "إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى، خلقه الله في أحسن تقويم وكرمه على كثير ممن خلق تفضيلا.",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements[^1]. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "17:70",
+      "normalized": "الإسراء:70"
+    }
+  ],
+  "resolvedScripture": [
+    {
+      "reference": "17:70",
+      "arabic": "وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ وَحَمَلْنَاهُمْ فِي الْبَرِّ وَالْبَحْرِ وَرَزَقْنَاهُم مِّنَ الطَّيِّبَاتِ وَفَضَّلْنَاهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا",
+      "english": "And We have certainly honored the children of Adam and carried them on the land and sea and provided for them of the good things and preferred them over much of what We have created, with [definite] preference.",
+      "metadata": {
+        "surahName": "الإسراء",
+        "surahNameEn": "Al-Isra",
+        "revelationType": "meccan",
+        "juz": 15,
+        "hizb": 29,
+        "ruku": 9
+      }
+    }
+  ],
+  "footnotes": [
+    {
+      "number": 1,
+      "reference": "17:70",
+      "arabic": "وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ وَحَمَلْنَاهُمْ فِي الْبَرِّ وَالْبَحْرِ وَرَزَقْنَاهُم مِّنَ الطَّيِّبَاتِ وَفَضَّلْنَاهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا",
+      "english": "And We have certainly honored the children of Adam and carried them on the land and sea and provided for them of the good things and preferred them over much of what We have created, with [definite] preference.",
+      "metadata": {
+        "surahName": "الإسراء",
+        "surahNameEn": "Al-Isra",
+        "revelationType": "meccan",
+        "juz": 15,
+        "hizb": 29,
+        "ruku": 9
+      }
+    }
+  ],
+  "metadata": {
+    "laneHash": "6fcb2434a177094f",
+    "sectionId": "S001",
+    "rowIndex": 1,
+    "wordCount": 19,
+    "charCount": 98,
+    "processedAt": "2025-09-24T03:38:11.172Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

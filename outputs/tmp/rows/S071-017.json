@@ -1,0 +1,46 @@
+{
+  "id": "S071-017",
+  "sectionId": "S071",
+  "original": "ليس فقط عن اطوار خلقنا، بل ايضا عن الكيفية التي بها تحيا أجسامنا وتعمل. “. (205) .",
+  "enhanced": "ليس فقط عن اطوار خلقنا، بل ايضا عن الكيفية التي بها تحيا أجسامنا وتعمل. “. (205) .",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 16,
+    "wordCount": 17,
+    "charCount": 82,
+    "laneHash": "ce039353c278946b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 82,
+    "processedAt": "2025-09-24T03:39:23.919Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

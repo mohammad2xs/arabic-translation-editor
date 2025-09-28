@@ -1,0 +1,46 @@
+{
+  "id": "S011-001",
+  "sectionId": "S011",
+  "original": "فالدبوسي يعتبر الجسم كالرعية والنفس هي اميرة هذه الرعية تأمرها في شؤن الحياة الدنيا ومتطلباتها، وفي كل ما تشتهيه النفس وتصبو اليه.",
+  "enhanced": "فالدبوسي يعتبر الجسم كالرعية والنفس هي اميرة هذه الرعية تأمرها في شؤن الحياة الدنيا ومتطلباتها، وفي كل ما تشتهيه النفس وتصبو اليه.",
+  "english": "This is a mock translation of the Arabic text with approximately 26 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S011",
+    "rowIndex": 0,
+    "wordCount": 22,
+    "charCount": 130,
+    "laneHash": "7e1df56e52888011",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 130,
+    "processedAt": "2025-09-24T03:38:12.379Z",
+    "lpr": 2.0454545454545454,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

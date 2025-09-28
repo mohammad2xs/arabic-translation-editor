@@ -1,0 +1,46 @@
+{
+  "id": "S004-022",
+  "sectionId": "S004",
+  "original": "وكذلك أستخدم الاحتراق في تشغيل الاليات لتصنع ما يحتاج له.",
+  "enhanced": "وكذلك أستخدم الاحتراق في تشغيل الاليات لتصنع ما يحتاج له.",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 21,
+    "wordCount": 10,
+    "charCount": 57,
+    "laneHash": "700c59e1382f96b8",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 57,
+    "processedAt": "2025-09-24T03:38:11.456Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

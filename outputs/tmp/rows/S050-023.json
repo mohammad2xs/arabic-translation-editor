@@ -1,0 +1,46 @@
+{
+  "id": "S050-023",
+  "sectionId": "S050",
+  "original": "فإذن الوحدة، إذ هي عرض في جميع الأشياء، فهي غير الواحد الحق، كما قدمنا.",
+  "enhanced": "فإذن الوحدة، إذ هي عرض في جميع الأشياء، فهي غير الواحد الحق، كما قدمنا.",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 22,
+    "wordCount": 14,
+    "charCount": 71,
+    "laneHash": "8e0867c478cd9949",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 71,
+    "processedAt": "2025-09-24T03:38:40.872Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

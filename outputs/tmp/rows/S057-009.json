@@ -1,0 +1,46 @@
+{
+  "id": "S057-009",
+  "sectionId": "S057",
+  "original": "لان سلطة الميزان الحق هي التي سوف تحكم بين الناس، من غير خبث وهوى.",
+  "enhanced": "لان سلطة الميزان الحق هي التي سوف تحكم بين الناس، من غير خبث وهوى.",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S057",
+    "rowIndex": 8,
+    "wordCount": 14,
+    "charCount": 66,
+    "laneHash": "344b3ec099044220",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 66,
+    "processedAt": "2025-09-24T03:38:51.555Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

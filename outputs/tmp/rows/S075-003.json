@@ -1,0 +1,46 @@
+{
+  "id": "S075-003",
+  "sectionId": "S075",
+  "original": "بحثا عن حلول لمشاكله، وتبيان لمعرفة ماهيته.",
+  "enhanced": "بحثا عن حلول لمشاكله، وتبيان لمعرفة ماهيته.",
+  "english": "This is a mock translation of the Arabic text with approximately 8 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S075",
+    "rowIndex": 2,
+    "wordCount": 7,
+    "charCount": 43,
+    "laneHash": "1a94b18d38385d7c",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 43,
+    "processedAt": "2025-09-24T03:39:36.422Z",
+    "lpr": 6.428571428571429,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

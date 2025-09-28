@@ -1,0 +1,46 @@
+{
+  "id": "S067-010",
+  "sectionId": "S067",
+  "original": "وهكذا كانت المعجزات تخاطب الناس على قدر عقولهم ليؤمنوا بالله الواحد القهار .",
+  "enhanced": "وهكذا كانت المعجزات تخاطب الناس على قدر عقولهم ليؤمنوا بالله الواحد القهار .",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S067",
+    "rowIndex": 9,
+    "wordCount": 13,
+    "charCount": 76,
+    "laneHash": "7926b5f270610486",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 76,
+    "processedAt": "2025-09-24T03:39:13.816Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

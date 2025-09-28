@@ -1,0 +1,47 @@
+{
+  "id": "S077-001",
+  "sectionId": "S077",
+  "original": "الحداثة: أن اول من ارسى فكرة او مشروع الحداثة في المفهوم الغربي هو الفيلسوف الغربي ديكارت , وقد انطلق هيغل في مشروع الحداثة من مقولته الشهيرة ( انا افكر اذا فأنا موجود ) إن هذه العبارة تدل على ان الفكر هو مفتاح عالم الوجود والموجودات فلا سبيل لآدرك الانسان وجوده ومعرفه ما حوله إلا بالفكر والتفكر والتدبر , الذي حاربته الكنيسة قرون طويلة وارادت اعدامه .",
+  "enhanced": "الحداثة: أن اول من ارسى فكرة او مشروع الحداثة في المفهوم الغربي هو الفيلسوف الغربي ديكارت , وقد انطلق هيغل في مشروع الحداثة من مقولته الشهيرة ( انا افكر اذا فأنا موجود ) إن هذه العبارة تدل على ان الفكر هو مفتاح عالم الوجود والموجودات فلا سبيل لآدرك الانسان وجوده ومعرفه ما حوله إلا بالفكر والتفكر والتدبر , الذي حاربته الكنيسة قرون طويلة وارادت اعدامه .",
+  "english": "This is a mock translation of the Arabic text with approximately 79 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S077",
+    "rowIndex": 0,
+    "wordCount": 66,
+    "charCount": 353,
+    "laneHash": "1d0649fcf77efc71",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 353,
+    "processedAt": "2025-09-24T03:39:46.890Z",
+    "lpr": 0.6818181818181818,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "expand",
+    "confidence": 0.8246753246753247,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

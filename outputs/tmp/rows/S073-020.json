@@ -1,0 +1,46 @@
+{
+  "id": "S073-020",
+  "sectionId": "S073",
+  "original": "لقد سخر اعداء هذا الدين كل ما اوتوا من قوه ومال وسلطان لإطفاء هذا النور الرباني في هذه المعركة.",
+  "enhanced": "لقد سخر اعداء هذا الدين كل ما اوتوا من قوه ومال وسلطان لإطفاء هذا النور الرباني في هذه المعركة.",
+  "english": "This is a mock translation of the Arabic text with approximately 22 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S073",
+    "rowIndex": 19,
+    "wordCount": 19,
+    "charCount": 95,
+    "laneHash": "2c8ae518993e05b4",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 95,
+    "processedAt": "2025-09-24T03:39:33.413Z",
+    "lpr": 2.3684210526315788,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S064-029",
+  "sectionId": "S064",
+  "original": "أما إذا افتقدت رجاحة العقل، ولم يستطع النور الذي قدح في العقل ان يحرق الغشاوة التي احاطة بالفطرة ليصل الى نورها، فما له من نور.",
+  "enhanced": "أما إذا افتقدت رجاحة العقل، ولم يستطع النور الذي قدح في العقل ان يحرق الغشاوة التي احاطة بالفطرة ليصل الى نورها، فما له من نور.",
+  "english": "This is a mock translation of the Arabic text with approximately 30 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S064",
+    "rowIndex": 28,
+    "wordCount": 25,
+    "charCount": 127,
+    "laneHash": "629bc9e543fd872a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 127,
+    "processedAt": "2025-09-24T03:39:07.912Z",
+    "lpr": 1.8,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

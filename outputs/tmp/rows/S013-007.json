@@ -1,0 +1,47 @@
+{
+  "id": "S013-007",
+  "sectionId": "S013",
+  "original": "وأما اذا ساير القلب العقل المدرك بالحواس الملموسة فقط والمؤتمر بهوى النفس ورغباتها ,و بملموساته المؤقتة غير مكترث او ناظر لعاقبه الامور بل غارق في حاضر ما سولت له نفسه , غير ملتفت الى العواقب التي قد يرشده إليها قلبه ,فهذا الانسان في هذه الحالة يسير مكبا على وجه أعمى ,لا يبصر ما حوله , يقول تعالى( أفمن يمشي مكبا على وجهه أهدى أمن يمشي سويا على صراط مستقيم ), ولذلك كانت دعوة المولى بأن يسير الانسان على هذه الارض بتفكر وتدبر وبصيره , يقول تعالى (أفلم يسيروا في ارض فتكون لهم قلوب يعقلون بها أو أذان يسمعون بها فإنها لا تعمى الابصار ولكن تعمى القلوب التي في الصدور ) الحج الآية 46.",
+  "enhanced": "وأما اذا ساير القلب العقل المدرك بالحواس الملموسة فقط والمؤتمر بهوى النفس ورغباتها ,و بملموساته المؤقتة غير مكترث او ناظر لعاقبه الامور بل غارق في حاضر ما سولت له نفسه , غير ملتفت الى العواقب التي قد يرشده إليها قلبه ,فهذا الانسان في هذه الحالة يسير مكبا على وجه أعمى ,لا يبصر ما حوله , يقول تعالى( أفمن يمشي مكبا على وجهه أهدى أمن يمشي سويا على صراط مستقيم ), ولذلك كانت دعوة المولى بأن يسير الانسان على هذه الارض بتفكر وتدبر وبصيره , يقول تعالى (أفلم يسيروا في ارض فتكون لهم قلوب يعقلون بها أو أذان يسمعون بها فإنها لا تعمى الابصار ولكن تعمى القلوب التي في الصدور ) الحج الآية 46.",
+  "english": "This is a mock translation of the Arabic text with approximately 135 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S013",
+    "rowIndex": 6,
+    "wordCount": 113,
+    "charCount": 582,
+    "laneHash": "cb0d2c0829be04b4",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 582,
+    "processedAt": "2025-09-24T03:38:12.887Z",
+    "lpr": 0.39823008849557523,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.4674111532518612,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S041-009",
+  "sectionId": "S041",
+  "original": "فمن هذا الجمع لملاحظات الحواس، قد يخرج العقل باكتشافات وتصورات جديده، وهكذا يعقل الانسان ما حوله من الاشياء ويتفهمها ويدركها.",
+  "enhanced": "فمن هذا الجمع لملاحظات الحواس، قد يخرج العقل باكتشافات وتصورات جديده، وهكذا يعقل الانسان ما حوله من الاشياء ويتفهمها ويدركها.",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S041",
+    "rowIndex": 8,
+    "wordCount": 20,
+    "charCount": 125,
+    "laneHash": "fff13acac91153ae",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 125,
+    "processedAt": "2025-09-24T03:38:30.996Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

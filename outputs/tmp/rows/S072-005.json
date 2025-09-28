@@ -1,0 +1,46 @@
+{
+  "id": "S072-005",
+  "sectionId": "S072",
+  "original": "وليتحقق قوله تعالى “وما من امة إلا خلا فيها نذير\" الى يوم الدين.",
+  "enhanced": "وليتحقق قوله تعالى “وما من امة إلا خلا فيها نذير\" الى يوم الدين.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S072",
+    "rowIndex": 4,
+    "wordCount": 13,
+    "charCount": 64,
+    "laneHash": "3d6c7ed156bfbd41",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 64,
+    "processedAt": "2025-09-24T03:39:28.967Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

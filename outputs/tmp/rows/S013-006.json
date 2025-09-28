@@ -1,0 +1,46 @@
+{
+  "id": "S013-006",
+  "sectionId": "S013",
+  "original": "فإذا وافق العقل بصيرة ورؤية عين القلب، فسوف يسير الإنسان الى الرشاد والهدى ويربح الدنيا والآخرة .",
+  "enhanced": "فإذا وافق العقل بصيرة ورؤية عين القلب، فسوف يسير الإنسان الى الرشاد والهدى ويربح الدنيا والآخرة .",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S013",
+    "rowIndex": 5,
+    "wordCount": 17,
+    "charCount": 97,
+    "laneHash": "ac3d12f1e5cbfc42",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 97,
+    "processedAt": "2025-09-24T03:38:12.835Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

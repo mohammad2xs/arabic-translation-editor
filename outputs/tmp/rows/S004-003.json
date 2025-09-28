@@ -1,0 +1,46 @@
+{
+  "id": "S004-003",
+  "sectionId": "S004",
+  "original": "وأن تكون حرا طليقا في ان تتبع هواك وما تشتهيه الانفس، ولك القابلية والقدرة على ان تمسك نفسك عن هواك وان تتبع عقلك وما تراه الاحسن والافضل لك.",
+  "enhanced": "وأن تكون حرا طليقا في ان تتبع هواك وما تشتهيه الانفس، ولك القابلية والقدرة على ان تمسك نفسك عن هواك وان تتبع عقلك وما تراه الاحسن والافضل لك.",
+  "english": "This is a mock translation of the Arabic text with approximately 33 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 2,
+    "wordCount": 28,
+    "charCount": 141,
+    "laneHash": "14be3a212cb88499",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 141,
+    "processedAt": "2025-09-24T03:38:11.338Z",
+    "lpr": 1.6071428571428572,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

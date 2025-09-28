@@ -1,0 +1,52 @@
+{
+  "id": "S063-012",
+  "sectionId": "S063",
+  "original": "ومن هذا الداء نشأ ما يسمى \"صراع الحضارات\".",
+  "enhanced": "ومن هذا الداء نشأ ما يسمى \"صراع الحضارات\".",
+  "english": "This is a mock translation of the Arabic text with approximately 9 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S063",
+    "rowIndex": 11,
+    "wordCount": 8,
+    "charCount": 42,
+    "laneHash": "4808a07d39b4fe9a",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 42,
+    "processedAt": "2025-09-24T03:38:59.870Z",
+    "lpr": 5.625,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

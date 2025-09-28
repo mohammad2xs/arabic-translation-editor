@@ -1,0 +1,47 @@
+{
+  "id": "S023-021",
+  "sectionId": "S023",
+  "original": "وان سلامة الفطرة هي اساس وأرضية كل بناء يبنى عليه فكر وعقيده ومذهب وإيمان وحضارة ذلك الإنسان , وهذا اساس بحثنا , الذي نريد ان نبين فيه أن منشأ شخصية ومعتقد وفكر الانسان يعتمد بناؤها على طبيعة الأرضية التي بنيت عليه , فهذه الارض هي التي تحدد قيمة وطبيعة هذا البناء , فان كانت الارض صحراء رمليه , متحركة بتحرك الهوى ,فلا يمكن ان تبني بها بناء شامخ راسخ, ام اذا كانت الارض صلدة صلبة راسخة لها قواعد وجذور راسخه من اصل تكوينها , تستطيع ان تبني البنيان العالي الشامخ الراسخ .",
+  "enhanced": "وان سلامة الفطرة هي اساس وأرضية كل بناء يبنى عليه فكر وعقيده ومذهب وإيمان وحضارة ذلك الإنسان , وهذا اساس بحثنا , الذي نريد ان نبين فيه أن منشأ شخصية ومعتقد وفكر الانسان يعتمد بناؤها على طبيعة الأرضية التي بنيت عليه , فهذه الارض هي التي تحدد قيمة وطبيعة هذا البناء , فان كانت الارض صحراء رمليه , متحركة بتحرك الهوى ,فلا يمكن ان تبني بها بناء شامخ راسخ, ام اذا كانت الارض صلدة صلبة راسخة لها قواعد وجذور راسخه من اصل تكوينها , تستطيع ان تبني البنيان العالي الشامخ الراسخ .",
+  "english": "This is a mock translation of the Arabic text with approximately 110 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S023",
+    "rowIndex": 20,
+    "wordCount": 92,
+    "charCount": 470,
+    "laneHash": "20dd9b80a7347ad9",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 470,
+    "processedAt": "2025-09-24T03:38:16.892Z",
+    "lpr": 0.4891304347826087,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5106970324361628,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

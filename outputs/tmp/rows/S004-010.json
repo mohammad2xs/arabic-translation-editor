@@ -1,0 +1,47 @@
+{
+  "id": "S004-010",
+  "sectionId": "S004",
+  "original": "فهذه الأمانة هي امانة التسليم طوعا لله في كل امور حياة الانسان، وهي الدين الذي ارتضاه الله لهم وأمرهم به عن طريق انبياءه ورسله الذين ارسل اليهم، وذلك في قوله تعالى (إن الدين عند الله الإسلام ومن يبتغي غير الإسلام دينا فلن يقبل منه) (6) , وهذا هو دين الذي دعي اليه كل الانبياء والرسل من الله , ولم يأتي الله بدين غير الاسلام , ولقد وجدنا في كتاب الله القران , ان كل الانبياء والرسل وأتباعهم يقرون ويشهدون لله بسلامهم له , وانهم له مسلمون .",
+  "enhanced": "فهذه الأمانة هي امانة التسليم طوعا لله في كل امور حياة الانسان، وهي الدين الذي ارتضاه الله لهم وأمرهم به عن طريق انبياءه ورسله الذين ارسل اليهم، وذلك في قوله تعالى (إن الدين عند الله الإسلام ومن يبتغي غير الإسلام دينا فلن يقبل منه) (6) , وهذا هو دين الذي دعي اليه كل الانبياء والرسل من الله , ولم يأتي الله بدين غير الاسلام , ولقد وجدنا في كتاب الله القران , ان كل الانبياء والرسل وأتباعهم يقرون ويشهدون لله بسلامهم له , وانهم له مسلمون .",
+  "english": "This is a mock translation of the Arabic text with approximately 104 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 9,
+    "wordCount": 87,
+    "charCount": 438,
+    "laneHash": "ebafcad72330452e",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 438,
+    "processedAt": "2025-09-24T03:38:11.408Z",
+    "lpr": 0.5172413793103449,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5588054187192119,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

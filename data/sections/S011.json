@@ -1,0 +1,67 @@
+{
+  "id": "S011",
+  "title": "و يقول أن هذه الامراض تزداد اعراضها وتقل بقدر تصالح وتوافق بين الاربع عوامل المحركة للإنسان كجسم.",
+  "rows": [
+    {
+      "id": "S011-001",
+      "original": "فالدبوسي يعتبر الجسم كالرعية والنفس هي اميرة هذه الرعية تأمرها في شؤن الحياة الدنيا ومتطلباتها، وفي كل ما تشتهيه النفس وتصبو اليه.",
+      "enhanced": "فالدبوسي يعتبر الجسم كالرعية والنفس هي اميرة هذه الرعية تأمرها في شؤن الحياة الدنيا ومتطلباتها، وفي كل ما تشتهيه النفس وتصبو اليه.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S011",
+        "rowIndex": 0,
+        "wordCount": 22,
+        "charCount": 130,
+        "laneHash": "7e1df56e52888011",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 130
+      }
+    },
+    {
+      "id": "S011-002",
+      "original": "اما الروح فهي مأمورة من عند المولى (والله اعلم) توجه وترشد النفس فيما ينفعها في امور الآخرة.",
+      "enhanced": "اما الروح فهي مأمورة من عند المولى (والله اعلم) توجه وترشد النفس فيما ينفعها في امور الآخرة.",
+      "english": "",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S011",
+        "rowIndex": 1,
+        "wordCount": 17,
+        "charCount": 92,
+        "laneHash": "72b6562d7e71abe6",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 92
+      }
+    },
+    {
+      "id": "S011-003",
+      "original": "واما الرأس والقلب فهما يعملان بأوامر اميريهما النفس والروح، وعلى الجسم ان ينصاع ويعمل بتلك الاوامر الصادرة من النفس والروح.",
+      "enhanced": "واما الرأس والقلب فهما يعملان بأوامر اميريهما النفس والروح، وعلى الجسم ان ينصاع ويعمل بتلك الاوامر الصادرة من النفس والروح.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S011",
+        "rowIndex": 2,
+        "wordCount": 20,
+        "charCount": 123,
+        "laneHash": "cc478d39f8c21fa9",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 123
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 3,
+    "wordCount": 59,
+    "charCount": 345,
+    "contentHash": "cdae799385147c4a",
+    "processedAt": "2025-09-24T03:51:07.528Z"
+  }
+}

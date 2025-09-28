@@ -1,0 +1,47 @@
+{
+  "id": "S004-009",
+  "sectionId": "S004",
+  "original": "يقول تعالى في ذكر هذه الأمانة في سورة الاحزاب الآية 72 (انا عرضنا الامانة على السماوات والارض والجبال فأبين ان يحملنها وأشفقن منها وحملها الانسان إنه كان ظلوما جهولا) (5)، فهذه \"الأمانة\" هي امانة التعهد بالطاعة، طوعا واختيارا، والاستسلام لإمر الله في كل ما امر، وأن يكون مسلما له ولإمره ولقدره خيره وشره والرضى بما قسمه الله له في هذه الحياة.",
+  "enhanced": "يقول تعالى في ذكر هذه الأمانة في سورة الاحزاب الآية 72 (انا عرضنا الامانة على السماوات والارض والجبال فأبين ان يحملنها وأشفقن منها وحملها الانسان إنه كان ظلوما جهولا) (5)، فهذه \"الأمانة\" هي امانة التعهد بالطاعة، طوعا واختيارا، والاستسلام لإمر الله في كل ما امر، وأن يكون مسلما له ولإمره ولقدره خيره وشره والرضى بما قسمه الله له في هذه الحياة.",
+  "english": "This is a mock translation of the Arabic text with approximately 73 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 8,
+    "wordCount": 61,
+    "charCount": 342,
+    "laneHash": "6c27649a41f3f548",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 342,
+    "processedAt": "2025-09-24T03:38:11.399Z",
+    "lpr": 0.7377049180327869,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8512880562060889,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

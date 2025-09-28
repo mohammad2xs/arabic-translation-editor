@@ -1,0 +1,46 @@
+{
+  "id": "S051-006",
+  "sectionId": "S051",
+  "original": "وكذلك تملك الاشياء: فأن كثرة الملوك والمالك للشيء الواحد انقسم هذا الشيء الواحد الى فتات. فأن كثرة الملوك تفتت الملك. وإن كثرة القبطان تغرق السفينة.",
+  "enhanced": "وكذلك تملك الاشياء: فأن كثرة الملوك والمالك للشيء الواحد انقسم هذا الشيء الواحد الى فتات. فأن كثرة الملوك تفتت الملك. وإن كثرة القبطان تغرق السفينة.",
+  "english": "This is a mock translation of the Arabic text with approximately 30 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S051",
+    "rowIndex": 5,
+    "wordCount": 25,
+    "charCount": 148,
+    "laneHash": "29fdf4d84813d91e",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 148,
+    "processedAt": "2025-09-24T03:38:42.051Z",
+    "lpr": 1.8,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

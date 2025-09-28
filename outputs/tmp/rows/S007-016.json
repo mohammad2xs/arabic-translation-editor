@@ -1,0 +1,53 @@
+{
+  "id": "S007-016",
+  "sectionId": "S007",
+  "original": "فقد جعل الله الحسنة تمح السيئة، لآن عمل الحسنه بعد عمل السيئة يبين ان النفس قد تزكت وندمت على عمل السيئة فأتبعتها بالحسنة, عن أبي ذر و معاذ بن جبل -رضي الله عنهما- عن النبي -صلى الله عليه وسلم- قال: «اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن) (21)».",
+  "enhanced": "فقد جعل الله الحسنة تمح السيئة، لآن عمل الحسنه بعد عمل السيئة يبين ان النفس قد تزكت وندمت على عمل السيئة فأتبعتها بالحسنة, عن أبي ذر و معاذ بن جبل -رضي الله عنهما- عن النبي -صلى الله عليه وسلم- قال: «اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن) (21)».",
+  "english": "This is a mock translation of the Arabic text with approximately 63 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 15,
+    "wordCount": 53,
+    "charCount": 275,
+    "laneHash": "531394dec8340369",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 275,
+    "processedAt": "2025-09-24T03:38:12.086Z",
+    "lpr": 0.8490566037735849,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8209793351302785,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

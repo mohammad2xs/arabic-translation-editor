@@ -1,0 +1,47 @@
+{
+  "id": "S055-016",
+  "sectionId": "S055",
+  "original": "ولذلك نجد أن هناك اشياء كثيره قد تحلو بعينك , ولكن لا تحلو للأخرين وقد تنفر منها الاخرون , وذلك لإنها أحاسيس قلبيه , وقد نحب انسان ونراه الاجمل والأحسن , ولكن قد لا يشاطرنا الاخرين الرؤية نفسها , وذلك لإن من يحب ويعشق هو القلب وليس العقل , ولو أحب الإنسان بعقله , لوجدنا أن العقل يختار الصورة ألأجمل شكلا وموضوعا , فإذا ما اختلف الشكل والموضوع في تلك الصورة لنفس الشخص أو الشيء , أختلف حبه وتعلقه به , لان عمل العقل هو الاختيار والمقارنة بين شيئين ليختار منهما الافضل او ليختار المعلومة اعتمادا على الخيارات التي امامه ,فلو كان الامر كذلك لوجدنا المحب والعاشق بعقله يتغير ويتبدل حبه وعشقه عند تغير الصورة الكمالية للأشياء التي تراها عين العقل , فهو يتنقل من الصورة الجميلة الى الاجمل , ومن فتاة جميله او الرجل الوسيم الى الفتاة الاجمل والى الرجل الاوسم .",
+  "enhanced": "ولذلك نجد أن هناك اشياء كثيره قد تحلو بعينك , ولكن لا تحلو للأخرين وقد تنفر منها الاخرون , وذلك لإنها أحاسيس قلبيه , وقد نحب انسان ونراه الاجمل والأحسن , ولكن قد لا يشاطرنا الاخرين الرؤية نفسها , وذلك لإن من يحب ويعشق هو القلب وليس العقل , ولو أحب الإنسان بعقله , لوجدنا أن العقل يختار الصورة ألأجمل شكلا وموضوعا , فإذا ما اختلف الشكل والموضوع في تلك الصورة لنفس الشخص أو الشيء , أختلف حبه وتعلقه به , لان عمل العقل هو الاختيار والمقارنة بين شيئين ليختار منهما الافضل او ليختار المعلومة اعتمادا على الخيارات التي امامه ,فلو كان الامر كذلك لوجدنا المحب والعاشق بعقله يتغير ويتبدل حبه وعشقه عند تغير الصورة الكمالية للأشياء التي تراها عين العقل , فهو يتنقل من الصورة الجميلة الى الاجمل , ومن فتاة جميله او الرجل الوسيم الى الفتاة الاجمل والى الرجل الاوسم .",
+  "english": "This is a mock translation of the Arabic text with approximately 171 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 15,
+    "wordCount": 143,
+    "charCount": 754,
+    "laneHash": "ddcfa74a4f11ba93",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 754,
+    "processedAt": "2025-09-24T03:38:46.654Z",
+    "lpr": 0.3146853146853147,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.3165168165168165,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

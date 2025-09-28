@@ -1,0 +1,53 @@
+{
+  "id": "S014-009",
+  "sectionId": "S014",
+  "original": "ومن الشواهد على العلم الفطري والقلبي هو إرشاد رسول الله صلى الله عليه وسلم لإصحابه عندما يستشكل عليهم امر من امور دينهم أحلال كان ام حرام، أن يرجعوا الى قلبهم وضميرهم ويستفتوه، فأن اطمئن له فهو حلال، وإن لم يطمئن به ويرتاح، فهو حرام\"، او كما قال رسول الله. فهذا الحديث يؤكد ان في القلب علم من لدن عليم حكيم استودعه في قلب الانسان، ولذلك دعانا رسول الله بالرجوع اليه عند الإستشكال، للاستشارة والتيقن من حلة او حرمة ذلك الامر.",
+  "enhanced": "ومن الشواهد على العلم الفطري والقلبي هو إرشاد رسول الله صلى الله عليه وسلم لإصحابه عندما يستشكل عليهم امر من امور دينهم أحلال كان ام حرام، أن يرجعوا الى قلبهم وضميرهم ويستفتوه، فأن اطمئن له فهو حلال، وإن لم يطمئن به ويرتاح، فهو حرام\"، او كما قال رسول الله. فهذا الحديث يؤكد ان في القلب علم من لدن عليم حكيم استودعه في قلب الانسان، ولذلك دعانا رسول الله بالرجوع اليه عند الإستشكال، للاستشارة والتيقن من حلة او حرمة ذلك الامر.",
+  "english": "This is a mock translation of the Arabic text with approximately 96 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "hadith",
+      "reference": "",
+      "normalized": "Hadith:prophet:context"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S014",
+    "rowIndex": 8,
+    "wordCount": 80,
+    "charCount": 424,
+    "laneHash": "1531e1b5d3f20cce",
+    "isVerse": true,
+    "hasScripture": true,
+    "originalLength": 424,
+    "processedAt": "2025-09-24T03:38:13.645Z",
+    "lpr": 0.5625,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5456349206349207,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

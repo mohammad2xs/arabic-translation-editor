@@ -1,0 +1,58 @@
+{
+  "id": "S055-020",
+  "sectionId": "S055",
+  "original": "يقول محي الدين ابن العربي \" ان للقلب لغة لا يفهمها العقل \" اي ان لغة الاحساس والادراك الحسي والتلقي الالهامي هي لغة القلب التي لا يفهمها العقل ,كذلك نجد عالم الفيزياء المشهور باسكال , رغم انه عالم فيزياء ورياضيات إلا انه ايقن و توصل الى معرفة لغة القلوب , عندما شعر وايقن بوجود الله الخالق في قلبه قبل ان يدركه عقله , فهو يقول ان : \"للقلب أسبابه التي لا يدرك العقل عنها شيئا، فالقلب هو من يشعر بالله تعالى لا العقل، وهذا هو الإيمان؛ أن تجد الخالق بقلبك لا بعقلك\".",
+  "enhanced": "يقول محي الدين ابن العربي \" ان للقلب لغة لا يفهمها العقل \" اي ان لغة الاحساس والادراك الحسي والتلقي الالهامي هي لغة القلب التي لا يفهمها العقل ,كذلك نجد عالم الفيزياء المشهور باسكال , رغم انه عالم فيزياء ورياضيات إلا انه ايقن و توصل الى معرفة لغة القلوب , عندما شعر وايقن بوجود الله الخالق في قلبه قبل ان يدركه عقله , فهو يقول ان : \"للقلب أسبابه التي لا يدرك العقل عنها شيئا، فالقلب هو من يشعر بالله تعالى لا العقل، وهذا هو الإيمان؛ أن تجد الخالق بقلبك لا بعقلك\".",
+  "english": "This is a mock translation of the Arabic text with approximately 110 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    },
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 19,
+    "wordCount": 92,
+    "charCount": 463,
+    "laneHash": "e309db963cc8ef3f",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 463,
+    "processedAt": "2025-09-24T03:38:47.635Z",
+    "lpr": 0.4891304347826087,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5454192546583851,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

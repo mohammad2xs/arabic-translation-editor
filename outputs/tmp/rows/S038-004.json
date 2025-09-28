@@ -1,0 +1,46 @@
+{
+  "id": "S038-004",
+  "sectionId": "S038",
+  "original": "وقد نشر العالم مايكل بيهي الذي غير نظرة علماء البيولوجيا في القرن الواحد والعشرين في كتابه (93).",
+  "enhanced": "وقد نشر العالم مايكل بيهي الذي غير نظرة علماء البيولوجيا في القرن الواحد والعشرين في كتابه (93).",
+  "english": "This is a mock translation of the Arabic text with approximately 20 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S038",
+    "rowIndex": 3,
+    "wordCount": 17,
+    "charCount": 96,
+    "laneHash": "3899f7736a02035f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 96,
+    "processedAt": "2025-09-24T03:38:29.644Z",
+    "lpr": 2.6470588235294117,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S006-007",
+  "sectionId": "S006",
+  "original": "بينما يرى \"ديوي\" أن النفس هي: شيء ليس جاهز معد من قبل، وإنما هي شيء في حالة صيرورة مستمرة وتشكيل دائم بواسطة اختيار العمل (15) .",
+  "enhanced": "بينما يرى \"ديوي\" أن النفس هي: شيء ليس جاهز معد من قبل، وإنما هي شيء في حالة صيرورة مستمرة وتشكيل دائم بواسطة اختيار العمل (15) .",
+  "english": "This is a mock translation of the Arabic text with approximately 31 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S006",
+    "rowIndex": 6,
+    "wordCount": 26,
+    "charCount": 128,
+    "laneHash": "44bfcf35b110bbde",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 128,
+    "processedAt": "2025-09-24T03:38:11.602Z",
+    "lpr": 1.7307692307692308,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

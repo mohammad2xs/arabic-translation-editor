@@ -1,0 +1,46 @@
+{
+  "id": "S077-003",
+  "sectionId": "S077",
+  "original": "لقد بدء مشروع الحداثة الأوربية بالتأكيد على الذات الإنسانية، والثقة في قدرتها على انتاج الحقيقة او الوصول اليها، وتفسير الكون، ووضع نظم الحياة.",
+  "enhanced": "لقد بدء مشروع الحداثة الأوربية بالتأكيد على الذات الإنسانية، والثقة في قدرتها على انتاج الحقيقة او الوصول اليها، وتفسير الكون، ووضع نظم الحياة.",
+  "english": "This is a mock translation of the Arabic text with approximately 27 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S077",
+    "rowIndex": 2,
+    "wordCount": 23,
+    "charCount": 143,
+    "laneHash": "41f6b5af9a4b5975",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 143,
+    "processedAt": "2025-09-24T03:39:46.968Z",
+    "lpr": 1.9565217391304348,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

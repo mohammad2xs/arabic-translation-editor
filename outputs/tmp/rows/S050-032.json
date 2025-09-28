@@ -1,0 +1,46 @@
+{
+  "id": "S050-032",
+  "sectionId": "S050",
+  "original": "فإذن فيض الوحدة عن الواحد الحق الأول، هو تهوي كل محسوس، وما يلحق المحسوس، فيوجد كل واحد منها إذن يهوي بهوية إياها.",
+  "enhanced": "فإذن فيض الوحدة عن الواحد الحق الأول، هو تهوي كل محسوس، وما يلحق المحسوس، فيوجد كل واحد منها إذن يهوي بهوية إياها.",
+  "english": "This is a mock translation of the Arabic text with approximately 26 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 31,
+    "wordCount": 22,
+    "charCount": 114,
+    "laneHash": "b8dedfcac8d85f88",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 114,
+    "processedAt": "2025-09-24T03:38:41.197Z",
+    "lpr": 2.0454545454545454,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

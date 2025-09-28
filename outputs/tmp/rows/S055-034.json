@@ -1,0 +1,47 @@
+{
+  "id": "S055-034",
+  "sectionId": "S055",
+  "original": "وان النوران الذين هما مسلمين للإنسان وهما العقل , والقرآن , لنورهما زياده بنظر العين ونقصان ( اي يزيد وينقص ) , وأن النورين اللذان غير مسلمان الى تدبير العبد هما : نور التوفيق , ونور العواقب , وهما كرامة من الحميد المجيد , وأن كل الانوار على التفاوت ( اي متفاوت نورها) , وإن نور التوفيق يتناهى الى حال يستغني العبد معه عن اضاءة العقل لأنه ما احتاج الى نور العقل إلا لتجلو ظلمة المسافة الى العواقب , وبنور التوفيق استنارت المسافة فوق نوره ( اي نور العقل ), بل لاحت لقلبه العواقب كما تلوح ليلا لعينيه الكواكب.",
+  "enhanced": "وان النوران الذين هما مسلمين للإنسان وهما العقل , والقرآن , لنورهما زياده بنظر العين ونقصان ( اي يزيد وينقص ) , وأن النورين اللذان غير مسلمان الى تدبير العبد هما : نور التوفيق , ونور العواقب , وهما كرامة من الحميد المجيد , وأن كل الانوار على التفاوت ( اي متفاوت نورها) , وإن نور التوفيق يتناهى الى حال يستغني العبد معه عن اضاءة العقل لأنه ما احتاج الى نور العقل إلا لتجلو ظلمة المسافة الى العواقب , وبنور التوفيق استنارت المسافة فوق نوره ( اي نور العقل ), بل لاحت لقلبه العواقب كما تلوح ليلا لعينيه الكواكب.",
+  "english": "This is a mock translation of the Arabic text with approximately 118 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 33,
+    "wordCount": 99,
+    "charCount": 507,
+    "laneHash": "73848a56bccaa40a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 507,
+    "processedAt": "2025-09-24T03:38:48.621Z",
+    "lpr": 0.45454545454545453,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.46645021645021645,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

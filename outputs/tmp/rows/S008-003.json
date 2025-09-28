@@ -1,0 +1,53 @@
+{
+  "id": "S008-003",
+  "sectionId": "S008",
+  "original": "وبينما ابن القيم يقسم النفس الى قسمين المطمئنة واللوامة، نجد الدبوسي رحمه الله في كتابه الامد الاقصى ,يتعمق في تحليل النفس البشرية وتفاعلاتها ,فيرى ان النفس البشرية تعمل باندفاع الشهوى والمتعة في الحياة الدنيا , ويقول\" إن النفس لآمرة بالسوء إلا ما رحم ربي \", وأنها اذا تصرفت لوحدها من غير تأثير الروح عليها , فأنها تأخذ الانسان الى المهالك , لأنها تنظر الى المصالح الوقتيه الانيه , ولا تنظر الى العواقب المرتقبة من تلك الاعمال .",
+  "enhanced": "وبينما ابن القيم يقسم النفس الى قسمين المطمئنة واللوامة، نجد الدبوسي رحمه الله في كتابه الامد الاقصى ,يتعمق في تحليل النفس البشرية وتفاعلاتها ,فيرى ان النفس البشرية تعمل باندفاع الشهوى والمتعة في الحياة الدنيا , ويقول\" إن النفس لآمرة بالسوء إلا ما رحم ربي \", وأنها اذا تصرفت لوحدها من غير تأثير الروح عليها , فأنها تأخذ الانسان الى المهالك , لأنها تنظر الى المصالح الوقتيه الانيه , ولا تنظر الى العواقب المرتقبة من تلك الاعمال .",
+  "english": "This is a mock translation of the Arabic text with approximately 92 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S008",
+    "rowIndex": 2,
+    "wordCount": 77,
+    "charCount": 428,
+    "laneHash": "4514f76ed4a86560",
+    "isVerse": false,
+    "hasScripture": true,
+    "originalLength": 428,
+    "processedAt": "2025-09-24T03:38:12.283Z",
+    "lpr": 0.5844155844155844,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5560709132137703,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

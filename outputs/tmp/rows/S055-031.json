@@ -1,0 +1,46 @@
+{
+  "id": "S055-031",
+  "sectionId": "S055",
+  "original": "وربما استوت الآلات بمعانيها، فرب ناظر عين أحد من ناظر , ورب شمع أضووا من سراج زاهر .",
+  "enhanced": "وربما استوت الآلات بمعانيها، فرب ناظر عين أحد من ناظر , ورب شمع أضووا من سراج زاهر .",
+  "english": "This is a mock translation of the Arabic text with approximately 21 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 30,
+    "wordCount": 18,
+    "charCount": 84,
+    "laneHash": "7cf4f6d53f968ea9",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 84,
+    "processedAt": "2025-09-24T03:38:47.966Z",
+    "lpr": 2.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

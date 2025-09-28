@@ -1,0 +1,47 @@
+{
+  "id": "S081-018",
+  "sectionId": "S081",
+  "original": "فالإنسان بفطرته لا يستأنس ويرتاح إلا إذا ما انسجم داخله مع ما يحيط به من مخلوقات الله، والتي هي في حالة تسليم لخالقها تسجد وتسبح لله بفطرتها، فكيف يكون للإنسان السيد على ما حوله من المخلوقات المسبحة لله أن يسودها وهو على غير ما هي عليه من التسليم والسجود.",
+  "enhanced": "فالإنسان بفطرته لا يستأنس ويرتاح إلا إذا ما انسجم داخله مع ما يحيط به من مخلوقات الله، والتي هي في حالة تسليم لخالقها تسجد وتسبح لله بفطرتها، فكيف يكون للإنسان السيد على ما حوله من المخلوقات المسبحة لله أن يسودها وهو على غير ما هي عليه من التسليم والسجود.",
+  "english": "This is a mock translation of the Arabic text with approximately 58 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S081",
+    "rowIndex": 17,
+    "wordCount": 49,
+    "charCount": 255,
+    "laneHash": "20ca664c7edef3c8",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 255,
+    "processedAt": "2025-09-24T03:39:57.607Z",
+    "lpr": 0.9183673469387755,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "expand",
+    "confidence": 0.9373177842565598,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

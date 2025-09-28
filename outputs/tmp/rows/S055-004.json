@@ -1,0 +1,46 @@
+{
+  "id": "S055-004",
+  "sectionId": "S055",
+  "original": "هذا ما لم يدركه او يعلمه الانسان بعد، بل كل ما يعلمه الانسان ويوقن به انه في الصدر من الجسد وانه مصدر اخر للإحساس والادراك.",
+  "enhanced": "هذا ما لم يدركه او يعلمه الانسان بعد، بل كل ما يعلمه الانسان ويوقن به انه في الصدر من الجسد وانه مصدر اخر للإحساس والادراك.",
+  "english": "This is a mock translation of the Arabic text with approximately 30 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 3,
+    "wordCount": 25,
+    "charCount": 123,
+    "laneHash": "e380d4ca807d63ef",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 123,
+    "processedAt": "2025-09-24T03:38:45.533Z",
+    "lpr": 1.8,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

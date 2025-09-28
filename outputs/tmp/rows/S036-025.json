@@ -1,0 +1,46 @@
+{
+  "id": "S036-025",
+  "sectionId": "S036",
+  "original": "وأن الحكيم هو الذي يسعى ويدرك كيفية طرح الأسئلة وإثارتها في الآخرين.",
+  "enhanced": "وأن الحكيم هو الذي يسعى ويدرك كيفية طرح الأسئلة وإثارتها في الآخرين.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S036",
+    "rowIndex": 24,
+    "wordCount": 12,
+    "charCount": 68,
+    "laneHash": "7feb4ab39c066ade",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 68,
+    "processedAt": "2025-09-24T03:38:28.024Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

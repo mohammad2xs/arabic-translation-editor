@@ -1,0 +1,170 @@
+{
+  "version": "1.0",
+  "description": "Pronunciation lexicon for Islamic terms and Arabic transliterations",
+  "language": "en-US",
+  "terms": [
+    {
+      "term": "fitrah",
+      "ipa": "fɪt.rɑː",
+      "phoneme": "FIH-traah",
+      "notes": "Natural human disposition toward God",
+      "alternates": ["fitra"]
+    },
+    {
+      "term": "nafs",
+      "ipa": "næfs",
+      "phoneme": "NAFS",
+      "notes": "The soul or self",
+      "alternates": []
+    },
+    {
+      "term": "rūḥ",
+      "ipa": "ruːħ",
+      "phoneme": "ROOH",
+      "notes": "The spirit",
+      "alternates": ["ruh", "rooh"]
+    },
+    {
+      "term": "qalb",
+      "ipa": "qɑlb",
+      "phoneme": "QALB",
+      "notes": "The heart (spiritual center)",
+      "alternates": []
+    },
+    {
+      "term": "taqwā",
+      "ipa": "tɑk.wɑː",
+      "phoneme": "TAK-waah",
+      "notes": "God-consciousness, piety",
+      "alternates": ["taqwa"]
+    },
+    {
+      "term": "dunyā",
+      "ipa": "ˈdʊn.jɑː",
+      "phoneme": "DOON-yaah",
+      "notes": "This worldly life",
+      "alternates": ["dunya"]
+    },
+    {
+      "term": "ākhirah",
+      "ipa": "ˈɑː.xɪ.rɑ",
+      "phoneme": "AAH-khee-rah",
+      "notes": "The hereafter",
+      "alternates": ["akhirah", "akhira"]
+    },
+    {
+      "term": "Qur'an",
+      "ipa": "kʊrˈɑːn",
+      "phoneme": "koor-AAN",
+      "notes": "The holy book of Islam",
+      "alternates": ["Quran", "Koran"]
+    },
+    {
+      "term": "ḥadīth",
+      "ipa": "hæˈdiːθ",
+      "phoneme": "ha-DEETH",
+      "notes": "Prophetic traditions",
+      "alternates": ["hadith"]
+    },
+    {
+      "term": "Muḥammad",
+      "ipa": "muˈħæm.mæd",
+      "phoneme": "moo-HAM-mad",
+      "notes": "The Prophet of Islam",
+      "alternates": ["Muhammad", "Mohammed"]
+    },
+    {
+      "term": "jihād",
+      "ipa": "dʒi.haːd",
+      "phoneme": "jee-HAAD",
+      "notes": "Struggle, striving in the path of God",
+      "alternates": ["jihad"]
+    },
+    {
+      "term": "sabr",
+      "ipa": "sabr",
+      "phoneme": "SABR",
+      "notes": "Patience, perseverance",
+      "alternates": []
+    },
+    {
+      "term": "dhikr",
+      "ipa": "ðikr",
+      "phoneme": "THIK-er",
+      "notes": "Remembrance of God",
+      "alternates": ["zikr", "dhikir"]
+    },
+    {
+      "term": "salāh",
+      "ipa": "sa.laːħ",
+      "phoneme": "sa-LAAH",
+      "notes": "Prayer",
+      "alternates": ["salah", "salat"]
+    },
+    {
+      "term": "zakāh",
+      "ipa": "za.kaːħ",
+      "phoneme": "za-KAAH",
+      "notes": "Obligatory charity",
+      "alternates": ["zakat", "zakah"]
+    },
+    {
+      "term": "hajj",
+      "ipa": "ħadʒdʒ",
+      "phoneme": "HAJJ",
+      "notes": "Pilgrimage to Mecca",
+      "alternates": ["haj"]
+    },
+    {
+      "term": "sawm",
+      "ipa": "sawm",
+      "phoneme": "SAWM",
+      "notes": "Fasting",
+      "alternates": ["saum"]
+    },
+    {
+      "term": "shahādah",
+      "ipa": "ʃa.haː.da",
+      "phoneme": "sha-HAA-dah",
+      "notes": "Declaration of faith",
+      "alternates": ["shahada", "shahadah"]
+    },
+    {
+      "term": "ummah",
+      "ipa": "ʔum.ma",
+      "phoneme": "OOM-mah",
+      "notes": "Muslim community",
+      "alternates": ["umma"]
+    },
+    {
+      "term": "sīrah",
+      "ipa": "siː.ra",
+      "phoneme": "SEE-rah",
+      "notes": "Biography of the Prophet",
+      "alternates": ["sirah", "seerah"]
+    },
+    {
+      "term": "Allah",
+      "ipa": "ʔaɫ.ɫaːh",
+      "phoneme": "al-LAAH",
+      "notes": "God in Arabic",
+      "alternates": []
+    },
+    {
+      "term": "Prophet",
+      "ipa": "ˈprɒf.ɪt",
+      "phoneme": "PROF-it",
+      "notes": "Messenger of God",
+      "alternates": []
+    },
+    {
+      "term": "sunnah",
+      "ipa": "ˈsun.na",
+      "phoneme": "SOON-nah",
+      "notes": "Way or practice of the Prophet",
+      "alternates": ["sunna"]
+    }
+  ],
+  "custom_pronunciations": {},
+  "notes": "This lexicon provides IPA and phoneme pronunciations for key Islamic terms. The phoneme field uses simplified phonetic spelling for TTS systems that don't support IPA. Terms marked as alternates will inherit the same pronunciation as the main term."
+}

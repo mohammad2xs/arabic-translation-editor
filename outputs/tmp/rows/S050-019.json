@@ -1,0 +1,47 @@
+{
+  "id": "S050-019",
+  "sectionId": "S050",
+  "original": "ولقد وجدت بعد ان خضت في هذا الاستنتاج والاستنباط العقلي ,ان العالم والفيلسوف الكبير الكندي رحمه الله قد كتب في نفس المعنى ولكنه بين وحدانية الله الذاتية التي لا تشابهها او تضاهيها اي وحدانية فرديه ,لإنها وحدانية صمديه, وليس هناك وحدانية صمديه في ذاتها الجليلة إلا لله الواحد الاحد الفرد الصمد, وذلك في رسالته للخليفة المعتصم العباسي , يثبت في رسالته ان العقل يستطيع ان يدرك ان خالق هذا الكون واحد احد فرد صمد , فبعد ان يسرد له بأحكام وتفصيل ومنطق نبيه صفة الواحد ( ارجو الاطلاع على تلك الرسالة لمن اراد ان يستنير بعلم ذلك العالم الجليل ) فيلخص الكندي القول ويقول (105) ( فقد تبين أن الواحد الحق ليس هو شيء من المعقولات ولا عنصر، ولا جنس، ولا نوع، ولا شخص، ولا فصل، ولا خاصة، ولا عرض عام، ولا حركة، ولا نفس، ولا عقل، ولا كل، ولا جزء، ولا جميع، ولا بعض، ولا واحد بالإضافة إلى غير مثل واحد مرسل، ولا يقبل التكثير؛",
+  "enhanced": "ولقد وجدت بعد ان خضت في هذا الاستنتاج والاستنباط العقلي ,ان العالم والفيلسوف الكبير الكندي رحمه الله قد كتب في نفس المعنى ولكنه بين وحدانية الله الذاتية التي لا تشابهها او تضاهيها اي وحدانية فرديه ,لإنها وحدانية صمديه, وليس هناك وحدانية صمديه في ذاتها الجليلة إلا لله الواحد الاحد الفرد الصمد, وذلك في رسالته للخليفة المعتصم العباسي , يثبت في رسالته ان العقل يستطيع ان يدرك ان خالق هذا الكون واحد احد فرد صمد , فبعد ان يسرد له بأحكام وتفصيل ومنطق نبيه صفة الواحد ( ارجو الاطلاع على تلك الرسالة لمن اراد ان يستنير بعلم ذلك العالم الجليل ) فيلخص الكندي القول ويقول (105) ( فقد تبين أن الواحد الحق ليس هو شيء من المعقولات ولا عنصر، ولا جنس، ولا نوع، ولا شخص، ولا فصل، ولا خاصة، ولا عرض عام، ولا حركة، ولا نفس، ولا عقل، ولا كل، ولا جزء، ولا جميع، ولا بعض، ولا واحد بالإضافة إلى غير مثل واحد مرسل، ولا يقبل التكثير؛",
+  "english": "This is a mock translation of the Arabic text with approximately 187 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 18,
+    "wordCount": 156,
+    "charCount": 810,
+    "laneHash": "56b757f17b4668d0",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 810,
+    "processedAt": "2025-09-24T03:38:40.685Z",
+    "lpr": 0.28846153846153844,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.25099900099900097,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

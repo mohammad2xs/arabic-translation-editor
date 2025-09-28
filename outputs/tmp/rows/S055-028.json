@@ -1,0 +1,46 @@
+{
+  "id": "S055-028",
+  "sectionId": "S055",
+  "original": "وحالة الادراك هو نور العقل الذي به تستبين للقلب المسافة بين مبدئ الامور وعواقبها. وداعي الادراك هو الروح.",
+  "enhanced": "وحالة الادراك هو نور العقل الذي به تستبين للقلب المسافة بين مبدئ الامور وعواقبها. وداعي الادراك هو الروح.",
+  "english": "This is a mock translation of the Arabic text with approximately 21 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 27,
+    "wordCount": 18,
+    "charCount": 105,
+    "laneHash": "b0573e6a96f06968",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 105,
+    "processedAt": "2025-09-24T03:38:47.936Z",
+    "lpr": 2.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

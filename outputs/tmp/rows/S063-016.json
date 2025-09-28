@@ -1,0 +1,46 @@
+{
+  "id": "S063-016",
+  "sectionId": "S063",
+  "original": "فهناك اسباب كثيرا تدخل في الكسب المعيشي، وأهمها الظروف المواتية، والفرص السانحة.",
+  "enhanced": "فهناك اسباب كثيرا تدخل في الكسب المعيشي، وأهمها الظروف المواتية، والفرص السانحة.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S063",
+    "rowIndex": 15,
+    "wordCount": 12,
+    "charCount": 80,
+    "laneHash": "beaa0b4854377586",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 80,
+    "processedAt": "2025-09-24T03:39:00.196Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S003-004",
+  "sectionId": "S003",
+  "original": "فكل افعال الانسان يجب ان تكون منضبطة لإمر خالقها، لتكون افعاله كلها عباده.",
+  "enhanced": "فكل افعال الانسان يجب ان تكون منضبطة لإمر خالقها، لتكون افعاله كلها عباده.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S003",
+    "rowIndex": 3,
+    "wordCount": 13,
+    "charCount": 74,
+    "laneHash": "fc64059534eab9a5",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 74,
+    "processedAt": "2025-09-24T03:38:11.312Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,138 @@
+# Semantic Guard Rules
+
+## Purpose
+Verify semantic equivalence between Arabic original and enhanced versions to ensure no meaning changes during orthographic normalization.
+
+## Equivalence Verification
+
+### Core Meaning Preservation
+- **SEMANTIC IDENTITY**: Enhanced text conveys exactly the same meaning
+- **CONCEPTUAL INTEGRITY**: All ideas and arguments remain unchanged
+- **LOGICAL STRUCTURE**: Reasoning patterns and conclusions preserved
+- **AUTHOR INTENT**: Original purpose and message maintained
+
+### Qualifier Preservation
+- **TEMPORAL MARKERS**: Time indicators (always, never, sometimes, before, after)
+- **MODAL QUALIFIERS**: Possibility/certainty markers (might, must, could, will)
+- **SCOPE INDICATORS**: Extent markers (all, some, none, only, except)
+- **CONDITIONAL MARKERS**: If/then relationships and their scope
+
+### Negation Integrity
+- **NEGATION SCOPE**: Exact boundaries of what is being negated
+- **DOUBLE NEGATIVES**: Complex negation patterns preserved
+- **IMPLICIT NEGATIONS**: Subtle negative implications maintained
+- **EMPHASIS PATTERNS**: Strong vs. weak negation distinctions
+
+## Rhetorical Element Preservation
+
+### Question Types
+- **RHETORICAL QUESTIONS**: Maintain persuasive intent
+- **GENUINE INQUIRIES**: Preserve information-seeking function
+- **LEADING QUESTIONS**: Keep argumentative direction
+- **COMPLEX QUESTIONS**: Multi-part question structure intact
+
+### Emphasis and Contrast
+- **STRESS PATTERNS**: Important vs. secondary information hierarchy
+- **CONTRASTIVE STRUCTURES**: But/however/nevertheless relationships
+- **COMPARATIVE ELEMENTS**: Better/worse/equal value judgments
+- **SUPERLATIVE CLAIMS**: Strongest/weakest/most unique assertions
+
+### Logical Connectors
+- **CAUSAL RELATIONSHIPS**: Because/therefore/thus connections
+- **SEQUENTIAL MARKERS**: First/then/finally temporal order
+- **ADDITIVE STRUCTURES**: And/also/furthermore accumulation
+- **ALTERNATIVE PATTERNS**: Or/either/unless choice structures
+
+## Islamic Context Sensitivity
+
+### Sacred Text Handling
+- **QURANIC QUOTATIONS**: Absolutely no alteration of divine text
+- **HADITH PRESERVATION**: Prophetic sayings maintain original form
+- **COMMENTARY DISTINCTION**: Clear boundaries between quote and analysis
+- **ATTRIBUTION ACCURACY**: Correct source identification maintained
+
+### Theological Concepts
+- **DOCTRINAL PRECISION**: Islamic beliefs expressed accurately
+- **THEOLOGICAL NUANCE**: Subtle distinctions in belief/practice preserved
+- **INTERFAITH SENSITIVITY**: Respectful treatment of other traditions
+- **SCHOLARLY TONE**: Academic discussion of religious matters
+
+### Cultural Context
+- **HISTORICAL REFERENCES**: Period-specific information maintained
+- **CULTURAL PRACTICES**: Islamic customs and traditions accurately represented
+- **SOCIAL DYNAMICS**: Community relationships and hierarchies preserved
+- **LINGUISTIC HERITAGE**: Arabic language cultural significance respected
+
+## Quality Verification Methods
+
+### Clause-by-Clause Analysis
+- **MAPPING VERIFICATION**: Each enhanced clause corresponds to original
+- **MEANING ALIGNMENT**: Semantic content matches across versions
+- **RELATIONSHIP PRESERVATION**: Inter-clause connections maintained
+- **EMPHASIS CONSISTENCY**: Important points receive equivalent treatment
+
+### Back-Translation Testing
+- **CONCEPTUAL ROUNDTRIP**: Enhanced → simplified → original meaning check
+- **INFORMATION LOSS**: Identify any concepts that don't survive translation
+- **AMBIGUITY INTRODUCTION**: Detect new unclear areas in enhanced version
+- **PRECISION MAINTENANCE**: Technical terms and specific concepts intact
+
+### Context Verification
+- **PARAGRAPH COHERENCE**: Enhanced text fits paragraph argument flow
+- **Document CONSISTENCY**: Terms and concepts align with broader document
+- **READER COMPREHENSION**: Enhanced version equally understandable
+- **CULTURAL APPROPRIATENESS**: Islamic context sensitivity maintained
+
+## Error Detection
+
+### Hard Failures (Reject Enhancement)
+- **MEANING CHANGE**: Any alteration of core semantic content
+- **SACRED TEXT MODIFICATION**: Changes to Quranic or hadith quotations
+- **LOGICAL INVERSION**: Argument direction or conclusion changes
+- **FACTUAL ERRORS**: Incorrect information introduced during enhancement
+
+### Soft Warnings (Flag for Review)
+- **AMBIGUITY INCREASE**: Enhanced version less clear than original
+- **EMPHASIS SHIFT**: Important points receive different weight
+- **TONE MODIFICATION**: Subtle changes in register or formality
+- **CULTURAL SENSITIVITY**: Potential issues with Islamic context
+
+### Processing Errors
+- **INCOMPLETE ENHANCEMENT**: Parts of text not properly processed
+- **FORMATTING DISRUPTION**: Structure or layout problems introduced
+- **CHARACTER ENCODING**: Unicode or display issues created
+- **METADATA CORRUPTION**: Document properties or tags damaged
+
+## Quality Metrics
+
+### Semantic Fidelity Score
+- **PERFECT MATCH**: 1.0 - No detectable meaning changes
+- **MINOR VARIATIONS**: 0.95-0.99 - Slight clarification without content change
+- **NOTABLE DIFFERENCES**: 0.90-0.94 - Requires review but acceptable
+- **MAJOR DISCREPANCIES**: <0.90 - Enhancement must be rejected
+
+### Coverage Verification
+- **COMPLETE MAPPING**: All original clauses have enhanced counterparts
+- **INFORMATION PRESERVATION**: No concepts lost during enhancement
+- **DETAIL MAINTENANCE**: Specific facts and figures preserved
+- **CONTEXT RETENTION**: Background assumptions and implications intact
+
+## Processing Guidelines
+
+### Conservative Approach
+- **MINIMAL CHANGES**: Prefer original text when enhancement benefit unclear
+- **SEMANTIC PRIORITY**: Meaning preservation over stylistic improvement
+- **CULTURAL RESPECT**: Islamic content receives extra scrutiny
+- **QUALITY THRESHOLD**: High standards for accepting enhancements
+
+### Documentation Requirements
+- **CHANGE LOG**: Record all modifications made during enhancement
+- **JUSTIFICATION**: Explain reasoning for each enhancement decision
+- **QUALITY METRICS**: Document semantic fidelity scores
+- **REVIEW FLAGS**: Note areas requiring human verification
+
+### Integration with Pipeline
+- **AUTOMATIC REJECTION**: Hard failures stop processing immediately
+- **WARNING PROPAGATION**: Soft warnings carry forward to translation
+- **QUALITY TRACKING**: Metrics inform overall translation confidence
+- **FEEDBACK LOOP**: Enhancement quality affects future processing decisions

@@ -1,0 +1,47 @@
+{
+  "id": "S017-002",
+  "sectionId": "S017",
+  "original": "فلإنسان يكتسب ويرتسم بعادات وأطباع المحيط الذي يعيشه، فيصطبغ كل انسان بعادات مختلفة تختلف باختلاف المحيط, غير أن هذه الصبغة ما هي إلا طبعه ترتسم على انسانية وفطرة الإنسان التي فطر عليها فتتفاعل تلك البذرة الفطرية مع محيط الارض التي وجدت فيها, ليشكل هذا التفاعل شخصيه لها عادات وثقافه خاصه بها .",
+  "enhanced": "فلإنسان يكتسب ويرتسم بعادات وأطباع المحيط الذي يعيشه، فيصطبغ كل انسان بعادات مختلفة تختلف باختلاف المحيط, غير أن هذه الصبغة ما هي إلا طبعه ترتسم على انسانية وفطرة الإنسان التي فطر عليها فتتفاعل تلك البذرة الفطرية مع محيط الارض التي وجدت فيها, ليشكل هذا التفاعل شخصيه لها عادات وثقافه خاصه بها .",
+  "english": "This is a mock translation of the Arabic text with approximately 62 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S017",
+    "rowIndex": 1,
+    "wordCount": 52,
+    "charCount": 294,
+    "laneHash": "60b574cf79f3c7ed",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 294,
+    "processedAt": "2025-09-24T03:38:14.394Z",
+    "lpr": 0.8653846153846154,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "expand",
+    "confidence": 0.9120879120879121,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

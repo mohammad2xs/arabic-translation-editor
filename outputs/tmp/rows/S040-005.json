@@ -1,0 +1,47 @@
+{
+  "id": "S040-005",
+  "sectionId": "S040",
+  "original": "وكذلك لم يجبنا دارون عن سبب بحث الإنسان عن إله يعبده، ولم اجمع كل البشر على ضرورة وجود الإله، فلو كان هذا الإنسان خلق عن طريق الصدفة المحض، من تطور خليه واحده , فما من الذي غرز فيه فكرة الإله , وجعله يبحث عنه ويخشاه وينشد رضاه , ويصر على وجوده , ويقدم له القرابين .",
+  "enhanced": "وكذلك لم يجبنا دارون عن سبب بحث الإنسان عن إله يعبده، ولم اجمع كل البشر على ضرورة وجود الإله، فلو كان هذا الإنسان خلق عن طريق الصدفة المحض، من تطور خليه واحده , فما من الذي غرز فيه فكرة الإله , وجعله يبحث عنه ويخشاه وينشد رضاه , ويصر على وجوده , ويقدم له القرابين .",
+  "english": "This is a mock translation of the Arabic text with approximately 67 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S040",
+    "rowIndex": 4,
+    "wordCount": 56,
+    "charCount": 265,
+    "laneHash": "efed6d8902c4bd5a",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 265,
+    "processedAt": "2025-09-24T03:38:30.320Z",
+    "lpr": 0.8035714285714286,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6951530612244898,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

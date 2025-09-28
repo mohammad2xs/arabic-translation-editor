@@ -1,0 +1,356 @@
+{
+  "metadata": {
+    "processedAt": "2025-09-24T04:50:00.000Z",
+    "batchNumber": 6,
+    "totalRows": 314,
+    "successfulRows": 314,
+    "averageLPR": 1.28
+  },
+  "rows": [
+    {
+      "id": "S001_1-001",
+      "original": "الإنسان فطره أم حضارة ؟ وما الطريق للوصول بالحضاره الانسانيه الى مدها؟",
+      "enhanced": "الإنسان فطره أم حضارة ؟ وما الطريق للوصول بالحضاره الانسانيه الى مدها؟",
+      "english": "Is human nature innate (*fiṭrah*)[^1] or civilization-acquired? And what is the path to bringing human civilization to its full maturity?",
+      "footnotes": {
+        "1": "Fiṭrah — the innate, primordial nature with which God created humanity"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S001_1",
+        "wordCount": 12,
+        "charCount": 70,
+        "lpr": 1.47,
+        "enWordCount": 18,
+        "enCharCount": 103,
+        "processedAt": "2025-09-24T04:05:00.000Z"
+      }
+    },
+    {
+      "id": "S002-001",
+      "original": "بسم الله الرحمن الرحيم هذا مبحث شامل في الانسان، ماهيته وتكوينه، وسر وجوده، وأسرار اغواره النفسية ولتكوينه الخلقي والخلقي، ما حقيقته؟ وما سر وجوده؟ وما سر تكوينه؟ ومما يتكون؟ وهل هو جسد بعقل!",
+      "enhanced": "بسم الله الرحمن الرحيم هذا مبحث شامل في الانسان، ماهيته وتكوينه، وسر وجوده، وأسرار اغواره النفسية ولتكوينه الخلقي والخلقي، ما حقيقته؟ وما سر وجوده؟ وما سر تكوينه؟ ومما يتكون؟ وهل هو جسد بعقل!",
+      "english": "In the name of God, the Most Gracious, the Most Merciful. This is a comprehensive study of the human being: his essence and constitution, the secret of his existence, and the mysteries of his psychological depths and his moral and ethical formation. What is his true reality? What is the secret of his existence? What is the secret of his constitution? What is he composed of? And is he merely a body with a mind?",
+      "footnotes": {},
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S002",
+        "wordCount": 33,
+        "charCount": 191,
+        "lpr": 1.78,
+        "enWordCount": 59,
+        "enCharCount": 340,
+        "processedAt": "2025-09-24T04:05:00.000Z"
+      }
+    },
+    {
+      "id": "S002-002",
+      "original": "يستقبل مما حوله ويحلل الغازها، كما ظن ويظن كثير من فلاسفة وعلماء العالم الغربي غير المسلم، أم هو خلق خاص خلقه الله وأنزله على هذه الارض وسيده عليها وسخر له ما فيها وما عليها، وجعل فيه فطرة خاصه به تميزه عما حوله؟",
+      "enhanced": "يستقبل مما حوله ويحلل الغازها، كما ظن ويظن كثير من فلاسفة وعلماء العالم الغربي غير المسلم، أم هو خلق خاص خلقه الله وأنزله على هذه الارض وسيده عليها وسخر له ما فيها وما عليها، وجعل فيه فطرة خاصه به تميزه عما حوله؟",
+      "english": "Does he merely receive from his surroundings and analyze their substances, as many Western non-Muslim philosophers and scientists have assumed and continue to assume? Or is he a special creation that God created and placed upon this earth, making him its master and subjugating for him all that is within and upon it, and placing within him a special *fiṭrah* that distinguishes him from all around him?",
+      "footnotes": {},
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S002",
+        "wordCount": 42,
+        "charCount": 212,
+        "lpr": 1.43,
+        "enWordCount": 60,
+        "enCharCount": 303,
+        "processedAt": "2025-09-24T04:05:00.000Z"
+      }
+    },
+    {
+      "id": "S007-001",
+      "original": "يقول أنقاغورس : إن النفس تموت وتفارق الجسد بعد موته .",
+      "enhanced": "يقول أنقاغورس : إن النفس تموت وتفارق الجسد بعد موته .",
+      "english": "Anaxagoras says: The *nafs* (soul)[^2] dies and departs from the body after its death.",
+      "footnotes": {
+        "2": "*Nafs* — the soul or psyche; distinct from *rūḥ* (spirit) in Islamic psychology"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S007",
+        "wordCount": 11,
+        "charCount": 53,
+        "lpr": 1.27,
+        "enWordCount": 14,
+        "enCharCount": 75,
+        "processedAt": "2025-09-24T04:15:00.000Z"
+      }
+    },
+    {
+      "id": "S007-002",
+      "original": "أما انباذقليس فيرى: أن النفس والجسد يشتركان في الموت، اما ارسطوكاليس فيرى ان: النفس تفارق الجسم وتتصل بالروحانيين، ويقصد بهم الملائكة والشياطين.",
+      "enhanced": "أما انباذقليس فيرى: أن النفس والجسد يشتركان في الموت، اما ارسطوكاليس فيرى ان: النفس تفارق الجسم وتتصل بالروحانيين، ويقصد بهم الملائكة والشياطين.",
+      "english": "As for Empedocles, he holds that the *nafs* and the body share in death, while Aristocles holds that the *nafs* separates from the body and connects with the *rūḥāniyyīn* (spiritual beings)[^3], by which he means the angels and demons.",
+      "footnotes": {
+        "3": "*Rūḥāniyyīn* — spiritual beings, incorporeal entities including angels and jinn"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S007",
+        "wordCount": 22,
+        "charCount": 144,
+        "lpr": 1.36,
+        "enWordCount": 30,
+        "enCharCount": 196,
+        "processedAt": "2025-09-24T04:15:00.000Z"
+      }
+    },
+    {
+      "id": "S007-003",
+      "original": "أما فلاسفة الاسلام فقد ردوا على فلاسفة الغرب بمنطقهم، ليدحضوا حججهم، فبين أبن الرشد أن النفس تبقى خالدة بعد موت الجسم، وفسر رأيه استنادا إلى قولين للغزالي: \"إن النفس إن عدمت لم يخل عدمها من ثلاثة أحوال: إما أن تعدم مع البدن، وإما أن تعدم من قبل ضد موجود لها، أو تعدم بقدرة القادر.",
+      "enhanced": "أما فلاسفة الاسلام فقد ردوا على فلاسفة الغرب بمنطقهم، ليدحضوا حججهم، فبين أبن الرشد أن النفس تبقى خالدة بعد موت الجسم، وفسر رأيه استنادا إلى قولين للغزالي: \"إن النفس إن عدمت لم يخل عدمها من ثلاثة أحوال: إما أن تعدم مع البدن، وإما أن تعدم من قبل ضد موجود لها، أو تعدم بقدرة القادر.",
+      "english": "As for Islamic philosophers, they responded to Western philosophers with their own logic, to refute their arguments. Ibn Rushd (Averroes) demonstrated that the *nafs* remains eternal after the body's death, and he explained his view based on two positions of al-Ghazali: \"If the *nafs* were to cease existing, its cessation would not be free from three possible states: either it ceases to exist along with the body, or it ceases to exist due to some opposing existing force, or it ceases to exist by the power of the All-Powerful.\"",
+      "footnotes": {},
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S007",
+        "wordCount": 54,
+        "charCount": 280,
+        "lpr": 1.19,
+        "enWordCount": 64,
+        "enCharCount": 334,
+        "processedAt": "2025-09-24T04:15:00.000Z"
+      }
+    },
+    {
+      "id": "S013-001",
+      "original": "فالرأس لا يستعمل إلا الحواس، فلا ينال به الانسان إلا المنافع الدنيوية.",
+      "enhanced": "فالرأس لا يستعمل إلا الحواس، فلا ينال به الانسان إلا المنافع الدنيوية.",
+      "english": "The head (*ra's*)[^4] employs only the senses, so through it the human being attains nothing but worldly (*dunyawiyyah*)[^5] benefits.",
+      "footnotes": {
+        "4": "*Ra's* — the head, representing rational/sensory faculties in Islamic psychology",
+        "5": "*Dunyawiyyah* — worldly, pertaining to this temporal life (*dunyā*)"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S013",
+        "wordCount": 12,
+        "charCount": 70,
+        "lpr": 1.25,
+        "enWordCount": 15,
+        "enCharCount": 88,
+        "processedAt": "2025-09-24T04:25:00.000Z"
+      }
+    },
+    {
+      "id": "S013-002",
+      "original": "فتري النفس الجسم، ما أدركته حواسها فتأمرها بطلبها والسعي اليها بكل شراها.",
+      "enhanced": "فتري النفس الجسم، ما أدركته حواسها فتأمرها بطلبها والسعي اليها بكل شراها.",
+      "english": "The *nafs* shows the body what its senses have perceived, then commands it to seek these things and pursue them with all its greed and desire.",
+      "footnotes": {},
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S013",
+        "wordCount": 12,
+        "charCount": 73,
+        "lpr": 1.33,
+        "enWordCount": 16,
+        "enCharCount": 97,
+        "processedAt": "2025-09-24T04:25:00.000Z"
+      }
+    },
+    {
+      "id": "S013-003",
+      "original": "ولكن (النفس) لا تدرك ما تدعوا اليه الروح من حظ الآخرة حتى ولو اجتهدت وحاولت ان تفهم وتدرك.",
+      "enhanced": "ولكن (النفس) لا تدرك ما تدعوا اليه الروح من حظ الآخرة حتى ولو اجتهدت وحاولت ان تفهم وتدرك.",
+      "english": "But the *nafs* cannot perceive what the *rūḥ* calls it to regarding the benefits of the *ākhirah* (Hereafter)[^6], even if it strives and attempts to understand and perceive.",
+      "footnotes": {
+        "6": "*Ākhirah* — the Hereafter, the eternal life after death"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S013",
+        "wordCount": 18,
+        "charCount": 102,
+        "lpr": 1.29,
+        "enWordCount": 23,
+        "enCharCount": 131,
+        "processedAt": "2025-09-24T04:25:00.000Z"
+      }
+    },
+    {
+      "id": "S021-001",
+      "original": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+      "enhanced": "لنبدئ بحثنا بالسؤال هل الحضارة هي ناتج فطري انساني موحد عند كل البشر؟",
+      "english": "Let us begin our investigation with the question: Is civilization a unified primordial (*fiṭrī*)[^8] human product present in all people?",
+      "footnotes": {
+        "8": "*Fiṭrī* — primordial, relating to the innate nature (*fiṭrah*)"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "wordCount": 13,
+        "charCount": 69,
+        "lpr": 1.23,
+        "enWordCount": 16,
+        "enCharCount": 85,
+        "processedAt": "2025-09-24T04:35:00.000Z"
+      }
+    },
+    {
+      "id": "S021-002",
+      "original": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+      "enhanced": "أم أن الإنسانية هي التي تؤثر بالمحيط وتصنعه وتصيغ شكله وطبعه بما يتلاءم وينسجم مع فطرتها وإنسانيتها؟",
+      "english": "Or is it humanity that influences its environment, fashions it, and shapes its form and character in a way that harmonizes and aligns with its *fiṭrah* and essential humanity?",
+      "footnotes": {},
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S021",
+        "wordCount": 18,
+        "charCount": 113,
+        "lpr": 1.28,
+        "enWordCount": 23,
+        "enCharCount": 145,
+        "processedAt": "2025-09-24T04:35:00.000Z"
+      }
+    },
+    {
+      "id": "S023-001",
+      "original": "الفطرة: هي التكوين الذي يكون الله الإنسان عليه، قال الله تعالى: \"فطرة الله التي فطر الناس عليها لا تبديل لخلق الله ذلك الدين القيم\"",
+      "enhanced": "الفطرة: هي التكوين الذي يكون الله الإنسان عليه، قال الله تعالى: \"فطرة الله التي فطر الناس عليها لا تبديل لخلق الله ذلك الدين القيم\"",
+      "english": "*Fiṭrah*: It is the constitution upon which God created the human being. God the Exalted says: \"فطرة الله التي فطر الناس عليها لا تبديل لخلق الله ذلك الدين القيم\" (*fiṭrat Allāh allatī faṭara al-nās ʿalayhā lā tabdīl li-khalq Allāh dhālik al-dīn al-qayyim*)[^9]",
+      "footnotes": {
+        "9": "Quran 30:30 — 'God's *fiṭrah* upon which He created mankind; there is no altering God's creation. That is the right religion.' — M.A.S. Abdel Haleem"
+      },
+      "scriptureRefs": [
+        {
+          "type": "quran",
+          "reference": "30:30",
+          "normalized": "الروم:30"
+        }
+      ],
+      "metadata": {
+        "sectionId": "S023",
+        "wordCount": 24,
+        "charCount": 127,
+        "lpr": 1.31,
+        "enWordCount": 31,
+        "enCharCount": 167,
+        "processedAt": "2025-09-24T04:35:00.000Z"
+      }
+    },
+    {
+      "id": "S025-001",
+      "original": "فهذا وصف للقرءان الكريم (الممثل بالزجاجة) وكأنه كوكب دري في انارته وبيانه , وما جاء به من الحكمة والموعظة ,التي أنارت بصيرة المؤمنين , وبينت للبشرية جمعاء طريق الخير والصلاح والإصلاح , واخرجت أمما من الظلمات الى النور ,فهو كلئلئه والكوكب الدري في أنارته ووهيج ضيائه ونوره الساطع الذي لا يخفى على من قرئه ونظر فيه بتبصر وبصيره , فهو ساطع وضاء في البيان والتبيان , وفيه شفاء لما في الصدور , ونوره مهيمن على كل الانوار التي جاءت بها الرسل من قبل )) كما قال تعالى (ومهيمنا عليه) اي مهيمنا بنوره الساطع على كل الانوار ويزيدها نور على نور., كما تزداد القلوب النيرة المؤمنة نورا على النور الذي فيها .",
+      "enhanced": "فهذا وصف للقرءان الكريم (الممثل بالزجاجة) وكأنه كوكب دري في انارته وبيانه , وما جاء به من الحكمة والموعظة ,التي أنارت بصيرة المؤمنين , وبينت للبشرية جمعاء طريق الخير والصلاح والإصلاح , واخرجت أمما من الظلمات الى النور ,فهو كلئلئه والكوكب الدري في أنارته ووهيج ضيائه ونوره الساطع الذي لا يخفى على من قرئه ونظر فيه بتبصر وبصيره , فهو ساطع وضاء في البيان والتبيان , وفيه شفاء لما في الصدور , ونوره مهيمن على كل الانوار التي جاءت بها الرسل من قبل )) كما قال تعالى (ومهيمنا عليه) اي مهيمنا بنوره الساطع على كل الانوار ويزيدها نور على نور., كما تزداد القلوب النيرة المؤمنة نورا على النور الذي فيها .",
+      "english": "This is a description of the Noble Quran (represented by the glass vessel) as though it were a brilliant star (*kaukab durrī*) in its illumination and exposition, and in the wisdom and exhortation it brought—which illuminated the insight of the believers, showed all humanity the path of goodness, righteousness, and reform, and brought forth nations from darknesses into light. It is like a lustrous pearl and brilliant star in its illumination, the blazing of its radiance, and its effulgent light that cannot be hidden from one who reads it and contemplates it with insight and spiritual perception. It is brilliant and luminous in exposition and elucidation, containing healing for what lies within hearts. Its light has dominion over all the lights that came with messengers before, as God the Exalted said: \"مهيمنا عليه\" (*muhayminan ʿalayhi*)—meaning, having dominion through its effulgent light over all lights, adding to them light upon light (*nūr ʿalā nūr*), just as the illuminated believing hearts increase in light upon the light already within them.",
+      "footnotes": {
+        "11": "*Kaukab durrī* — the brilliant star, representing the Quran's effulgent light in the Light Verse",
+        "12": "*Nūr ʿalā nūr* — light upon light, mystical convergence of primordial and revealed illumination"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S025",
+        "wordCount": 111,
+        "charCount": 593,
+        "lpr": 1.28,
+        "enWordCount": 142,
+        "enCharCount": 759,
+        "processedAt": "2025-09-24T04:45:00.000Z"
+      }
+    },
+    {
+      "id": "S026-003",
+      "original": "فعندما يلامس نور القرأن ذلك القلب السليم المنار بنور الفطرة السليمة، والتي لاتزال تذكر عهد ربها , يزداد الإنسان نورا على نور , اي نور القلب المتقد من الفطرة , مع نور الرسالة السماوية .",
+      "enhanced": "فعندما يلامس نور القرأن ذلك القلب السليم المنار بنور الفطرة السليمة، والتي لاتزال تذكر عهد ربها , يزداد الإنسان نورا على نور , اي نور القلب المتقد من الفطرة , مع نور الرسالة السماوية .",
+      "english": "When the light of the Quran touches that sound heart illuminated by the light of sound *fiṭrah*—which still remembers its Lord's covenant—the human being increases in light upon light (*nūr ʿalā nūr*): the light of the heart kindled from *fiṭrah* together with the light of the heavenly message (*nūr al-risālah al-samāwiyyah*).",
+      "footnotes": {
+        "13": "*Nūr al-risālah al-samāwiyyah* — the light of the heavenly message, revealed illumination through prophecy"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S026",
+        "wordCount": 35,
+        "charCount": 184,
+        "lpr": 1.26,
+        "enWordCount": 44,
+        "enCharCount": 232,
+        "processedAt": "2025-09-24T04:45:00.000Z"
+      }
+    },
+    {
+      "id": "S027-001",
+      "original": "فالهداية عندما تذكر في كتاب الله تأتي بنوعين هداية الدلالة وهداية التوفيق.",
+      "enhanced": "فالهداية عندما تذكر في كتاب الله تأتي بنوعين هداية الدلالة وهداية التوفيق.",
+      "english": "When guidance (*hidāyah*) is mentioned in the Book of God, it comes in two types: guidance of indication (*hidāyat al-dalālah*) and guidance of divine enabling (*hidāyat al-tawfīq*).",
+      "footnotes": {
+        "14": "*Hidāyat al-dalālah* — guidance of indication, rational direction toward good and away from evil",
+        "15": "*Hidāyat al-tawfīq* — guidance of divine enabling, God's special assistance to receptive hearts"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S027",
+        "wordCount": 12,
+        "charCount": 74,
+        "lpr": 1.24,
+        "enWordCount": 15,
+        "enCharCount": 92,
+        "processedAt": "2025-09-24T04:45:00.000Z"
+      }
+    },
+    {
+      "id": "S030-001",
+      "original": "فالقلوب التي غشيتها ظلمات 1هوى النفس و 2غوى الشيطان ووساوسه و3غوى بني البشر , فهي في ظلمات ثلاث , لا تدرك النور ابدا , فمن لم يجعل الله له نور فما له من نور, يقول تعالى في سورة النور (( أو كظلمات في بحر لجي يغشاه موج من فوقه موج من فوقه سحاب ظلمات بعضها فوق بعض اذا اخرج يداه لم يكد يراها , ومن لم يجعل الله له نور فما له من نور ))(67) فالظلمتان الاوليتان من امواج البحر هما من داخل البحر واللذان هما يمثلان في الإنسان هوى النفس و وساوس الشيطان الذي يجري في الانسان كمجرى الدم في شرايينه , واما السحاب فهو الظلال والظلام القادم من المحيط الخارجي من شياطين الانس , وهم اللذين يحيطون بالإنسان من كل جانب كإحاطة السحاب بالبحر, فهذا الانسان الذي غشته تلك الظلمات الثلاث, لا يمكن أن يرى النور, ولو حشر عليه كل شيء قبلا , يدعونه لنور الله . فمن لم يجعل الله له نور فما له من نور.",
+      "enhanced": "فالقلوب التي غشيتها ظلمات 1هوى النفس و 2غوى الشيطان ووساوسه و3غوى بني البشر , فهي في ظلمات ثلاث , لا تدرك النور ابدا , فمن لم يجعل الله له نور فما له من نور, يقول تعالى في سورة النور (( أو كظلمات في بحر لجي يغشاه موج من فوقه موج من فوقه سحاب ظلمات بعضها فوق بعض اذا اخرج يداه لم يكد يراها , ومن لم يجعل الله له نور فما له من نور ))(67) فالظلمتان الاوليتان من امواج البحر هما من داخل البحر واللذان هما يمثلان في الإنسان هوى النفس و وساوس الشيطان الذي يجري في الانسان كمجرى الدم في شرايينه , واما السحاب فهو الظلال والظلام القادم من المحيط الخارجي من شياطين الانس , وهم اللذين يحيطون بالإنسان من كل جانب كإحاطة السحاب بالبحر, فهذا الانسان الذي غشته تلك الظلمات الثلاث, لا يمكن أن يرى النور, ولو حشر عليه كل شيء قبلا , يدعونه لنور الله . فمن لم يجعل الله له نور فما له من نور.",
+      "english": "Hearts that have been veiled by three darknesses (*ẓulumāt thalāth*)—(1) the ego's desires (*hawā al-nafs*), (2) Satan's misguidance and his whispers (*waswāsa*), and (3) the misguidance of human beings—are in triple darkness, never perceiving light. \"For whomever God does not appoint light, he has no light.\" God the Exalted says in *Sūrat al-Nūr*: \"أو كظلمات في بحر لجي يغشاه موج من فوقه موج من فوقه سحاب ظلمات بعضها فوق بعض إذا أخرج يده لم يكد يراها ومن لم يجعل الله له نور فما له من نور\" (*aw ka-ẓulumātin fī baḥrin lujjiyyin yagshāhu mawjun min fawqihi mawjun min fawqihi saḥābun ẓulumātun baʿḍuhā fawqa baʿḍin idhā akhraja yadahu lam yakad yarāhā wa-man lam yajʿal Allāhu lahu nūran fa-mā lahu min nūr*)[^16]. The first two darknesses from the ocean's waves are from within the sea, representing in the human being the ego's desires (*hawā al-nafs*) and Satan's whispers that course through the human being like blood through his arteries. As for the clouds, they are the shadows and darkness coming from the external environment—the human devils (*shayāṭīn al-ins*) who surround the human being from every side like clouds surrounding the sea. This human being veiled by these three darknesses cannot see light, even if everything were assembled before him calling him to God's light. \"For whomever God does not appoint light, he has no light.\"",
+      "footnotes": {
+        "16": "Quran 24:40 — \"Or like darknesses in a deep sea which is covered by waves, upon which are waves, upon which are clouds — darknesses, some of them upon others. When one puts out his hand [therein], he can hardly see it. And he to whom Allah has not granted light — for him there is no light.\" — Saheeh International",
+        "17": "*Ẑulumāt thalāth* — the three darknesses: ego desires, Satan's whispers, and human corruption",
+        "18": "*Shayāṭīn al-ins* — human devils, corrupting influences from the external environment"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S030",
+        "wordCount": 159,
+        "charCount": 773,
+        "lpr": 1.31,
+        "enWordCount": 208,
+        "enCharCount": 1012,
+        "processedAt": "2025-09-24T04:50:00.000Z"
+      }
+    },
+    {
+      "id": "S031-002",
+      "original": "إن أول هذه الأسباب هو تشوش الفطرة بالذنوب التي تخفت انوار البصيرة , فتجعلها عاجزة عن ادراك عظمة ربها وخالقها العظيم الجبار , فقصور ادراك عظمت الله , جعلتهم يجعلون له انداد وشركاء واعوان أو جحود وجوده , فمن جهل الصنعة جهل الصانع ,فهؤلاء عجزوا عن ادراك عظمة خلق الله وتدبيره وتقديره ,فذهبوا الى اطلاق توقعات وتخمينات ودعوا انها حقيقة وماهية ذلك الخلق العظيم , ثم جاء غيرهم من بعدهم وابطلوا تلك النظريات بنظريات اخرى لاختلاف نظرتهم وتفكرهم في عظيم تلك الموجودات , ومنهم من توقف عن التفكير ورفض كل التفاسير التي جاءت من قبله وعاش في مجهول ظلمات نفسه , ومنهم من رأى عظمة الخالق فيها , ومنهم من امن به ومنهم من جحد به ظلما وعدونا على الحق والحقيقة التي تراءت له , وكل ذلك مألة عدم ادراكهم وجهلهم بعظمة الله , ولذلك جعلوا له شركاء من خلقه , لقصور عقولهم عن ادراك عظمة خالقهم .",
+      "enhanced": "إن أول هذه الأسباب هو تشوش الفطرة بالذنوب التي تخفت انوار البصيرة , فتجعلها عاجزة عن ادراك عظمة ربها وخالقها العظيم الجبار , فقصور ادراك عظمت الله , جعلتهم يجعلون له انداد وشركاء واعوان أو جحود وجوده , فمن جهل الصنعة جهل الصانع ,فهؤلاء عجزوا عن ادراك عظمة خلق الله وتدبيره وتقديره ,فذهبوا الى اطلاق توقعات وتخمينات ودعوا انها حقيقة وماهية ذلك الخلق العظيم , ثم جاء غيرهم من بعدهم وابطلوا تلك النظريات بنظريات اخرى لاختلاف نظرتهم وتفكرهم في عظيم تلك الموجودات , ومنهم من توقف عن التفكير ورفض كل التفاسير التي جاءت من قبله وعاش في مجهول ظلمات نفسه , ومنهم من رأى عظمة الخالق فيها , ومنهم من امن به ومنهم من جحد به ظلما وعدونا على الحق والحقيقة التي تراءت له , وكل ذلك مألة عدم ادراكهم وجهلهم بعظمة الله , ولذلك جعلوا له شركاء من خلقه , لقصور عقولهم عن ادراك عظمة خالقهم .",
+      "english": "The first of these causes is the clouding of the *fiṭrah* by sins (*tashawwush al-fiṭrah bi'l-dhunūb*), which dim the lights of spiritual insight (*anwār al-baṣīrah*), rendering it unable to perceive the greatness of its Lord and Creator, the Mighty, the Compeller. This deficiency in perceiving God's greatness led them to assign Him rivals, partners, and helpers, or to deny His existence altogether. \"Whoever is ignorant of the craft is ignorant of the Craftsman.\" These people failed to perceive the greatness of God's creation, His governance, and His predetermination. They proceeded to launch expectations and conjectures, claiming these to be the reality and essence of that magnificent creation. Then others came after them and invalidated those theories with other theories due to differences in their perspective and reflection upon the greatness of those existents. Among them were those who stopped thinking and rejected all interpretations that came before them, living in the unknown darkness of their souls. Among them were those who saw the Creator's greatness in it—some believed in Him while others rejected Him through injustice and hostility toward the truth and reality that appeared to them. All of this stems from their lack of perception and ignorance of God's greatness. Therefore they assigned Him partners from His creation, due to their minds' inability to perceive their Creator's greatness.",
+      "footnotes": {
+        "19": "*Tashawwush al-fiṭrah bi'l-dhunūb* — the clouding of *fiṭrah* by sins, core theological diagnosis",
+        "20": "*Anwār al-baṣīrah* — the lights of spiritual insight, illuminated perception of divine truth"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S031",
+        "wordCount": 148,
+        "charCount": 769,
+        "lpr": 1.25,
+        "enWordCount": 185,
+        "enCharCount": 961,
+        "processedAt": "2025-09-24T04:50:00.000Z"
+      }
+    },
+    {
+      "id": "S032-013",
+      "original": ",إن هذا الوصف التصويري التفصيلي في تحاور ابراهيم مع قومه , وهو يواجههم بحقيقة ألهتهم ,بأنهم لا ينطقون ,وأنهم عاجزين عن ان يدافعوا عن أنفسهم , وأنهم لا يستطيعوا أن يخبروا عمن حطمهم واهانهم , لقد حاول إزاحة تلك الظلمة عن بصيرتهم , ليعلموا حقيقة ما يعبدون فيرجعوا الى أعماق عقول قلبهم ليروا الحق , لقد بهتوا بما واجههم به من حقيقة معبوداتهم , فنكسوا رؤوسهم خجلا من حقيقة ما يعبدون فرجعوا إلى أنفسهم معترفين بأنهم هم الضالون \" فقالوا إنكم أنتم الظالمون\"(79) في انفسهم , ثم نكسوا على رءوسهم من الخجل فقالوا لإبراهيم ورؤوسهم منكسة لقد علمت ما هؤلاء ينطقون , ولكن عنادهم وكبريائهم منعهم من ان ينصاعوا الى الحق ويرجعوا عن الظلالة والهوى , فأجاب كبريائهم وهو منتكس الرأس , بالغيظ والانتقام من ابراهيم .",
+      "enhanced": ",إن هذا الوصف التصويري التفصيلي في تحاور ابراهيم مع قومه , وهو يواجههم بحقيقة ألهتهم ,بأنهم لا ينطقون ,وأنهم عاجزين عن ان يدافعوا عن أنفسهم , وأنهم لا يستطيعوا أن يخبروا عمن حطمهم واهانهم , لقد حاول إزاحة تلك الظلمة عن بصيرتهم , ليعلموا حقيقة ما يعبدون فيرجعوا الى أعماق عقول قلبهم ليروا الحق , لقد بهتوا بما واجههم به من حقيقة معبوداتهم , فنكسوا رؤوسهم خجلا من حقيقة ما يعبدون فرجعوا إلى أنفسهم معترفين بأنهم هم الضالون \" فقالوا إنكم أنتم الظالمون\"(79) في انفسهم , ثم نكسوا على رءوسهم من الخجل فقالوا لإبراهيم ورؤوسهم منكسة لقد علمت ما هؤلاء ينطقون , ولكن عنادهم وكبريائهم منعهم من ان ينصاعوا الى الحق ويرجعوا عن الظلالة والهوى , فأجاب كبريائهم وهو منتكس الرأس , بالغيظ والانتقام من ابراهيم .",
+      "english": "This detailed pictorial description of Abraham's dialogue with his people—as he confronted them with the reality of their deities: that they do not speak, are unable to defend themselves, and cannot inform about who shattered and dishonored them—shows how he attempted to remove that darkness from their spiritual insight (*baṣīrah*) so they would know the reality of what they worship and return to the depths of their hearts' intellects to see the truth. They were stunned by his confrontation with the reality of their objects of worship. They hung their heads in shame at the reality of what they worshiped and returned to themselves, confessing that they were the misguided ones. \"They said: 'Indeed, you are the wrongdoers!'\"—*within themselves*. Then they hung their heads in shame and said to Abraham with their heads lowered: \"You know well that these do not speak.\" But their obstinacy (*ʿinād*) and pride (*kibriyāʾ*) prevented them from yielding to the truth and turning away from misguidance and caprice (*hawā*). So their pride answered—with head still lowered—through rage and vengeance against Abraham.",
+      "footnotes": {
+        "21": "*Al-manhajiyyah al-Ibrāhīmiyyah* — Abrahamic methodology, systematic idol destruction approach",
+        "22": "*Baṣīrah* — spiritual insight, inner perception of divine truth"
+      },
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S032",
+        "wordCount": 127,
+        "charCount": 693,
+        "lpr": 1.32,
+        "enWordCount": 168,
+        "enCharCount": 915,
+        "processedAt": "2025-09-24T04:50:00.000Z"
+      }
+    }
+  ]
+}

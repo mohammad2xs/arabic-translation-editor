@@ -1,0 +1,47 @@
+{
+  "id": "S014-001",
+  "sectionId": "S014",
+  "original": "لقد أودع الله تعاليمه في فطرة الانسان , اي وضع دينه الذي ارتضاه للإنسان في فطرته , , عندما نفخ فيه من روحه, ليحيا به ويموت عليه , يقول الله تعالى لرسوله ( فأقم وجهك للدين حنيفا ۚ فطرت الله التي فطر الناس عليها ۚ لا تبديل لخلق الله ۚ ذلك الدين القيم ولكن أكثر الناس لا يعلمون ) (27) , فلإنسان مفطور اي مخلوق على هذا الدين يعيش في ضميره ووجدانه , لا يفارقه مهما اختلفت احواله واموره وزمانه ومسكنه ومحيطه , فلا تبديل لخلق الله , فهو مخلوق فيه لا تغيره الاحوال ولا تبدله الازمان والاعمار .",
+  "enhanced": "لقد أودع الله تعاليمه في فطرة الانسان , اي وضع دينه الذي ارتضاه للإنسان في فطرته , , عندما نفخ فيه من روحه, ليحيا به ويموت عليه , يقول الله تعالى لرسوله ( فأقم وجهك للدين حنيفا ۚ فطرت الله التي فطر الناس عليها ۚ لا تبديل لخلق الله ۚ ذلك الدين القيم ولكن أكثر الناس لا يعلمون ) (27) , فلإنسان مفطور اي مخلوق على هذا الدين يعيش في ضميره ووجدانه , لا يفارقه مهما اختلفت احواله واموره وزمانه ومسكنه ومحيطه , فلا تبديل لخلق الله , فهو مخلوق فيه لا تغيره الاحوال ولا تبدله الازمان والاعمار .",
+  "english": "This is a mock translation of the Arabic text with approximately 118 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S014",
+    "rowIndex": 0,
+    "wordCount": 99,
+    "charCount": 485,
+    "laneHash": "e109926a88d60c7d",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 485,
+    "processedAt": "2025-09-24T03:38:13.271Z",
+    "lpr": 0.45454545454545453,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.49422799422799424,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

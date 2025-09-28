@@ -1,0 +1,46 @@
+{
+  "id": "S018-005",
+  "sectionId": "S018",
+  "original": "وهذا يبين على ان طبيعة الطعام تأثر على الصفات الجينية في الانسان.",
+  "enhanced": "وهذا يبين على ان طبيعة الطعام تأثر على الصفات الجينية في الانسان.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S018",
+    "rowIndex": 4,
+    "wordCount": 12,
+    "charCount": 65,
+    "laneHash": "d8157d01a9f0b710",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 65,
+    "processedAt": "2025-09-24T03:38:14.651Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S056-005",
+  "sectionId": "S056",
+  "original": "عندها تنجلي ظلمت المحيط عن القلب، وتنار شمعة البصيرة، وتولي غشاوة المحيط وظلمة النفس وأهوائها ووساوس شياطين الانس والجن، عندها ستريه البصيرة حقائق الامور (فبصرك اليوم حديد) وتستطيع النفس أن تدخل بيت الفطرة من غير اعتراض تلك الغشاوة، لترى ان خالقها ومبدؤها ورازقها وحاميها هو الله العظيم رب السماوات والارض ورب كل شيء وهو السميع العليم، فتستغيث به وتستجير، لآنها علمت حيناها ان لا ملجأ منه إلا إليه. وأنه هو المنقذ الوحيد والحامي المجيد.",
+  "enhanced": "عندها تنجلي ظلمت المحيط عن القلب، وتنار شمعة البصيرة، وتولي غشاوة المحيط وظلمة النفس وأهوائها ووساوس شياطين الانس والجن، عندها ستريه البصيرة حقائق الامور (فبصرك اليوم حديد) وتستطيع النفس أن تدخل بيت الفطرة من غير اعتراض تلك الغشاوة، لترى ان خالقها ومبدؤها ورازقها وحاميها هو الله العظيم رب السماوات والارض ورب كل شيء وهو السميع العليم، فتستغيث به وتستجير، لآنها علمت حيناها ان لا ملجأ منه إلا إليه. وأنه هو المنقذ الوحيد والحامي المجيد.",
+  "english": "This is a mock translation of the Arabic text with approximately 88 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S056",
+    "rowIndex": 4,
+    "wordCount": 74,
+    "charCount": 436,
+    "laneHash": "764454aa7d2cc450",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 436,
+    "processedAt": "2025-09-24T03:38:49.676Z",
+    "lpr": 0.6081081081081081,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6020752895752896,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

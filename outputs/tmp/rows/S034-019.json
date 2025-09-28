@@ -1,0 +1,58 @@
+{
+  "id": "S034-019",
+  "sectionId": "S034",
+  "original": "إن هذه المحاولات الساعية الى تزكية النفس من النفس البشرية للوصول بها الى كمال النفس والى مصاف النفس الملكية , تجعلهم ينظرون بعين القدرة الربانية , فهم ينظرون بنور الله , وقد اشار اليهم رسول الله بقوله ,\"اتقوا فراسة المؤمن فأنه ينظر بنور الله \" , وعن أبي هريرة رضي الله عنه قال‏:‏ قال رسول الله صلى الله عليه وسلم‏:‏ \"‏إن الله تعالى قال‏:‏ من عادا لي وليا فقد آذنته بالحرب‏.‏ وما تقرب إلي عبدي بشيء أحب إلي مما افترضت عليه، وما يزال عبدي يتقرب إلي بالنوافل حتى أحبه، فإذا أحببته كنت سمعه الذي يسمع به، وبصره الذي يبصر به، ويده التي يبطش بها، ورجله التي يمشي بها، وإن سألني أعطيته؛",
+  "enhanced": "إن هذه المحاولات الساعية الى تزكية النفس من النفس البشرية للوصول بها الى كمال النفس والى مصاف النفس الملكية , تجعلهم ينظرون بعين القدرة الربانية , فهم ينظرون بنور الله , وقد اشار اليهم رسول الله بقوله ,\"اتقوا فراسة المؤمن فأنه ينظر بنور الله \" , وعن أبي هريرة رضي الله عنه قال‏:‏ قال رسول الله صلى الله عليه وسلم‏:‏ \"‏إن الله تعالى قال‏:‏ من عادا لي وليا فقد آذنته بالحرب‏.‏ وما تقرب إلي عبدي بشيء أحب إلي مما افترضت عليه، وما يزال عبدي يتقرب إلي بالنوافل حتى أحبه، فإذا أحببته كنت سمعه الذي يسمع به، وبصره الذي يبصر به، ويده التي يبطش بها، ورجله التي يمشي بها، وإن سألني أعطيته؛",
+  "english": "This is a mock translation of the Arabic text with approximately 133 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [
+    {
+      "type": "hadith",
+      "reference": "",
+      "normalized": "Hadith:prophet:context"
+    },
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:verse"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S034",
+    "rowIndex": 18,
+    "wordCount": 111,
+    "charCount": 579,
+    "laneHash": "0b7327bba7fbb3d1",
+    "isVerse": true,
+    "hasScripture": true,
+    "originalLength": 579,
+    "processedAt": "2025-09-24T03:38:25.694Z",
+    "lpr": 0.40540540540540543,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.3853578853578854,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S073-016",
+  "sectionId": "S073",
+  "original": "ان هذه الرسالة أكثر الرسالات انتشارا واعتناقا، في عصر العلم، لآنه دين العلم، على الرغم من الامكانيات المتواضعة والقليلة جدا من اصحاب هذا الدين.",
+  "enhanced": "ان هذه الرسالة أكثر الرسالات انتشارا واعتناقا، في عصر العلم، لآنه دين العلم، على الرغم من الامكانيات المتواضعة والقليلة جدا من اصحاب هذا الدين.",
+  "english": "This is a mock translation of the Arabic text with approximately 28 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S073",
+    "rowIndex": 15,
+    "wordCount": 24,
+    "charCount": 143,
+    "laneHash": "e644bd0da068d8de",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 143,
+    "processedAt": "2025-09-24T03:39:32.864Z",
+    "lpr": 1.875,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

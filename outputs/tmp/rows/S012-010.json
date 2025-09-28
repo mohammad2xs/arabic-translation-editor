@@ -1,0 +1,53 @@
+{
+  "id": "S012-010",
+  "sectionId": "S012",
+  "original": "والنفس موصوفه بالذم حتى سميت طاغوتا، وأمارة بالسوء، إذا ما كان هواها بخلاف هدى الله، قال تعالى في سورة البقرة الآية 256 (ومن يكفر بالطاغوت ويؤمن بالله فقد استمسك بالعروة الوثقى). قيل طاغوت كل أمرؤ نفسه، اي أن من يكفر ويعصى هوى النفس وشهواتها، ويؤمن ويستمسك بما امر الله به، فقد استمسك بالعروة الوثقى، وهو حبل الله المنجى المتين والهادي الى صراط مستقيم وتستريح فيه الروح وتأنس به النفس المطمئنة.",
+  "enhanced": "والنفس موصوفه بالذم حتى سميت طاغوتا، وأمارة بالسوء، إذا ما كان هواها بخلاف هدى الله، قال تعالى في سورة البقرة الآية 256 (ومن يكفر بالطاغوت ويؤمن بالله فقد استمسك بالعروة الوثقى). قيل طاغوت كل أمرؤ نفسه، اي أن من يكفر ويعصى هوى النفس وشهواتها، ويؤمن ويستمسك بما امر الله به، فقد استمسك بالعروة الوثقى، وهو حبل الله المنجى المتين والهادي الى صراط مستقيم وتستريح فيه الروح وتأنس به النفس المطمئنة.",
+  "english": "This is a mock translation of the Arabic text with approximately 84 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 4,
+  "scriptureRefs": [
+    {
+      "type": "quran",
+      "reference": "",
+      "normalized": "Quran:context"
+    }
+  ],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S012",
+    "rowIndex": 9,
+    "wordCount": 70,
+    "charCount": 394,
+    "laneHash": "0caf0087234fe0f5",
+    "isVerse": true,
+    "hasScripture": true,
+    "originalLength": 394,
+    "processedAt": "2025-09-24T03:38:12.685Z",
+    "lpr": 0.6428571428571429,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5839002267573696,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

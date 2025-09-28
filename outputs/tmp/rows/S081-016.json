@@ -1,0 +1,47 @@
+{
+  "id": "S081-016",
+  "sectionId": "S081",
+  "original": "غير أنهم لم يجدوا في الدين الذي ورثوه من الأجداد ما يروي عطش الروح، ويجيب النفس على تساؤلاتها ويسكن حيرتها، لإن الدين الذي ورثوه، قد أفرغ من محتواه الروحي واصابه عفن المادية والنزوات النفسية فغيرت جوهره، فلم يعد يستطيع أن يروي نفوسهم العطشى من ماء الحقيقة التي تبحث عنها.",
+  "enhanced": "غير أنهم لم يجدوا في الدين الذي ورثوه من الأجداد ما يروي عطش الروح، ويجيب النفس على تساؤلاتها ويسكن حيرتها، لإن الدين الذي ورثوه، قد أفرغ من محتواه الروحي واصابه عفن المادية والنزوات النفسية فغيرت جوهره، فلم يعد يستطيع أن يروي نفوسهم العطشى من ماء الحقيقة التي تبحث عنها.",
+  "english": "This is a mock translation of the Arabic text with approximately 58 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S081",
+    "rowIndex": 15,
+    "wordCount": 49,
+    "charCount": 271,
+    "laneHash": "ca744ce878008b2e",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 271,
+    "processedAt": "2025-09-24T03:39:57.288Z",
+    "lpr": 0.9183673469387755,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.9373177842565598,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

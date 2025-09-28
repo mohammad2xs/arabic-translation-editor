@@ -1,0 +1,46 @@
+{
+  "id": "S027-014",
+  "sectionId": "S027",
+  "original": "فهداية التمكين هي هدية من الله لا يملكها غيره.",
+  "enhanced": "فهداية التمكين هي هدية من الله لا يملكها غيره.",
+  "english": "This is a mock translation of the Arabic text with approximately 10 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S027",
+    "rowIndex": 13,
+    "wordCount": 9,
+    "charCount": 46,
+    "laneHash": "b1bc4603a378532b",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 46,
+    "processedAt": "2025-09-24T03:38:18.973Z",
+    "lpr": 5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

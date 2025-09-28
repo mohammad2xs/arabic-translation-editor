@@ -1,0 +1,47 @@
+{
+  "id": "S004-004",
+  "sectionId": "S004",
+  "original": "إن هذه الملكية للإرادة الحرة, هي ما حسن الله به الانسان وما سوى به خلقه وخلقه وأحسن تكوينه وخلقه ,وبذلك فضله على كثير مما خلق تفضيلا كبيرا , يقول تعالى ( ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا )الإسراء , وقد رافق ذلك التفضيل ,التمكين له في الارض في برها وبحرها, وجوها , وجعلها جميعا طوعا له لتحمل رغباته وتوجهاته وليتناسق جميعها لإرادته ومشيئته , يقول تعالى ( وسخر لكم ما في السموات وما في الارض جميعا منه إن في ذلك لآيات لقوم يتفكرون )(4) .",
+  "enhanced": "إن هذه الملكية للإرادة الحرة, هي ما حسن الله به الانسان وما سوى به خلقه وخلقه وأحسن تكوينه وخلقه ,وبذلك فضله على كثير مما خلق تفضيلا كبيرا , يقول تعالى ( ولقد كرمنا بني آدم وحملناهم في البر والبحر ورزقناهم من الطيبات وفضلناهم على كثير ممن خلقنا تفضيلا )الإسراء , وقد رافق ذلك التفضيل ,التمكين له في الارض في برها وبحرها, وجوها , وجعلها جميعا طوعا له لتحمل رغباته وتوجهاته وليتناسق جميعها لإرادته ومشيئته , يقول تعالى ( وسخر لكم ما في السموات وما في الارض جميعا منه إن في ذلك لآيات لقوم يتفكرون )(4) .",
+  "english": "This is a mock translation of the Arabic text with approximately 115 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S004",
+    "rowIndex": 3,
+    "wordCount": 96,
+    "charCount": 500,
+    "laneHash": "2023963b1ee0ff04",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 500,
+    "processedAt": "2025-09-24T03:38:11.356Z",
+    "lpr": 0.46875,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5009920634920635,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

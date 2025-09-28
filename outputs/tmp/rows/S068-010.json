@@ -1,0 +1,47 @@
+{
+  "id": "S068-010",
+  "sectionId": "S068",
+  "original": "إن هذه الآية تؤكد على أن ابتعاد الإنسان عن المحيط المشوش للفطرة , يوصله الى اعماق النفس , ليستخرج حقيقة الامر من فطرته السليمة , وبها يعلم أن خالقه وخالق الاكوان هو رب العالمين , فالله قد استودع في النفس البشرية, وفطرها على علم الربوبية وعلم توحيد الله جل وعلا.",
+  "enhanced": "إن هذه الآية تؤكد على أن ابتعاد الإنسان عن المحيط المشوش للفطرة , يوصله الى اعماق النفس , ليستخرج حقيقة الامر من فطرته السليمة , وبها يعلم أن خالقه وخالق الاكوان هو رب العالمين , فالله قد استودع في النفس البشرية, وفطرها على علم الربوبية وعلم توحيد الله جل وعلا.",
+  "english": "This is a mock translation of the Arabic text with approximately 60 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S068",
+    "rowIndex": 9,
+    "wordCount": 50,
+    "charCount": 261,
+    "laneHash": "b47eb30d711f1a11",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 261,
+    "processedAt": "2025-09-24T03:39:18.747Z",
+    "lpr": 0.9,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.8452380952380952,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

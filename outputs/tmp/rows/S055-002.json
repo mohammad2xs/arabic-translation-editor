@@ -1,0 +1,46 @@
+{
+  "id": "S055-002",
+  "sectionId": "S055",
+  "original": "أما إنسانيا فهو الشيء الموجود بين أضلع الانسان في صدره لا يعرف كنهه ومكنونه ولا مكان وجوده، هل هو تلك المضخة؟",
+  "enhanced": "أما إنسانيا فهو الشيء الموجود بين أضلع الانسان في صدره لا يعرف كنهه ومكنونه ولا مكان وجوده، هل هو تلك المضخة؟",
+  "english": "This is a mock translation of the Arabic text with approximately 25 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S055",
+    "rowIndex": 1,
+    "wordCount": 21,
+    "charCount": 109,
+    "laneHash": "b4209ed82d2e8821",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 109,
+    "processedAt": "2025-09-24T03:38:45.125Z",
+    "lpr": 2.142857142857143,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S020-004",
+  "sectionId": "S020",
+  "original": "فيصقل الاحداث ويطبع فيها الطابع الانساني الراقي ويبعد عنها وحشيتها وتوحشها القادم منها , أما اذا كان الصخب الخارجي عالي الضجيج سريع الاندفاع عالي الموج ومندفع بقوى في الانسان , فإنه يستطيع ان يربك الغربال الفطر الانساني ويقلل نشاطه ,ويقطع نسيج الغربال الفطري ويشققه , فلا يعد قادر على غربلة الصحيح من غيره , فتختلف عند إذ الموازين عند الانسان , فيشط ويشطح في قراراته وتقديراته ونظرته للأمور, ويصبح حكمه على الاشياء مرتبكا مشوشا , لتشوش بصيرة الفطري بالعاصفة الهوجاء التي احاطة بها من محيطها الخارجي .",
+  "enhanced": "فيصقل الاحداث ويطبع فيها الطابع الانساني الراقي ويبعد عنها وحشيتها وتوحشها القادم منها , أما اذا كان الصخب الخارجي عالي الضجيج سريع الاندفاع عالي الموج ومندفع بقوى في الانسان , فإنه يستطيع ان يربك الغربال الفطر الانساني ويقلل نشاطه ,ويقطع نسيج الغربال الفطري ويشققه , فلا يعد قادر على غربلة الصحيح من غيره , فتختلف عند إذ الموازين عند الانسان , فيشط ويشطح في قراراته وتقديراته ونظرته للأمور, ويصبح حكمه على الاشياء مرتبكا مشوشا , لتشوش بصيرة الفطري بالعاصفة الهوجاء التي احاطة بها من محيطها الخارجي .",
+  "english": "This is a mock translation of the Arabic text with approximately 104 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S020",
+    "rowIndex": 3,
+    "wordCount": 87,
+    "charCount": 500,
+    "laneHash": "b73f04bce463bc22",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 500,
+    "processedAt": "2025-09-24T03:38:15.112Z",
+    "lpr": 0.5172413793103449,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5240831964969896,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

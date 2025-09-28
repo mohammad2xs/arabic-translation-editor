@@ -1,0 +1,46 @@
+{
+  "id": "S048-014",
+  "sectionId": "S048",
+  "original": "ففي الاتحاد قوه تديم وجود الامم والدول والافراد والمجتمعات والاشياء كلها، حتى الجامدة منها.",
+  "enhanced": "ففي الاتحاد قوه تديم وجود الامم والدول والافراد والمجتمعات والاشياء كلها، حتى الجامدة منها.",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S048",
+    "rowIndex": 13,
+    "wordCount": 14,
+    "charCount": 91,
+    "laneHash": "a7987a4a5ac8ad3c",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 91,
+    "processedAt": "2025-09-24T03:38:37.263Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

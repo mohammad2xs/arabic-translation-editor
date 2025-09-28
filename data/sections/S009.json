@@ -1,0 +1,67 @@
+{
+  "id": "S009",
+  "title": "الصراع بين الجسم والروح",
+  "rows": [
+    {
+      "id": "S009-001",
+      "original": "فقد شبه الدبوسي الجسم بالرعية التي تأتمر بأمر اميرين هما النفس والروح.",
+      "enhanced": "فقد شبه الدبوسي الجسم بالرعية التي تأتمر بأمر اميرين هما النفس والروح.",
+      "english": "",
+      "complexity": 1,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S009",
+        "rowIndex": 0,
+        "wordCount": 12,
+        "charCount": 70,
+        "laneHash": "755ebecb68194368",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 70
+      }
+    },
+    {
+      "id": "S009-002",
+      "original": "فالنفس: أمير من الدنيا ووزيرها الرأس، والرأس يعمل عند النفس, ويأتمر بأمرها. والروح: أميرها من المولى. ووزيرها القلب. فالقلب يأتمر بأمر الروح ويتلقى منها.",
+      "enhanced": "فالنفس: أمير من الدنيا ووزيرها الرأس، والرأس يعمل عند النفس, ويأتمر بأمرها. والروح: أميرها من المولى. ووزيرها القلب. فالقلب يأتمر بأمر الروح ويتلقى منها.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S009",
+        "rowIndex": 1,
+        "wordCount": 24,
+        "charCount": 153,
+        "laneHash": "866c0356a1ab4ac2",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 153
+      }
+    },
+    {
+      "id": "S009-003",
+      "original": "فهو يرى ان الانسان كهيئة ومخلوق على هذه الارض وكجسم انساني، يسيطر عليه ويؤثر فيه اربعة اشياء ! الروح والنفس والقلب والرأس.",
+      "enhanced": "فهو يرى ان الانسان كهيئة ومخلوق على هذه الارض وكجسم انساني، يسيطر عليه ويؤثر فيه اربعة اشياء ! الروح والنفس والقلب والرأس.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S009",
+        "rowIndex": 2,
+        "wordCount": 22,
+        "charCount": 122,
+        "laneHash": "0e2d077ccaa4048b",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 122
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 3,
+    "wordCount": 58,
+    "charCount": 345,
+    "contentHash": "70b3adc64bd5f4ba",
+    "processedAt": "2025-09-24T03:51:07.527Z"
+  }
+}

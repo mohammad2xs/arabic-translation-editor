@@ -1,0 +1,46 @@
+{
+  "id": "S012-008",
+  "sectionId": "S012",
+  "original": "وبما ان للعقل وللقلب طلبات ورغبات متضارب مع بعضها البعض، وغير متفقه في كثير من الاحيان مما يجعل الاضطراب والصراع يزداد شدة وحده.",
+  "enhanced": "وبما ان للعقل وللقلب طلبات ورغبات متضارب مع بعضها البعض، وغير متفقه في كثير من الاحيان مما يجعل الاضطراب والصراع يزداد شدة وحده.",
+  "english": "This is a mock translation of the Arabic text with approximately 27 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S012",
+    "rowIndex": 7,
+    "wordCount": 23,
+    "charCount": 128,
+    "laneHash": "933366bec3f6b06f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 128,
+    "processedAt": "2025-09-24T03:38:12.553Z",
+    "lpr": 1.9565217391304348,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

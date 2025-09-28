@@ -1,0 +1,47 @@
+{
+  "id": "S007-005",
+  "sectionId": "S007",
+  "original": "أما ابن سينا (370-428) هجريه، فأنه يرى طبيعة النفس ومنشأها أمور وثيقة الصلة بالحقائق الإلهية والنبوية , فهو يفرق بين النفس الحيوانية والنفس الناطقة , فالأولى تفعل فعلها بعضو جسمي قائمة به , أما الثانية فهي قوى غير قائمه بجسم ,وتفعل فعلها بذاتها من دون توسط عضو جسمي , ومن هذا يكون للإنسان نوعين من القوى المدركة , قوى تدرك الجزيئات بتوسط أعضاء جسميه هي الحواس , وتتبع النفس الحيوانية .",
+  "enhanced": "أما ابن سينا (370-428) هجريه، فأنه يرى طبيعة النفس ومنشأها أمور وثيقة الصلة بالحقائق الإلهية والنبوية , فهو يفرق بين النفس الحيوانية والنفس الناطقة , فالأولى تفعل فعلها بعضو جسمي قائمة به , أما الثانية فهي قوى غير قائمه بجسم ,وتفعل فعلها بذاتها من دون توسط عضو جسمي , ومن هذا يكون للإنسان نوعين من القوى المدركة , قوى تدرك الجزيئات بتوسط أعضاء جسميه هي الحواس , وتتبع النفس الحيوانية .",
+  "english": "This is a mock translation of the Arabic text with approximately 85 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 4,
+    "wordCount": 71,
+    "charCount": 385,
+    "laneHash": "e142ad80e04f872e",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 385,
+    "processedAt": "2025-09-24T03:38:11.690Z",
+    "lpr": 0.6338028169014085,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5795886429689248,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

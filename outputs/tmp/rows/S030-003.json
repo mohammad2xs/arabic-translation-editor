@@ -1,0 +1,47 @@
+{
+  "id": "S030-003",
+  "sectionId": "S030",
+  "original": "شواهد وبينات المعرفة الفطرية للأقوام السابقة من القرآن الكريم: - يبين الله لنا في كتابه الكريم احوال الاقوام والامم السابقة مع انبيائهم والمرسلين الذين أرسلوا إليهم، أن خلافهم معهم لم يكن الايمان بوجود الله ولكن كان في تكذيب الرسل، بأنهم غير مرسلين من الله رب العالمين الذين يؤمنون به ولا ينكرونه، لقد كانت مشكلتهم وما لبس عليهم الشيطان، أنه كيف يبعث الله لهم رسول من انفسهم، من البشر، ولا يبعث ملائكة من عنده تبلغهم رسالة ربهم.",
+  "enhanced": "شواهد وبينات المعرفة الفطرية للأقوام السابقة من القرآن الكريم: - يبين الله لنا في كتابه الكريم احوال الاقوام والامم السابقة مع انبيائهم والمرسلين الذين أرسلوا إليهم، أن خلافهم معهم لم يكن الايمان بوجود الله ولكن كان في تكذيب الرسل، بأنهم غير مرسلين من الله رب العالمين الذين يؤمنون به ولا ينكرونه، لقد كانت مشكلتهم وما لبس عليهم الشيطان، أنه كيف يبعث الله لهم رسول من انفسهم، من البشر، ولا يبعث ملائكة من عنده تبلغهم رسالة ربهم.",
+  "english": "This is a mock translation of the Arabic text with approximately 91 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S030",
+    "rowIndex": 2,
+    "wordCount": 76,
+    "charCount": 428,
+    "laneHash": "d259146b3a2c0172",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 428,
+    "processedAt": "2025-09-24T03:38:21.053Z",
+    "lpr": 0.5921052631578947,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.6390977443609023,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

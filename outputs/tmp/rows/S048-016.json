@@ -1,0 +1,46 @@
+{
+  "id": "S048-016",
+  "sectionId": "S048",
+  "original": "فالمجتمع المتفرق لا ينتج ولا يتطور، والعائلة المتفرقة الغير المتماسكة تنهار وتنتهي.",
+  "enhanced": "فالمجتمع المتفرق لا ينتج ولا يتطور، والعائلة المتفرقة الغير المتماسكة تنهار وتنتهي.",
+  "english": "This is a mock translation of the Arabic text with approximately 14 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S048",
+    "rowIndex": 15,
+    "wordCount": 12,
+    "charCount": 83,
+    "laneHash": "149508e6b2f2cc9f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 83,
+    "processedAt": "2025-09-24T03:38:37.264Z",
+    "lpr": 3.75,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

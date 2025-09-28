@@ -1,0 +1,46 @@
+{
+  "id": "S075-005",
+  "sectionId": "S075",
+  "original": "وقد سمية انطلاقاتهم الفكرية تلك بالحداثة، وسمية تلك الفترة الزمنية بعصر التنوير، لما احدثته من ثورة في فكرهم التقليدي النمطي.",
+  "enhanced": "وقد سمية انطلاقاتهم الفكرية تلك بالحداثة، وسمية تلك الفترة الزمنية بعصر التنوير، لما احدثته من ثورة في فكرهم التقليدي النمطي.",
+  "english": "This is a mock translation of the Arabic text with approximately 24 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S075",
+    "rowIndex": 4,
+    "wordCount": 20,
+    "charCount": 125,
+    "laneHash": "4bbb878acb4993bd",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 125,
+    "processedAt": "2025-09-24T03:39:36.930Z",
+    "lpr": 2.25,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

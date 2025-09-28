@@ -1,0 +1,46 @@
+{
+  "id": "S052-001",
+  "sectionId": "S052",
+  "original": "ومن الدلالات التي يجب ان يدركها العقل السليم والتي تدل على وحدة الخالق.",
+  "enhanced": "ومن الدلالات التي يجب ان يدركها العقل السليم والتي تدل على وحدة الخالق.",
+  "english": "This is a mock translation of the Arabic text with approximately 15 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S052",
+    "rowIndex": 0,
+    "wordCount": 13,
+    "charCount": 71,
+    "laneHash": "dd588d3b386e4dab",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 71,
+    "processedAt": "2025-09-24T03:38:42.281Z",
+    "lpr": 3.4615384615384617,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

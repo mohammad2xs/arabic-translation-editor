@@ -1,0 +1,46 @@
+{
+  "id": "S073-031",
+  "sectionId": "S073",
+  "original": "وسوف يبقى تلاطم امواج النور والظلام ليتغربل ويتمحص ويمتحن كل انسان، ولتقام الحجة على الجميع.",
+  "enhanced": "وسوف يبقى تلاطم امواج النور والظلام ليتغربل ويتمحص ويمتحن كل انسان، ولتقام الحجة على الجميع.",
+  "english": "This is a mock translation of the Arabic text with approximately 18 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S073",
+    "rowIndex": 30,
+    "wordCount": 15,
+    "charCount": 92,
+    "laneHash": "63755593e0c4aa6f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 92,
+    "processedAt": "2025-09-24T03:39:35.286Z",
+    "lpr": 3,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

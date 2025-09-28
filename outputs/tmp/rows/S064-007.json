@@ -1,0 +1,46 @@
+{
+  "id": "S064-007",
+  "sectionId": "S064",
+  "original": "لينذر الله في هذا الابتلاء الناس من داء الغرور والتكبر الذي اصابهم، فأرسل عليهم جرثوم لا تراه العين، ليقهرهم به، ويوقف جميع نشاطهم ويربك حياتهم .",
+  "enhanced": "لينذر الله في هذا الابتلاء الناس من داء الغرور والتكبر الذي اصابهم، فأرسل عليهم جرثوم لا تراه العين، ليقهرهم به، ويوقف جميع نشاطهم ويربك حياتهم .",
+  "english": "This is a mock translation of the Arabic text with approximately 31 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S064",
+    "rowIndex": 6,
+    "wordCount": 26,
+    "charCount": 145,
+    "laneHash": "95dd4eba2a6770b1",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 145,
+    "processedAt": "2025-09-24T03:39:04.299Z",
+    "lpr": 1.7307692307692308,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S032-001",
+  "sectionId": "S032",
+  "original": "فكلما كثرت الذنوب وغلب هوى النفس والشيطان , كلما بعد القلب عن رؤية ربه , والعكس صحيح , اي كلما صح القلب وخلى من الذنوب, كلما تقرب الى ربه وخالقه فلا يغيب عنه ربه وخالقه لحظة , لا في الصحوة ولا في النوم , يقول الشيخ الجليل عبد القادر الجيلاني رحمه الله و رضي الله عنه وارضاه ((أن اقرب شيء الى الله هو القلب الصحيح السليم)) ,فاذا لم يكن القلب صحيحا وسليما كان بعيد عن الله , ومن كان بعيدا عن الله لم يعرف الله حق معرفته وقدره , فيجعله في ادواته الصغيرة من تماثيل وصور كي يستطيع مخاطبته والوصول اليه ,وذلك لانقطاع النور عن القلب وانقطاع الاتصال بربه .",
+  "enhanced": "فكلما كثرت الذنوب وغلب هوى النفس والشيطان , كلما بعد القلب عن رؤية ربه , والعكس صحيح , اي كلما صح القلب وخلى من الذنوب, كلما تقرب الى ربه وخالقه فلا يغيب عنه ربه وخالقه لحظة , لا في الصحوة ولا في النوم , يقول الشيخ الجليل عبد القادر الجيلاني رحمه الله و رضي الله عنه وارضاه ((أن اقرب شيء الى الله هو القلب الصحيح السليم)) ,فاذا لم يكن القلب صحيحا وسليما كان بعيد عن الله , ومن كان بعيدا عن الله لم يعرف الله حق معرفته وقدره , فيجعله في ادواته الصغيرة من تماثيل وصور كي يستطيع مخاطبته والوصول اليه ,وذلك لانقطاع النور عن القلب وانقطاع الاتصال بربه .",
+  "english": "This is a mock translation of the Arabic text with approximately 132 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S032",
+    "rowIndex": 0,
+    "wordCount": 110,
+    "charCount": 548,
+    "laneHash": "14ceb3c6c65ad46f",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 548,
+    "processedAt": "2025-09-24T03:38:22.482Z",
+    "lpr": 0.4090909090909091,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.40313852813852813,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S072-013",
+  "sectionId": "S072",
+  "original": "أما المغشي عليها، فهي في عمى عن فهم هذا الكتاب.",
+  "enhanced": "أما المغشي عليها، فهي في عمى عن فهم هذا الكتاب.",
+  "english": "This is a mock translation of the Arabic text with approximately 12 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S072",
+    "rowIndex": 12,
+    "wordCount": 10,
+    "charCount": 47,
+    "laneHash": "281cc50ab9754689",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 47,
+    "processedAt": "2025-09-24T03:39:30.429Z",
+    "lpr": 4.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

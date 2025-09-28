@@ -1,0 +1,46 @@
+{
+  "id": "S046-002",
+  "sectionId": "S046",
+  "original": "فسوف نجد في تأملنا في احادية أحاد الامور والاشياء والارقام بأن لها معنى وصفه تتصف بها وتعرف وتعرف بها وهي: - 1_ التميز",
+  "enhanced": "فسوف نجد في تأملنا في احادية أحاد الامور والاشياء والارقام بأن لها معنى وصفه تتصف بها وتعرف وتعرف بها وهي: - 1_ التميز",
+  "english": "This is a mock translation of the Arabic text with approximately 27 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S046",
+    "rowIndex": 1,
+    "wordCount": 23,
+    "charCount": 118,
+    "laneHash": "17749ba53050be91",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 118,
+    "processedAt": "2025-09-24T03:38:35.664Z",
+    "lpr": 1.9565217391304348,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

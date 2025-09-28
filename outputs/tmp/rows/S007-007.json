@@ -1,0 +1,47 @@
+{
+  "id": "S007-007",
+  "sectionId": "S007",
+  "original": "انواع النفس: لقد ذكر القران الكريم انواع النفس البشرية بعدة تسميات او صفات، وقد شرح هذ الوصف ابن القيم وقسمها الى ثلاثة انفس: النفس الأمارة بالسوء، والنفس اللوامة، والنفس المطمئنة، وقال يمكن أن تجتمع هذه الأقسام في النفس البشرية الواحدة في اليوم الواحد، فتكون في فترة من اليوم مطمئنة وتصبح بعد قليل أمارة بالسوء، فيحكم على طبيعة النفس في صفاتها الغالبة من خلال طبع صاحبها وتصرفاته، فالمطلوب من المسلم مجاهدة نفسه وتدريبها حتى تصبح نفسا مطمئنة. ( انتهى كلام ابن القيم )(17).",
+  "enhanced": "انواع النفس: لقد ذكر القران الكريم انواع النفس البشرية بعدة تسميات او صفات، وقد شرح هذ الوصف ابن القيم وقسمها الى ثلاثة انفس: النفس الأمارة بالسوء، والنفس اللوامة، والنفس المطمئنة، وقال يمكن أن تجتمع هذه الأقسام في النفس البشرية الواحدة في اليوم الواحد، فتكون في فترة من اليوم مطمئنة وتصبح بعد قليل أمارة بالسوء، فيحكم على طبيعة النفس في صفاتها الغالبة من خلال طبع صاحبها وتصرفاته، فالمطلوب من المسلم مجاهدة نفسه وتدريبها حتى تصبح نفسا مطمئنة. ( انتهى كلام ابن القيم )(17).",
+  "english": "This is a mock translation of the Arabic text with approximately 98 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S007",
+    "rowIndex": 6,
+    "wordCount": 82,
+    "charCount": 473,
+    "laneHash": "22f967c8d9e72944",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 473,
+    "processedAt": "2025-09-24T03:38:11.676Z",
+    "lpr": 0.5487804878048781,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.5391018195896244,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

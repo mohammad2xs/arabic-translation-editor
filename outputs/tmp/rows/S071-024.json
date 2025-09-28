@@ -1,0 +1,47 @@
+{
+  "id": "S071-024",
+  "sectionId": "S071",
+  "original": "ولقد اختير التحدي في اللغة لان علم اللغة هو العلم الوحيد الذي يحتاجه الانسان في كل امور حياته يسعى الى تطويره وابتكار الجديد فيه ليواكب كل ما يكتشفه من علوم جديده , او امور حياتيه جديده , غير أن كل العلوم الاخرى قد تضعف او يقل الاهتمام أو الحاجة إليها , او يخفت نجمها في زمن من الأزمان , إلا اللغة فأن حاجتنا اليها تزداد كلما ازدادت وكبرت معارفنا , فهيه الأداة المستخدمة في كل امور وشؤون الحياة , لتواكب حاجاتنا التعبيرية عن الاشياء المحدثة في عالمنا , ورغم تطور اللغة والمعرفة اللغوية إلا أن العالم لا زال عاجز كله بعربه وعجمه على ان يأتوا بشيء من مثل هذا القرآن .",
+  "enhanced": "ولقد اختير التحدي في اللغة لان علم اللغة هو العلم الوحيد الذي يحتاجه الانسان في كل امور حياته يسعى الى تطويره وابتكار الجديد فيه ليواكب كل ما يكتشفه من علوم جديده , او امور حياتيه جديده , غير أن كل العلوم الاخرى قد تضعف او يقل الاهتمام أو الحاجة إليها , او يخفت نجمها في زمن من الأزمان , إلا اللغة فأن حاجتنا اليها تزداد كلما ازدادت وكبرت معارفنا , فهيه الأداة المستخدمة في كل امور وشؤون الحياة , لتواكب حاجاتنا التعبيرية عن الاشياء المحدثة في عالمنا , ورغم تطور اللغة والمعرفة اللغوية إلا أن العالم لا زال عاجز كله بعربه وعجمه على ان يأتوا بشيء من مثل هذا القرآن .",
+  "english": "This is a mock translation of the Arabic text with approximately 133 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 23,
+    "wordCount": 111,
+    "charCount": 565,
+    "laneHash": "4b6be71f8ec75782",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 565,
+    "processedAt": "2025-09-24T03:39:26.002Z",
+    "lpr": 0.40540540540540543,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": false,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 5,
+    "recommendation": "expand",
+    "confidence": 0.47082797082797084,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

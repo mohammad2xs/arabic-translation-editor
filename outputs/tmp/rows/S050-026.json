@@ -1,0 +1,46 @@
+{
+  "id": "S050-026",
+  "sectionId": "S050",
+  "original": "فأول علة للوحدة في الموحدات هو الواحد الحق الذي لم يفد الوحدة من غيره، لأنه لا يمكن أن تكون المفيدات بعضها لبعض بلا نهاية في البدء.",
+  "enhanced": "فأول علة للوحدة في الموحدات هو الواحد الحق الذي لم يفد الوحدة من غيره، لأنه لا يمكن أن تكون المفيدات بعضها لبعض بلا نهاية في البدء.",
+  "english": "This is a mock translation of the Arabic text with approximately 31 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S050",
+    "rowIndex": 25,
+    "wordCount": 26,
+    "charCount": 131,
+    "laneHash": "3397f2eb876ecb65",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 131,
+    "processedAt": "2025-09-24T03:38:40.986Z",
+    "lpr": 1.7307692307692308,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

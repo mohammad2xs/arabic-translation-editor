@@ -1,0 +1,46 @@
+{
+  "id": "S044-005",
+  "sectionId": "S044",
+  "original": "فتنتبه وتدرك ايات الله وتسمع ما فيها , وتنار بنورها , فيصبح بها نورا تدرك به عظمة ما حولها من خلق الله , وتتدبر أياته فيها .",
+  "enhanced": "فتنتبه وتدرك ايات الله وتسمع ما فيها , وتنار بنورها , فيصبح بها نورا تدرك به عظمة ما حولها من خلق الله , وتتدبر أياته فيها .",
+  "english": "This is a mock translation of the Arabic text with approximately 32 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S044",
+    "rowIndex": 4,
+    "wordCount": 27,
+    "charCount": 124,
+    "laneHash": "0ee76fc91d6d7dca",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 124,
+    "processedAt": "2025-09-24T03:38:34.964Z",
+    "lpr": 1.6666666666666667,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 4,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

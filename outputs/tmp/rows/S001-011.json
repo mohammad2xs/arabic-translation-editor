@@ -1,0 +1,43 @@
+{
+  "id": "S001-011",
+  "sectionId": "S001",
+  "original": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+  "enhanced": "وهذا المفهوم الشامل للإنسان يؤثر على جميع جوانب حياته، من العبادة إلى المعاملات، ومن الأخلاق إلى السلوك الاجتماعي.",
+  "english": "This is a mock translation of the Arabic text with approximately 21 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "laneHash": "718db10188eb4df3",
+    "sectionId": "S001",
+    "rowIndex": 10,
+    "wordCount": 18,
+    "charCount": 108,
+    "processedAt": "2025-09-24T03:38:11.191Z",
+    "lpr": 2.5,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 3,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

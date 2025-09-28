@@ -1,0 +1,46 @@
+{
+  "id": "S008-004",
+  "sectionId": "S008",
+  "original": "فهو يعتقد ان هذا التشاد والتفاعل يولد صراعا بين الجسم والروح داخل النفس البشرية. (24) .",
+  "enhanced": "فهو يعتقد ان هذا التشاد والتفاعل يولد صراعا بين الجسم والروح داخل النفس البشرية. (24) .",
+  "english": "This is a mock translation of the Arabic text with approximately 19 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S008",
+    "rowIndex": 3,
+    "wordCount": 16,
+    "charCount": 87,
+    "laneHash": "5c006f041b7324c6",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 87,
+    "processedAt": "2025-09-24T03:38:12.269Z",
+    "lpr": 2.8125,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

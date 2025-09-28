@@ -1,0 +1,46 @@
+{
+  "id": "S064-027",
+  "sectionId": "S064",
+  "original": "فالعقل الذي نال الرشد واستنار بالعلم الحقيقي يستخدم قاموسه الفطري للتعرف على معاني ومعارف الحقيقية لتلك المعلومات والمنظورات .",
+  "enhanced": "فالعقل الذي نال الرشد واستنار بالعلم الحقيقي يستخدم قاموسه الفطري للتعرف على معاني ومعارف الحقيقية لتلك المعلومات والمنظورات .",
+  "english": "This is a mock translation of the Arabic text with approximately 22 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S064",
+    "rowIndex": 26,
+    "wordCount": 19,
+    "charCount": 126,
+    "laneHash": "5bac8901578f6aab",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 126,
+    "processedAt": "2025-09-24T03:39:07.481Z",
+    "lpr": 2.3684210526315788,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "S062-001",
+  "sectionId": "S062",
+  "original": "(قل ما كنت بدعا من الرسل وما أدري ما يفعل بي ولا بكم إن أتبع إلا ما يوحى إلي وما أنا إلا نذير مبين * قل أرأيتم إن كان من عند الله وكفرتم به وشهد شاهد من بني إسرائيل على مثله فآمن واستكبرتم إن الله لا يهدي القوم الظالمين ) .",
+  "enhanced": "(قل ما كنت بدعا من الرسل وما أدري ما يفعل بي ولا بكم إن أتبع إلا ما يوحى إلي وما أنا إلا نذير مبين * قل أرأيتم إن كان من عند الله وكفرتم به وشهد شاهد من بني إسرائيل على مثله فآمن واستكبرتم إن الله لا يهدي القوم الظالمين ) .",
+  "english": "This is a mock translation of the Arabic text with approximately 61 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 3,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S062",
+    "rowIndex": 0,
+    "wordCount": 51,
+    "charCount": 223,
+    "laneHash": "ecd67071ef82e8a9",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 223,
+    "processedAt": "2025-09-24T03:38:58.686Z",
+    "lpr": 0.8823529411764706,
+    "qualityGates": {
+      "lpr": false,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "expand",
+    "confidence": 0.9201680672268907,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsExpand": true,
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": true
+    },
+    "semanticWarnings": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "S071-028",
+  "sectionId": "S071",
+  "original": "فهو يخاطب العقل البشري بمستواه الادراكي على طوال الأزمنة والاماكن ليهديه الى الصراط المستقيم.",
+  "enhanced": "فهو يخاطب العقل البشري بمستواه الادراكي على طوال الأزمنة والاماكن ليهديه الى الصراط المستقيم.",
+  "english": "This is a mock translation of the Arabic text with approximately 16 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 1,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S071",
+    "rowIndex": 27,
+    "wordCount": 14,
+    "charCount": 93,
+    "laneHash": "52fd76b3795b5424",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 93,
+    "processedAt": "2025-09-24T03:39:26.096Z",
+    "lpr": 3.2142857142857144,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 1,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}

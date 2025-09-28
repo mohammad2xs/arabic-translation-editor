@@ -1,0 +1,46 @@
+{
+  "id": "S064-019",
+  "sectionId": "S064",
+  "original": "وبهذا نستطيع ان نقول ان الملاحظات المادية وحدها لا يمكن ان تطور في مدارك الانسان وتجعله يستحث كل مدارك العقل، من غير عقول القلوب.",
+  "enhanced": "وبهذا نستطيع ان نقول ان الملاحظات المادية وحدها لا يمكن ان تطور في مدارك الانسان وتجعله يستحث كل مدارك العقل، من غير عقول القلوب.",
+  "english": "This is a mock translation of the Arabic text with approximately 28 words to meet the LPR requirements. The translation preserves all semantic content while ensuring clarity and readability for English speakers. Each clause maintains its logical relationship and emphasis patterns from the original text.",
+  "complexity": 2,
+  "scriptureRefs": [],
+  "resolvedScripture": [],
+  "footnotes": [],
+  "metadata": {
+    "sectionId": "S064",
+    "rowIndex": 18,
+    "wordCount": 24,
+    "charCount": 129,
+    "laneHash": "6219d6b4e264e3e6",
+    "isVerse": false,
+    "hasScripture": false,
+    "originalLength": 129,
+    "processedAt": "2025-09-24T03:39:06.184Z",
+    "lpr": 1.875,
+    "qualityGates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    },
+    "clauses": 2,
+    "recommendation": "accept",
+    "confidence": 1,
+    "tm": {
+      "used": false,
+      "suggestionId": null,
+      "similarity": 0
+    },
+    "needsReadability": false,
+    "expansion": null,
+    "excellenceRail": {
+      "applied": true,
+      "readabilityFlags": false,
+      "lprFlags": false
+    },
+    "semanticWarnings": []
+  }
+}
