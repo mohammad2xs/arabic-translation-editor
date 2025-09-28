@@ -7,7 +7,7 @@ import path from 'path';
 class GitHubWorkflow {
   constructor() {
     this.repoName = 'arabic-translation-editor';
-    this.owner = 'muhammad'; // Update with your GitHub username
+    this.owner = 'mohammad2xs'; // Corrected GitHub username
   }
 
   async checkGitHubCLI() {
@@ -64,21 +64,47 @@ class GitHubWorkflow {
     try {
       console.log('📝 Setting up repository...');
       
-      // Add remote origin
-      execSync(`git remote add origin https://github.com/${this.owner}/${this.repoName}.git`, { stdio: 'pipe' });
+      // Check if remote origin already exists
+      try {
+        const existingRemote = execSync('git remote get-url origin', { stdio: 'pipe' }).toString().trim();
+        console.log(`ℹ️  Remote origin already exists: ${existingRemote}`);
+      } catch (error) {
+        // Add remote origin if it doesn't exist
+        console.log('🔗 Adding remote origin...');
+        execSync(`git remote add origin https://github.com/${this.owner}/${this.repoName}.git`, { stdio: 'pipe' });
+      }
       
-      // Create initial commit
-      execSync('git add .', { stdio: 'pipe' });
-      execSync('git commit -m "Initial commit: Arabic Translation Editor with MCP Integration"', { stdio: 'pipe' });
+      // Create initial commit if there are changes
+      try {
+        execSync('git add .', { stdio: 'pipe' });
+        execSync('git commit -m "Initial commit: Arabic Translation Editor with MCP Integration"', { stdio: 'pipe' });
+        console.log('✅ Created initial commit');
+      } catch (error) {
+        console.log('ℹ️  No changes to commit or commit already exists');
+      }
       
       // Push to main branch
-      execSync('git branch -M main', { stdio: 'pipe' });
-      execSync('git push -u origin main', { stdio: 'pipe' });
+      try {
+        execSync('git branch -M main', { stdio: 'pipe' });
+        console.log('🚀 Pushing to main branch...');
+        execSync('git push -u origin main', { stdio: 'pipe' });
+        console.log('✅ Successfully pushed to GitHub');
+      } catch (error) {
+        console.error('❌ Failed to push to GitHub:', error.message);
+        console.log('\n🔐 Authentication Required:');
+        console.log('It looks like Git cannot authenticate with GitHub.');
+        console.log('Run the following command to configure authentication:');
+        console.log('  npm run github:auth:setup');
+        console.log('or manually run:');
+        console.log('  node scripts/setup-git-auth.mjs');
+        return false;
+      }
       
       console.log('✅ Repository setup complete');
       return true;
     } catch (error) {
       console.error('❌ Failed to setup repository:', error.message);
+      console.log('\n💡 Try running: node scripts/setup-git-auth.mjs');
       return false;
     }
   }
