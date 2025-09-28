@@ -13,7 +13,7 @@ export interface CostSpan {
     total: number;
   };
   model?: string;
-  provider?: 'claude' | 'gemini' | 'openai';
+  provider?: 'openai';
   cost?: number;
   metadata?: Record<string, any>;
 }
@@ -41,13 +41,10 @@ export interface CostSummary {
 }
 
 const MODEL_PRICING: Record<string, { input: number; output: number }> = {
-  'claude-3-5-sonnet-20241022': { input: 0.003, output: 0.015 },
-  'claude-3-5-haiku-20241022': { input: 0.0008, output: 0.004 },
-  'claude-3-opus-20240229': { input: 0.015, output: 0.075 },
-  'gemini-1.5-pro': { input: 0.00125, output: 0.005 },
-  'gemini-1.5-flash': { input: 0.000075, output: 0.0003 },
   'gpt-4o': { input: 0.0025, output: 0.01 },
   'gpt-4o-mini': { input: 0.000150, output: 0.0006 },
+  'gpt-4.1': { input: 0.003, output: 0.012 },
+  'gpt-4.1-mini': { input: 0.00015, output: 0.0006 }
 };
 
 const activeSpans = new Map<string, CostSpan>();
@@ -73,10 +70,8 @@ function calculateCost(tokens: CostSpan['tokens'], model: string): number {
 }
 
 function getProvider(model: string): CostSpan['provider'] {
-  if (model.startsWith('claude')) return 'claude';
-  if (model.startsWith('gemini')) return 'gemini';
   if (model.startsWith('gpt')) return 'openai';
-  return 'claude';
+  return 'openai';
 }
 
 export function startSpan(operation: string, rowId?: string, metadata?: Record<string, any>): string {
@@ -199,14 +194,14 @@ export async function aggregateCosts(): Promise<void> {
                 summary.modelBreakdown[span.model] = {
                   count: 0,
                   totalCost: 0,
-                  totalTokens: 0
+                  totalTokens: 0,
                 };
               }
 
-              const modelBreakdown = summary.modelBreakdown[span.model];
-              modelBreakdown.count++;
-              if (span.cost) modelBreakdown.totalCost += span.cost;
-              if (span.tokens) modelBreakdown.totalTokens += span.tokens.total;
+              const modelStats = summary.modelBreakdown[span.model];
+              modelStats.count++;
+              if (span.cost) modelStats.totalCost += span.cost;
+              if (span.tokens) modelStats.totalTokens += span.tokens.total;
             }
 
             if (span.provider) {
@@ -214,160 +209,30 @@ export async function aggregateCosts(): Promise<void> {
                 summary.providerBreakdown[span.provider] = {
                   count: 0,
                   totalCost: 0,
-                  totalTokens: 0
+                  totalTokens: 0,
                 };
               }
 
-              const providerBreakdown = summary.providerBreakdown[span.provider];
-              providerBreakdown.count++;
-              if (span.cost) providerBreakdown.totalCost += span.cost;
-              if (span.tokens) providerBreakdown.totalTokens += span.tokens.total;
+              const providerStats = summary.providerBreakdown[span.provider];
+              providerStats.count++;
+              if (span.cost) providerStats.totalCost += span.cost;
+              if (span.tokens) providerStats.totalTokens += span.tokens.total;
             }
-
-          } catch (parseError) {
-            console.warn(`Failed to parse log line: ${line}`, parseError);
+          } catch (error) {
+            console.warn('Failed to parse cost log entry:', error);
           }
         }
       }
-    } catch (dirError) {
-      if ((dirError as NodeJS.ErrnoException).code !== 'ENOENT') {
-        throw dirError;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw error;
       }
     }
 
-    await fs.mkdir('outputs', { recursive: true });
-    await fs.writeFile(
-      path.join('outputs', 'cost.json'),
-      JSON.stringify({
-        summary,
-        generatedAt: new Date().toISOString(),
-        version: '1.0'
-      }, null, 2)
-    );
-
+    const summaryDir = path.join('outputs', 'logs', 'cost');
+    await fs.mkdir(summaryDir, { recursive: true });
+    await fs.writeFile(path.join(summaryDir, 'summary.json'), JSON.stringify(summary, null, 2));
   } catch (error) {
     console.error('Failed to aggregate costs:', error);
-    throw error;
   }
-}
-
-export async function getCostSummary(): Promise<CostSummary> {
-  try {
-    const costFile = path.join('outputs', 'cost.json');
-    const content = await fs.readFile(costFile, 'utf8');
-    const data = JSON.parse(content);
-    return data.summary;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      await aggregateCosts();
-      return getCostSummary();
-    }
-    throw error;
-  }
-}
-
-export function formatCost(amount: number): string {
-  return `$${amount.toFixed(4)}`;
-}
-
-export function formatTokens(count: number): string {
-  if (count >= 1000000) {
-    return `${(count / 1000000).toFixed(1)}M`;
-  } else if (count >= 1000) {
-    return `${(count / 1000).toFixed(1)}K`;
-  }
-  return count.toString();
-}
-
-export async function printCostReport(): Promise<void> {
-  try {
-    const summary = await getCostSummary();
-
-    console.log('\n=== COST REPORT ===');
-    console.log(`Total Cost: ${formatCost(summary.totalCost)}`);
-    console.log(`Total Tokens: ${formatTokens(summary.totalTokens)}`);
-    console.log(`Total Operations: ${summary.totalSpans}`);
-
-    console.log('\nBy Operation:');
-    for (const [operation, breakdown] of Object.entries(summary.operationBreakdown)) {
-      console.log(
-        `  ${operation}: ${breakdown.count} ops, ${formatCost(breakdown.totalCost)}, ` +
-        `${formatTokens(breakdown.totalTokens)}, ${breakdown.averageLatency.toFixed(0)}ms avg`
-      );
-    }
-
-    console.log('\nBy Model:');
-    for (const [model, breakdown] of Object.entries(summary.modelBreakdown)) {
-      console.log(
-        `  ${model}: ${breakdown.count} ops, ${formatCost(breakdown.totalCost)}, ` +
-        `${formatTokens(breakdown.totalTokens)}`
-      );
-    }
-
-    console.log('\nBy Provider:');
-    for (const [provider, breakdown] of Object.entries(summary.providerBreakdown)) {
-      console.log(
-        `  ${provider}: ${breakdown.count} ops, ${formatCost(breakdown.totalCost)}, ` +
-        `${formatTokens(breakdown.totalTokens)}`
-      );
-    }
-
-  } catch (error) {
-    console.error('Failed to print cost report:', error);
-  }
-}
-
-export async function cleanupLogs(maxAge: number = 7): Promise<number> {
-  try {
-    const logDir = path.join('outputs', 'logs', 'cost');
-    const files = await fs.readdir(logDir);
-
-    const cutoffTime = Date.now() - (maxAge * 24 * 60 * 60 * 1000);
-    let removedCount = 0;
-
-    for (const file of files) {
-      if (!file.endsWith('.ndjson')) continue;
-
-      const filePath = path.join(logDir, file);
-      const stats = await fs.stat(filePath);
-
-      if (stats.mtime.getTime() < cutoffTime) {
-        await fs.unlink(filePath);
-        removedCount++;
-      }
-    }
-
-    return removedCount;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      return 0;
-    }
-    throw error;
-  }
-}
-
-export interface CostTracker {
-  startOperation(operation: string, rowId?: string): string;
-  endOperation(spanId: string, tokens?: { input: number; output: number }, model?: string): Promise<void>;
-  getSummary(): Promise<CostSummary>;
-  cleanup(maxAge?: number): Promise<number>;
-}
-
-export function createCostTracker(): CostTracker {
-  return {
-    startOperation: (operation: string, rowId?: string) => {
-      return startSpan(operation, rowId);
-    },
-
-    endOperation: async (spanId: string, tokens?: { input: number; output: number }, model?: string) => {
-      const span = endSpan(spanId, tokens, model);
-      if (span) {
-        await logSpan(span);
-      }
-    },
-
-    getSummary: () => getCostSummary(),
-
-    cleanup: (maxAge = 7) => cleanupLogs(maxAge)
-  };
 }

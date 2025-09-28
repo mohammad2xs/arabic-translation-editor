@@ -1,17 +1,45 @@
 {
   "mcp": {
     "servers": {
+      "project-insights": {
+        "type": "stdio",
+        "command": "node",
+        "args": ["scripts/mcp/project-insights.mjs"],
+        "workingDirectory": ".",
+        "capabilities": {
+          "tools": [
+            "refresh_codex_support",
+            "run_quality_validation",
+            "run_next_build",
+            "git_status"
+          ],
+          "resources": [
+            "project://codex-support",
+            "project://quality-report",
+            "project://git-status",
+            "project://triview/summary"
+          ]
+        }
+      },
       "web-to-mcp": {
         "url": "https://web-to-mcp.com/mcp/657946f0-c4c4-482d-892b-9d93597c67e7/",
         "type": "websocket",
         "name": "web-to-mcp-translation",
         "capabilities": {
-          "tools": ["translate_arabic", "enhance_text", "quality_check"],
-          "resources": ["translation_memory", "glossary", "scripture_references"]
+          "tools": [
+            "translate_arabic",
+            "enhance_text",
+            "quality_check"
+          ],
+          "resources": [
+            "translation_memory",
+            "glossary",
+            "scripture_references"
+          ]
         }
       }
     },
-    "default": "web-to-mcp",
+    "default": "project-insights",
     "fallback": {
       "enabled": true,
       "model": "fallback-translator"

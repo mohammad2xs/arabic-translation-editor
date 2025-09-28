@@ -1,0 +1,7 @@
+node_modules
+.next
+outputs/tmp/
+outputs/audiobook/
+outputs/share/
+outputs/*.zip
+codex_bundle.zip

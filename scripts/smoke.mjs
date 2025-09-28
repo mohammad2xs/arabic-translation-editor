@@ -34,7 +34,6 @@ test('Core files exist', () => {
     'app/tri/page.tsx',
     'public/data/dev_rows.json',
     'glossary/glossary.csv',
-    'lib/assistant/anthropic.ts',
     'lib/assistant/context.ts',
     'lib/assistant/prompt.ts',
     'app/api/assistant/chat/route.ts',

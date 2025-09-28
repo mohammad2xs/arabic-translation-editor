@@ -25,7 +25,7 @@
     "build:audio": "node build/audio_prep.mjs",
     "build:epub": "node build/epub.mjs",
     "scale:full": "tsx scripts/scale-to-full.mjs",
-    "validate:quality": "tsx scripts/quality-validation.mjs",
+    "validate:quality": "npx tsx scripts/quality-validation.mjs",
     "report:final": "tsx scripts/generate-final-report.ts",
     "build:metadata": "tsx -e \"import('./lib/build/git-utils.ts').then(m => console.log(JSON.stringify(m.getBuildMetadata(), null, 2)))\"",
     "build:info": "tsx -e \"import('./lib/build/git-utils.ts').then(m => m.formatBuildInfo().then(info => console.log(info)))\"",
@@ -89,11 +89,11 @@
     "workflow:prod": "npm run deploy:ready",
     "workflow:full": "npm run scale:full && npm run deploy:prod && npm run postdeploy:prewarm",
     "dev:deploy-test": "npm run env:check && npm run build && npm run deploy:dry-run",
-    "dev:prewarm-test": "npm run postdeploy:prewarm http://localhost:3000"
+    "dev:prewarm-test": "npm run postdeploy:prewarm http://localhost:3000",
+    "mcp:devtools": "npx chrome-devtools-mcp@latest",
+    "share:bundle": "node -e \"const {execSync}=require('child_process');execSync('mkdir -p outputs/share', {stdio:'inherit'});execSync('cp -f outputs/book-final.docx outputs/book-final.epub outputs/bilingual.md outputs/share/ 2>/dev/null || true',{stdio:'inherit'});execSync('cd outputs && zip -r share_bundle.zip share audiobook 2>/dev/null || zip -r share_bundle.zip share',{stdio:'inherit'})\""
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^1.0.120",
-    "@anthropic-ai/sdk": "^0.63.1",
     "@modelcontextprotocol/sdk": "^1.18.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/blob": "^2.0.0",
@@ -107,6 +107,7 @@
     "minimatch": "^10.0.3",
     "next": "^14.2.32",
     "node-fetch": "^3.3.2",
+    "openai": "^4.58.1",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

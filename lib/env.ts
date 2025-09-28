@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // Environment type enums
 const NodeEnvSchema = z.enum(['development', 'test', 'production'])
-const LLMProviderSchema = z.enum(['claude', 'gemini', 'openai'])
+const LLMProviderSchema = z.enum(['openai'])
 const StorageDriverSchema = z.enum(['vercel-blob', 's3', 'fs'])
 
 // Core application schema
@@ -14,11 +14,9 @@ const CoreSchema = z.object({
 
 // LLM provider configuration
 const LLMSchema = z.object({
-  LLM_PROVIDER: LLMProviderSchema.default('claude'),
-  ANTHROPIC_API_KEY: z.string().optional(),
-  GOOGLE_VERTEX_KEY: z.string().optional(),
-  GOOGLE_API_KEY: z.string().optional(),
+  LLM_PROVIDER: LLMProviderSchema.default('openai'),
   OPENAI_API_KEY: z.string().optional(),
+  OPENAI_MODEL: z.string().optional(),
 })
 
 // Storage configuration
@@ -60,28 +58,6 @@ const ProductionEnvSchema = BaseEnvSchema.refine(
   }
 ).refine(
   (data) => {
-    if (data.LLM_PROVIDER === 'claude') {
-      return data.ANTHROPIC_API_KEY !== undefined
-    }
-    return true
-  },
-  {
-    message: 'ANTHROPIC_API_KEY is required when LLM_PROVIDER=claude',
-    path: ['ANTHROPIC_API_KEY'],
-  }
-).refine(
-  (data) => {
-    if (data.LLM_PROVIDER === 'gemini') {
-      return !!(data.GOOGLE_VERTEX_KEY || data.GOOGLE_API_KEY)
-    }
-    return true
-  },
-  {
-    message: 'GOOGLE_VERTEX_KEY or GOOGLE_API_KEY is required when LLM_PROVIDER=gemini',
-    path: ['GOOGLE_VERTEX_KEY'],
-  }
-).refine(
-  (data) => {
     if (data.LLM_PROVIDER === 'openai') {
       return data.OPENAI_API_KEY !== undefined
     }
@@ -90,6 +66,17 @@ const ProductionEnvSchema = BaseEnvSchema.refine(
   {
     message: 'OPENAI_API_KEY is required when LLM_PROVIDER=openai',
     path: ['OPENAI_API_KEY'],
+  }
+).refine(
+  (data) => {
+    if (data.LLM_PROVIDER === 'openai') {
+      return data.OPENAI_MODEL !== undefined
+    }
+    return true
+  },
+  {
+    message: 'OPENAI_MODEL is required when LLM_PROVIDER=openai',
+    path: ['OPENAI_MODEL'],
   }
 ).refine(
   (data) => {

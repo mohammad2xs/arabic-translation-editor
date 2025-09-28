@@ -1,5 +1,5 @@
 # CODEX SUPPORT BUNDLE
-Generated: 2025-09-28T14:30:44.454Z
+Generated: 2025-09-28T16:36:06.984Z
 
 ## 1) Project
 - name: arabic-translation-editor
@@ -99,24 +99,6 @@ Generated: 2025-09-28T14:30:44.454Z
 ```
 
 ## 2) Environment (sanitized)
-- .env.example present ✅
-- .env.local present (sanitized) ✅
-```
-# App runs with ZERO model calls
-LLM_PROVIDER=none
-RUNTIME_LLM=0
-USE_GEMINI=0
-
-# Skip slow scripture warmups; we'll validate later
-SCRIPTURE_PREFETCH=0
-
-# Dad share link token=***
-SHARE_KEY=***
-
-# (Leave any model API=***
-ANTHROPIC_API_KEY=***
-ELEVENLABS_API_KEY=***
-```
 
 ## 3) Files of interest (29)
 ```

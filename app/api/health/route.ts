@@ -314,7 +314,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     });
 
     // Determine LLM provider
-    const provider = process.env.LLM_PROVIDER || 'claude'
+    const provider = process.env.LLM_PROVIDER || 'openai'
 
     // Enhanced service status checking
     const services = await checkServiceHealth()
@@ -470,17 +470,15 @@ async function checkServiceHealth(): Promise<Record<string, ServiceHealthStatus>
   }
 
   // LLM Provider (Critical service)
-  const llmProvider = process.env.LLM_PROVIDER || 'claude'
-  const llmKey = llmProvider === 'claude'
-    ? process.env.ANTHROPIC_API_KEY
-    : process.env.OPENAI_API_KEY
+  const llmProvider = process.env.LLM_PROVIDER || 'openai'
+  const llmKey = process.env.OPENAI_API_KEY
 
   services.llm_provider = {
     status: llmKey ? 'healthy' : 'unavailable',
     critical: true,
     message: llmKey
       ? `${llmProvider.toUpperCase()} API available`
-      : `Configure ${llmProvider.toUpperCase()}_API_KEY for AI functionality`,
+      : 'Configure OPENAI_API_KEY for AI functionality',
     lastCheck: now
   }
 

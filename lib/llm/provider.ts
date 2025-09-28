@@ -1,25 +1,33 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 
-export async function arToEn_claude({
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o";
+
+export async function arToEn_chatgpt({
   arabic,
   system,
-  seed = 42,
-  temperature = 0.2
+  temperature = 0.2,
+  maxTokens = 1200
 }: {
   arabic: string;
   system: string;
-  seed?: number;
   temperature?: number;
+  maxTokens?: number;
 }) {
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY is not configured');
+  }
 
-  const res = await client.messages.create({
-    model: "claude-3-5-sonnet-latest",
+  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  const response = await client.chat.completions.create({
+    model: OPENAI_MODEL,
     temperature,
-    max_tokens: 1200,
-    system,
-    messages: [{ role: "user", content: arabic }]
+    max_tokens: maxTokens,
+    messages: [
+      { role: "system", content: system },
+      { role: "user", content: arabic }
+    ]
   });
 
-  return res.content?.map(b => ("text" in b ? b.text : "")).join("") || "";
+  return response.choices[0]?.message?.content?.trim() || "";
 }

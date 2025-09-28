@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { arToEn_claude } from '@/lib/llm/provider';
 import { SHARED_SYSTEM_PROMPT } from '@/lib/assistant/prompt';
+import { arToEn_chatgpt } from '@/lib/llm/provider';
 
-// Contract prompt for Abdel-Haleem style translation
 const CONTRACT_PROMPT = `${SHARED_SYSTEM_PROMPT}
 
 ## TRANSLATION CONTRACT
@@ -22,7 +21,6 @@ You are translating Islamic philosophical text following M.A.S. Abdel Haleem's t
 Translate the following Arabic text into English following these principles exactly.`;
 
 export async function POST(request: NextRequest) {
-  // Early guard — place immediately after imports
   if (process.env.RUNTIME_LLM === '0') {
     return NextResponse.json(
       { error: 'Runtime LLM disabled in this deployment (Max-only workflow).' },
@@ -36,13 +34,10 @@ export async function POST(request: NextRequest) {
       arabic,
       ar_enhanced,
       temperature = 0.2,
-      seed = 42,
       includeMetadata = true
     } = body;
 
-    // Use ar_enhanced if provided, otherwise use arabic
     const sourceText = ar_enhanced || arabic;
-
     if (!sourceText) {
       return NextResponse.json(
         { error: 'Arabic text (arabic or ar_enhanced) is required' },
@@ -50,26 +45,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for API key
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         {
-          error: 'ANTHROPIC_API_KEY not configured',
-          guidance: 'Set ANTHROPIC_API_KEY in your environment variables'
+          error: 'OPENAI_API_KEY not configured',
+          guidance: 'Set OPENAI_API_KEY in your environment variables'
         },
         { status: 500 }
       );
     }
 
-    // Call Claude for translation
-    const en = await arToEn_claude({
+    const en = await arToEn_chatgpt({
       arabic: sourceText,
       system: CONTRACT_PROMPT,
       temperature,
-      seed
+      maxTokens: 1200
     });
 
-    // Calculate metrics
     const arabicLength = sourceText.length;
     const englishLength = en.length;
     const lpr = englishLength / arabicLength;
@@ -81,7 +73,6 @@ export async function POST(request: NextRequest) {
       source: sourceText
     };
 
-    // Include metadata if requested
     if (includeMetadata) {
       response.metadata = {
         lpr: parseFloat(lpr.toFixed(3)),
@@ -100,7 +91,7 @@ export async function POST(request: NextRequest) {
           hasFootnotes: en.includes('[^'),
           preservesLength: lpr >= 0.95
         },
-        model: 'claude-3-5-sonnet-latest',
+        model: process.env.OPENAI_MODEL || 'gpt-4o',
         temperature,
         processedAt: new Date().toISOString()
       };
@@ -109,9 +100,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Claude translation error:', error);
+    console.error('OpenAI translation error:', error);
 
-    // Provide helpful error message
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
     return NextResponse.json(
@@ -119,7 +109,7 @@ export async function POST(request: NextRequest) {
         error: 'Translation failed',
         details: errorMessage,
         guidance: errorMessage.includes('API')
-          ? 'Check your ANTHROPIC_API_KEY configuration'
+          ? 'Check your OPENAI_API_KEY configuration'
           : 'Check the error details and try again'
       },
       { status: 500 }

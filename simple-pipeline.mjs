@@ -277,7 +277,7 @@ async function mergeResults(processedRows) {
 async function runPipeline() {
   try {
     log('info', 'Starting Phase 5 translation pipeline');
-    log('info', 'CONCURRENCY_ROWS=6, MAX_RETRIES=2, EXEC_ENGINE=claude, TEMP_SEED=stable');
+    log('info', 'CONCURRENCY_ROWS=6, MAX_RETRIES=2, EXEC_ENGINE=openai, TEMP_SEED=stable');
 
     // Initialize components
     await tmInit();

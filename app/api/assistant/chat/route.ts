@@ -143,7 +143,7 @@ function logUsage(data: any): void {
   }
 }
 
-async function parseClaudeResponse(
+async function parseChatGPTResponse(
   content: string,
   originalText: string,
   task: string,
@@ -151,7 +151,7 @@ async function parseClaudeResponse(
   usage?: any
 ): Promise<Suggestion[]> {
   try {
-    // Claude should return JSON, but handle both JSON and structured text
+    // ChatGPT responses are expected to be JSON, but handle plain text gracefully
     let parsed: any;
 
     try {
@@ -176,7 +176,7 @@ async function parseClaudeResponse(
       const preview = proposedEn.slice(0, 120) + (proposedEn.length > 120 ? '...' : '');
 
       // Compute cost from usage if available
-      const cost = usage ? (usage.inputTokens * 0.003 + usage.outputTokens * 0.015) / 1000 : undefined;
+      const cost = usage ? (usage.inputTokens * 0.0025 + usage.outputTokens * 0.01) / 1000 : undefined;
 
       // Handle scripture footnote for scripture_check/footnote_suggest tasks
       let footnote: string | undefined;
@@ -223,7 +223,7 @@ async function parseClaudeResponse(
       };
     });
   } catch (error) {
-    console.error('Failed to parse Claude response:', error);
+    console.error('Failed to parse ChatGPT response:', error);
 
     // Fallback suggestion
     return [{
@@ -361,7 +361,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     logger.debug('Getting prompts for task', { requestId, task: body.task });
     const prompts = getPromptForTask(body.task, context, body.query);
 
-    // Call LLM via router (supports Claude default, optional Gemini)
+    // Call LLM via router (ChatGPT)
     logger.debug('Initializing LLM router', { requestId });
     const router = getLLMRouter();
     if (!router.isConfigured()) {
@@ -397,7 +397,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Parse response into suggestions
     logger.debug('Parsing LLM response into suggestions', { requestId });
-    const suggestions = await parseClaudeResponse(
+    const suggestions = await parseChatGPTResponse(
       chatResponse.content,
       context.row.en_translation,
       body.task,

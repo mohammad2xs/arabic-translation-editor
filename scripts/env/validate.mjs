@@ -144,8 +144,6 @@ function categorizeVariables(validationResult, processEnv) {
 
   // LLM provider keys (conditional based on LLM_PROVIDER)
   const llmProviders = {
-    'claude': ['ANTHROPIC_API_KEY'],
-    'gemini': ['GOOGLE_VERTEX_KEY', 'GOOGLE_API_KEY'],
     'openai': ['OPENAI_API_KEY']
   };
 
@@ -389,8 +387,7 @@ function generateSummaryOutput(categories, validationResult, config) {
 function getVariableHint(varName) {
   const hints = {
     'SHARE_KEY': 'Secret key for sharing functionality',
-    'LLM_PROVIDER': 'LLM provider (anthropic, openai, google, groq)',
-    'ANTHROPIC_API_KEY': 'Get from https://console.anthropic.com/',
+    'LLM_PROVIDER': 'LLM provider (openai)',
     'OPENAI_API_KEY': 'Get from https://platform.openai.com/',
     'GOOGLE_AI_API_KEY': 'Get from https://makersuite.google.com/',
     'GROQ_API_KEY': 'Get from https://console.groq.com/',

@@ -50,8 +50,8 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 ### LLM Provider Configuration
 
 ```env
-# Provider selection (claude|gemini|openai)
-LLM_PROVIDER=claude
+# Provider selection (openai)
+LLM_PROVIDER=openai
 
 # Anthropic Claude (default)
 ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
@@ -59,7 +59,6 @@ ANTHROPIC_MODEL=claude-3-5-sonnet-20241022
 ANTHROPIC_MAX_TOKENS=8000
 ANTHROPIC_TIMEOUT=30000
 
-# Google Vertex AI (if LLM_PROVIDER=gemini)
 GOOGLE_VERTEX_KEY=your-vertex-key-here
 GOOGLE_API_KEY=your-google-api-key-here
 
@@ -130,7 +129,7 @@ vercel
 ```bash
 # Set required environment variables
 vercel env add SHARE_KEY
-vercel env add ANTHROPIC_API_KEY
+vercel env add OPENAI_API_KEY
 vercel env add VERCEL_BLOB_READ_WRITE_TOKEN
 
 # Optional: Set LLM provider
@@ -230,7 +229,7 @@ VERCEL_PROJECT_ID=your-project-id
 
 # Application Secrets
 SHARE_KEY=your-secure-key
-ANTHROPIC_API_KEY=your-anthropic-key
+OPENAI_API_KEY=your-openai-key
 VERCEL_BLOB_READ_WRITE_TOKEN=your-blob-token
 NEXT_PUBLIC_APP_URL=https://your-domain.com
 
@@ -289,10 +288,10 @@ Environment validation passed - ready for production deployment
 
 ```bash
 # Error: Missing required environment variable
-❌ ANTHROPIC_API_KEY is required when LLM_PROVIDER=claude
+❌ ANTHROPIC_API_KEY is required when LLM_PROVIDER=openai
 
 # Solution: Set the required variable
-vercel env add ANTHROPIC_API_KEY
+vercel env add OPENAI_API_KEY
 ```
 
 #### Health Check Failures

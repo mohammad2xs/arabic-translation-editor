@@ -1,0 +1,23 @@
+[project]
+primary_stack = "Next.js + TypeScript + Tailwind"
+entry_points  = ["app/", "lib/", "build/", "scripts/"]
+dont_touch    = [".next/*", ".vercel/*", "node_modules/*", "outputs/audiobook/*"]
+
+[commands]
+validate      = "npx tsx scripts/quality-validation.mjs"
+export_docx   = "node build/docx.mjs"
+export_epub   = "node build/epub.mjs"
+export_audio  = "node build/audio_prep.mjs"
+post_edit     = ["npm run build", "{validate}", "{export_docx}", "{export_epub}"]
+
+[style]
+translation_contract = true
+preserve_arabic_in_english_body = true
+
+[review]
+checklist = [
+  "LPR avg ≥ 1.05; min ≥ 0.95",
+  "Coverage 100%",
+  "Scripture refs valid or flagged '?’, no paraphrase in EN body",
+  "DOCX/EPUB exported"
+]

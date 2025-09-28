@@ -37,7 +37,6 @@ echo ""
 
 # Required secrets
 add_secret "VERCEL_TOKEN" "Vercel deployment token" "https://vercel.com/account/tokens"
-add_secret "ANTHROPIC_API_KEY" "Your Claude API key" "https://console.anthropic.com/"
 add_secret "VERCEL_BLOB_READ_WRITE_TOKEN" "Vercel Blob storage token" "https://vercel.com/dashboard/stores"
 
 # Optional secrets
