@@ -34,6 +34,7 @@
     "status:dashboard": "tsx scripts/pipeline-status.ts",
     "github:setup": "node scripts/github-workflow.mjs",
     "github:auth": "gh auth login",
+    "github:auth:setup": "node scripts/setup-git-auth.mjs",
     "github:issues": "gh issue list",
     "github:pr": "gh pr create",
     "setup:audio": "node scripts/setup-audio.mjs",

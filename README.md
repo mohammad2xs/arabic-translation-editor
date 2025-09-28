@@ -203,11 +203,28 @@ This project includes comprehensive GitHub CLI integration for streamlined devel
 
 ### Available GitHub Commands
 
-- `npm run github:auth` - Authenticate with GitHub
+- `npm run github:auth` - Authenticate with GitHub CLI
+- `npm run github:auth:setup` - Diagnose and fix authentication issues
 - `npm run github:issues` - List all issues
 - `npm run github:pr` - Create a pull request
 - `gh pr status` - Check pull request status
 - `gh repo view` - View repository information
+
+### Troubleshooting Authentication
+
+If you encounter Git authentication errors (like "Authentication failed" or "could not read Username"), the project includes a comprehensive authentication helper:
+
+```bash
+npm run github:auth:setup
+```
+
+This script will:
+- Diagnose the current authentication state
+- Test push access to the repository
+- Provide step-by-step solutions for different authentication methods
+- Guide you through GitHub CLI, Personal Access Token, or SSH setup
+
+For detailed instructions, see [docs/GIT_AUTH_SETUP.md](docs/GIT_AUTH_SETUP.md).
 
 ### GitHub Workflow Features
 
@@ -349,11 +366,21 @@ npm run report:final     # Generate final report
 ### GitHub CLI Integration
 
 ```bash
-npm run github:setup     # Setup GitHub repository
-npm run github:auth      # Authenticate with GitHub
-npm run github:issues    # List GitHub issues
-npm run github:pr        # Create pull request
+npm run github:setup        # Setup GitHub repository
+npm run github:auth         # Authenticate with GitHub CLI
+npm run github:auth:setup   # Diagnose and fix Git authentication issues
+npm run github:issues       # List GitHub issues
+npm run github:pr           # Create pull request
 ```
+
+**Troubleshooting Git Authentication:**
+If you encounter errors like "Authentication failed" or "could not read Username", run:
+```bash
+npm run github:auth:setup
+```
+This will diagnose the issue and provide step-by-step solutions.
+
+For detailed instructions, see: [docs/GIT_AUTH_SETUP.md](docs/GIT_AUTH_SETUP.md)
 
 ### Audio & Export
 
