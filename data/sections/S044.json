@@ -1,0 +1,103 @@
+{
+  "id": "S044",
+  "title": "وفي سورة ص 43 (كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ لِّيَدَّبَّرُوا آيَاتِهِ وَلِيَتَذَكَّرَ أُولُو ألألباب ).",
+  "rows": [
+    {
+      "id": "S044-001",
+      "original": "وفي سورة الزمر9 (أمن هو قانت آناء الليل ساجدا وقائما يحذر الآخرة ويرجو رحمة ربه ۗ قل هل يستوي الذين يعلمون والذين لا يعلمون ۗ إنما يتذكر أولو ألألباب) .",
+      "enhanced": "وفي سورة الزمر9 (أمن هو قانت آناء الليل ساجدا وقائما يحذر الآخرة ويرجو رحمة ربه ۗ قل هل يستوي الذين يعلمون والذين لا يعلمون ۗ إنما يتذكر أولو ألألباب) .",
+      "english": "",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S044",
+        "rowIndex": 0,
+        "wordCount": 30,
+        "charCount": 152,
+        "laneHash": "c7d1ede0cbc26586",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 152
+      }
+    },
+    {
+      "id": "S044-002",
+      "original": "وفي سورة الزمر 21 ( ألم تر أن الله أنزل من السماء ماء فسلكه ينابيع في الأرض ثم يخرج به زرعا مختلفا ألوانه ثم يهيج فتراه مصفرا ثم يجعله حطاما ۚ إن في ذلك لذكرى لأولي ألألباب) .",
+      "enhanced": "وفي سورة الزمر 21 ( ألم تر أن الله أنزل من السماء ماء فسلكه ينابيع في الأرض ثم يخرج به زرعا مختلفا ألوانه ثم يهيج فتراه مصفرا ثم يجعله حطاما ۚ إن في ذلك لذكرى لأولي ألألباب) .",
+      "english": "",
+      "complexity": 3,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S044",
+        "rowIndex": 1,
+        "wordCount": 38,
+        "charCount": 175,
+        "laneHash": "d9d4ac017c5955de",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 175
+      }
+    },
+    {
+      "id": "S044-003",
+      "original": "وفي سورة غافر 54 (هدى وذكرى لأولي ألألباب).",
+      "enhanced": "وفي سورة غافر 54 (هدى وذكرى لأولي ألألباب).",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S044",
+        "rowIndex": 2,
+        "wordCount": 8,
+        "charCount": 43,
+        "laneHash": "1037093ec6ef5f8f",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 43
+      }
+    },
+    {
+      "id": "S044-004",
+      "original": "ونجد هنا ان الله جل وعلا خص الذكر والتذكر والتدبر بأولي الألباب الذين يستمعون القول فيتبعون أحسنه , فتلك العقول تستقي معارفها من القلوب المستنارة بنور القلب .",
+      "enhanced": "ونجد هنا ان الله جل وعلا خص الذكر والتذكر والتدبر بأولي الألباب الذين يستمعون القول فيتبعون أحسنه , فتلك العقول تستقي معارفها من القلوب المستنارة بنور القلب .",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S044",
+        "rowIndex": 3,
+        "wordCount": 28,
+        "charCount": 158,
+        "laneHash": "b5c394c94def69c6",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 158
+      }
+    },
+    {
+      "id": "S044-005",
+      "original": "فتنتبه وتدرك ايات الله وتسمع ما فيها , وتنار بنورها , فيصبح بها نورا تدرك به عظمة ما حولها من خلق الله , وتتدبر أياته فيها .",
+      "enhanced": "فتنتبه وتدرك ايات الله وتسمع ما فيها , وتنار بنورها , فيصبح بها نورا تدرك به عظمة ما حولها من خلق الله , وتتدبر أياته فيها .",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S044",
+        "rowIndex": 4,
+        "wordCount": 27,
+        "charCount": 124,
+        "laneHash": "0ee76fc91d6d7dca",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 124
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 5,
+    "wordCount": 131,
+    "charCount": 652,
+    "contentHash": "cc9d6cdf4a5221f0",
+    "processedAt": "2025-09-24T03:51:07.539Z"
+  }
+}

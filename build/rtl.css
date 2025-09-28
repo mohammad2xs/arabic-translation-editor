@@ -1,0 +1,398 @@
+/* RTL CSS Stylesheet for Arabic-English EPUB Export */
+@charset "UTF-8";
+
+/* Font definitions for Arabic and English */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Amiri-Regular.ttf') format('truetype'),
+       local('Amiri'), local('Amiri-Regular');
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Amiri-Bold.ttf') format('truetype'),
+       local('Amiri Bold'), local('Amiri-Bold');
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+/* Root and body styles */
+:root {
+  --arabic-font: 'Amiri', 'Arabic Typesetting', 'Tahoma', 'DejaVu Sans', sans-serif;
+  --english-font: 'Times New Roman', 'Georgia', 'DejaVu Serif', serif;
+  --base-font-size: 16px;
+  --line-height: 1.6;
+  --arabic-line-height: 1.8;
+  --margin-base: 1em;
+  --color-text: #2c2c2c;
+  --color-text-light: #555;
+  --color-accent: #8b4513;
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
+body {
+  font-family: var(--english-font);
+  line-height: var(--line-height);
+  margin: var(--margin-base);
+  padding: 0;
+  color: var(--color-text);
+  text-align: left;
+  direction: ltr;
+  background-color: white;
+}
+
+/* Arabic text styling */
+.arabic {
+  font-family: var(--arabic-font);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.1em;
+  line-height: var(--arabic-line-height);
+  margin: var(--margin-base) 0;
+  padding: 0.5em 0;
+  font-feature-settings: "liga", "calt", "kern";
+  word-spacing: 0.1em;
+  letter-spacing: 0.02em;
+}
+
+/* Enhanced Arabic styling (for edited/improved text) */
+.arabic-enhanced {
+  font-family: var(--arabic-font);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.05em;
+  line-height: var(--arabic-line-height);
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0.5em 0;
+  padding: 0.3em 0;
+  border-right: 3px solid #e0e0e0;
+  padding-right: 1em;
+  font-feature-settings: "liga", "calt", "kern";
+}
+
+/* English text styling */
+.english {
+  font-family: var(--english-font);
+  direction: ltr !important;
+  text-align: left !important;
+  font-size: 1em;
+  line-height: var(--line-height);
+  margin: var(--margin-base) 0;
+  padding: 0.2em 0;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 2em 0 1em 0;
+  font-weight: bold;
+  color: var(--color-accent);
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 2em 0 1.5em 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 1.8em 0 1.2em 0;
+}
+
+h3 {
+  font-size: 1.3em;
+  margin: 1.5em 0 1em 0;
+}
+
+/* Arabic headings */
+h1.arabic-title, h2.arabic-title, h3.arabic-title {
+  font-family: var(--arabic-font);
+  direction: rtl;
+  text-align: center;
+  font-size: 1.8em;
+  margin: 2em 0 1em 0;
+  font-weight: bold;
+  color: var(--color-accent);
+  font-feature-settings: "liga", "calt", "kern";
+  word-spacing: 0.1em;
+}
+
+/* English headings */
+h1.english-title, h2.english-title, h3.english-title {
+  font-family: var(--english-font);
+  direction: ltr;
+  text-align: center;
+  font-size: 1.5em;
+  margin: 1em 0 2em 0;
+  font-weight: normal;
+  color: var(--color-text);
+  font-style: italic;
+}
+
+/* Scripture references and footnotes */
+.scripture-ref {
+  font-family: var(--english-font);
+  font-size: 0.85em;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0.5em 0;
+  text-align: left;
+  direction: ltr;
+  padding: 0.3em 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.footnote {
+  font-size: 0.8em;
+  color: var(--color-text-light);
+  margin-top: 0.5em;
+  padding-top: 0.3em;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Text blocks and containers */
+.text-block {
+  margin: 2em 0;
+  padding: 1em 0;
+  page-break-inside: avoid;
+}
+
+.text-block:not(:last-child) {
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 1.5em;
+}
+
+/* Chapter and section containers */
+.chapter {
+  page-break-before: always;
+  margin: 0;
+  padding: 2em 0;
+}
+
+.section {
+  margin: 3em 0;
+}
+
+/* Page breaks */
+.page-break {
+  page-break-before: always;
+}
+
+.page-break-avoid {
+  page-break-inside: avoid;
+}
+
+/* Table of contents styling */
+.toc {
+  margin: 2em 0;
+}
+
+.toc a {
+  text-decoration: none;
+  color: var(--color-text);
+  display: block;
+  padding: 0.5em 0;
+  border-bottom: 1px dotted #ccc;
+}
+
+.toc a:hover {
+  color: var(--color-accent);
+}
+
+.toc .arabic {
+  font-size: 1em;
+  margin: 0;
+  padding: 0.2em 0;
+}
+
+/* Links and references */
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #654321;
+}
+
+/* Special typography for Islamic terms */
+.islamic-term {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.quran-verse {
+  font-style: italic;
+  margin: 1em 0;
+  padding: 0.5em;
+  background-color: #fafafa;
+  border-left: 3px solid var(--color-accent);
+}
+
+.hadith {
+  font-style: italic;
+  margin: 1em 0;
+  padding: 0.5em;
+  background-color: #f9f9f9;
+  border-left: 3px solid #999;
+}
+
+/* Responsive design for different screen sizes */
+@media screen and (max-width: 600px) {
+  body {
+    margin: 0.5em;
+    font-size: 14px;
+  }
+
+  .arabic {
+    font-size: 1em;
+    line-height: 1.7;
+  }
+
+  .english {
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  h1.arabic-title, h2.arabic-title {
+    font-size: 1.5em;
+  }
+
+  h1.english-title, h2.english-title {
+    font-size: 1.2em;
+  }
+
+  .text-block {
+    margin: 1.5em 0;
+    padding: 0.5em 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  body {
+    margin: 0.3em;
+    font-size: 13px;
+  }
+
+  .arabic {
+    font-size: 0.95em;
+  }
+
+  .english {
+    font-size: 0.85em;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    margin: 1in;
+  }
+
+  .arabic {
+    font-size: 13pt;
+    line-height: 1.6;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  .page-break-avoid {
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: black;
+    text-decoration: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #e0e0e0;
+    --color-text-light: #b0b0b0;
+    --color-accent: #d4a574;
+  }
+
+  body {
+    background-color: #1a1a1a;
+    color: var(--color-text);
+  }
+
+  .quran-verse {
+    background-color: #2a2a2a;
+    border-left-color: var(--color-accent);
+  }
+
+  .hadith {
+    background-color: #252525;
+    border-left-color: #666;
+  }
+
+  .text-block:not(:last-child) {
+    border-bottom-color: #333;
+  }
+
+  .scripture-ref {
+    border-top-color: #333;
+  }
+
+  .footnote {
+    border-top-color: #333;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text: #000;
+    --color-text-light: #333;
+    --color-accent: #000080;
+  }
+
+  body {
+    background-color: white;
+  }
+
+  .text-block:not(:last-child) {
+    border-bottom: 2px solid #000;
+  }
+}
+
+/* Enhanced readability */
+.enhanced-readability {
+  font-size: 1.2em;
+  line-height: 1.8;
+}
+
+.enhanced-readability .arabic {
+  font-size: 1.3em;
+  line-height: 2;
+}
+
+/* Focus indicators for accessibility */
+a:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

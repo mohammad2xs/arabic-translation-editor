@@ -1,0 +1,42 @@
+[
+  {
+    "id": "intro_001",
+    "section": "المقدمة",
+    "arabic_original": "إن الحمد لله نحمده ونستعينه ونستغفره، ونعوذ بالله من شرور أنفسنا ومن سيئات أعمالنا",
+    "arabic_enhanced": "إن الحمد لله نحمده ونستعينه ونستغفره، ونعوذ بالله من شرور أنفسنا ومن سيئات أعمالنا",
+    "english": "Verily, all praise is due to Allah. We praise Him, seek His assistance, and ask for His forgiveness. We seek refuge with Allah from the evil of ourselves and from our bad deeds.",
+    "metadata": {
+      "section_ref": "intro",
+      "complexity_score": 0.45,
+      "scripture_refs": [],
+      "notes": "Classical Arabic opening formula (khutbah al-hajah)"
+    }
+  },
+  {
+    "id": "intro_002",
+    "section": "المقدمة",
+    "arabic_original": "من يهده الله فلا مضل له، ومن يضلل فلا هادي له، وأشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله",
+    "arabic_enhanced": "من يهده الله فلا مضل له، ومن يضلل فلا هادي له، وأشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله",
+    "english": "Whomever Allah guides, none can misguide, and whomever He misguides, none can guide. I bear witness that there is no deity worthy of worship except Allah alone, with no partners, and I bear witness that Muhammad is His servant and messenger.",
+    "metadata": {
+      "section_ref": "intro",
+      "complexity_score": 0.65,
+      "scripture_refs": [],
+      "notes": "Continuation of khutbah formula with shahada"
+    }
+  },
+  {
+    "id": "chapter1_001",
+    "section": "باب الإنسان وخلقه",
+    "arabic_original": "قال الله تعالى في سورة البقرة آية 30: وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً",
+    "arabic_enhanced": "قال الله تعالى في سورة البقرة الآية 30: ﴿وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً﴾",
+    "english": "Allah the Exalted said in Surah al-Baqarah, verse 30: 'And when your Lord said to the angels: Indeed, I am placing upon the earth a khalifah (steward/successor).'",
+    "metadata": {
+      "section_ref": "humanity_creation",
+      "complexity_score": 0.85,
+      "scripture_refs": ["2:30"],
+      "scripture_lock": true,
+      "notes": "Key theological concept of khalifah - requires precise translation with footnote explanation"
+    }
+  }
+]

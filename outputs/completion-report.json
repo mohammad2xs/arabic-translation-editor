@@ -1,0 +1,1024 @@
+{
+  "timestamp": "2025-09-28T19:14:17.842Z",
+  "source_present": true,
+  "source_total": 2060,
+  "triview_total": 2045,
+  "by_section": [
+    {
+      "sectionId": "S001",
+      "srcCount": 15,
+      "tvCount": 0,
+      "coveragePct": 0,
+      "englishMissing": 0,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S001_1",
+      "srcCount": 1,
+      "tvCount": 1,
+      "coveragePct": 100,
+      "englishMissing": 1,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S002",
+      "srcCount": 14,
+      "tvCount": 14,
+      "coveragePct": 100,
+      "englishMissing": 14,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S003",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S004",
+      "srcCount": 26,
+      "tvCount": 26,
+      "coveragePct": 100,
+      "englishMissing": 26,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S005",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S006",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S007",
+      "srcCount": 21,
+      "tvCount": 21,
+      "coveragePct": 100,
+      "englishMissing": 21,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S008",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S009",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S010",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S011",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S012",
+      "srcCount": 12,
+      "tvCount": 12,
+      "coveragePct": 100,
+      "englishMissing": 12,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S013",
+      "srcCount": 25,
+      "tvCount": 25,
+      "coveragePct": 100,
+      "englishMissing": 25,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S014",
+      "srcCount": 16,
+      "tvCount": 16,
+      "coveragePct": 100,
+      "englishMissing": 16,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S015",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S016",
+      "srcCount": 10,
+      "tvCount": 10,
+      "coveragePct": 100,
+      "englishMissing": 10,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S017",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S018",
+      "srcCount": 10,
+      "tvCount": 10,
+      "coveragePct": 100,
+      "englishMissing": 10,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S019",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S020",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S021",
+      "srcCount": 5,
+      "tvCount": 5,
+      "coveragePct": 100,
+      "englishMissing": 5,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S022",
+      "srcCount": 9,
+      "tvCount": 9,
+      "coveragePct": 100,
+      "englishMissing": 9,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S023",
+      "srcCount": 25,
+      "tvCount": 25,
+      "coveragePct": 100,
+      "englishMissing": 25,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S024",
+      "srcCount": 6,
+      "tvCount": 6,
+      "coveragePct": 100,
+      "englishMissing": 6,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S025",
+      "srcCount": 9,
+      "tvCount": 9,
+      "coveragePct": 100,
+      "englishMissing": 9,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S026",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S027",
+      "srcCount": 28,
+      "tvCount": 28,
+      "coveragePct": 100,
+      "englishMissing": 28,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S028",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S029",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S030",
+      "srcCount": 19,
+      "tvCount": 19,
+      "coveragePct": 100,
+      "englishMissing": 19,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S031",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S032",
+      "srcCount": 20,
+      "tvCount": 20,
+      "coveragePct": 100,
+      "englishMissing": 20,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S033",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S034",
+      "srcCount": 22,
+      "tvCount": 22,
+      "coveragePct": 100,
+      "englishMissing": 22,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S035",
+      "srcCount": 20,
+      "tvCount": 20,
+      "coveragePct": 100,
+      "englishMissing": 20,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S036",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S037",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S038",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S039",
+      "srcCount": 2,
+      "tvCount": 2,
+      "coveragePct": 100,
+      "englishMissing": 2,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S040",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S041",
+      "srcCount": 25,
+      "tvCount": 25,
+      "coveragePct": 100,
+      "englishMissing": 25,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S042",
+      "srcCount": 18,
+      "tvCount": 18,
+      "coveragePct": 100,
+      "englishMissing": 18,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S043",
+      "srcCount": 14,
+      "tvCount": 14,
+      "coveragePct": 100,
+      "englishMissing": 14,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S044",
+      "srcCount": 5,
+      "tvCount": 5,
+      "coveragePct": 100,
+      "englishMissing": 5,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S045",
+      "srcCount": 10,
+      "tvCount": 10,
+      "coveragePct": 100,
+      "englishMissing": 10,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S046",
+      "srcCount": 2,
+      "tvCount": 2,
+      "coveragePct": 100,
+      "englishMissing": 2,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S047",
+      "srcCount": 2,
+      "tvCount": 2,
+      "coveragePct": 100,
+      "englishMissing": 2,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S048",
+      "srcCount": 29,
+      "tvCount": 29,
+      "coveragePct": 100,
+      "englishMissing": 29,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S049",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S050",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S051",
+      "srcCount": 6,
+      "tvCount": 6,
+      "coveragePct": 100,
+      "englishMissing": 6,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S052",
+      "srcCount": 5,
+      "tvCount": 5,
+      "coveragePct": 100,
+      "englishMissing": 5,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S053",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S054",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S055",
+      "srcCount": 40,
+      "tvCount": 40,
+      "coveragePct": 100,
+      "englishMissing": 40,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S056",
+      "srcCount": 18,
+      "tvCount": 18,
+      "coveragePct": 100,
+      "englishMissing": 18,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S057",
+      "srcCount": 16,
+      "tvCount": 16,
+      "coveragePct": 100,
+      "englishMissing": 16,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S058",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S059",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S060",
+      "srcCount": 29,
+      "tvCount": 29,
+      "coveragePct": 100,
+      "englishMissing": 29,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S061",
+      "srcCount": 15,
+      "tvCount": 15,
+      "coveragePct": 100,
+      "englishMissing": 15,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S062",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S063",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S064",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S065",
+      "srcCount": 4,
+      "tvCount": 4,
+      "coveragePct": 100,
+      "englishMissing": 4,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S066",
+      "srcCount": 17,
+      "tvCount": 17,
+      "coveragePct": 100,
+      "englishMissing": 17,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S067",
+      "srcCount": 23,
+      "tvCount": 23,
+      "coveragePct": 100,
+      "englishMissing": 23,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S068",
+      "srcCount": 14,
+      "tvCount": 14,
+      "coveragePct": 100,
+      "englishMissing": 14,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S069",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S070",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S071",
+      "srcCount": 47,
+      "tvCount": 47,
+      "coveragePct": 100,
+      "englishMissing": 47,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S072",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S073",
+      "srcCount": 32,
+      "tvCount": 32,
+      "coveragePct": 100,
+      "englishMissing": 32,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S074",
+      "srcCount": 6,
+      "tvCount": 6,
+      "coveragePct": 100,
+      "englishMissing": 6,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S075",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S076",
+      "srcCount": 54,
+      "tvCount": 54,
+      "coveragePct": 100,
+      "englishMissing": 54,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S077",
+      "srcCount": 12,
+      "tvCount": 12,
+      "coveragePct": 100,
+      "englishMissing": 12,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S078",
+      "srcCount": 6,
+      "tvCount": 6,
+      "coveragePct": 100,
+      "englishMissing": 6,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S079",
+      "srcCount": 20,
+      "tvCount": 20,
+      "coveragePct": 100,
+      "englishMissing": 20,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S080",
+      "srcCount": 5,
+      "tvCount": 5,
+      "coveragePct": 100,
+      "englishMissing": 5,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S081",
+      "srcCount": 23,
+      "tvCount": 23,
+      "coveragePct": 100,
+      "englishMissing": 23,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S082",
+      "srcCount": 41,
+      "tvCount": 41,
+      "coveragePct": 100,
+      "englishMissing": 41,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S083",
+      "srcCount": 33,
+      "tvCount": 33,
+      "coveragePct": 100,
+      "englishMissing": 33,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S084",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S085",
+      "srcCount": 12,
+      "tvCount": 12,
+      "coveragePct": 100,
+      "englishMissing": 12,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S086",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S087",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S088",
+      "srcCount": 16,
+      "tvCount": 16,
+      "coveragePct": 100,
+      "englishMissing": 16,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S089",
+      "srcCount": 28,
+      "tvCount": 28,
+      "coveragePct": 100,
+      "englishMissing": 28,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S090",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S091",
+      "srcCount": 2,
+      "tvCount": 2,
+      "coveragePct": 100,
+      "englishMissing": 2,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S092",
+      "srcCount": 21,
+      "tvCount": 21,
+      "coveragePct": 100,
+      "englishMissing": 21,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S093",
+      "srcCount": 20,
+      "tvCount": 20,
+      "coveragePct": 100,
+      "englishMissing": 20,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S094",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S095",
+      "srcCount": 8,
+      "tvCount": 8,
+      "coveragePct": 100,
+      "englishMissing": 8,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S096",
+      "srcCount": 59,
+      "tvCount": 59,
+      "coveragePct": 100,
+      "englishMissing": 59,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S097",
+      "srcCount": 19,
+      "tvCount": 19,
+      "coveragePct": 100,
+      "englishMissing": 19,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S098",
+      "srcCount": 26,
+      "tvCount": 26,
+      "coveragePct": 100,
+      "englishMissing": 26,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S099",
+      "srcCount": 14,
+      "tvCount": 14,
+      "coveragePct": 100,
+      "englishMissing": 14,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S100",
+      "srcCount": 10,
+      "tvCount": 10,
+      "coveragePct": 100,
+      "englishMissing": 10,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S101",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S102",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S103",
+      "srcCount": 3,
+      "tvCount": 3,
+      "coveragePct": 100,
+      "englishMissing": 3,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S104",
+      "srcCount": 9,
+      "tvCount": 9,
+      "coveragePct": 100,
+      "englishMissing": 9,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S105",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S106",
+      "srcCount": 7,
+      "tvCount": 7,
+      "coveragePct": 100,
+      "englishMissing": 7,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S107",
+      "srcCount": 40,
+      "tvCount": 40,
+      "coveragePct": 100,
+      "englishMissing": 40,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S108",
+      "srcCount": 34,
+      "tvCount": 34,
+      "coveragePct": 100,
+      "englishMissing": 34,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S109",
+      "srcCount": 30,
+      "tvCount": 30,
+      "coveragePct": 100,
+      "englishMissing": 30,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S110",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S111",
+      "srcCount": 36,
+      "tvCount": 36,
+      "coveragePct": 100,
+      "englishMissing": 36,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S112",
+      "srcCount": 12,
+      "tvCount": 12,
+      "coveragePct": 100,
+      "englishMissing": 12,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S113",
+      "srcCount": 32,
+      "tvCount": 32,
+      "coveragePct": 100,
+      "englishMissing": 32,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S114",
+      "srcCount": 2,
+      "tvCount": 2,
+      "coveragePct": 100,
+      "englishMissing": 2,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S115",
+      "srcCount": 25,
+      "tvCount": 25,
+      "coveragePct": 100,
+      "englishMissing": 25,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S116",
+      "srcCount": 65,
+      "tvCount": 65,
+      "coveragePct": 100,
+      "englishMissing": 65,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S117",
+      "srcCount": 47,
+      "tvCount": 47,
+      "coveragePct": 100,
+      "englishMissing": 47,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S118",
+      "srcCount": 27,
+      "tvCount": 27,
+      "coveragePct": 100,
+      "englishMissing": 27,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S119",
+      "srcCount": 13,
+      "tvCount": 13,
+      "coveragePct": 100,
+      "englishMissing": 13,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S120",
+      "srcCount": 45,
+      "tvCount": 45,
+      "coveragePct": 100,
+      "englishMissing": 45,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S121",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S122",
+      "srcCount": 11,
+      "tvCount": 11,
+      "coveragePct": 100,
+      "englishMissing": 11,
+      "enhancedMissing": 0
+    },
+    {
+      "sectionId": "S123",
+      "srcCount": 1,
+      "tvCount": 1,
+      "coveragePct": 100,
+      "englishMissing": 1,
+      "enhancedMissing": 0
+    }
+  ],
+  "missing_counts": {
+    "absent_in_triview": 15,
+    "missing_english": 2045,
+    "missing_enhanced_arabic": 0
+  },
+  "runtime_risks": {
+    "hits": [
+      "app/api/health/route.ts",
+      "app/api/translate/claude/route.ts",
+      "lib/assistant/health-utils.ts",
+      "lib/cost.ts",
+      "lib/env.ts",
+      "lib/hooks/use-claude-translation.ts",
+      "lib/llm/provider.ts",
+      "lib/llm/router.ts"
+    ],
+    "risky_in_ui": []
+  },
+  "verdict": {
+    "fully_translated_en": false,
+    "fully_enhanced_ar": true,
+    "fully_covered_vs_source": false,
+    "ui_appears_static": true
+  }
+}

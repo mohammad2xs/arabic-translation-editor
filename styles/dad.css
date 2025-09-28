@@ -1,0 +1,39 @@
+:root {
+  --dad-touch-target: 44px;
+}
+
+.dad-density-cozy {
+  --dad-font: 1.05rem;
+  --dad-leading: 1.8;
+  --dad-gap: 1rem;
+}
+
+.dad-density-compact {
+  --dad-font: 1rem;
+  --dad-leading: 1.6;
+  --dad-gap: 0.75rem;
+}
+
+.dad-density-super {
+  --dad-font: 0.95rem;
+  --dad-leading: 1.45;
+  --dad-gap: 0.5rem;
+}
+
+.dad-tri * {
+  font-size: var(--dad-font);
+  line-height: var(--dad-leading);
+}
+
+.dad-row {
+  margin-bottom: var(--dad-gap);
+}
+
+.dad-col.hidden {
+  display: none;
+}
+
+.dad-header-button {
+  min-height: var(--dad-touch-target);
+}
+

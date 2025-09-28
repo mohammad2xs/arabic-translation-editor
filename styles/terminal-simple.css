@@ -1,0 +1,225 @@
+/* Terminal Simple Theme */
+.terminal-simple {
+  --terminal-bg: #1a1a1a;
+  --terminal-fg: #ffffff;
+  --terminal-accent: #00ff00;
+  --terminal-error: #ff0000;
+  --terminal-warning: #ffff00;
+  --terminal-info: #00ffff;
+  --terminal-border: #333333;
+  --terminal-selection: #444444;
+  --terminal-cursor: #ffffff;
+  --terminal-cursor-bg: #ffffff;
+  --terminal-cursor-blink: 1;
+  --terminal-font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  --terminal-font-size: 14px;
+  --terminal-line-height: 1.4;
+  --terminal-padding: 16px;
+  --terminal-border-radius: 8px;
+  --terminal-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-simple .terminal-container {
+  background-color: var(--terminal-bg);
+  color: var(--terminal-fg);
+  font-family: var(--terminal-font-family);
+  font-size: var(--terminal-font-size);
+  line-height: var(--terminal-line-height);
+  padding: var(--terminal-padding);
+  border-radius: var(--terminal-border-radius);
+  box-shadow: var(--terminal-shadow);
+  border: 1px solid var(--terminal-border);
+  overflow: hidden;
+  position: relative;
+}
+
+.terminal-simple .terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--terminal-border);
+}
+
+.terminal-simple .terminal-title {
+  font-weight: 600;
+  color: var(--terminal-accent);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.terminal-simple .terminal-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-simple .terminal-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.terminal-simple .terminal-control.close {
+  background-color: #ff5f56;
+}
+
+.terminal-simple .terminal-control.minimize {
+  background-color: #ffbd2e;
+}
+
+.terminal-simple .terminal-control.maximize {
+  background-color: #27ca3f;
+}
+
+.terminal-simple .terminal-control:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.terminal-simple .terminal-content {
+  background-color: transparent;
+  color: var(--terminal-fg);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+  min-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.terminal-simple .terminal-line {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.terminal-simple .terminal-prompt {
+  color: var(--terminal-accent);
+  font-weight: 600;
+}
+
+.terminal-simple .terminal-command {
+  color: var(--terminal-fg);
+}
+
+.terminal-simple .terminal-output {
+  color: var(--terminal-fg);
+  opacity: 0.9;
+}
+
+.terminal-simple .terminal-error {
+  color: var(--terminal-error);
+}
+
+.terminal-simple .terminal-warning {
+  color: var(--terminal-warning);
+}
+
+.terminal-simple .terminal-info {
+  color: var(--terminal-info);
+}
+
+.terminal-simple .terminal-success {
+  color: var(--terminal-accent);
+}
+
+.terminal-simple .terminal-cursor {
+  background-color: var(--terminal-cursor-bg);
+  color: var(--terminal-cursor);
+  animation: blink var(--terminal-cursor-blink)s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-simple .terminal-selection {
+  background-color: var(--terminal-selection);
+  color: var(--terminal-fg);
+}
+
+.terminal-simple .terminal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--terminal-border) transparent;
+}
+
+.terminal-simple .terminal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-simple .terminal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-simple .terminal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--terminal-border);
+  border-radius: 4px;
+}
+
+.terminal-simple .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--terminal-selection);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .terminal-simple {
+    --terminal-font-size: 12px;
+    --terminal-padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-simple {
+    --terminal-font-size: 11px;
+    --terminal-padding: 8px;
+  }
+}
+
+/* Dark mode variations */
+.terminal-simple.dark {
+  --terminal-bg: #0d1117;
+  --terminal-fg: #c9d1d9;
+  --terminal-accent: #58a6ff;
+  --terminal-error: #f85149;
+  --terminal-warning: #d29922;
+  --terminal-info: #39d353;
+  --terminal-border: #30363d;
+  --terminal-selection: #264f78;
+}
+
+/* Light mode variations */
+.terminal-simple.light {
+  --terminal-bg: #ffffff;
+  --terminal-fg: #24292f;
+  --terminal-accent: #0969da;
+  --terminal-error: #d1242f;
+  --terminal-warning: #9a6700;
+  --terminal-info: #1a7f37;
+  --terminal-border: #d0d7de;
+  --terminal-selection: #b6e3ff;
+}
+
+/* High contrast mode */
+.terminal-simple.high-contrast {
+  --terminal-bg: #000000;
+  --terminal-fg: #ffffff;
+  --terminal-accent: #00ff00;
+  --terminal-error: #ff0000;
+  --terminal-warning: #ffff00;
+  --terminal-info: #00ffff;
+  --terminal-border: #ffffff;
+  --terminal-selection: #ffffff;
+  --terminal-cursor-bg: #ffffff;
+}

@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[user]
+	name = Muhammad
+	email = you@example.com
+[remote "origin"]
+	url = https://github.com/mohammad2xs/arabic-translation-editor.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

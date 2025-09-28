@@ -1,0 +1,100 @@
+{
+  "project": {
+    "title": "The Human: A Journey Toward Spiritual Perfection",
+    "title_arabic": "الإنسان: رحلة نحو الكمال الروحي",
+    "author": "Muhammad Hassan",
+    "description": "A book exploring the human spiritual journey toward perfection and closeness to Allah",
+    "description_arabic": "كتاب يستكشف رحلة الإنسان الروحية نحو الكمال والقرب من الله",
+    "createdAt": "2025-09-28T16:57:16.982Z"
+  },
+  "lanes": [
+    {
+      "lane": "en",
+      "displayName": "English",
+      "manifestFile": "en/elevenlabs_manifest_en.json",
+      "jobManifestFile": "en/job_manifest_en.json",
+      "chaptersFile": "en/chapters_en.json"
+    },
+    {
+      "lane": "ar_enhanced",
+      "displayName": "Arabic Enhanced",
+      "manifestFile": "ar_enhanced/elevenlabs_manifest_ar_enhanced.json",
+      "jobManifestFile": "ar_enhanced/job_manifest_ar_enhanced.json",
+      "chaptersFile": "ar_enhanced/chapters_ar_enhanced.json"
+    },
+    {
+      "lane": "ar_original",
+      "displayName": "Arabic Original",
+      "manifestFile": "ar_original/elevenlabs_manifest_ar_original.json",
+      "jobManifestFile": "ar_original/job_manifest_ar_original.json",
+      "chaptersFile": "ar_original/chapters_ar_original.json"
+    }
+  ],
+  "sections": [
+    {
+      "id": "S001_1",
+      "title": "المقدمة",
+      "rowCount": 1
+    },
+    {
+      "id": "S002",
+      "title": "المقدمة",
+      "rowCount": 2
+    },
+    {
+      "id": "S007",
+      "title": "وقد تكلم القدماء من الاغريق وغيرهم عن النفس، فاختلفوا فيها فمن قال هي تموت بموت الانسان , ومن قال انها تبقى خالده .",
+      "rowCount": 3
+    },
+    {
+      "id": "S013",
+      "title": "وبما أن الرأس والقلب هما وزيرا الاميرين الروح والنفس المتضادين، فالرأس للنفس، والقلب للروح.",
+      "rowCount": 3
+    },
+    {
+      "id": "S021",
+      "title": "ما هي العوامل المؤثرة في التفاعل الفطري مع المحيط لتكوين شخصية الانسان وإنسانيته الحضارية:",
+      "rowCount": 2
+    },
+    {
+      "id": "S023",
+      "title": "الفطرة: -",
+      "rowCount": 1
+    },
+    {
+      "id": "S025",
+      "title": "الزجاجة كأنها كوكب دري:",
+      "rowCount": 1
+    },
+    {
+      "id": "S026",
+      "title": "وفي قوله تعالى (يكاد زيتها يضيء ولو لم تمسسه نار) فهنا التأكيد على ان فطرة الانسان",
+      "rowCount": 1
+    },
+    {
+      "id": "S027",
+      "title": "ولتوضيح الهداية في هذه الآية يجب ان بين أن الهداية نوعان.",
+      "rowCount": 1
+    },
+    {
+      "id": "S030",
+      "title": "وأما الذين لم تستطع تلك الموجات المعرفية ان تخترق غشاوة الظلامة التي على القلب فسوف يبقى في تلك الدائرة المظلمة.",
+      "rowCount": 1
+    },
+    {
+      "id": "S031",
+      "title": "وحدانية الله واليوم الاخر عند غير المؤمنين :",
+      "rowCount": 1
+    },
+    {
+      "id": "S032",
+      "title": "البحث عن الإله لمخاطبته:",
+      "rowCount": 1
+    }
+  ],
+  "statistics": {
+    "totalSections": 12,
+    "totalLanes": 3,
+    "generatedAt": "2025-09-28T16:57:16.982Z"
+  }
+}

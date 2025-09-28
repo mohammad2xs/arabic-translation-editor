@@ -1,0 +1,80 @@
+# Translation Contracts
+
+## Core Translation Principles
+
+### NO SUMMARIZATION POLICY
+- **NEVER** summarize, condense, or abbreviate the original text
+- **PRESERVE** every idea, qualifier, and nuance
+- **MAINTAIN** all rhetorical questions, contrasts, and conditional statements
+- **RETAIN** every semantic unit from the Arabic original
+
+### LENGTH PRESERVATION TARGETS
+- **TARGET**: English text ≥ Arabic text with +5-20% expansion for clarity
+- **MINIMUM**: Length Preservation Ratio (LPR) = EN_length/AR_length ≥ 0.95
+- **HARD FAIL**: Any row with LPR < 0.95 must be flagged and re-translated
+- **EXPANSION**: Rows below target should be marked for enhancement
+
+### SCRIPTURE LOCK POLICY
+- **ARABIC QURANIC TEXT**: Remains in Arabic lane with transliteration
+- **HADITH REFERENCES**: Preserve Arabic with light footnotes
+- **FOOTNOTE FORMAT**: [^n] anchors for scripture references
+- **NO TRANSLATION**: Direct Quranic/Hadith text preserves sacredness
+
+### MEANING FIDELITY
+- **QUALIFIERS**: Preserve all conditional, temporal, and modal qualifiers
+- **NEGATIONS**: Maintain exact scope and emphasis of negations
+- **RHETORIC**: Keep questions, exclamations, and emphasis patterns
+- **REGISTER**: Maintain philosophical/contemplative tone
+
+### TERMINOLOGY CANON
+- **CONSISTENCY**: Use established terminology for Islamic concepts
+- **GLOSSARY**: Maintain canonical translations for key terms
+- **CLARITY**: Prefer clarity over literal word-for-word translation
+- **CONTEXT**: Adapt terminology to sentence context while preserving meaning
+
+## Quality Gates
+
+### SEMANTIC COVERAGE
+- Every Arabic clause must map to ≥1 English clause
+- No semantic gaps or missing information
+- Preserve logical flow and argument structure
+
+### TONE PRESERVATION
+- Maintain contemplative, scholarly register
+- Use modern American English with philosophical vocabulary
+- Avoid ornate or archaic language patterns
+- Preserve author's voice and style
+
+### SCRIPTURE VERIFICATION
+- Verify all Quranic references against source
+- Validate hadith citations for accuracy
+- Ensure footnote anchors are properly placed
+- Check transliteration consistency
+
+## Error Handling
+
+### HARD FAILURES
+- LPR < 0.95 (insufficient length preservation)
+- Missing semantic units in translation
+- Incorrect scripture references
+- Tone drift from original register
+
+### SOFT WARNINGS
+- LPR between 0.95-1.05 (borderline length)
+- Minor terminology inconsistencies
+- Unclear footnote placement
+- Potential meaning ambiguities
+
+## Processing Requirements
+
+### PARALLEL SAFETY
+- Each row processes independently
+- No dependencies on other row outcomes
+- Deterministic results for same input
+- Hash-gated re-execution for efficiency
+
+### QUALITY TRACKING
+- Record LPR for every translated row
+- Track semantic coverage metrics
+- Log quality gate pass/fail status
+- Maintain translation confidence scores

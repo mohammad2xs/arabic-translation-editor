@@ -1,0 +1,256 @@
+/* Context View Styles */
+
+/* Context Switcher */
+.context-switcher {
+  @apply flex flex-wrap items-center gap-4 p-4 bg-white border-b border-gray-200;
+}
+
+@media (max-width: 768px) {
+  .context-switcher {
+    @apply flex-col items-stretch gap-3;
+  }
+}
+
+/* View Modes */
+.context-view-container {
+  @apply relative transition-all duration-300 ease-in-out;
+}
+
+/* Focus Mode - Single row takes full space */
+.context-view-focus {
+  @apply space-y-4;
+}
+
+.context-view-focus .row-card {
+  @apply w-full;
+}
+
+/* Context Mode - Current row + N rows above/below */
+.context-view-context {
+  @apply space-y-3;
+}
+
+.context-view-context .row-card {
+  @apply w-full transition-all duration-200;
+}
+
+.context-view-context .row-card.context-row {
+  @apply scale-95 opacity-75 bg-gray-50 border-gray-200;
+}
+
+.context-view-context .row-card.current-row {
+  @apply scale-100 opacity-100 bg-white border-blue-200 shadow-md;
+}
+
+.context-view-context .row-card.context-row .row-input {
+  @apply text-sm bg-gray-100 border-gray-200;
+  min-height: 60px;
+}
+
+.context-view-context .row-card.current-row .row-input {
+  min-height: 120px;
+}
+
+/* All Rows Mode - Compact grid view */
+.context-view-all {
+  @apply grid gap-3;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.context-view-all .row-card {
+  @apply scale-90 bg-gray-50 border-gray-200;
+}
+
+.context-view-all .row-card .row-input {
+  @apply text-sm bg-white border-gray-200;
+  min-height: 50px;
+}
+
+/* Preview Mode - Hidden row cards, shows SectionPreview */
+.context-view-preview .tri-view-rows {
+  @apply hidden;
+}
+
+/* Row Cards Responsive Design */
+.row-card {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.row-card .row-input {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Arabic RTL Support */
+.row-card .arabic-input {
+  @apply text-right;
+  font-family: 'Amiri', 'Scheherazade New', 'Arabic Typesetting', serif;
+  direction: rtl;
+}
+
+/* Large Touch Targets for Dad-Mode */
+.dad-mode .context-switcher button {
+  @apply min-h-[52px] text-lg;
+}
+
+.dad-mode .row-card .row-input {
+  @apply text-lg leading-relaxed;
+  min-height: 100px;
+}
+
+.dad-mode .context-view-context .row-card.current-row .row-input {
+  min-height: 140px;
+}
+
+/* Presence Indicators */
+.presence-chip {
+  @apply inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium;
+  animation: pulse-gentle 2s infinite;
+}
+
+.presence-chip.stale {
+  @apply bg-gray-100 text-gray-600;
+  animation: none;
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Connection Status */
+.sync-status {
+  @apply flex items-center gap-2 text-sm;
+}
+
+.sync-status.connected {
+  @apply text-green-600;
+}
+
+.sync-status.disconnected {
+  @apply text-red-600;
+}
+
+.sync-status.connecting {
+  @apply text-yellow-600;
+}
+
+.sync-indicator {
+  @apply w-2 h-2 rounded-full;
+}
+
+.sync-indicator.connected {
+  @apply bg-green-500;
+}
+
+.sync-indicator.disconnected {
+  @apply bg-red-500;
+}
+
+.sync-indicator.connecting {
+  @apply bg-yellow-500;
+  animation: pulse 1s infinite;
+}
+
+/* Section Preview Styles */
+.section-preview .typeset-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+.section-preview .typeset-text.arabic {
+  font-family: 'Amiri', 'Scheherazade New', 'Arabic Typesetting', serif;
+  font-size: 1.25rem;
+  line-height: 2;
+  direction: rtl;
+  text-align: right;
+}
+
+.section-preview .current-row-indicator {
+  @apply absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-r;
+}
+
+/* Responsive Tri-View Columns */
+.tri-view-container {
+  @apply grid gap-6;
+}
+
+@media (min-width: 1024px) {
+  .tri-view-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 1023px) {
+  .tri-view-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Column Headers with Reordered Layout */
+.tri-view-header {
+  @apply flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200 rounded-t-lg;
+}
+
+.tri-view-header h3 {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.tri-view-header .column-meta {
+  @apply text-sm text-gray-600;
+}
+
+/* Column Order: English | Enhanced Arabic | Original Arabic */
+.tri-view-container .column-english {
+  order: 1;
+}
+
+.tri-view-container .column-arabic-enhanced {
+  order: 2;
+}
+
+.tri-view-container .column-arabic-original {
+  order: 3;
+}
+
+/* Smooth Transitions */
+.context-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Performance Optimizations */
+.context-view-all .row-card {
+  contain: layout style paint;
+}
+
+.context-view-context .row-card.context-row {
+  contain: layout style paint;
+}
+
+/* Accessibility */
+.context-switcher button:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+.row-card .row-input:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+}
+
+/* Print Styles for Section Preview */
+@media print {
+  .section-preview .typeset-text {
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  .section-preview .typeset-text.arabic {
+    font-size: 14pt;
+    line-height: 1.8;
+  }
+
+  .presence-chip,
+  .sync-status,
+  .context-switcher {
+    display: none !important;
+  }
+}

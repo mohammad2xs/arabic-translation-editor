@@ -1,0 +1,166 @@
+{
+  "timestamp": "2025-09-28T17:24:15.883Z",
+  "overallPass": true,
+  "requiredFailed": [],
+  "optionalFailed": [],
+  "gates": {
+    "lpr": {
+      "average": true,
+      "minimum": true,
+      "pass": true
+    },
+    "coverage": {
+      "pass": true
+    },
+    "scripture": {
+      "pass": true
+    },
+    "glossary": {
+      "pass": true
+    },
+    "golden": {
+      "pass": true
+    },
+    "drift": {
+      "pass": true
+    },
+    "readability": {
+      "gradeInRange": false,
+      "longSentencesOk": false,
+      "pass": false
+    },
+    "audience": {
+      "suitabilityOk": false,
+      "pass": false
+    }
+  },
+  "metrics": {
+    "lpr": {
+      "average": 1.885676021030588,
+      "minimum": 1.6132756132756132,
+      "count": 18
+    },
+    "coverage": {
+      "percentage": 100,
+      "completed": 18,
+      "total": 18
+    },
+    "scripture": {
+      "percentage": 100,
+      "valid": 1,
+      "total": 1
+    },
+    "glossary": {
+      "consistency": 100,
+      "checked": 0,
+      "total": 0
+    },
+    "golden": {
+      "passRate": 100,
+      "passed": 13,
+      "total": 13
+    },
+    "drift": {
+      "maximum": 0.05,
+      "detected": false
+    },
+    "readability": {
+      "grade": 9.5,
+      "avgLen": 18,
+      "longPct": 15,
+      "reason": "modules_missing",
+      "sectionsAnalyzed": 0,
+      "failingRowIds": []
+    },
+    "audience": {
+      "score": 85,
+      "overallPass": false,
+      "reason": "modules_missing",
+      "sectionsAnalyzed": 0
+    }
+  },
+  "config": {
+    "thresholds": {
+      "lpr": {
+        "average": 1.05,
+        "minimum": 0.95,
+        "description": "Length Preservation Ratio - Ensures English translations maintain appropriate length relative to Arabic"
+      },
+      "coverage": {
+        "percentage": 100,
+        "description": "Translation coverage - Percentage of rows with completed English translations"
+      },
+      "scripture": {
+        "percentage": 95,
+        "description": "Scripture reference validation - Percentage of correctly formatted references"
+      },
+      "glossary": {
+        "consistency": 99,
+        "description": "Glossary consistency - Percentage of term translations matching glossary definitions"
+      },
+      "golden": {
+        "passRate": 85,
+        "description": "Golden dataset validation - Percentage of test cases passing quality checks"
+      },
+      "drift": {
+        "maximum": 0.15,
+        "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+      },
+      "readability": {
+        "gradeMin": 8,
+        "gradeMax": 11,
+        "longPctMax": 25,
+        "description": "English readability requirements - Grade level range and maximum percentage of long sentences"
+      },
+      "audience": {
+        "scoreMin": 70,
+        "description": "Audience suitability - Minimum score for general audience appropriateness"
+      }
+    },
+    "gateConfiguration": {
+      "requiredGates": [
+        "coverage",
+        "lpr",
+        "scripture"
+      ],
+      "optionalGates": [
+        "glossary",
+        "golden",
+        "drift"
+      ],
+      "blockOnFailure": true,
+      "allowPartialDeployment": false
+    },
+    "qualityWeights": {
+      "coverage": 0.25,
+      "lpr": 0.25,
+      "scripture": 0.15,
+      "glossary": 0.2,
+      "golden": 0.15
+    },
+    "deploymentRequirements": {
+      "minimumOverallScore": 85,
+      "requiredArtifacts": [
+        "outputs/book-final.docx",
+        "outputs/triview.json",
+        "reports/quality-gates.json"
+      ],
+      "optionalArtifacts": [
+        "outputs/book.epub",
+        "outputs/audiobook",
+        "reports/deployment-report.json"
+      ]
+    },
+    "retryPolicy": {
+      "maxRetries": 3,
+      "retryDelayMs": 5000,
+      "backoffMultiplier": 2
+    },
+    "notifications": {
+      "onGateFailure": true,
+      "onDeploymentReady": true,
+      "emailRecipients": [],
+      "slackWebhook": null
+    }
+  }
+}

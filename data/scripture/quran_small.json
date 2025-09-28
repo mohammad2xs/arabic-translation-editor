@@ -1,0 +1,194 @@
+{
+  "5:2": {
+    "reference": "5:2",
+    "type": "quran",
+    "surah": 5,
+    "ayah": 2,
+    "arabic": "يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُحِلُّوا شَعَائِرَ اللَّهِ وَلَا الشَّهْرَ الْحَرَامَ وَلَا الْهَدْيَ وَلَا الْقَلَائِدَ وَلَا آمِّينَ الْبَيْتَ الْحَرَامَ يَبْتَغُونَ فَضْلًا مِّن رَّبِّهِمْ وَرِضْوَانًا",
+    "english": "O you who believe! Do not violate the symbols of Allah, nor the sacred month, nor the offerings, nor the garlands, nor those proceeding to the Sacred House seeking bounty and good pleasure from their Lord.",
+    "metadata": {
+      "surahName": "المائدة",
+      "surahNameEn": "Al-Ma'idah",
+      "revelationType": "medinan",
+      "juz": 6,
+      "hizb": 11,
+      "ruku": 1
+    }
+  },
+  "21:35": {
+    "reference": "21:35",
+    "type": "quran",
+    "surah": 21,
+    "ayah": 35,
+    "arabic": "كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَنَبْلُوكُم بِالشَّرِّ وَالْخَيْرِ فِتْنَةً ۖ وَإِلَيْنَا تُرْجَعُونَ",
+    "english": "Every soul will taste death. And We test you with evil and with good as trial; and to Us you will be returned.",
+    "metadata": {
+      "surahName": "الأنبياء",
+      "surahNameEn": "Al-Anbya",
+      "revelationType": "meccan",
+      "juz": 17,
+      "hizb": 33,
+      "ruku": 3
+    }
+  },
+  "91:7": {
+    "reference": "91:7",
+    "type": "quran",
+    "surah": 91,
+    "ayah": 7,
+    "arabic": "وَنَفْسٍ وَمَا سَوَّاهَا",
+    "english": "And [by] the soul and He who proportioned it",
+    "metadata": {
+      "surahName": "الشمس",
+      "surahNameEn": "Ash-Shams",
+      "revelationType": "meccan",
+      "juz": 30,
+      "hizb": 60,
+      "ruku": 1
+    }
+  },
+  "91:8": {
+    "reference": "91:8",
+    "type": "quran",
+    "surah": 91,
+    "ayah": 8,
+    "arabic": "فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَاهَا",
+    "english": "And inspired it [with discernment of] its wickedness and its righteousness,",
+    "metadata": {
+      "surahName": "الشمس",
+      "surahNameEn": "Ash-Shams",
+      "revelationType": "meccan",
+      "juz": 30,
+      "hizb": 60,
+      "ruku": 1
+    }
+  },
+  "91:9": {
+    "reference": "91:9",
+    "type": "quran",
+    "surah": 91,
+    "ayah": 9,
+    "arabic": "قَدْ أَفْلَحَ مَن زَكَّاهَا",
+    "english": "He has succeeded who purifies it,",
+    "metadata": {
+      "surahName": "الشمس",
+      "surahNameEn": "Ash-Shams",
+      "revelationType": "meccan",
+      "juz": 30,
+      "hizb": 60,
+      "ruku": 1
+    }
+  },
+  "91:10": {
+    "reference": "91:10",
+    "type": "quran",
+    "surah": 91,
+    "ayah": 10,
+    "arabic": "وَقَدْ خَابَ مَن دَسَّاهَا",
+    "english": "And he has failed who instills it [with corruption].",
+    "metadata": {
+      "surahName": "الشمس",
+      "surahNameEn": "Ash-Shams",
+      "revelationType": "meccan",
+      "juz": 30,
+      "hizb": 60,
+      "ruku": 1
+    }
+  },
+  "17:70": {
+    "reference": "17:70",
+    "type": "quran",
+    "surah": 17,
+    "ayah": 70,
+    "arabic": "وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ وَحَمَلْنَاهُمْ فِي الْبَرِّ وَالْبَحْرِ وَرَزَقْنَاهُم مِّنَ الطَّيِّبَاتِ وَفَضَّلْنَاهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا",
+    "english": "And We have certainly honored the children of Adam and carried them on the land and sea and provided for them of the good things and preferred them over much of what We have created, with [definite] preference.",
+    "metadata": {
+      "surahName": "الإسراء",
+      "surahNameEn": "Al-Isra",
+      "revelationType": "meccan",
+      "juz": 15,
+      "hizb": 29,
+      "ruku": 9
+    }
+  },
+  "67:15": {
+    "reference": "67:15",
+    "type": "quran",
+    "surah": 67,
+    "ayah": 15,
+    "arabic": "هُوَ الَّذِي جَعَلَ لَكُمُ الْأَرْضَ ذَلُولًا فَامْشُوا فِي مَنَاكِبِهَا وَكُلُوا مِن رِّزْقِهِ ۖ وَإِلَيْهِ النُّشُورُ",
+    "english": "It is He who made the earth subservient to you, so walk among its slopes and eat of His provision. And to Him is the resurrection.",
+    "metadata": {
+      "surahName": "الملك",
+      "surahNameEn": "Al-Mulk",
+      "revelationType": "meccan",
+      "juz": 29,
+      "hizb": 57,
+      "ruku": 2
+    }
+  },
+  "57:25": {
+    "reference": "57:25",
+    "type": "quran",
+    "surah": 57,
+    "ayah": 25,
+    "arabic": "لَقَدْ أَرْسَلْنَا رُسُلَنَا بِالْبَيِّنَاتِ وَأَنزَلْنَا مَعَهُمُ الْكِتَابَ وَالْمِيزَانَ لِيَقُومَ النَّاسُ بِالْقِسْطِ ۖ وَأَنزَلْنَا الْحَدِيدَ فِيهِ بَأْسٌ شَدِيدٌ وَمَنَافِعُ لِلنَّاسِ وَلِيَعْلَمَ اللَّهُ مَن يَنصُرُهُ وَرُسُلَهُ بِالْغَيْبِ ۚ إِنَّ اللَّهَ قَوِيٌّ عَزِيزٌ",
+    "english": "We have already sent Our messengers with clear evidences and sent down with them the Scripture and the balance that the people may maintain [their affairs] in justice. And We sent down iron, wherein is great military might and benefits for the people, and so that Allah may make evident those who support Him and His messengers unseen. Indeed, Allah is Powerful and Exalted in Might.",
+    "metadata": {
+      "surahName": "الحديد",
+      "surahNameEn": "Al-Hadid",
+      "revelationType": "medinan",
+      "juz": 27,
+      "hizb": 54,
+      "ruku": 4
+    }
+  },
+  "2:30": {
+    "reference": "2:30",
+    "type": "quran",
+    "surah": 2,
+    "ayah": 30,
+    "arabic": "وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً ۖ قَالُوا أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ الدِّمَاءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّي أَعْلَمُ مَا لَا تَعْلَمُونَ",
+    "english": "And [mention, O Muhammad], when your Lord said to the angels, \"Indeed, I will make upon the earth a successive authority.\" They said, \"Will You place upon it one who causes corruption therein and sheds blood, while we declare Your praise and sanctify You?\" Allah said, \"Indeed, I know that which you do not know.\"",
+    "metadata": {
+      "surahName": "البقرة",
+      "surahNameEn": "Al-Baqarah",
+      "revelationType": "medinan",
+      "juz": 1,
+      "hizb": 1,
+      "ruku": 4
+    }
+  },
+  "2:255": {
+    "reference": "2:255",
+    "type": "quran",
+    "surah": 2,
+    "ayah": 255,
+    "arabic": "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+    "english": "Allah - there is no deity except Him, the Ever-Living, the Sustainer of [all] existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is [presently] before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
+    "metadata": {
+      "surahName": "البقرة",
+      "surahNameEn": "Al-Baqarah",
+      "revelationType": "medinan",
+      "juz": 3,
+      "hizb": 5,
+      "ruku": 35
+    }
+  },
+  "1:1": {
+    "reference": "1:1",
+    "type": "quran",
+    "surah": 1,
+    "ayah": 1,
+    "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "english": "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
+    "metadata": {
+      "surahName": "الفاتحة",
+      "surahNameEn": "Al-Fatihah",
+      "revelationType": "meccan",
+      "juz": 1,
+      "hizb": 1,
+      "ruku": 1
+    }
+  }
+}

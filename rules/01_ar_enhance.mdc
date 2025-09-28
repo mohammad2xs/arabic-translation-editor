@@ -1,0 +1,116 @@
+# Arabic Enhancement Rules
+
+## Purpose
+Normalize Arabic text orthography and punctuation while preserving exact semantic meaning. This phase prepares text for translation without changing any conceptual content.
+
+## Orthographic Normalization
+
+### Tatweel Removal
+- **REMOVE**: All tatweel characters (ـ) used for text justification
+- **PRESERVE**: Word boundaries and spacing
+- **EXAMPLE**: الـــرحـــمن → الرحمن
+
+### Quote Unification
+- **STANDARDIZE**: All quotation marks to standard ASCII
+- **CONVERT**: " " and ' ' to " " and ' '
+- **PRESERVE**: Quote nesting and semantic boundaries
+- **MAINTAIN**: Original quote placement and context
+
+### Spacing Normalization
+- **COLLAPSE**: Multiple consecutive spaces to single space
+- **TRIM**: Leading and trailing whitespace
+- **PRESERVE**: Intentional line breaks and paragraph structure
+- **STANDARDIZE**: Space around punctuation marks
+
+### Diacritic Handling
+- **PRESERVE**: All diacritics (harakat) that affect meaning
+- **REMOVE**: Redundant or decorative diacritics only if they don't alter pronunciation
+- **MAINTAIN**: Quranic text diacritics exactly as written
+- **VERIFY**: No semantic change through diacritic modification
+
+## Punctuation Standardization
+
+### Period and Comma
+- **STANDARDIZE**: Arabic periods (؟) and commas (،) to Unicode standard
+- **PRESERVE**: Sentence boundaries and pause indicators
+- **MAINTAIN**: Original punctuation meaning and rhythm
+
+### Question and Exclamation
+- **CONVERT**: Arabic question mark (؟) to standard (?)
+- **PRESERVE**: Rhetorical question semantics
+- **MAINTAIN**: Emphasis and intonation patterns
+
+### Colons and Semicolons
+- **STANDARDIZE**: To ASCII equivalents where appropriate
+- **PRESERVE**: List structures and logical relationships
+- **MAINTAIN**: Hierarchical information organization
+
+## Word Boundary Preservation
+
+### Definite Articles
+- **PRESERVE**: ال attachments and their semantic function
+- **MAINTAIN**: Emphasis patterns created by definite articles
+- **VERIFY**: No accidental word splitting or joining
+
+### Compound Terms
+- **IDENTIFY**: Multi-word Islamic terms and concepts
+- **PRESERVE**: Compound meaning units
+- **MAINTAIN**: Technical terminology boundaries
+
+### Prepositions and Particles
+- **PRESERVE**: All grammatical particles
+- **MAINTAIN**: Prepositional phrase boundaries
+- **VERIFY**: Grammatical relationships remain intact
+
+## Meaning Preservation Checks
+
+### NO SEMANTIC CHANGES
+- **VERIFY**: Enhanced text conveys identical meaning
+- **CHECK**: All qualifiers and modifiers preserved
+- **CONFIRM**: Rhetorical devices maintained
+- **VALIDATE**: Context and register unchanged
+
+### Clause Structure
+- **PRESERVE**: All dependent and independent clauses
+- **MAINTAIN**: Logical relationships between clauses
+- **VERIFY**: No accidental clause merging or splitting
+
+### Scripture Integrity
+- **LOCK**: Quranic quotations remain unchanged
+- **PRESERVE**: Hadith text exactly as written
+- **MAINTAIN**: Sacred text reverence and accuracy
+
+## Quality Gates
+
+### Pre-Enhancement Validation
+- **RECORD**: Original text hash for comparison
+- **IDENTIFY**: Sacred text boundaries
+- **MARK**: Complex grammatical structures
+
+### Post-Enhancement Verification
+- **COMPARE**: Character count changes (should be minimal)
+- **VERIFY**: Semantic equivalence through back-reference
+- **CHECK**: No introduction of ambiguity
+- **VALIDATE**: Preservation of author's voice
+
+### Error Conditions
+- **HARD FAIL**: Any semantic meaning change detected
+- **SOFT WARNING**: Significant character count change (>5%)
+- **REVIEW FLAG**: Complex grammatical structure modifications
+
+## Processing Guidelines
+
+### Conservative Approach
+- **PREFER**: Minimal changes over aggressive normalization
+- **MAINTAIN**: Original text character where meaning unclear
+- **DOCUMENT**: All changes made for transparency
+
+### Consistency Requirements
+- **APPLY**: Same rules across all text in document
+- **MAINTAIN**: Terminology consistency within sections
+- **PRESERVE**: Author's stylistic preferences where possible
+
+### Output Format
+- **STRUCTURE**: Same paragraph and line organization
+- **PRESERVE**: Original formatting and layout cues
+- **MAINTAIN**: Visual hierarchy and emphasis patterns

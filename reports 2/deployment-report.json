@@ -1,0 +1,309 @@
+{
+  "timestamp": "2025-09-22T04:56:48.160Z",
+  "deploymentReady": true,
+  "overallScore": 100,
+  "meetsMinimumScore": true,
+  "qualityGates": {
+    "overallPass": true,
+    "requiredFailed": [],
+    "optionalFailed": [],
+    "details": {
+      "lpr": {
+        "average": true,
+        "minimum": true,
+        "pass": true
+      },
+      "coverage": {
+        "pass": true
+      },
+      "scripture": {
+        "pass": true
+      },
+      "glossary": {
+        "pass": true
+      },
+      "golden": {
+        "pass": true
+      },
+      "drift": {
+        "pass": true
+      },
+      "readability": {
+        "gradeInRange": false,
+        "longSentencesOk": false,
+        "pass": false
+      },
+      "audience": {
+        "suitabilityOk": true,
+        "pass": true
+      }
+    }
+  },
+  "artifacts": {
+    "required": {
+      "outputs/book-final.docx": {
+        "exists": true,
+        "size": 11413,
+        "modified": "2025-09-21T17:33:30.739Z",
+        "checksum": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461"
+      },
+      "outputs/triview.json": {
+        "exists": true,
+        "size": 21197,
+        "modified": "2025-09-21T18:25:21.647Z",
+        "checksum": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0"
+      },
+      "reports/quality-gates.json": {
+        "exists": true,
+        "size": 6742,
+        "modified": "2025-09-22T04:56:45.658Z",
+        "checksum": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9"
+      }
+    },
+    "optional": {
+      "outputs/book.epub": {
+        "exists": false,
+        "error": "ENOENT: no such file or directory, stat 'outputs/book.epub'"
+      },
+      "outputs/audiobook": {
+        "exists": false,
+        "error": "ENOENT: no such file or directory, stat 'outputs/audiobook'"
+      },
+      "reports/deployment-report.json": {
+        "exists": true,
+        "size": 4898,
+        "modified": "2025-09-22T02:29:02.978Z",
+        "checksum": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
+      }
+    },
+    "checksums": {
+      "outputs/book-final.docx": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461",
+      "outputs/triview.json": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0",
+      "reports/quality-gates.json": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9",
+      "reports/deployment-report.json": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
+    }
+  },
+  "cost": {
+    "total": 0,
+    "totalTokens": 0,
+    "totalOperations": 0,
+    "breakdown": {
+      "operations": {},
+      "models": {},
+      "providers": {}
+    }
+  },
+  "metrics": {
+    "lpr": {
+      "average": 2.434852608618444,
+      "minimum": 2.1666666666666665,
+      "count": 15
+    },
+    "coverage": {
+      "percentage": 100,
+      "completed": 15,
+      "total": 15
+    },
+    "scripture": {
+      "percentage": 100,
+      "valid": 0,
+      "total": 0
+    },
+    "glossary": {
+      "consistency": 100,
+      "checked": 0,
+      "total": 0
+    },
+    "golden": {
+      "passRate": 100,
+      "passed": 13,
+      "total": 13
+    },
+    "drift": {
+      "maximum": 0.05,
+      "detected": false
+    },
+    "readability": {
+      "grade": 3.7,
+      "avgLen": 20.4,
+      "longPct": 3.3,
+      "overallPass": false,
+      "sectionsAnalyzed": 15,
+      "sectionsNeedingWork": 15,
+      "sectionDetails": [
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"بسم الله الرحمن الرحيم، الحمد لله رب العالمين والصلا..."
+        },
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 21,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 42,
+            "medianLength": 21
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"إن الإنسان هو أشرف المخلوقات وأكرمها على الله تعالى،..."
+        },
+        {
+          "metrics": {
+            "grade": 3.6,
+            "avgLen": 20.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 41,
+            "medianLength": 20.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"قال تعالى: «ولقد كرمنا بني آدم وحملناهم في البر والب..."
+        },
+        {
+          "metrics": {
+            "grade": 3.4,
+            "avgLen": 22.5,
+            "longPct": 50,
+            "totalSentences": 2,
+            "totalWords": 45,
+            "medianLength": 22.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": true,
+            "medianTooHigh": true
+          },
+          "text": "This is a mock translation of the Arabic text: \"وهذا التكريم يتجلى في جوانب متعددة، منها العقل الذي ..."
+        },
+        {
+          "metrics": {
+            "grade": 3.8,
+            "avgLen": 19.5,
+            "longPct": 0,
+            "totalSentences": 2,
+            "totalWords": 39,
+            "medianLength": 19.5
+          },
+          "flags": {
+            "gradeOutOfRange": true,
+            "tooManyLongSentences": false,
+            "medianTooHigh": false
+          },
+          "text": "This is a mock translation of the Arabic text: \"كما أن الإنسان مكلف بالعبادة والخلافة في الأرض، وهذا..."
+        }
+      ]
+    },
+    "audience": {
+      "score": 100,
+      "overallPass": true,
+      "sectionsAnalyzed": 15,
+      "sectionsWithIssues": 0,
+      "commonFlags": [],
+      "sampleIssues": []
+    }
+  },
+  "config": {
+    "thresholds": {
+      "lpr": {
+        "average": 1.05,
+        "minimum": 0.95,
+        "description": "Length Preservation Ratio - Ensures English translations maintain appropriate length relative to Arabic"
+      },
+      "coverage": {
+        "percentage": 100,
+        "description": "Translation coverage - Percentage of rows with completed English translations"
+      },
+      "scripture": {
+        "percentage": 95,
+        "description": "Scripture reference validation - Percentage of correctly formatted references"
+      },
+      "glossary": {
+        "consistency": 99,
+        "description": "Glossary consistency - Percentage of term translations matching glossary definitions"
+      },
+      "golden": {
+        "passRate": 85,
+        "description": "Golden dataset validation - Percentage of test cases passing quality checks"
+      },
+      "drift": {
+        "maximum": 0.15,
+        "description": "Translation drift - Maximum acceptable deviation from expected patterns"
+      },
+      "readability": {
+        "gradeMin": 8,
+        "gradeMax": 11,
+        "longPctMax": 25,
+        "description": "English readability requirements - Grade level range and maximum percentage of long sentences"
+      },
+      "audience": {
+        "scoreMin": 70,
+        "description": "Audience suitability - Minimum score for general audience appropriateness"
+      }
+    },
+    "gateConfiguration": {
+      "requiredGates": [
+        "coverage",
+        "lpr",
+        "scripture"
+      ],
+      "optionalGates": [
+        "glossary",
+        "golden",
+        "drift"
+      ],
+      "blockOnFailure": true,
+      "allowPartialDeployment": false
+    },
+    "qualityWeights": {
+      "coverage": 0.25,
+      "lpr": 0.25,
+      "scripture": 0.15,
+      "glossary": 0.2,
+      "golden": 0.15
+    },
+    "deploymentRequirements": {
+      "minimumOverallScore": 85,
+      "requiredArtifacts": [
+        "outputs/book-final.docx",
+        "outputs/triview.json",
+        "reports/quality-gates.json"
+      ],
+      "optionalArtifacts": [
+        "outputs/book.epub",
+        "outputs/audiobook",
+        "reports/deployment-report.json"
+      ]
+    },
+    "retryPolicy": {
+      "maxRetries": 3,
+      "retryDelayMs": 5000,
+      "backoffMultiplier": 2
+    },
+    "notifications": {
+      "onGateFailure": true,
+      "onDeploymentReady": true,
+      "emailRecipients": [],
+      "slackWebhook": null
+    }
+  }
+}

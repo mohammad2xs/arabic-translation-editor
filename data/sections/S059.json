@@ -1,0 +1,145 @@
+{
+  "id": "S059",
+  "title": "الاستكبار:",
+  "rows": [
+    {
+      "id": "S059-001",
+      "original": "إن كل ما على الارض من ظلم وعدوان وتقاتل وتنافر وتخاصم سببه التكبر والاستكبار.",
+      "enhanced": "إن كل ما على الارض من ظلم وعدوان وتقاتل وتنافر وتخاصم سببه التكبر والاستكبار.",
+      "english": "",
+      "complexity": 1,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 0,
+        "wordCount": 14,
+        "charCount": 77,
+        "laneHash": "57dc6989cebfad2e",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 77
+      }
+    },
+    {
+      "id": "S059-002",
+      "original": "فظلم الانسان لأخيه الإنسان وأكل حقه والتجاوز عليه، هو من تكبر الإنسان على اخيه الإنسان، لإن التكبر يجعل الإنسان يرى نفسه هو أولى بالخير من الآخرين وأنه أفضل منهم، وأنهم لا يستحقون ما يستحقه من الخير والنعم.",
+      "enhanced": "فظلم الانسان لأخيه الإنسان وأكل حقه والتجاوز عليه، هو من تكبر الإنسان على اخيه الإنسان، لإن التكبر يجعل الإنسان يرى نفسه هو أولى بالخير من الآخرين وأنه أفضل منهم، وأنهم لا يستحقون ما يستحقه من الخير والنعم.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 1,
+        "wordCount": 37,
+        "charCount": 206,
+        "laneHash": "56e647d9342309e3",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 206
+      }
+    },
+    {
+      "id": "S059-003",
+      "original": "ولو نطرنا في تاريخ الانسان على الارض لوجدنا ان سبب شقاءه هو التكبر ولاستكبار على اخيه الانسان.",
+      "enhanced": "ولو نطرنا في تاريخ الانسان على الارض لوجدنا ان سبب شقاءه هو التكبر ولاستكبار على اخيه الانسان.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 2,
+        "wordCount": 17,
+        "charCount": 94,
+        "laneHash": "11516bf46b8fc72b",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 94
+      }
+    },
+    {
+      "id": "S059-004",
+      "original": "فالمتكبر لا يرى حق للأخرين في شيء، لإنه يرى نفسه أفضل من غيره، وأن ما حوله من مخلوقات الله ليس لها من الحق في العيش السعيد الرغيد كما له من الحق، وان قومه وأهله أو عشيرته هم خير الناس والأمم. من هنا يبدأ الظلم والتظالم.",
+      "enhanced": "فالمتكبر لا يرى حق للأخرين في شيء، لإنه يرى نفسه أفضل من غيره، وأن ما حوله من مخلوقات الله ليس لها من الحق في العيش السعيد الرغيد كما له من الحق، وان قومه وأهله أو عشيرته هم خير الناس والأمم. من هنا يبدأ الظلم والتظالم.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 3,
+        "wordCount": 45,
+        "charCount": 219,
+        "laneHash": "13e8cae65dfe6068",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 219
+      }
+    },
+    {
+      "id": "S059-005",
+      "original": "وينشئ التخاصم والعداوة والبغضاء بين الناس، ويصير التقاتل والتصارع هو السبيل لنيل الخيرات والنعم، وليس العدل والتقاسم، وإعطاء كل ذي حق حقه.",
+      "enhanced": "وينشئ التخاصم والعداوة والبغضاء بين الناس، ويصير التقاتل والتصارع هو السبيل لنيل الخيرات والنعم، وليس العدل والتقاسم، وإعطاء كل ذي حق حقه.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 4,
+        "wordCount": 22,
+        "charCount": 138,
+        "laneHash": "9d1e563e84fb4691",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 138
+      }
+    },
+    {
+      "id": "S059-006",
+      "original": "إن هذه النظرة العلوية التكبرين التي ورثها الإنسان الضال من عدوه الشيطان القائل \"أنا خير منه\".",
+      "enhanced": "إن هذه النظرة العلوية التكبرين التي ورثها الإنسان الضال من عدوه الشيطان القائل \"أنا خير منه\".",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [
+        {
+          "type": "quran",
+          "reference": "",
+          "normalized": "Quran:verse"
+        }
+      ],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 5,
+        "wordCount": 16,
+        "charCount": 93,
+        "laneHash": "e3e39d025c856ebf",
+        "isVerse": false,
+        "hasScripture": true,
+        "originalLength": 93
+      }
+    },
+    {
+      "id": "S059-007",
+      "original": "عندما تفاضل بخلقه على خلق الإنسان، الذي أمره الله بالسجود له. فأبى واستكبر وقال أنا خير منه.",
+      "enhanced": "عندما تفاضل بخلقه على خلق الإنسان، الذي أمره الله بالسجود له. فأبى واستكبر وقال أنا خير منه.",
+      "english": "",
+      "complexity": 2,
+      "scriptureRefs": [],
+      "metadata": {
+        "sectionId": "S059",
+        "rowIndex": 6,
+        "wordCount": 17,
+        "charCount": 92,
+        "laneHash": "3e58d98972394379",
+        "isVerse": false,
+        "hasScripture": false,
+        "originalLength": 92
+      }
+    }
+  ],
+  "metadata": {
+    "rowCount": 7,
+    "wordCount": 168,
+    "charCount": 919,
+    "contentHash": "f6ec871a1be6f0fe",
+    "processedAt": "2025-09-24T03:51:07.545Z"
+  }
+}

@@ -1,0 +1,16 @@
+node_modules
+.next
+outputs/tmp/
+outputs/audiobook/
+outputs/share/
+outputs/*.zip
+codex_bundle.zip
+outputs/audiobook
+outputs/share
+.DS_Store
+*.zip
+*.m4b
+*.mp3
+*.wav
+
+.env

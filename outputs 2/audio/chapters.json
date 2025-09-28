@@ -1,0 +1,17 @@
+{
+  "book_title": "The Human: A Journey Toward Spiritual Perfection",
+  "total_chapters": 1,
+  "total_estimated_duration": 0,
+  "chapters": [
+    {
+      "id": "S001",
+      "title": "المقدمة",
+      "title_arabic": "المقدمة",
+      "start_row_id": 1,
+      "end_row_id": 0,
+      "row_count": 0,
+      "estimated_duration_seconds": 0,
+      "estimated_duration_formatted": "0:00"
+    }
+  ]
+}
