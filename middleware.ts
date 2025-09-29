@@ -4,8 +4,16 @@ import { validateToken } from './lib/share/magic';
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  // Only apply middleware to /tri routes
-  if (!pathname.startsWith('/tri')) {
+  // Explicitly exclude API routes, static assets, and other system paths
+  if (pathname.startsWith('/api/') ||
+      pathname.startsWith('/_next/') ||
+      pathname.startsWith('/favicon.ico') ||
+      pathname.startsWith('/public/')) {
+    return NextResponse.next();
+  }
+
+  // Only apply middleware to /tri routes and root route (which redirects to /tri)
+  if (!pathname.startsWith('/tri') && pathname !== '/') {
     return NextResponse.next();
   }
 
@@ -76,12 +84,23 @@ export async function middleware(request: NextRequest) {
       return response;
     }
   } else {
-    // No token provided
+    // No token provided, check for role parameter
+    const roleParam = searchParams.get('role');
+    const dadMode = searchParams.get('dadMode') === 'true' || searchParams.get('mode') === 'dad';
+
     // For localhost, default to reviewer role for development
     const isLocalhost = request.nextUrl.hostname === 'localhost' ||
                        request.nextUrl.hostname === '127.0.0.1';
 
-    const defaultRole = isLocalhost ? 'reviewer' : 'viewer';
+    let defaultRole: string;
+
+    if (roleParam && ['viewer', 'commenter', 'reviewer'].includes(roleParam)) {
+      defaultRole = roleParam;
+    } else if (dadMode) {
+      defaultRole = 'reviewer';
+    } else {
+      defaultRole = isLocalhost ? 'reviewer' : 'viewer';
+    }
 
     const response = NextResponse.next();
     response.headers.set('x-user-role', defaultRole);
@@ -99,13 +118,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
+     * Only apply middleware to specific routes that need authentication
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    '/',
+    '/tri/:path*',
   ],
 };
