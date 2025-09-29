@@ -1,110 +1,61 @@
 {
-  "mcpServers": {
-    "github": {
-      "command": "$HOME/bin/mcp-servers/node_modules/.bin/mcp-github",
-      "args": [],
-      "type": "stdio",
-      "env": {},
-      "timeout": 60000,
-      "description": "GitHub API integration for repository management"
+  "mcp": {
+    "servers": {
+      "project-insights": {
+        "type": "stdio",
+        "command": "node",
+        "args": ["scripts/mcp/project-insights.mjs"],
+        "workingDirectory": ".",
+        "capabilities": {
+          "tools": [
+            "refresh_codex_support",
+            "run_quality_validation",
+            "run_next_build",
+            "git_status"
+          ],
+          "resources": [
+          "project://codex-support",
+          "project://quality-report",
+          "project://deployment/report",
+          "project://git-status",
+          "project://triview/summary"
+        ]
+        }
+      },
+      "web-to-mcp": {
+        "url": "https://web-to-mcp.com/mcp/657946f0-c4c4-482d-892b-9d93597c67e7/",
+        "type": "websocket",
+        "name": "web-to-mcp-translation",
+        "capabilities": {
+          "tools": [
+            "translate_arabic",
+            "enhance_text",
+            "quality_check"
+          ],
+          "resources": [
+            "translation_memory",
+            "glossary",
+            "scripture_references"
+          ]
+        }
+      }
     },
-    "filesystem": {
-      "command": "$HOME/bin/mcp-servers/node_modules/.bin/mcp-server-filesystem",
-      "args": ["$HOME"],
-      "type": "stdio",
-      "env": {},
-      "timeout": 30000,
-      "description": "Filesystem operations with safety limits"
-    },
-    "fetch": {
-      "command": "npx",
-      "args": ["fetch-mcp"],
-      "env": { "FETCH_TIMEOUT": "30000", "FETCH_MAX_REDIRECTS": "5" },
-      "timeout": 45000,
-      "description": "HTTP fetch utility"
-    },
-    "duckduckgo-search": {
-      "command": "npx",
-      "args": ["duckduckgo-mcp"],
-      "env": { "SEARCH_SAFE": "moderate", "SEARCH_REGION": "wt-wt" },
-      "timeout": 30000,
-      "description": "Lightweight web search"
-    },
-    "playwright": {
-      "command": "$HOME/bin/mcp-servers/node_modules/.bin/mcp-server-puppeteer",
-      "args": [],
-      "type": "stdio",
-      "env": {},
-      "timeout": 120000,
-      "description": "Headless browser automation"
-    },
-    "firecrawl": {
-      "command": "npx",
-      "args": ["firecrawl-mcp"],
-      "env": {},
-      "timeout": 90000,
-      "description": "Optional web crawl + extract"
-    },
-    "libretranslate": {
-      "command": "npx",
-      "args": ["-y", "libretranslate-mcp@latest"],
-      "type": "stdio",
-      "env": {},
-      "timeout": 120000,
-      "description": "FOSS translation service"
-    },
-    "quran-api": {
-      "command": "npx",
-      "args": ["-y", "quran-mcp-server@latest"],
-      "type": "stdio",
-      "env": { "VERBOSE_MODE": "true" },
-      "timeout": 60000,
-      "description": "Qur'an verses & reference checks"
-    },
-    "memory": {
-      "command": "$HOME/bin/mcp-servers/node_modules/.bin/mcp-server-memory",
-      "args": [],
-      "type": "stdio",
-      "env": {},
-      "timeout": 30000,
-      "description": "Lightweight project memory"
+    "default": "project-insights",
+    "fallback": {
+      "enabled": true,
+      "model": "fallback-translator"
     }
   },
-  "globalEnv": {
-    "LOG_LEVEL": "info",
-    "MCP_TIMEOUT": "60000",
-    "NODE_ENV": "production",
-    "CACHE_TTL": "3600",
-    "MAX_CONCURRENT_REQUESTS": "10"
-  },
-  "defaultServer": "filesystem",
-  "serverAliases": {
-    "git": "github",
-    "fs": "filesystem",
-    "http": "fetch",
-    "search": "duckduckgo-search",
-    "browser": "playwright",
-    "crawl": "firecrawl",
-    "translate": "libretranslate",
-    "quran": "quran-api",
-    "mem": "memory"
-  },
-  "security": {
-    "allowedDomains": ["*.github.com","duckduckgo.com"],
-    "blockPrivateNetworks": true,
-    "maxRequestSize": "10MB",
-    "rateLimiting": { "enabled": true, "requestsPerMinute": 60 }
-  },
-  "logging": {
-    "enabled": true,
-    "level": "info",
-    "file": "/tmp/mcp-cursor.log",
-    "maxFileSize": "50MB",
-    "maxFiles": 5,
-    "logRequests": true,
-    "logResponses": false
-  },
-  "cache": { "enabled": true, "ttl": 3600, "maxSize": "100MB", "type": "memory" },
-  "healthChecks": { "enabled": true, "interval": 300000, "timeout": 10000, "retries": 2 },
-  "fallbacks": { "search": ["duckduckgo-search"], "git": ["github"] }
+  "translation": {
+    "lpr_target": 1.05,
+    "lpr_minimum": 0.95,
+    "confidence_threshold": 0.8,
+    "quality_gates": {
+      "lpr": true,
+      "coverage": true,
+      "drift": true,
+      "semantic": true,
+      "scripture": true
+    }
+  }
 }
