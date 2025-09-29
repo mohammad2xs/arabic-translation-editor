@@ -1,0 +1,4 @@
+{
+  "includes": ["data/**", "content/**", "manuscript/**"],
+  "excludes": ["dist/**", "artifacts/**", ".next/**", "node_modules/**", "docs/architecture/**", "outputs/**", "scripts/**", "public/**", "gaps/**"]
+}

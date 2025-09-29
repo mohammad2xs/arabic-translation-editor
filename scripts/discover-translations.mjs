@@ -14,13 +14,20 @@ const JSON_PATH = path.join(REPORT_DIR, 'translation-inventory.json')
 
 const WILDCARD_REGEX = /[*?{[]/
 
-function parseArgs(argv) {
+async function parseArgs(argv) {
   const include = []
   const exclude = []
   let maxDepth = DEFAULT_MAX_DEPTH
+  let preset = null
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index]
+    if (arg === '--preset') {
+      const value = argv[++index]
+      if (!value) throw new Error('Expected value after --preset')
+      preset = value
+      continue
+    }
     if (arg === '--include') {
       const value = argv[++index]
       if (!value) throw new Error('Expected value after --include')
@@ -44,6 +51,28 @@ function parseArgs(argv) {
       continue
     }
     throw new Error(`Unknown argument: ${arg}`)
+  }
+
+  // Load preset if specified
+  if (preset === 'manuscript') {
+    try {
+      const corpusPath = path.join(process.cwd(), 'config', 'corpus.json')
+      const corpusData = JSON.parse(await fs.readFile(corpusPath, 'utf8'))
+
+      // Add preset includes/excludes first (they have lower priority)
+      if (corpusData.includes) {
+        include.unshift(...corpusData.includes)
+      }
+      if (corpusData.excludes) {
+        exclude.unshift(...corpusData.excludes)
+      }
+
+      console.log(`Loaded preset: manuscript`)
+      console.log(`  Includes: ${corpusData.includes?.join(', ') || 'none'}`)
+      console.log(`  Excludes: ${corpusData.excludes?.join(', ') || 'none'}`)
+    } catch (error) {
+      console.error(`Warning: Could not load preset 'manuscript': ${error.message}`)
+    }
   }
 
   return { include, exclude, maxDepth }
@@ -334,7 +363,7 @@ async function resolveRoots(customIncludePatterns) {
 
 async function main() {
   try {
-    const args = parseArgs(process.argv.slice(2))
+    const args = await parseArgs(process.argv.slice(2))
     const roots = await resolveRoots(args.include)
     const shouldInclude = buildIncludeChecker(args.include, args.exclude)
 

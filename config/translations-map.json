@@ -1,13 +1,7 @@
 {
-  "version": 1,
-  "generatedAt": "2025-09-29T01:51:19.255Z",
   "pairs": [],
   "folders": [],
-  "provenance": {
-    "generatedBy": "scripts/maps/build-translations-map.mjs",
-    "inventory": "artifacts/reports/translation-inventory.json",
-    "pairsAdded": 0,
-    "pairsTotal": 0,
-    "confidenceThreshold": 0.8
-  }
+  "bilingual": [
+    "data/golden.json"
+  ]
 }

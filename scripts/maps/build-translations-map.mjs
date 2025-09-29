@@ -2,349 +2,381 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { glob } from 'glob'
 
-const INVENTORY_PATH = path.join('artifacts', 'reports', 'translation-inventory.json')
-const MAP_PATH = path.join('config', 'translations-map.json')
-const MAP_BACKUP_PREFIX = 'config/translations-map.backup'
-const CONFIDENCE_THRESHOLD = 0.8
-const SUPPORTED_LANGS = new Set(['ar', 'en'])
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
+const MAP_PATH = path.join(PROJECT_ROOT, 'config', 'translations-map.json')
+const CORPUS_PATH = path.join(PROJECT_ROOT, 'config', 'corpus.json')
 
-function fileExists(target) {
-  return fs.access(target).then(() => true).catch(() => false)
+// Normalizers for filename matching
+const LANG_PATTERNS = [
+  /\.(ar|arabic|en|english)\./gi,
+  /-(ar|arabic|en|english)-/gi,
+  /_(ar|arabic|en|english)_/gi,
+  /\((ar|arabic|en|english)\)/gi,
+  /\bar-SA\b/gi,
+  /\ben-US\b/gi,
+  /\bar\b/gi,
+  /\ben\b/gi
+]
+
+// Directory synonyms
+const DIR_SYNONYMS = {
+  ar: ['arabic', 'ar', 'source', 'العربية'],
+  en: ['english', 'en', 'target', 'الإنجليزية']
 }
 
-async function loadInventory() {
-  if (!(await fileExists(INVENTORY_PATH))) {
-    throw new Error(`Inventory not found at ${INVENTORY_PATH}. Run npm run find:translations first.`)
+// File families (don't cross-match)
+const FILE_FAMILIES = {
+  text: ['.md', '.txt', '.docx'],
+  data: ['.json', '.jsonl']
+}
+
+function normalizeFilename(name) {
+  let normalized = name.toLowerCase()
+
+  // Strip language markers
+  for (const pattern of LANG_PATTERNS) {
+    normalized = normalized.replace(pattern, '')
   }
-  const raw = await fs.readFile(INVENTORY_PATH, 'utf8')
-  const payload = JSON.parse(raw)
-  if (!Array.isArray(payload.entries)) {
-    throw new Error('Inventory format invalid: missing entries array')
-  }
-  return payload.entries
+
+  // Convert numerals
+  normalized = normalized.replace(/\b0?1\b/g, '1')
+    .replace(/\b0?2\b/g, '2')
+    .replace(/\b0?3\b/g, '3')
+    .replace(/\bi+\b/gi, match => match.length.toString())
+
+  // Slugify
+  normalized = normalized.replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+  return normalized
 }
 
-function normalizeLanguage(entry) {
-  if (!entry || typeof entry.language !== 'string') return 'unknown'
-  const lang = entry.language.trim().toLowerCase()
-  if (lang === 'ar' || lang === 'arabic') return 'ar'
-  if (lang === 'en' || lang === 'english') return 'en'
-  return lang
-}
-
-function cleanBasename(name) {
-  const lowered = name.toLowerCase()
-  return lowered
-    .replace(/\.?(?:ar|en)(?=\.|-|_|\(|\)|$)/g, '')
-    .replace(/(?:-|_|\s)(?:ar|en)(?:-|_|\s|$)/g, ' ')
-    .replace(/\(\s*(?:ar|en)\s*\)/g, ' ')
-    .replace(/\b(?:arabic|english)\b/g, ' ')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-function padNumericSegments(text) {
-  return text.replace(/\b(\d{1,2})\b/g, match => match.padStart(2, '0'))
-}
-
-const ROMAN_VALUES = new Map([
-  ['m', 1000],
-  ['d', 500],
-  ['c', 100],
-  ['l', 50],
-  ['x', 10],
-  ['v', 5],
-  ['i', 1]
-])
-
-function romanToInt(value) {
-  const chars = value.toLowerCase()
-  if (!/^m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$/.test(chars)) {
-    return null
-  }
-  let total = 0
-  let current = 0
-  for (let index = chars.length - 1; index >= 0; index -= 1) {
-    const char = chars[index]
-    const val = ROMAN_VALUES.get(char)
-    if (!val) return null
-    if (val < current) {
-      total -= val
-    } else {
-      total += val
-      current = val
-    }
-  }
-  return total
-}
-
-function convertRomanSegments(text) {
-  return text.replace(/\b[ivxlcdm]{1,6}\b/gi, token => {
-    const numeric = romanToInt(token)
-    if (!numeric) return token
-    return String(numeric).padStart(2, '0')
-  })
-}
-
-function extractNumericKey(text) {
-  const match = text.match(/(\d{1,3})/)
-  if (match) {
-    return match[1].padStart(match[1].length === 1 ? 2 : match[1].length, '0')
-  }
-  const romanMatch = text.match(/\b[ivxlcdm]{1,6}\b/i)
-  if (romanMatch) {
-    const converted = romanToInt(romanMatch[0])
-    if (converted) {
-      return String(converted).padStart(converted < 10 ? 2 : 0, '0')
+function getFileFamily(extension) {
+  for (const [family, extensions] of Object.entries(FILE_FAMILIES)) {
+    if (extensions.includes(extension)) {
+      return family
     }
   }
   return null
 }
 
-function directorySignature(filePath) {
-  const segments = filePath.split(/[\\/]/)
-  const mapped = segments.map(segment => segment.toLowerCase().replace(/arabic|arab|ar/gi, '*').replace(/english|eng|en/gi, '*'))
-  return mapped.join('/')
-}
+function detectLanguageFromPath(filePath) {
+  const lower = filePath.toLowerCase()
 
-function parentDirectory(filePath) {
-  return path.dirname(filePath)
-}
-
-function normaliseEntry(entry) {
-  const extension = path.extname(entry.path || '').toLowerCase()
-  const baseName = path.basename(entry.path || '', extension)
-
-  const clean = padNumericSegments(convertRomanSegments(cleanBasename(baseName)))
-  const numericKey = extractNumericKey(clean)
-  const dirSignature = directorySignature(entry.path || '')
-
-  return {
-    path: entry.path,
-    language: normalizeLanguage(entry),
-    extension,
-    normalizedBase: clean,
-    numericKey,
-    dirSignature,
-    parentDir: parentDirectory(entry.path || ''),
-    stats: entry
-  }
-}
-
-function computeConfidence(arEntry, enEntry) {
-  let score = 0
-  if (arEntry.normalizedBase && arEntry.normalizedBase === enEntry.normalizedBase) {
-    score += 0.65
-  }
-  if (arEntry.numericKey && arEntry.numericKey === enEntry.numericKey) {
-    score += 0.15
-  }
-  if (arEntry.dirSignature && arEntry.dirSignature === enEntry.dirSignature) {
-    score += 0.12
-  }
-  if (arEntry.extension && arEntry.extension === enEntry.extension) {
-    score += 0.05
-  }
-  if (arEntry.parentDir === enEntry.parentDir) {
-    score += 0.08
-  }
-  return Math.min(1, Number(score.toFixed(2)))
-}
-
-function buildCandidates(entries) {
-  const arabic = entries.filter(entry => entry.language === 'ar')
-  const english = entries.filter(entry => entry.language === 'en')
-
-  const englishByBase = new Map()
-  for (const entry of english) {
-    const bucket = englishByBase.get(entry.normalizedBase) || []
-    bucket.push(entry)
-    englishByBase.set(entry.normalizedBase, bucket)
-  }
-
-  const englishByNumeric = new Map()
-  for (const entry of english) {
-    if (!entry.numericKey) continue
-    const bucket = englishByNumeric.get(entry.numericKey) || []
-    bucket.push(entry)
-    englishByNumeric.set(entry.numericKey, bucket)
-  }
-
-  const candidates = []
-  const missReasons = new Map()
-
-  for (const arEntry of arabic) {
-    const potential = new Set()
-    if (englishByBase.has(arEntry.normalizedBase)) {
-      englishByBase.get(arEntry.normalizedBase).forEach(item => potential.add(item))
+  // Check directory names
+  const parts = filePath.split(path.sep)
+  for (const part of parts) {
+    const lowerPart = part.toLowerCase()
+    for (const [lang, synonyms] of Object.entries(DIR_SYNONYMS)) {
+      if (synonyms.some(syn => lowerPart.includes(syn))) {
+        return lang
+      }
     }
-    if (arEntry.numericKey && englishByNumeric.has(arEntry.numericKey)) {
-      englishByNumeric.get(arEntry.numericKey).forEach(item => potential.add(item))
+  }
+
+  // Check filename
+  if (lower.includes('arabic') || lower.includes('-ar') || lower.includes('_ar')) return 'ar'
+  if (lower.includes('english') || lower.includes('-en') || lower.includes('_en')) return 'en'
+
+  return null
+}
+
+function levenshteinDistance(str1, str2) {
+  const matrix = []
+
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i]
+  }
+
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j
+  }
+
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1]
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // substitution
+          matrix[i][j - 1] + 1,     // insertion
+          matrix[i - 1][j] + 1      // deletion
+        )
+      }
     }
-    for (const enEntry of english) {
-      if (enEntry.dirSignature === arEntry.dirSignature) {
-        potential.add(enEntry)
+  }
+
+  return matrix[str2.length][str1.length]
+}
+
+function calculateSimilarity(str1, str2) {
+  const distance = levenshteinDistance(str1, str2)
+  const maxLength = Math.max(str1.length, str2.length)
+  return maxLength > 0 ? 1 - (distance / maxLength) : 1
+}
+
+async function getFileSize(filePath) {
+  try {
+    const stats = await fs.stat(filePath)
+    return stats.size
+  } catch {
+    return 0
+  }
+}
+
+async function detectBilingualJson(filePath) {
+  try {
+    const content = await fs.readFile(filePath, 'utf8')
+    const data = JSON.parse(content)
+
+    // Check for {en, ar} structure
+    if (data.en && data.ar) {
+      return 'bilingual-object'
+    }
+
+    // Check for array of {lang, text} entries
+    if (Array.isArray(data)) {
+      const hasLangText = data.some(item => item.lang && item.text)
+      if (hasLangText) {
+        return 'bilingual-array'
       }
     }
 
-    if (!potential.size) {
-      missReasons.set(arEntry.path, 'no_target_match')
-      continue
+    // Check for nested structures
+    const keys = Object.keys(data)
+    const hasArAndEn = keys.some(k => k.toLowerCase().includes('ar')) &&
+                       keys.some(k => k.toLowerCase().includes('en'))
+    if (hasArAndEn) {
+      return 'bilingual-nested'
+    }
+  } catch {
+    // Not valid JSON or read error
+  }
+
+  return null
+}
+
+async function loadCorpusExcludes() {
+  try {
+    const corpus = JSON.parse(await fs.readFile(CORPUS_PATH, 'utf8'))
+    return corpus.excludes || []
+  } catch {
+    return []
+  }
+}
+
+async function loadExistingMap() {
+  try {
+    const content = await fs.readFile(MAP_PATH, 'utf8')
+    return JSON.parse(content)
+  } catch {
+    return { pairs: [], folders: [] }
+  }
+}
+
+async function backupExistingMap() {
+  try {
+    const existing = await fs.readFile(MAP_PATH, 'utf8')
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5)
+    const backupPath = MAP_PATH.replace('.json', `.backup.${timestamp}.json`)
+    await fs.writeFile(backupPath, existing)
+    console.log(`Backed up existing map to: ${path.basename(backupPath)}`)
+  } catch {
+    // No existing map to backup
+  }
+}
+
+async function discoverFiles() {
+  const excludes = await loadCorpusExcludes()
+  const allFiles = await glob('**/*.{md,txt,docx,json,jsonl}', {
+    cwd: PROJECT_ROOT,
+    ignore: ['node_modules/**', '.git/**', '.next/**', 'dist/**', ...excludes]
+  })
+
+  const fileInfos = []
+  const bilinguals = []
+
+  for (const file of allFiles) {
+    const fullPath = path.join(PROJECT_ROOT, file)
+    const extension = path.extname(file)
+    const basename = path.basename(file, extension)
+    const normalized = normalizeFilename(basename)
+    const family = getFileFamily(extension)
+    const lang = detectLanguageFromPath(file)
+    const size = await getFileSize(fullPath)
+
+    // Check if JSON/JSONL is bilingual
+    if (extension === '.json' || extension === '.jsonl') {
+      const bilingualType = await detectBilingualJson(fullPath)
+      if (bilingualType) {
+        bilinguals.push({
+          path: file,
+          type: bilingualType,
+          size
+        })
+        continue
+      }
     }
 
-    let bestScore = 0
-    for (const candidate of potential) {
-      const score = computeConfidence(arEntry, candidate)
-      bestScore = Math.max(bestScore, score)
-      candidates.push({ ar: arEntry, en: candidate, score })
-    }
+    fileInfos.push({
+      path: file,
+      basename,
+      normalized,
+      extension,
+      family,
+      lang,
+      size,
+      fullPath
+    })
+  }
 
-    if (bestScore < CONFIDENCE_THRESHOLD) {
-      missReasons.set(arEntry.path, 'below_threshold')
+  return { fileInfos, bilinguals }
+}
+
+function findBestMatch(sourceFile, targetFiles) {
+  let bestMatch = null
+  let bestScore = 0
+
+  for (const target of targetFiles) {
+    // Skip if different file families
+    if (sourceFile.family !== target.family) continue
+
+    // Skip if same language
+    if (sourceFile.lang === target.lang && sourceFile.lang !== null) continue
+
+    // Calculate similarity
+    const similarity = calculateSimilarity(sourceFile.normalized, target.normalized)
+
+    // Check size ratio
+    const sizeRatio = Math.min(sourceFile.size, target.size) /
+                     Math.max(sourceFile.size, target.size)
+
+    // Combined score
+    const score = similarity * 0.8 + (sizeRatio > 0.5 ? 0.2 : 0)
+
+    if (score > bestScore && score > 0.82) {
+      bestMatch = target
+      bestScore = score
     }
   }
 
-  const englishWithoutPairs = new Set(english.map(entry => entry.path))
+  return { match: bestMatch, confidence: bestScore }
+}
 
-  candidates.sort((a, b) => b.score - a.score)
-  const pairedArabic = new Set()
-  const pairedEnglish = new Set()
+async function buildAutoPairs(fileInfos) {
   const pairs = []
+  const matched = new Set()
+  const unmatched = []
 
-  for (const candidate of candidates) {
-    if (candidate.score < CONFIDENCE_THRESHOLD) continue
-    if (pairedArabic.has(candidate.ar.path)) continue
-    if (pairedEnglish.has(candidate.en.path)) continue
-    pairs.push(candidate)
-    pairedArabic.add(candidate.ar.path)
-    pairedEnglish.add(candidate.en.path)
-    missReasons.delete(candidate.ar.path)
-    englishWithoutPairs.delete(candidate.en.path)
+  // Separate by detected language
+  const arFiles = fileInfos.filter(f => f.lang === 'ar')
+  const enFiles = fileInfos.filter(f => f.lang === 'en')
+  const unknownFiles = fileInfos.filter(f => f.lang === null)
+
+  // Match AR files with EN files
+  for (const arFile of arFiles) {
+    if (matched.has(arFile.path)) continue
+
+    const result = findBestMatch(arFile, enFiles.filter(f => !matched.has(f.path)))
+    if (result.match) {
+      pairs.push({
+        source: arFile.path,
+        target: result.match.path,
+        confidence: result.confidence,
+        method: 'fuzzy'
+      })
+      matched.add(arFile.path)
+      matched.add(result.match.path)
+    } else {
+      unmatched.push({ path: arFile.path, reason: 'no_match' })
+    }
   }
 
-  for (const enPath of englishWithoutPairs) {
-    missReasons.set(enPath, 'no_source_match')
-  }
+  // Try to match remaining unknown files
+  const unmatchedUnknown = unknownFiles.filter(f => !matched.has(f.path))
+  for (let i = 0; i < unmatchedUnknown.length; i++) {
+    for (let j = i + 1; j < unmatchedUnknown.length; j++) {
+      const file1 = unmatchedUnknown[i]
+      const file2 = unmatchedUnknown[j]
 
-  return { pairs, missReasons }
-}
+      if (file1.family !== file2.family) continue
 
-async function ensureMapSkeleton() {
-  if (await fileExists(MAP_PATH)) {
-    const raw = await fs.readFile(MAP_PATH, 'utf8')
-    try {
-      const parsed = JSON.parse(raw)
-      if (parsed && typeof parsed === 'object') {
-        if (!Array.isArray(parsed.pairs)) parsed.pairs = []
-        if (!Array.isArray(parsed.folders)) parsed.folders = []
-        if (!parsed.provenance) parsed.provenance = {}
-        if (parsed.version === undefined) parsed.version = 1
-        await fs.writeFile(MAP_PATH, JSON.stringify(parsed, null, 2) + '\n', 'utf8')
-        return parsed
+      const similarity = calculateSimilarity(file1.normalized, file2.normalized)
+      if (similarity > 0.85) {
+        pairs.push({
+          source: file1.path,
+          target: file2.path,
+          confidence: similarity,
+          method: 'similarity'
+        })
+        matched.add(file1.path)
+        matched.add(file2.path)
+        break
       }
-    } catch (error) {
-      // fall through to rewrite skeleton
     }
   }
 
-  const skeleton = {
-    version: 1,
-    generatedAt: new Date().toISOString(),
-    pairs: [],
-    folders: [],
-    provenance: {
-      generatedBy: 'scripts/maps/build-translations-map.mjs',
-      inventory: INVENTORY_PATH
-    }
-  }
-  await fs.mkdir(path.dirname(MAP_PATH), { recursive: true })
-  await fs.writeFile(MAP_PATH, JSON.stringify(skeleton, null, 2) + '\n', 'utf8')
-  return skeleton
-}
-
-function deduplicatePairs(existingPairs, newPairs) {
-  const seen = new Set(existingPairs.map(pair => `${pair.source}::${pair.target}`))
-  const merged = [...existingPairs]
-  let added = 0
-  for (const pair of newPairs) {
-    const key = `${pair.source}::${pair.target}`
-    if (seen.has(key)) continue
-    merged.push(pair)
-    seen.add(key)
-    added += 1
-  }
-  return { merged, added }
-}
-
-async function backupMap() {
-  if (!(await fileExists(MAP_PATH))) return null
-  const timestamp = new Date().toISOString().replace(/[:]/g, '-')
-  const backupPath = `${MAP_BACKUP_PREFIX}.${timestamp}.json`
-  await fs.copyFile(MAP_PATH, backupPath)
-  return backupPath
-}
-
-function printSummary(pairs, missReasons) {
-  console.log('[map] Candidate pairs above threshold:', pairs.length)
-  const topPairs = pairs.slice(0, 10)
-  if (topPairs.length) {
-    console.log('[map] Top pairs:')
-    for (const pair of topPairs) {
-      console.log(`  ${pair.score.toFixed(2)} :: ${pair.ar.path} -> ${pair.en.path}`)
+  // Collect remaining unmatched
+  for (const file of fileInfos) {
+    if (!matched.has(file.path)) {
+      unmatched.push({ path: file.path, reason: 'no_partner' })
     }
   }
 
-  if (missReasons.size) {
-    const groups = {}
-    for (const reason of missReasons.values()) {
-      groups[reason] = (groups[reason] || 0) + 1
-    }
-    console.log('[map] Misses by reason:')
-    for (const [reason, count] of Object.entries(groups)) {
-      console.log(`  ${reason}: ${count}`)
-    }
-  }
+  return { pairs, unmatched }
 }
 
 async function main() {
-  try {
-    const inventoryEntries = await loadInventory()
-    const normalizedEntries = inventoryEntries.map(normaliseEntry).filter(entry => SUPPORTED_LANGS.has(entry.language))
-    const { pairs, missReasons } = buildCandidates(normalizedEntries)
+  console.log('Building enhanced translation map...')
 
-    const baseMap = await ensureMapSkeleton()
-    const backupPath = await backupMap()
+  // Backup existing map
+  await backupExistingMap()
 
-    const simplifiedPairs = pairs.map(pair => ({ source: pair.ar.path, target: pair.en.path, confidence: pair.score }))
-    const existingPairs = Array.isArray(baseMap.pairs) ? baseMap.pairs : []
-    const { merged, added } = deduplicatePairs(existingPairs, simplifiedPairs.map(({ source, target }) => ({ source, target })))
+  // Load existing map
+  const existingMap = await loadExistingMap()
 
-    const updated = {
-      ...baseMap,
-      version: 1,
-      generatedAt: new Date().toISOString(),
-      pairs: merged,
-      provenance: {
-        generatedBy: 'scripts/maps/build-translations-map.mjs',
-        inventory: INVENTORY_PATH,
-        pairsAdded: added,
-        pairsTotal: merged.length,
-        confidenceThreshold: CONFIDENCE_THRESHOLD
-      }
-    }
+  // Discover files
+  const { fileInfos, bilinguals } = await discoverFiles()
+  console.log(`Found ${fileInfos.length} files and ${bilinguals.length} bilingual files`)
 
-    await fs.writeFile(MAP_PATH, JSON.stringify(updated, null, 2) + '\n', 'utf8')
+  // Build auto pairs
+  const { pairs: autoPairs, unmatched } = await buildAutoPairs(fileInfos)
 
-    printSummary(pairs, missReasons)
-    if (backupPath) {
-      console.log(`[map] Backup created at ${backupPath}`)
-    }
-  } catch (error) {
-    console.error('[map] Failed to build translations map:', error.message)
-    process.exitCode = 1
+  // Merge with existing pairs (existing takes precedence)
+  const existingPairKeys = new Set(
+    existingMap.pairs.map(p => `${p.source}|${p.target}`)
+  )
+
+  const newPairs = autoPairs
+    .filter(p => !existingPairKeys.has(`${p.source}|${p.target}`))
+    .map(p => ({ source: p.source, target: p.target }))
+
+  const finalMap = {
+    pairs: [...existingMap.pairs, ...newPairs],
+    folders: existingMap.folders || [],
+    bilingual: bilinguals.map(b => b.path)
   }
+
+  // Write updated map
+  await fs.writeFile(MAP_PATH, JSON.stringify(finalMap, null, 2))
+
+  // Print summary
+  console.log('\nSummary:')
+  console.log(`  Total pairs: ${finalMap.pairs.length}`)
+  console.log(`  New pairs added: ${newPairs.length}`)
+  console.log(`  Bilingual files: ${bilinguals.length}`)
+  console.log(`  Unmatched files: ${unmatched.length}`)
+
+  if (unmatched.length > 0) {
+    console.log('\nTop 10 unmatched files:')
+    unmatched.slice(0, 10).forEach(u => {
+      console.log(`  ${u.path} → ${u.reason}`)
+    })
+  }
+
+  console.log(`\nMap saved to: ${path.relative(PROJECT_ROOT, MAP_PATH)}`)
 }
 
-main()
+main().catch(console.error)

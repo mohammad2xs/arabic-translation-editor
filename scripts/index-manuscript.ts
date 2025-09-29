@@ -13,6 +13,7 @@ interface CliOptions {
   includes: string[]
   excludes: string[]
   docx: boolean
+  preset?: string
 }
 
 interface FileInfo {
@@ -91,7 +92,7 @@ const ROMAN_VALUES = new Map<string, number>([
   ['i', 1]
 ])
 
-function parseArgs(argv: string[]): CliOptions {
+async function parseArgs(argv: string[]): Promise<CliOptions> {
   const options: CliOptions = {
     includes: [],
     excludes: [],
@@ -100,6 +101,12 @@ function parseArgs(argv: string[]): CliOptions {
 
   for (let index = 0; index < argv.length; index += 1) {
     const token = argv[index]
+    if (token === '--preset') {
+      const value = argv[++index]
+      if (!value) throw new Error('Missing value for --preset')
+      options.preset = value
+      continue
+    }
     if (token === '--map') {
       const value = argv[++index]
       if (!value) throw new Error('Missing value for --map')
@@ -125,6 +132,28 @@ function parseArgs(argv: string[]): CliOptions {
       continue
     }
     throw new Error(`Unknown argument: ${token}`)
+  }
+
+  // Load preset if specified
+  if (options.preset === 'manuscript') {
+    try {
+      const corpusPath = path.join(PROJECT_ROOT, 'config', 'corpus.json')
+      const corpusData = JSON.parse(await fs.readFile(corpusPath, 'utf8'))
+
+      // Add preset includes/excludes first (they have lower priority)
+      if (corpusData.includes) {
+        options.includes.unshift(...corpusData.includes)
+      }
+      if (corpusData.excludes) {
+        options.excludes.unshift(...corpusData.excludes)
+      }
+
+      console.log(`Loaded preset: manuscript`)
+      console.log(`  Includes: ${corpusData.includes?.join(', ') || 'none'}`)
+      console.log(`  Excludes: ${corpusData.excludes?.join(', ') || 'none'}`)
+    } catch (error: any) {
+      console.error(`Warning: Could not load preset 'manuscript': ${error.message}`)
+    }
   }
 
   return options
@@ -814,7 +843,7 @@ async function ensureFileInfo(pathOrAbsolute: string, catalog: Map<string, FileI
 }
 
 async function run(): Promise<void> {
-  const options = parseArgs(process.argv.slice(2))
+  const options = await parseArgs(process.argv.slice(2))
   const map = await loadTranslationMap(options.mapPath)
   const includeMatches = await expandIncludePatterns(options.includes)
   const catalog = await buildFileCatalog(options, includeMatches)
