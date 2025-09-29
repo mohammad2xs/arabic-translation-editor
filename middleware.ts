@@ -4,6 +4,14 @@ import { validateToken } from './lib/share/magic';
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
+  // Explicitly exclude API routes, static assets, and other system paths
+  if (pathname.startsWith('/api/') ||
+      pathname.startsWith('/_next/') ||
+      pathname.startsWith('/favicon.ico') ||
+      pathname.startsWith('/public/')) {
+    return NextResponse.next();
+  }
+
   // Only apply middleware to /tri routes and root route (which redirects to /tri)
   if (!pathname.startsWith('/tri') && pathname !== '/') {
     return NextResponse.next();
