@@ -7,8 +7,11 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to the tri page
-    router.push('/tri');
+    // Redirect to the tri page, preserving URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryString = urlParams.toString();
+    const redirectUrl = queryString ? `/tri?${queryString}` : '/tri';
+    router.push(redirectUrl);
   }, [router]);
 
   return (
