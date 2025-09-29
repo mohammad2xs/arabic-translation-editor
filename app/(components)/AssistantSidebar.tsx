@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useSpeechRecognition } from '@/lib/hooks/useSpeechRecognition';
 import { getUserRole, canSave, canComment } from '../../lib/dadmode/access';
 import SuggestionCard from './SuggestionCard';
 
@@ -19,8 +20,10 @@ interface AssistantSidebarProps {
 
 interface Suggestion {
   id: string;
-  type: string; // task type
+  type: string; // task type from API
+  task?: string; // normalized task id for UI components
   title: string;
+  rationale?: string;
   preview: string; // first ~120 chars of proposed change
   en: string; // proposed English text
   ar?: string; // optional Arabic for backtranslate
@@ -31,7 +34,7 @@ interface Suggestion {
   }>;
   confidence: number;
   cost?: number; // computed from usage
-  appliedAt?: Date;
+  appliedAt?: Date | string;
   undoToken?: string;
 }
 
@@ -57,10 +60,9 @@ export default function AssistantSidebar({
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [selectedText, setSelectedText] = useState('');
-  const [isListening, setIsListening] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const speech = useSpeechRecognition({ lang: 'en-US', interimResults: false, continuous: false });
 
   const userRole = getUserRole();
   const canUseAssistant = canComment(userRole); // commenter+ can use assistant
@@ -87,40 +89,21 @@ export default function AssistantSidebar({
     }
   }, [canUseAssistant]);
 
-  // Speech recognition setup
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = (window as { webkitSpeechRecognition: new () => SpeechRecognition }).webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-US';
-
-      recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
-        const transcript = event.results[0][0].transcript;
-        setQuery(transcript);
-        setIsListening(false);
-      };
-
-      recognitionRef.current.onerror = () => {
-        setIsListening(false);
-      };
-
-      recognitionRef.current.onend = () => {
-        setIsListening(false);
-      };
-    }
-  }, []);
-
   const handleMicClick = () => {
-    if (!recognitionRef.current) return;
+    if (!speech.supported) {
+      alert('Voice input is not supported in this browser');
+      return;
+    }
 
-    if (isListening) {
-      recognitionRef.current.stop();
-      setIsListening(false);
+    if (speech.listening) {
+      speech.stop();
     } else {
-      recognitionRef.current.start();
-      setIsListening(true);
+      speech.start((event: any) => {
+        const transcript = event?.results?.[0]?.[0]?.transcript ?? '';
+        if (transcript) {
+          setQuery(transcript);
+        }
+      });
     }
   };
 
@@ -201,7 +184,7 @@ export default function AssistantSidebar({
     let applyTo: 'en' | 'arEnhanced' | 'selection' = 'en';
     if (range) {
       applyTo = 'selection';
-    } else if (suggestion.type === 'backtranslate') {
+    } else if ((suggestion.task ?? suggestion.type) === 'backtranslate') {
       applyTo = 'arEnhanced';
     }
 
@@ -330,8 +313,8 @@ export default function AssistantSidebar({
             <div className="assistant-input-controls">
               <button
                 onClick={handleMicClick}
-                className={`assistant-mic-button ${isListening ? 'listening' : ''}`}
-                disabled={isLoading}
+                className={`assistant-mic-button ${speech.listening ? 'listening' : ''}`}
+                disabled={isLoading || !speech.supported}
                 aria-label="Voice input"
                 title="EN: Speak your edit | AR: تكلّم لإدخال تعديل"
               >
@@ -384,14 +367,29 @@ export default function AssistantSidebar({
 
         {/* Suggestions */}
         <div className="assistant-suggestions">
-          {suggestions.map((suggestion) => (
-            <SuggestionCard
-              key={suggestion.id}
-              suggestion={suggestion}
-              canApply={canApply}
-              onApply={(range) => handleApply(suggestion, range)}
-            />
-          ))}
+          {suggestions.map((suggestion) => {
+            const { appliedAt: rawAppliedAt, ...rest } = suggestion;
+            const appliedAt = rawAppliedAt instanceof Date
+              ? rawAppliedAt
+              : rawAppliedAt
+                ? new Date(rawAppliedAt)
+                : undefined;
+            const normalized = {
+              ...rest,
+              task: rest.task ?? rest.type,
+              rationale: rest.rationale ?? rest.preview,
+              ...(appliedAt ? { appliedAt } : {}),
+            };
+
+            return (
+              <SuggestionCard
+                key={normalized.id}
+                suggestion={normalized}
+                canApply={canApply}
+                onApply={(range) => handleApply(suggestion, range)}
+              />
+            );
+          })}
         </div>
 
         {suggestions.length === 0 && !isLoading && (

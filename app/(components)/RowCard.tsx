@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useSpeechRecognition } from '@/lib/hooks/useSpeechRecognition';
 import { getUserRole, canEdit, canApprove } from '../../lib/dadmode/access';
 import { QualityChipSimple } from './QualityChip';
 import { calculateLPR } from '../../lib/complexity';
@@ -65,7 +66,6 @@ export default function RowCard({
   onSave,
   onApprove,
   onUndo,
-  large = true,
   compact = false,
   showFocusButton = false,
   onFocus,
@@ -76,8 +76,20 @@ export default function RowCard({
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [noteCount, setNoteCount] = useState(0);
   const [showNotes, setShowNotes] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const [pendingTranscript, setPendingTranscript] = useState<{ field: 'enhanced' | 'english'; text: string } | null>(null);
+
+  const srEnhanced = useSpeechRecognition({ lang: 'ar-SA', interimResults: false, continuous: false });
+  const srEnglish = useSpeechRecognition({ lang: 'en-US', interimResults: false, continuous: false });
+  const isRecording = srEnhanced.listening || srEnglish.listening;
+
+  const stopVoiceInput = () => {
+    if (srEnhanced.listening) {
+      srEnhanced.stop();
+    }
+    if (srEnglish.listening) {
+      srEnglish.stop();
+    }
+  };
 
   const enhancedTextareaRef = useRef<HTMLTextAreaElement>(null);
   const englishTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -165,42 +177,34 @@ export default function RowCard({
 
   // Voice-to-text functionality
   const startVoiceInput = (field: 'enhanced' | 'english') => {
-    if (!canEditContent || !('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    if (!canEditContent) {
       alert('Voice input is not supported in this browser');
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    const sr = field === 'enhanced' ? srEnhanced : srEnglish;
+    if (!sr.supported) {
+      alert('Voice input is not supported in this browser');
+      return;
+    }
 
-    recognition.lang = field === 'enhanced' ? 'ar-SA' : 'en-US';
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    setPendingTranscript(null);
 
-    recognition.onstart = () => {
-      setIsRecording(true);
+    try {
+      sr.start((event: any) => {
+        const transcript = event?.results?.[0]?.[0]?.transcript ?? '';
+        if (!transcript) return;
+        setPendingTranscript({ field, text: transcript });
+      });
+    } catch (error) {
+      console.error('Speech recognition error:', error);
       setPendingTranscript(null);
-    };
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setPendingTranscript({ field, text: transcript });
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-      setIsRecording(false);
-      setPendingTranscript(null);
-    };
-
-    recognition.onend = () => {
-      setIsRecording(false);
-    };
-
-    recognition.start();
+      stopVoiceInput();
+    }
   };
 
   const acceptTranscript = () => {
+    stopVoiceInput();
     if (pendingTranscript) {
       onRowChange(pendingTranscript.field, row[pendingTranscript.field] + ' ' + pendingTranscript.text);
       setPendingTranscript(null);
@@ -208,6 +212,7 @@ export default function RowCard({
   };
 
   const rejectTranscript = () => {
+    stopVoiceInput();
     setPendingTranscript(null);
     // Restart voice input for the same field
     if (pendingTranscript) {
