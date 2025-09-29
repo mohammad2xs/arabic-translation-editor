@@ -5,6 +5,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { REPORT_FILES } from './utils/project-paths.mjs';
 
 function maskSecrets(val) {
   if (typeof val !== 'string') return val;
@@ -92,9 +93,9 @@ const filesOfInterest = listFiles(root, [
   'lib',
   'app',
   'outputs',
-  'reports',
+  'artifacts/reports',
   'config',
-]).filter(rel => /(^package\.json$)|(^scripts\/.*\.(?:mjs|ts|js)$)|(^build\/.*\.(?:mjs|ts|js)$)|(^lib\/.*\.(?:ts|js|mdc|mjs)$)|(^app\/.*\.(?:tsx|ts|js)$)|(^reports\/.*\.(?:md|json)$)|(^config\/.*\.(?:json|md)$)/.test(rel));
+]).filter(rel => /(^package\.json$)|(^scripts\/.*\.(?:mjs|ts|js)$)|(^build\/.*\.(?:mjs|ts|js)$)|(^lib\/.*\.(?:ts|js|mdc|mjs)$)|(^app\/.*\.(?:tsx|ts|js)$)|(^artifacts\/reports\/.*\.(?:md|json)$)|(^config\/.*\.(?:json|md)$)/.test(rel));
 
 const triviewPath = join(root, 'outputs', 'triview.json');
 const translationNdjsonPath = join(root, 'outputs', 'state', 'translation.ndjson');
@@ -164,7 +165,12 @@ if (translationHeadTail.present) {
 }
 
 report.push('\n## 5) Reports (if any)');
-for (const rel of ['reports/quality-gates.md', 'reports/quality-gates.json', 'reports/deployment-report.md', 'reports/deployment-report.json']) {
+for (const rel of [
+  REPORT_FILES.qualityMarkdown,
+  REPORT_FILES.qualityJson,
+  REPORT_FILES.deploymentMarkdown,
+  REPORT_FILES.deploymentJson,
+]) {
   report.push(`- ${rel}: ${existsSync(join(root, rel)) ? 'present ✅' : 'missing'}`);
 }
 

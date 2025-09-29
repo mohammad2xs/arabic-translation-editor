@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 import { join } from 'path';

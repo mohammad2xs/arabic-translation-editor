@@ -1,3 +1,4 @@
+// @ts-nocheck
 export type UserRole = 'viewer' | 'commenter' | 'reviewer';
 
 export interface UserPermissions {

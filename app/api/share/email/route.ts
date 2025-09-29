@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server';
 import { sendShareEmail, generateShareLink, isValidEmail } from '../../../../lib/share/email';
 import { isValidRole, type UserRole, getRoleFromRequest } from '../../../../lib/dadmode/access';

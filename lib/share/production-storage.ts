@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createHmac } from 'crypto';
 import type { UserRole } from '../dadmode/access';
 

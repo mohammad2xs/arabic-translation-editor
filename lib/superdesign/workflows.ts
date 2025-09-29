@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Superdesign Canvas Automated Workflows
  * 

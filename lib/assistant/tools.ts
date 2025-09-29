@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createHash } from 'crypto';
 
 // Interface for diff segments

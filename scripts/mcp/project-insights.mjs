@@ -6,6 +6,7 @@ import { execSync } from "child_process";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { loadTriviewForExport } from "../../lib/export/triview-adapter.mjs";
+import { REPORT_FILES } from "../utils/project-paths.mjs";
 
 const ROOT = process.cwd();
 
@@ -84,14 +85,32 @@ async function main() {
     "project://quality-report",
     {
       title: "Quality Gates Report",
-      description: "Human-readable quality gates summary from reports/quality-gates.md.",
+      description: `Human-readable quality gates summary from ${REPORT_FILES.qualityMarkdown}.`,
       mimeType: "text/markdown",
     },
     async () => ({
       contents: [
         {
           uri: "project://quality-report",
-          text: readFileSafe("reports/quality-gates.md") ?? "Quality report not generated yet.",
+          text: readFileSafe(REPORT_FILES.qualityMarkdown) ?? "Quality report not generated yet.",
+        },
+      ],
+    })
+  );
+
+  server.registerResource(
+    "deployment-report",
+    "project://deployment/report",
+    {
+      title: "Deployment Readiness Report",
+      description: `Latest deployment snapshot sourced from ${REPORT_FILES.deploymentMarkdown}.`,
+      mimeType: "text/markdown",
+    },
+    async () => ({
+      contents: [
+        {
+          uri: "project://deployment/report",
+          text: readFileSafe(REPORT_FILES.deploymentMarkdown) ?? "Deployment report not generated yet.",
         },
       ],
     })

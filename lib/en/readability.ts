@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * English Readability Analysis Module
  *

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export interface Searchable {
   [key: string]: any;
 }

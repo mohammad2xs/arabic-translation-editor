@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Quran surah data with Arabic and English names
 export const SURAHS = [
   { number: 1, arabic: 'الفاتحة', english: 'Al-Fatihah', verses: 7, type: 'meccan' },

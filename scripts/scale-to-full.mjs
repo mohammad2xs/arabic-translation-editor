@@ -2,9 +2,9 @@
 
 import { spawn } from 'child_process';
 import fs from 'fs/promises';
-import path from 'path';
 import crypto from 'crypto';
 import { createRequire } from 'module';
+import { REPORT_FILES } from './utils/project-paths.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -69,8 +69,8 @@ class ScaleToFull {
       'outputs/book-final.docx',
       'outputs/triview.json',
       'outputs/book.epub',
-      'reports/quality-gates.json',
-      'reports/deployment-report.json'
+      REPORT_FILES.qualityJson,
+      REPORT_FILES.deploymentJson
     ];
 
     const checksums = {};
@@ -101,8 +101,7 @@ class ScaleToFull {
       // Read quality gates data
       let qualityData = null;
       try {
-        const gatesPath = 'reports/quality-gates.json';
-        const gatesContent = await fs.readFile(gatesPath, 'utf8');
+        const gatesContent = await fs.readFile(REPORT_FILES.qualityJson, 'utf8');
         qualityData = JSON.parse(gatesContent);
       } catch (error) {
         console.warn('⚠️  Could not read quality gates data:', error.message);
@@ -198,8 +197,7 @@ class ScaleToFull {
 
   async checkQualityGates() {
     try {
-      const gatesPath = 'reports/quality-gates.json';
-      const gatesData = await fs.readFile(gatesPath, 'utf8');
+      const gatesData = await fs.readFile(REPORT_FILES.qualityJson, 'utf8');
       const gates = JSON.parse(gatesData);
 
       // Print SUMMARY line as required by spec

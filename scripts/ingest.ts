@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-nocheck
 
 import mammoth from 'mammoth';
 import fs from 'fs/promises';

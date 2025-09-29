@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { REPORT_PATHS } from '../utils/project-paths.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -496,10 +497,10 @@ async function generateDeployReport(config, deployResult, healthResult, prewarmR
   };
 
   try {
-    await mkdir(join(projectRoot, 'reports'), { recursive: true });
-    const reportPath = join(projectRoot, 'reports/deploy-report.json');
+    await mkdir(join(projectRoot, REPORT_PATHS.root), { recursive: true });
+    const reportPath = join(projectRoot, REPORT_PATHS.root, 'deploy-report.json');
     writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    log.info(`Deploy report written to: reports/deploy-report.json`);
+    log.info(`Deploy report written to: ${REPORT_PATHS.root}/deploy-report.json`);
   } catch (error) {
     log.warn(`Could not write deploy report: ${error.message}`);
   }

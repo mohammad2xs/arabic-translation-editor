@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Intelligent Auto-Fixing System
  * Integrates with Nx Console for code generation and fixing

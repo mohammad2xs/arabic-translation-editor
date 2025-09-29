@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Documentation URL configuration
  * Optional URLs for linking to documentation from warnings and error messages

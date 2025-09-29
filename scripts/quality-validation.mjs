@@ -3,10 +3,12 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { REPORT_FILES } from './utils/project-paths.mjs';
 
 // Import readability and audience modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const REPORT_DIR = path.dirname(REPORT_FILES.qualityJson);
 
 if (process.env.DEBUG_QUALITY === '1') {
   console.log('[quality-debug] env active');
@@ -471,9 +473,6 @@ class QualityValidator {
   }
 
   async generateReports(validation) {
-    // Ensure reports directory exists
-    await fs.mkdir('reports', { recursive: true });
-
     // Generate JSON report
     const jsonReport = {
       timestamp: new Date().toISOString(),
@@ -485,7 +484,8 @@ class QualityValidator {
       config: this.config
     };
 
-    await fs.writeFile('reports/quality-gates.json', JSON.stringify(jsonReport, null, 2));
+    await fs.mkdir(REPORT_DIR, { recursive: true });
+    await fs.writeFile(REPORT_FILES.qualityJson, JSON.stringify(jsonReport, null, 2));
 
     // Generate Markdown report
     let markdownReport = `# Quality Gates Report
@@ -562,11 +562,11 @@ ${validation.metrics.audience.reason === 'modules_missing' ? '- **Status**: Not 
     markdownReport += `
 `;
 
-    await fs.writeFile('reports/quality-gates.md', markdownReport);
+    await fs.writeFile(REPORT_FILES.qualityMarkdown, markdownReport);
 
     console.log('\n📊 Reports generated:');
-    console.log('   - reports/quality-gates.json');
-    console.log('   - reports/quality-gates.md');
+    console.log(`   - ${REPORT_FILES.qualityJson}`);
+    console.log(`   - ${REPORT_FILES.qualityMarkdown}`);
   }
 
   printSummary(validation) {

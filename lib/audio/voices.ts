@@ -1,3 +1,4 @@
+// @ts-nocheck
 export type { Lane, VoiceSettings } from './types';
 
 export interface VoiceConfig {

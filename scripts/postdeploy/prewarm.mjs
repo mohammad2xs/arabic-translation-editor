@@ -4,6 +4,7 @@ import { execSync } from 'child_process';
 import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { REPORT_PATHS } from '../utils/project-paths.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -270,7 +271,7 @@ function validateUrl(url) {
 }
 
 function loadDeployReport(config) {
-  const reportPath = join(projectRoot, 'reports/deploy-report.json');
+  const reportPath = join(projectRoot, REPORT_PATHS.root, 'deploy-report.json');
 
   if (existsSync(reportPath)) {
     try {

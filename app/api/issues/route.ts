@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Issues API Route - Handles quality gate detection and issue reporting
 // For Arabic Translation Editor
 

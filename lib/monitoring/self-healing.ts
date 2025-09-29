@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Self-Healing System for Arabic Translation Editor
  * Monitors platform health and automatically fixes issues

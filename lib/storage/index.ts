@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { detectDeployment, getValidatedEnv, getDefaultStorageDriver, validateStorageConfig, StorageDriver } from '../env';

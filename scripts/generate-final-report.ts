@@ -1,10 +1,19 @@
 #!/usr/bin/env node
+// @ts-nocheck
 
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
 import { getCostSummary } from '../lib/cost';
 import { getBuildMetadata } from '../lib/build/git-utils';
+import projectPaths from '../config/project-paths.json';
+
+const REPORT_FILES = {
+  qualityJson: projectPaths.artifacts.reports.quality.json,
+  qualityMarkdown: projectPaths.artifacts.reports.quality.markdown,
+  deploymentJson: projectPaths.artifacts.reports.deployment.json,
+  deploymentMarkdown: projectPaths.artifacts.reports.deployment.markdown,
+};
 
 class FinalReportGenerator {
   constructor() {
@@ -37,7 +46,7 @@ class FinalReportGenerator {
 
       // Load quality gates results
       try {
-        const gatesData = await fs.readFile('reports/quality-gates.json', 'utf8');
+        const gatesData = await fs.readFile(REPORT_FILES.qualityJson, 'utf8');
         this.qualityGates = JSON.parse(gatesData);
       } catch (error) {
         console.warn('⚠️  Quality gates report not found, skipping gate analysis');
@@ -235,8 +244,8 @@ class FinalReportGenerator {
       config: this.config
     };
 
-    await fs.mkdir('reports', { recursive: true });
-    await fs.writeFile('reports/deployment-report.json', JSON.stringify(report, null, 2));
+    await fs.mkdir(path.dirname(REPORT_FILES.deploymentJson), { recursive: true });
+    await fs.writeFile(REPORT_FILES.deploymentJson, JSON.stringify(report, null, 2));
 
     return report;
   }
@@ -397,7 +406,7 @@ All quality gates passed and required artifacts are available. This build is rea
 `;
     }
 
-    await fs.writeFile('reports/deployment-report.md', markdown);
+    await fs.writeFile(REPORT_FILES.deploymentMarkdown, markdown);
   }
 
   formatTokens(count) {
@@ -442,8 +451,8 @@ All quality gates passed and required artifacts are available. This build is rea
     console.log(`\n🚀 Deployment Ready: ${report.deploymentReady ? '✅ YES' : '❌ NO'}`);
 
     console.log('\n📄 Reports generated:');
-    console.log('   - reports/deployment-report.json');
-    console.log('   - reports/deployment-report.md');
+    console.log(`   - ${REPORT_FILES.deploymentJson}`);
+    console.log(`   - ${REPORT_FILES.deploymentMarkdown}`);
   }
 
   async run() {

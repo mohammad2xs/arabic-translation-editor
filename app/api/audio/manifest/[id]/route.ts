@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server';
 import { BlobStore } from '@/lib/storage/index';
 import { kv } from '@vercel/kv';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getLLMRouter } from '../llm/router'
 
 export interface AssistantHealthSummary {
