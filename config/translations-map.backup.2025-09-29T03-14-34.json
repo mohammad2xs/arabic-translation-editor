@@ -1,0 +1,16 @@
+{
+  "pairs": [
+    {
+      "source": "config/translations-map.backup.2025-09-29T03-00-23.json",
+      "target": "config/translations-map.backup.2025-09-29T02-27-34.json"
+    },
+    {
+      "source": "config/translations-map.backup.2025-09-29T03-11-33.json",
+      "target": "config/translations-map.backup.2025-09-29T03-00-23.json"
+    }
+  ],
+  "folders": [],
+  "bilingual": [
+    "data/golden.json"
+  ]
+}

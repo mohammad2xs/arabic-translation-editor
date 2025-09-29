@@ -7,6 +7,7 @@ import { detectLanguage, ensureLanguage, normalizeWhitespace, SupportedLanguage 
 import { normalizeParagraphs, segmentParagraph } from '../lib/segment'
 import { readDocx } from '../lib/importers/docx'
 import { ParallelSegment } from '../types/parallel'
+import { emitPairsFromJsonRow, isBilingualJsonRow } from '../lib/indexer/jsonBilingual'
 
 interface CliOptions {
   mapPath?: string
@@ -724,45 +725,131 @@ async function processJsonFile(
   reasonMap: Map<string, ReasonCode>,
   misses: MissRecord[]
 ): Promise<void> {
-  const records = await loadJsonRecords(entry.file)
-  if (!records.length) {
-    recordReason(reasonMap, misses, entry.file.path, 'no_target_match')
-    return
-  }
+  try {
+    const raw = await fs.readFile(entry.file.absolutePath, 'utf8')
+    let bilingualPairCount = 0
 
-  let segIndex = 0
-  records.forEach((record, index) => {
-    if (!record.src) {
-      recordReason(reasonMap, misses, entry.file.path, 'too_short')
-      return
+    if (entry.file.extension === '.jsonl') {
+      const lines = raw.split(/\r?\n/).filter(Boolean)
+      for (const line of lines) {
+        try {
+          const row = JSON.parse(line)
+          if (isBilingualJsonRow(row)) {
+            const emittedCount = emitPairsFromJsonRow(row, entry.file.path, (parallelEntry) => {
+              const segment: ParallelSegment = {
+                id: parallelEntry.id,
+                rowId: parallelEntry.id.split(':')[0] + `:json-line`,
+                paraIndex: parallelEntry.paraIndex,
+                segIndex: parallelEntry.segIndex,
+                src: parallelEntry.src,
+                tgt: parallelEntry.tgt,
+                srcLang: ensureLanguage(parallelEntry.src, 'ar'),
+                tgtLang: parallelEntry.tgt ? ensureLanguage(parallelEntry.tgt, 'en') : 'unknown',
+                status: parallelEntry.status,
+                lengthRatio: parallelEntry.src && parallelEntry.tgt ?
+                  Number((parallelEntry.tgt.length / Math.max(parallelEntry.src.length, 1)).toFixed(3)) : 0,
+                fileRefs: [{ path: entry.file.path }]
+              }
+              segments.push(segment)
+              tracker.sourcesFound += 1
+              tracker.targetsFound += 1
+              tracker.matchedSegments += 1
+            })
+            bilingualPairCount += emittedCount
+          }
+        } catch (parseError) {
+          // Skip malformed lines
+          continue
+        }
+      }
+    } else {
+      // JSON file
+      try {
+        const parsed = JSON.parse(raw)
+        const processJsonValue = (value: any, path: string[] = []) => {
+          if (Array.isArray(value)) {
+            value.forEach((item, index) => processJsonValue(item, [...path, String(index)]))
+          } else if (value && typeof value === 'object') {
+            if (isBilingualJsonRow(value)) {
+              const emittedCount = emitPairsFromJsonRow(value, `${entry.file.path}:${path.join('.')}`, (parallelEntry) => {
+                const segment: ParallelSegment = {
+                  id: parallelEntry.id,
+                  rowId: parallelEntry.id.split(':')[0] + `:json-obj`,
+                  paraIndex: parallelEntry.paraIndex,
+                  segIndex: parallelEntry.segIndex,
+                  src: parallelEntry.src,
+                  tgt: parallelEntry.tgt,
+                  srcLang: ensureLanguage(parallelEntry.src, 'ar'),
+                  tgtLang: parallelEntry.tgt ? ensureLanguage(parallelEntry.tgt, 'en') : 'unknown',
+                  status: parallelEntry.status,
+                  lengthRatio: parallelEntry.src && parallelEntry.tgt ?
+                    Number((parallelEntry.tgt.length / Math.max(parallelEntry.src.length, 1)).toFixed(3)) : 0,
+                  fileRefs: [{ path: entry.file.path }]
+                }
+                segments.push(segment)
+                tracker.sourcesFound += 1
+                tracker.targetsFound += 1
+                tracker.matchedSegments += 1
+              })
+              bilingualPairCount += emittedCount
+            } else {
+              Object.entries(value).forEach(([key, subValue]) =>
+                processJsonValue(subValue, [...path, key])
+              )
+            }
+          }
+        }
+        processJsonValue(parsed)
+      } catch (parseError) {
+        console.warn(`[index] Failed to parse JSON ${entry.file.path}: ${(parseError as Error).message}`)
+      }
     }
-    const srcSegments = segmentParagraph(record.src, 'ar').segments
-    const tgtSegments = segmentParagraph(record.tgt, 'en').segments
-    const aligned = alignSegments(srcSegments.length ? srcSegments : [''], tgtSegments.length ? tgtSegments : [''])
 
-    aligned.forEach(item => {
-      const rowId = `${sanitizeId(record.id || entry.file.path)}:json-${String(index).padStart(3, '0')}`
-      const srcText = item.src ?? ''
-      const tgtText = item.tgt ?? ''
-      if (srcText) tracker.sourcesFound += 1
-      if (tgtText) tracker.targetsFound += 1
-      if (srcText && tgtText) tracker.matchedSegments += 1
-      segments.push({
-        id: `${rowId}#${segIndex}`,
-        rowId,
-        paraIndex: index,
-        segIndex,
-        src: srcText,
-        tgt: tgtText,
-        srcLang: ensureLanguage(srcText, 'ar'),
-        tgtLang: tgtText ? ensureLanguage(tgtText, 'en') : 'unknown',
-        status: item.status,
-        lengthRatio: Number(item.ratio.toFixed(3)),
-        fileRefs: [{ path: entry.file.path }]
+    if (bilingualPairCount === 0) {
+      // Fall back to legacy JSON processing if no bilingual pairs found
+      const records = await loadJsonRecords(entry.file)
+      if (!records.length) {
+        recordReason(reasonMap, misses, entry.file.path, 'no_target_match')
+        return
+      }
+
+      let segIndex = 0
+      records.forEach((record, index) => {
+        if (!record.src) {
+          recordReason(reasonMap, misses, entry.file.path, 'too_short')
+          return
+        }
+        const srcSegments = segmentParagraph(record.src, 'ar').segments
+        const tgtSegments = segmentParagraph(record.tgt, 'en').segments
+        const aligned = alignSegments(srcSegments.length ? srcSegments : [''], tgtSegments.length ? tgtSegments : [''])
+
+        aligned.forEach(item => {
+          const rowId = `${sanitizeId(record.id || entry.file.path)}:json-${String(index).padStart(3, '0')}`
+          const srcText = item.src ?? ''
+          const tgtText = item.tgt ?? ''
+          if (srcText) tracker.sourcesFound += 1
+          if (tgtText) tracker.targetsFound += 1
+          if (srcText && tgtText) tracker.matchedSegments += 1
+          segments.push({
+            id: `${rowId}#${segIndex}`,
+            rowId,
+            paraIndex: index,
+            segIndex,
+            src: srcText,
+            tgt: tgtText,
+            srcLang: ensureLanguage(srcText, 'ar'),
+            tgtLang: tgtText ? ensureLanguage(tgtText, 'en') : 'unknown',
+            status: item.status,
+            lengthRatio: Number(item.ratio.toFixed(3)),
+            fileRefs: [{ path: entry.file.path }]
+          })
+          segIndex += 1
+        })
       })
-      segIndex += 1
-    })
-  })
+    }
+  } catch (error) {
+    recordReason(reasonMap, misses, entry.file.path, 'unsupported_format')
+  }
 }
 
 async function writeParallelSegments(segments: ParallelSegment[]): Promise<void> {

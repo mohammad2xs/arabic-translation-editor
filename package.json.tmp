@@ -24,7 +24,6 @@
     "index:map": "tsx scripts/index-manuscript.ts --map config/translations-map.json",
     "find:translations": "node scripts/discover-translations.mjs",
     "find:manuscript": "node scripts/discover-translations.mjs --preset manuscript",
-    "coverage:reconcile": "node scripts/coverage/reconcile-coverage.mjs",
     "index:manuscript": "tsx scripts/index-manuscript.ts --preset manuscript --map config/translations-map.json",
     "map:auto": "node scripts/maps/build-translations-map.mjs",
     "map:link": "node scripts/maps/link-external-english.mjs",
