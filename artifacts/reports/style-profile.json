@@ -1,0 +1,25 @@
+{
+  "digitsPolicy": "western",
+  "quotes": "ascii",
+  "comma": ",",
+  "question": "؟",
+  "ellipsis": "…",
+  "dash": "—",
+  "properNouns": [],
+  "scriptureRefs": {
+    "detected": true,
+    "patterns": []
+  },
+  "doNotTranslate": [
+    "الله",
+    "الحديث",
+    "المسلم",
+    "الإسلام",
+    "آية",
+    "محمد",
+    "صلى الله عليه وسلم",
+    "القرآن"
+  ],
+  "sampleSize": 1000,
+  "derivedAt": "2025-09-29T03:21:58.984Z"
+}\n

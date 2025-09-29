@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-09-29T03:43:42.405Z",
+  "backup": ".cache/backups/parallel.2025-09-29T03-43-42-068Z.jsonl",
+  "summary": {
+    "totalSegments": 4540,
+    "enhancedSegments": 1857,
+    "totalChanges": 2742,
+    "balanceIssues": 2
+  },
+  "changeStatistics": {
+    "،→,": 1317,
+    "\"→\"": 1336,
+    "«→\"": 17,
+    "»→\"": 12,
+    "؟→?": 45,
+    "؛→;": 15
+  },
+  "options": {
+    "normalizeDigits": true,
+    "normalizePunctuation": true,
+    "removeTatweel": true,
+    "normalizeSpacing": true,
+    "normalizeQuotes": true,
+    "preserveBalance": true
+  }
+}

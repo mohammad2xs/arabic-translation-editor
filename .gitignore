@@ -15,3 +15,4 @@ outputs/share
 *.wav
 
 .env
+.vercel

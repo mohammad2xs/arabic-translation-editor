@@ -1,0 +1,36 @@
+# Dependencies and build artifacts
+node_modules
+.next
+.cache
+
+# Git directories
+.git
+.git_old
+
+# Large output directories
+outputs
+artifacts/reports/*.json
+artifacts/gaps
+gaps
+outputs 2
+
+# Build artifacts
+dist
+*.tsbuildinfo
+
+# Documentation and development files
+docs
+README.md
+*.md
+
+# Large data files
+al-insan.docx
+*.docx
+*.pdf
+*.epub
+
+# Temporary and log files
+*.log
+*.tmp
+.env.local
+.env.development.local
