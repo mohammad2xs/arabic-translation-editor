@@ -135,7 +135,7 @@ function TriViewPageContent() {
   } | null>(null);
   const [findPanelOpen, setFindPanelOpen] = useState(false);
   const [findQuery, setFindQuery] = useState('');
-  const [currentSectionId, setCurrentSectionId] = useState<string>('S001');
+  const [currentSectionId, setCurrentSectionId] = useState<string>('S002');
   const [availableSections, setAvailableSections] = useState<ManifestSection[]>([]);
   const [sectionData, setSectionData] = useState<SectionData | null>(null);
   const [expandStatus, setExpandStatus] = useState<Record<string, boolean>>({});
