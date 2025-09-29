@@ -23,6 +23,7 @@ After running the export commands:
 - EPUB: `outputs/book-final.epub`
 - Audio assets: `outputs/audiobook/`
 - Share bundle: `outputs/share_bundle.zip`
+- Quality & deployment reports: `artifacts/reports/`
 
 ## 4. Chrome DevTools MCP
 1. Run `npm run mcp:devtools` (installs via `npx` if necessary).

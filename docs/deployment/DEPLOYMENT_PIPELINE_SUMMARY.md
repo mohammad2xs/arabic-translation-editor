@@ -42,7 +42,7 @@ Generated: September 21, 2025
 The pipeline successfully generated the following reports:
 
 ### Quality Gates Report
-- **Location**: `reports/quality-gates.json`, `reports/quality-gates.md`
+- **Location**: `artifacts/reports/quality-gates.json`, `artifacts/reports/quality-gates.md`
 - **Status**: ❌ FAILED (Coverage and LPR gates failed)
 - **Metrics**:
   - Coverage: 0.0% (0/15 rows completed)
@@ -51,7 +51,7 @@ The pipeline successfully generated the following reports:
   - Golden Dataset: 100% pass rate
 
 ### Deployment Report
-- **Location**: `reports/deployment-report.json`, `reports/deployment-report.md`
+- **Location**: `artifacts/reports/deployment-report.json`, `artifacts/reports/deployment-report.md`
 - **Status**: ❌ NOT READY FOR DEPLOYMENT
 - **Overall Score**: 50.0/100
 - **Required Artifacts**: ✅ All present
@@ -96,8 +96,8 @@ node scripts/scale-to-full.mjs  # Full orchestrated pipeline
 
 ## 📁 Key Files for Review
 
-1. **reports/quality-gates.md** - Quality validation results
-2. **reports/deployment-report.md** - Deployment readiness assessment
+1. **artifacts/reports/quality-gates.md** - Quality validation results
+2. **artifacts/reports/deployment-report.md** - Deployment readiness assessment
 3. **scripts/scale-to-full.mjs** - Main orchestration logic
 4. **scripts/quality-validation.mjs** - Quality gate implementation
 5. **scripts/generate-final-report.ts** - Final reporting system

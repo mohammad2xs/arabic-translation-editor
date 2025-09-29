@@ -53,7 +53,7 @@
         "modified": "2025-09-21T18:25:21.647Z",
         "checksum": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0"
       },
-      "reports/quality-gates.json": {
+      "artifacts/reports/quality-gates.json": {
         "exists": true,
         "size": 6742,
         "modified": "2025-09-22T04:56:45.658Z",
@@ -69,7 +69,7 @@
         "exists": false,
         "error": "ENOENT: no such file or directory, stat 'outputs/audiobook'"
       },
-      "reports/deployment-report.json": {
+      "artifacts/reports/deployment-report.json": {
         "exists": true,
         "size": 4898,
         "modified": "2025-09-22T02:29:02.978Z",
@@ -79,8 +79,8 @@
     "checksums": {
       "outputs/book-final.docx": "da7f27aa4533defce0a1f371b7722e3d9a8f21d4a35b45e831b82f390ee7a461",
       "outputs/triview.json": "49556faad133743b6e816c0646c1c17f8454d534ac094e16e2502ffbf54d96f0",
-      "reports/quality-gates.json": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9",
-      "reports/deployment-report.json": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
+      "artifacts/reports/quality-gates.json": "1741ccb14c868472b89025305fb72fba9164a16189c581fc388b567aa4c227d9",
+      "artifacts/reports/deployment-report.json": "889db48902dce442e62317edcb664ef9dd6398620c827e54a001e6e9a29ab770"
     }
   },
   "cost": {
@@ -286,12 +286,12 @@
       "requiredArtifacts": [
         "outputs/book-final.docx",
         "outputs/triview.json",
-        "reports/quality-gates.json"
+        "artifacts/reports/quality-gates.json"
       ],
       "optionalArtifacts": [
         "outputs/book.epub",
         "outputs/audiobook",
-        "reports/deployment-report.json"
+        "artifacts/reports/deployment-report.json"
       ]
     },
     "retryPolicy": {

@@ -4,5 +4,6 @@ declare namespace NodeJS {
     LT_BASE_URL?: string;
     QURAN_API_BASE_URL?: string;
     PROJECT_MEMORY?: "true" | "false";
+    SHIP_TOKEN?: string;
   }
 }

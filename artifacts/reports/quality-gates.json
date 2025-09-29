@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-09-28T16:56:10.295Z",
+  "timestamp": "2025-09-28T17:24:15.883Z",
   "overallPass": true,
   "requiredFailed": [],
   "optionalFailed": [],
@@ -143,12 +143,12 @@
       "requiredArtifacts": [
         "outputs/book-final.docx",
         "outputs/triview.json",
-        "reports/quality-gates.json"
+        "artifacts/reports/quality-gates.json"
       ],
       "optionalArtifacts": [
         "outputs/book.epub",
         "outputs/audiobook",
-        "reports/deployment-report.json"
+        "artifacts/reports/deployment-report.json"
       ]
     },
     "retryPolicy": {

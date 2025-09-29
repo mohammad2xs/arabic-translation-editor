@@ -1,609 +1,376 @@
-// @ts-nocheck
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ChevronRight, ChevronDown, Download, ExternalLink, FileText, Folder, Code, Globe } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Topbar from '../../components/Topbar'
+import ReaderView from '../../components/ReaderView'
+import CompareView from '../../components/CompareView'
+import FocusView from '../../components/FocusView'
+import BottomBar from '../../components/BottomBar'
+import CommentDrawer, { CommentEntry } from '../../components/CommentDrawer'
+import type { ReviewerMode } from '../../components/ModeSwitch'
+import type { ParallelDataset, ParallelRow, ParallelSegment } from '../../types/parallel'
+import { evaluateSegmentQA, summarizeQA } from '../../lib/qa'
+import type { QAResult } from '../../lib/qa'
+import { initializeDadMode, enableDadMode, disableDadMode, isDadModeEnabled } from '../../lib/dadmode/prefs'
+import { AlignmentStatus } from '../../lib/align'
 
-interface ReviewReport {
-  metadata: {
-    projectName: string
-    version: string
-    description: string
-    generatedAt: string
-    generatedBy?: string
-  }
-  git: {
-    branch?: string
-    commit?: string
-    lastCommit?: string
-  }
-  stats: {
-    totalFiles: number
-    totalSizeMB: string
-    fileTypes: Record<string, number>
-  }
-  routes: Array<{
-    path: string
-    file: string
-    type: 'page' | 'api'
-  }>
-  lint?: {
-    totalFiles?: number
-    errorCount?: number
-    warningCount?: number
-    fixableErrorCount?: number
-    fixableWarningCount?: number
-    error?: string
-    message?: string
-  }
-  build?: {
-    status: string
-    pages?: number
-    entrypoints?: number
-    staticFiles?: number
-    staticSizeMB?: string
-    message?: string
-  }
-  typecheck?: {
-    errors: number
-    status: string
-    message?: string
-  }
-  architecture: {
-    framework: string
-    language: string
-    styling: string
-    deployment: string
-    features: string[]
-  }
+interface HistoryEntry {
+  past: string[]
+  future: string[]
 }
 
-interface FileNode {
-  name: string
-  path: string
-  type: 'file' | 'directory'
-  children?: FileNode[]
-  size?: number
-}
-
-const SAMPLE_FILE_TREE: FileNode = {
-  name: 'SaadTranslator',
-  path: '',
-  type: 'directory',
-  children: [
-    {
-      name: 'app',
-      path: 'app',
-      type: 'directory',
-      children: [
-        {
-          name: '(components)',
-          path: 'app/(components)',
-          type: 'directory',
-          children: [
-            { name: 'AssistantSidebar.tsx', path: 'app/(components)/AssistantSidebar.tsx', type: 'file' },
-            { name: 'CmdPalette.tsx', path: 'app/(components)/CmdPalette.tsx', type: 'file' },
-            { name: 'DadHeader.tsx', path: 'app/(components)/DadHeader.tsx', type: 'file' },
-            { name: 'IssueQueue.tsx', path: 'app/(components)/IssueQueue.tsx', type: 'file' },
-            { name: 'MultiRowView.tsx', path: 'app/(components)/MultiRowView.tsx', type: 'file' },
-            { name: 'RowCard.tsx', path: 'app/(components)/RowCard.tsx', type: 'file' }
-          ]
-        },
-        {
-          name: 'api',
-          path: 'app/api',
-          type: 'directory',
-          children: [
-            {
-              name: 'rows',
-              path: 'app/api/rows',
-              type: 'directory',
-              children: [
-                { name: 'route.ts', path: 'app/api/rows/route.ts', type: 'file' }
-              ]
-            },
-            {
-              name: 'scripture',
-              path: 'app/api/scripture',
-              type: 'directory',
-              children: [
-                { name: 'route.ts', path: 'app/api/scripture/route.ts', type: 'file' }
-              ]
-            }
-          ]
-        },
-        { name: 'tri', path: 'app/tri', type: 'directory', children: [
-          { name: 'page.tsx', path: 'app/tri/page.tsx', type: 'file' }
-        ]},
-        { name: 'layout.tsx', path: 'app/layout.tsx', type: 'file' },
-        { name: 'page.tsx', path: 'app/page.tsx', type: 'file' },
-        { name: 'globals.css', path: 'app/globals.css', type: 'file' }
-      ]
-    },
-    {
-      name: 'lib',
-      path: 'lib',
-      type: 'directory',
-      children: [
-        {
-          name: 'assistant',
-          path: 'lib/assistant',
-          type: 'directory',
-          children: [
-            { name: 'anthropic.ts', path: 'lib/assistant/anthropic.ts', type: 'file' }
-          ]
-        },
-        {
-          name: 'dadmode',
-          path: 'lib/dadmode',
-          type: 'directory',
-          children: [
-            { name: 'prefs.ts', path: 'lib/dadmode/prefs.ts', type: 'file' }
-          ]
-        },
-        {
-          name: 'ui',
-          path: 'lib/ui',
-          type: 'directory',
-          children: [
-            { name: 'fuzzy.ts', path: 'lib/ui/fuzzy.ts', type: 'file' },
-            { name: 'shortcuts.ts', path: 'lib/ui/shortcuts.ts', type: 'file' }
-          ]
-        }
-      ]
-    },
-    { name: 'package.json', path: 'package.json', type: 'file' },
-    { name: 'tsconfig.json', path: 'tsconfig.json', type: 'file' },
-    { name: 'README.md', path: 'README.md', type: 'file' }
-  ]
-}
-
-function FileIcon({ fileName, isDirectory }: { fileName: string; isDirectory: boolean }) {
-  if (isDirectory) return <Folder className="w-4 h-4 text-blue-500" />
-
-  const ext = fileName.split('.').pop()?.toLowerCase()
-  switch (ext) {
-    case 'tsx':
-    case 'ts':
-      return <Code className="w-4 h-4 text-blue-600" />
-    case 'json':
-      return <FileText className="w-4 h-4 text-yellow-600" />
-    case 'md':
-      return <FileText className="w-4 h-4 text-gray-600" />
-    case 'css':
-      return <Code className="w-4 h-4 text-purple-600" />
-    default:
-      return <FileText className="w-4 h-4 text-gray-500" />
-  }
-}
-
-function FileTreeNode({ node, level = 0, onFileSelect }: {
-  node: FileNode
-  level?: number
-  onFileSelect: (filePath: string) => void
-}) {
-  const [isExpanded, setIsExpanded] = useState(level < 2)
-
-  const handleClick = () => {
-    if (node.type === 'directory') {
-      setIsExpanded(!isExpanded)
-    } else {
-      onFileSelect(node.path)
-    }
-  }
-
-  return (
-    <div>
-      <div
-        className="flex items-center gap-1 py-1 px-2 hover:bg-gray-50 cursor-pointer rounded text-sm"
-        style={{ paddingLeft: `${level * 16 + 8}px` }}
-        onClick={handleClick}
-      >
-        {node.type === 'directory' && (
-          isExpanded ?
-            <ChevronDown className="w-3 h-3 text-gray-400" /> :
-            <ChevronRight className="w-3 h-3 text-gray-400" />
-        )}
-        {node.type === 'file' && <div className="w-3" />}
-        <FileIcon fileName={node.name} isDirectory={node.type === 'directory'} />
-        <span className={node.type === 'directory' ? 'font-medium' : ''}>{node.name}</span>
-      </div>
-
-      {node.type === 'directory' && isExpanded && node.children && (
-        <div>
-          {node.children.map((child) => (
-            <FileTreeNode
-              key={child.path}
-              node={child}
-              level={level + 1}
-              onFileSelect={onFileSelect}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
+const PRESENTATION_STORAGE_KEY = 'presentation-mode-enabled'
 
 export default function ReviewPage() {
-  const [selectedFile, setSelectedFile] = useState<string>('')
-  const [fileContent, setFileContent] = useState<string>('')
-  const [isDownloading, setIsDownloading] = useState(false)
-  const [report, setReport] = useState<ReviewReport | null>(null)
-  const [fileTree, setFileTree] = useState<FileNode>(SAMPLE_FILE_TREE)
-  const [isLoading, setIsLoading] = useState(true)
+  const [dataset, setDataset] = useState<ParallelDataset | null>(null)
+  const [mode, setMode] = useState<ReviewerMode>('reader')
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [dadMode, setDadMode] = useState(false)
+  const [presentationMode, setPresentationMode] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedSegmentId, setSelectedSegmentId] = useState<string | null>(null)
+  const [selectedRowId, setSelectedRowId] = useState<string | null>(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [commentSegmentId, setCommentSegmentId] = useState<string | null>(null)
+  const [comments, setComments] = useState<Record<string, CommentEntry[]>>({})
+  const historyRef = useRef<Record<string, HistoryEntry>>({})
 
-  // Fetch review report and file tree on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-
-        // Fetch review report
-        const reportResponse = await fetch('/api/review/report')
-        if (!reportResponse.ok) {
-          throw new Error('Failed to fetch review report')
-        }
-        const reportData = await reportResponse.json()
-        setReport(reportData)
-
-        // Fetch file tree
-        const treeResponse = await fetch('/api/review/tree')
-        if (treeResponse.ok) {
-          const treeData = await treeResponse.json()
-          setFileTree(treeData)
-        }
-        // If file tree fails, fall back to sample tree
-
-      } catch (err) {
-        console.error('Error fetching review data:', err)
-        setError(err instanceof Error ? err.message : 'Unknown error')
-
-        // Use fallback sample data if API fails
-        setReport({
-          metadata: {
-            projectName: 'SaadTranslator',
-            version: '1.0.0',
-            description: 'Arabic Translation Editor with MCP Integration',
-            generatedAt: new Date().toISOString(),
-            generatedBy: 'fallback-sample'
-          },
-          git: {
-            branch: 'master',
-            commit: '5c422da7',
-            lastCommit: 'fix: Remove node_modules from git tracking'
-          },
-          stats: {
-            totalFiles: 156,
-            totalSizeMB: '2.8',
-            fileTypes: {
-              '.tsx': 24,
-              '.ts': 18,
-              '.json': 4,
-              '.css': 3,
-              '.md': 2,
-              '.js': 1
-            }
-          },
-          routes: [
-            { path: '/', file: 'app/page.tsx', type: 'page' },
-            { path: '/tri', file: 'app/tri/page.tsx', type: 'page' },
-            { path: '/review', file: 'app/review/page.tsx', type: 'page' },
-            { path: '/api/rows', file: 'app/api/rows/route.ts', type: 'api' },
-            { path: '/api/scripture', file: 'app/api/scripture/route.ts', type: 'api' }
-          ],
-          architecture: {
-            framework: 'Next.js 14',
-            language: 'TypeScript',
-            styling: 'Tailwind CSS',
-            deployment: 'Vercel',
-            features: [
-              'Arabic Translation Editor',
-              'Dad-Mode Interface',
-              'Claude Assistant Integration',
-              'Real-time Collaboration',
-              'PWA Support',
-              'Mobile Optimization'
-            ]
-          }
-        })
-      } finally {
-        setIsLoading(false)
+  const fetchDataset = useCallback(async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/parallel')
+      if (!response.ok) {
+        throw new Error(`Failed to load dataset (${response.status})`)
       }
+      const payload = (await response.json()) as ParallelDataset
+      setDataset(payload)
+      setLoading(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load dataset')
+      setLoading(false)
     }
-
-    fetchData()
   }, [])
 
-  const handleFileSelect = (filePath: string) => {
-    setSelectedFile(filePath)
-    // In a real implementation, this would fetch the actual file content
-    setFileContent(`// ${filePath}\n// This is a preview of the file content\n// Full content available in the downloaded bundle\n\nexport default function Component() {\n  return (\n    <div className="p-4">\n      <h1>File: {filePath}</h1>\n      <p>Download the review bundle to see complete source code.</p>\n    </div>\n  )\n}`)
-  }
-
-  const handleDownloadBundle = async () => {
-    setIsDownloading(true)
+  const mutateDataset = useCallback(async (body: unknown) => {
     try {
-      const response = await fetch('/api/review/bundle')
-      if (!response.ok) throw new Error('Failed to generate bundle')
-
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `SaadTranslator-review-${new Date().toISOString().split('T')[0].replace(/-/g, '')}.zip`
-      document.body.appendChild(a)
-      a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
-    } catch (error) {
-      console.error('Download failed:', error)
-      alert('Failed to download bundle. Please try again.')
-    } finally {
-      setIsDownloading(false)
+      const response = await fetch('/api/parallel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to update dataset (${response.status})`)
+      }
+      const payload = (await response.json()) as ParallelDataset
+      setDataset(payload)
+      return payload
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Update failed'
+      setError(message)
+      throw err
     }
+  }, [])
+
+  useEffect(() => {
+    fetchDataset()
+    initializeDadMode()
+    setDadMode(isDadModeEnabled())
+    if (typeof window !== 'undefined') {
+      const savedPresentation = localStorage.getItem(PRESENTATION_STORAGE_KEY) === 'true'
+      setPresentationMode(savedPresentation)
+      document.documentElement.classList.toggle('presentation-mode', savedPresentation)
+    }
+  }, [fetchDataset])
+
+  const qaBySegment: Record<string, QAResult> = useMemo(() => {
+    if (!dataset) return {}
+    const results: Record<string, QAResult> = {}
+    dataset.segments.forEach(segment => {
+      results[segment.id] = evaluateSegmentQA(segment)
+    })
+    return results
+  }, [dataset?.segments])
+
+  const qaOverview = useMemo(() => summarizeQA(Object.values(qaBySegment)), [qaBySegment])
+
+  const rows = dataset?.rows ?? []
+  const selectedSegment = useMemo(() => dataset?.segments.find(segment => segment.id === selectedSegmentId) ?? null, [dataset?.segments, selectedSegmentId])
+  const focusedRow: ParallelRow | null = useMemo(() => {
+    if (!selectedSegment) return null
+    return rows.find(row => row.rowId === selectedSegment.rowId) ?? null
+  }, [rows, selectedSegment])
+
+  const handleSelectSegment = useCallback((segment: ParallelSegment) => {
+    setSelectedSegmentId(segment.id)
+    setSelectedRowId(segment.rowId)
+    setMode('focus')
+  }, [])
+
+  const handleSelectRow = useCallback((rowId: string) => {
+    setSelectedRowId(rowId)
+  }, [])
+
+  const pushHistory = useCallback((segment: ParallelSegment) => {
+    const entry = historyRef.current[segment.id] ?? { past: [], future: [] }
+    entry.past.push(segment.tgt)
+    entry.future = []
+    historyRef.current[segment.id] = entry
+  }, [])
+
+  const handleUpdateSegment = useCallback(
+    async (rowId: string, segmentId: string, text: string) => {
+      try {
+        const segment = dataset?.segments.find(item => item.id === segmentId)
+        if (segment) {
+          pushHistory(segment)
+        }
+        const payload = await mutateDataset({ action: 'updateText', payload: { rowId, segmentId, tgt: text } })
+        const updatedSegment = payload.segments.find(item => item.id === segmentId)
+        if (updatedSegment) {
+          setSelectedSegmentId(updatedSegment.id)
+          setSelectedRowId(updatedSegment.rowId)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    [dataset?.segments, mutateDataset, pushHistory]
+  )
+
+  const handleStatusChange = useCallback(
+    async (rowId: string, segmentId: string, status: AlignmentStatus) => {
+      try {
+        await mutateDataset({ action: 'status', payload: { rowId, segmentId, status } })
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    [mutateDataset]
+  )
+
+  const handleMerge = useCallback(
+    async (rowId: string, segmentIds: string[]) => {
+      try {
+        const payload = await mutateDataset({ action: 'merge', payload: { rowId, segmentIds } })
+        const startIndex = Math.min(...segmentIds.map(id => Number(id.split('#')[1] ?? 0)))
+        const updated = payload.segments.find(segment => segment.rowId === rowId && segment.segIndex === startIndex)
+        if (updated) {
+          setSelectedSegmentId(updated.id)
+          setSelectedRowId(updated.rowId)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    [mutateDataset]
+  )
+
+  const handleSplit = useCallback(
+    async (rowId: string, segment: ParallelSegment, parts: { src: string; tgt: string }[]) => {
+      try {
+        const payload = await mutateDataset({
+          action: 'split',
+          payload: { rowId, segIndex: segment.segIndex, parts }
+        })
+        const updatedRowSegments = payload.segments
+          .filter(item => item.rowId === rowId)
+          .sort((a, b) => a.segIndex - b.segIndex)
+        const nextSelection = updatedRowSegments.find(item => item.segIndex === segment.segIndex) ?? updatedRowSegments[0]
+        if (nextSelection) {
+          setSelectedSegmentId(nextSelection.id)
+          setSelectedRowId(nextSelection.rowId)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    [mutateDataset]
+  )
+
+  const handleUndo = useCallback(async () => {
+    if (!selectedSegmentId || !dataset) return
+    const segment = dataset.segments.find(item => item.id === selectedSegmentId)
+    if (!segment) return
+    const entry = historyRef.current[segment.id]
+    if (!entry || entry.past.length === 0) return
+    const previous = entry.past.pop() as string
+    entry.future.push(segment.tgt)
+    await handleUpdateSegment(segment.rowId, segment.id, previous)
+  }, [dataset, handleUpdateSegment, selectedSegmentId])
+
+  const handleRedo = useCallback(async () => {
+    if (!selectedSegmentId || !dataset) return
+    const segment = dataset.segments.find(item => item.id === selectedSegmentId)
+    if (!segment) return
+    const entry = historyRef.current[segment.id]
+    if (!entry || entry.future.length === 0) return
+    const next = entry.future.pop() as string
+    entry.past.push(segment.tgt)
+    await handleUpdateSegment(segment.rowId, segment.id, next)
+  }, [dataset, handleUpdateSegment, selectedSegmentId])
+
+  const handleDadToggle = useCallback(
+    (enabled: boolean) => {
+      setDadMode(enabled)
+      if (enabled) {
+        enableDadMode()
+      } else {
+        disableDadMode()
+      }
+    },
+    []
+  )
+
+  const handlePresentationToggle = useCallback((enabled: boolean) => {
+    setPresentationMode(enabled)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(PRESENTATION_STORAGE_KEY, enabled ? 'true' : 'false')
+      document.documentElement.classList.toggle('presentation-mode', enabled)
+    }
+  }, [])
+
+  const qaResultForSegment = selectedSegment ? qaBySegment[selectedSegment.id] : undefined
+
+  const currentComments = commentSegmentId ? comments[commentSegmentId] ?? [] : []
+
+  const handleAddComment = (body: string) => {
+    if (!commentSegmentId) return
+    setComments(prev => {
+      const existing = prev[commentSegmentId] ?? []
+      const updated: CommentEntry[] = [
+        ...existing,
+        {
+          id: `${commentSegmentId}-${existing.length + 1}`,
+          author: 'Reviewer',
+          body,
+          createdAt: new Date().toISOString()
+        }
+      ]
+      return { ...prev, [commentSegmentId]: updated }
+    })
   }
 
-  if (isLoading) {
+  const handleCommentOpen = () => {
+    if (!selectedSegmentId) return
+    setCommentSegmentId(selectedSegmentId)
+    setDrawerOpen(true)
+  }
+
+  const handleNavigate = (direction: 'previous' | 'next') => {
+    if (!dataset || !selectedSegment) return
+    const sorted = dataset.segments.slice().sort((a, b) => a.paraIndex - b.paraIndex || a.segIndex - b.segIndex)
+    const index = sorted.findIndex(item => item.id === selectedSegment.id)
+    if (index === -1) return
+    const nextIndex = direction === 'previous' ? Math.max(0, index - 1) : Math.min(sorted.length - 1, index + 1)
+    const target = sorted[nextIndex]
+    if (!target) return
+    setSelectedSegmentId(target.id)
+    setSelectedRowId(target.rowId)
+    if (mode !== 'focus') setMode('focus')
+  }
+
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading review data...</p>
-        </div>
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-slate-500 dark:bg-slate-900 dark:text-slate-300">
+        Loading reviewer workspace…
       </div>
     )
   }
 
-  if (!report) {
+  if (error || !dataset) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Failed to load review data</p>
-          {error && <p className="text-sm text-gray-500">{error}</p>}
-        </div>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 text-center dark:bg-slate-900">
+        <h1 className="text-lg font-semibold text-slate-700 dark:text-slate-200">Unable to load reviewer UI</h1>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{error}</p>
+        <button
+          type="button"
+          onClick={fetchDataset}
+          className="mt-4 rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-600"
+        >
+          Retry
+        </button>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Code className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-semibold text-gray-900">Code Review</h1>
-                <p className="text-sm text-gray-500">{report.metadata.projectName}</p>
-                {report.metadata.generatedBy && (
-                  <p className="text-xs text-gray-400">Generated by: {report.metadata.generatedBy}</p>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <a
-                href="/tri?mode=dad"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <Globe className="w-4 h-4" />
-                View Live App
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <button
-                onClick={handleDownloadBundle}
-                disabled={isDownloading}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
-              >
-                <Download className="w-4 h-4" />
-                {isDownloading ? 'Generating...' : 'Download Review Bundle'}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-slate-50 pb-24 text-slate-900 dark:bg-slate-900 dark:text-slate-100">
+      <Topbar
+        mode={mode}
+        onModeChange={setMode}
+        dadMode={dadMode}
+        onDadModeToggle={handleDadToggle}
+        presentationMode={presentationMode}
+        onPresentationToggle={handlePresentationToggle}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        qaOverview={qaOverview}
+        onExport={format => {
+          window.open(`/api/export?format=${format}`, '_blank')
+        }}
+        onOpenComments={handleCommentOpen}
+        showCommentsIndicator={selectedSegmentId ? (comments[selectedSegmentId]?.length ?? 0) > 0 : false}
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Project Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Project Info</h3>
-            <dl className="space-y-3">
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Version</dt>
-                <dd className="text-sm text-gray-900">{report.metadata.version}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Framework</dt>
-                <dd className="text-sm text-gray-900">{report.architecture.framework}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Language</dt>
-                <dd className="text-sm text-gray-900">{report.architecture.language}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Current Branch</dt>
-                <dd className="text-sm text-gray-900 font-mono">{report.git.branch}</dd>
-              </div>
-            </dl>
-          </div>
+      <main className="presentation-content mx-auto max-w-6xl px-6 py-8">
+        {mode === 'reader' && (
+          <ReaderView
+            rows={rows}
+            onSelectRow={handleSelectRow}
+            searchQuery={searchQuery}
+            {...(selectedRowId ? { selectedRowId } : {})}
+          />
+        )}
+        {mode === 'compare' && (
+          <CompareView
+            rows={rows}
+            qaBySegment={qaBySegment}
+            {...(selectedSegmentId ? { selectedSegmentId } : {})}
+            onSelectSegment={handleSelectSegment}
+            onMergeSegments={handleMerge}
+            onSplitSegment={handleSplit}
+            onUpdateSegment={(rowId, segmentId, text) => handleUpdateSegment(rowId, segmentId, text)}
+          />
+        )}
+        {mode === 'focus' && (
+          <FocusView
+            row={focusedRow}
+            segment={selectedSegment}
+            {...(qaResultForSegment ? { qaResult: qaResultForSegment } : {})}
+            onNavigate={handleNavigate}
+            onUpdateSegment={handleUpdateSegment}
+            onStatusChange={handleStatusChange}
+            onComment={handleCommentOpen}
+          />
+        )}
+      </main>
 
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Codebase Stats</h3>
-            <dl className="space-y-3">
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Total Files</dt>
-                <dd className="text-sm text-gray-900">{report.stats.totalFiles}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Bundle Size</dt>
-                <dd className="text-sm text-gray-900">{report.stats.totalSizeMB} MB</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">File Types</dt>
-                <dd className="text-sm text-gray-900">
-                  {Object.entries(report.stats.fileTypes).map(([ext, count]) => (
-                    <span key={ext} className="inline-block mr-3">
-                      {ext}: {count}
-                    </span>
-                  ))}
-                </dd>
-              </div>
-              {report.lint && (
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Lint Status</dt>
-                  <dd className="text-sm text-gray-900">
-                    {report.lint.error ? (
-                      <span className="text-yellow-600">{report.lint.error}</span>
-                    ) : (
-                      <span className="text-green-600">
-                        {report.lint.errorCount || 0} errors, {report.lint.warningCount || 0} warnings
-                      </span>
-                    )}
-                  </dd>
-                </div>
-              )}
-              {report.typecheck && (
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">TypeScript</dt>
-                  <dd className="text-sm text-gray-900">
-                    <span className={report.typecheck.status === 'passed' ? 'text-green-600' : 'text-red-600'}>
-                      {report.typecheck.errors} errors ({report.typecheck.status})
-                    </span>
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </div>
+      <BottomBar
+        visible={Boolean(selectedSegment)}
+        onEdit={() => setMode('focus')}
+        onAccept={() => {
+          if (!selectedSegment) return
+          handleStatusChange(selectedSegment.rowId, selectedSegment.id, 'aligned')
+        }}
+        onFlag={() => {
+          if (!selectedSegment) return
+          handleStatusChange(selectedSegment.rowId, selectedSegment.id, 'needs_review')
+        }}
+        onComment={handleCommentOpen}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+      />
 
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Key Features</h3>
-            <ul className="space-y-2">
-              {report.architecture.features.map((feature) => (
-                <li key={feature} className="text-sm text-gray-600 flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            {report.build && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <h4 className="text-sm font-medium text-gray-500 mb-2">Build Info</h4>
-                <div className="text-sm text-gray-600">
-                  <div>Status: <span className={report.build.status === 'available' ? 'text-green-600' : 'text-yellow-600'}>{report.build.status}</span></div>
-                  {report.build.pages && <div>Pages: {report.build.pages}</div>}
-                  {report.build.staticSizeMB && <div>Static Size: {report.build.staticSizeMB} MB</div>}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* File Tree */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg border border-gray-200">
-              <div className="border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-medium text-gray-900">Project Structure</h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Explore the codebase structure. Click files to preview.
-                </p>
-              </div>
-              <div className="p-2 max-h-96 overflow-y-auto">
-                <FileTreeNode
-                  node={fileTree}
-                  onFileSelect={handleFileSelect}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* File Viewer */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg border border-gray-200">
-              <div className="border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {selectedFile || 'File Preview'}
-                </h3>
-                {selectedFile && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    Preview mode - download bundle for complete source
-                  </p>
-                )}
-              </div>
-              <div className="p-4">
-                {selectedFile ? (
-                  <pre className="bg-gray-50 rounded-md p-4 text-sm overflow-auto max-h-64">
-                    <code>{fileContent}</code>
-                  </pre>
-                ) : (
-                  <div className="text-center py-12 text-gray-500">
-                    <FileText className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                    <p>Select a file from the tree to preview its content</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Routes Overview */}
-        <div className="mt-8">
-          <div className="bg-white rounded-lg border border-gray-200">
-            <div className="border-b border-gray-200 px-4 py-3">
-              <h3 className="text-lg font-medium text-gray-900">Application Routes</h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Available pages and API endpoints
-              </p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Route
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Type
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      File
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {report.routes.map((route) => (
-                    <tr key={route.path}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
-                        {route.path}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          route.type === 'page'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-green-100 text-green-800'
-                        }`}>
-                          {route.type}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
-                        {route.file}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CommentDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        segment={selectedSegment}
+        comments={currentComments}
+        onSubmit={handleAddComment}
+      />
     </div>
   )
 }

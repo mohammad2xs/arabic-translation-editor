@@ -38,12 +38,12 @@
 ### Required Artifacts
 - ✅ `outputs/book-final.docx` (11KB) - `da7f27aa4533defc...`
 - ✅ `outputs/triview.json` (21KB) - `49556faad133743b...`
-- ✅ `reports/quality-gates.json` (7KB) - `1741ccb14c868472...`
+- ✅ `artifacts/reports/quality-gates.json` (7KB) - `1741ccb14c868472...`
 
 ### Optional Artifacts
 - ❌ `outputs/book.epub`
 - ❌ `outputs/audiobook`
-- ✅ `reports/deployment-report.json` (5KB) - `889db48902dce442...`
+- ✅ `artifacts/reports/deployment-report.json` (5KB) - `889db48902dce442...`
 
 ---
 

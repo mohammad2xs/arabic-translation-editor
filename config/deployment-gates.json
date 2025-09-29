@@ -54,12 +54,12 @@
     "requiredArtifacts": [
       "outputs/book-final.docx",
       "outputs/triview.json",
-      "reports/quality-gates.json"
+      "artifacts/reports/quality-gates.json"
     ],
     "optionalArtifacts": [
       "outputs/book.epub",
       "outputs/audiobook",
-      "reports/deployment-report.json"
+      "artifacts/reports/deployment-report.json"
     ]
   },
   "retryPolicy": {

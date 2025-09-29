@@ -7,6 +7,7 @@ outputs/*.zip
 codex_bundle.zip
 outputs/audiobook
 outputs/share
+.cache/
 .DS_Store
 *.zip
 *.m4b

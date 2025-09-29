@@ -1,447 +1,127 @@
 # Arabic Translation Editor
 
-A sophisticated tri-view translation editor for Arabic texts with MCP (Model Context Protocol) integration, GitHub CLI workflow, and intelligent development tools powered by Console Ninja and Nx Console.
+Manual-first reviewer workspace for the Al-Insān manuscript. The toolchain indexes existing Arabic ⇄ English assets, exposes a Cursor-style Reviewer UI (Reader / Compare / Focus), and ships artifacts that stay in sync with MCP-driven workflows.
 
-## Features
+## Highlights
+- **No Machine Translation** – `npm run index` discovers bilingual material (sections JSON, bilingual markdown/docx) and writes `.cache/parallel.jsonl` + `.cache/manifest.json`.
+- **Reviewer UI** – Reader, Compare, and Focus modes with inline QA badges, Dad mode, presentation toggle, and export menu.
+- **One-command ship** – `npm run ship` validates caches, prepares artifacts, and writes deployment handoff notes.
+- **Always-in-context** – `npm run ctx:sync` produces digest + manifest, `npm run ctx:screens` captures Playwright screenshots.
 
-- **Tri-View Interface**: Arabic-Original, Arabic-Enhanced, and English translation columns
-- **MCP Integration**: Enhanced translation capabilities via web-to-mcp server
-- **Quality Assessment**: LPR (Length Preservation Ratio) and quality gates
-- **Scripture Verification**: Quran and Hadith reference validation
-- **GitHub CLI Integration**: Complete workflow management from terminal
-- **Console Ninja Integration**: Enhanced debugging and structured logging
-- **Nx Console Integration**: Intelligent code generation and auto-fixing
-- **Self-Healing System**: Automatic platform monitoring and issue resolution
-- **Intelligent Auto-Fixing**: Automated code quality improvements
+---
 
-## Directory Overview
+## Quick Start (Reviewer UI, No MT)
 
-- **app/** – Next.js app-router routes and UI composition.
-- **lib/** – Shared domain logic (assistant, MCP, storage, quality checks).
-- **scripts/** & **orchestrate/** – MCP-enabled automation for ingestion, validation, and deployment.
-- **artifacts/reports/** – Canonical quality and deployment reports consumed by MCP tools.
-- **outputs/** – Active translation assets; legacy bundles live in `outputs/archive/`.
-- **docs/** – Topic-specific guides grouped under `architecture/`, `deployment/`, `integrations/`, `setup/`, and `reference/`.
-
-## Quick Start
-
-### 1. Install Dependencies
-
-```bash
-npm install
-```
-
-### 2. Start Development Server
-
-```bash
-# Basic development server
-npm run dev
-
-# Development with monitoring and auto-fixing
-npm run dev:full
-
-# Development with Console Ninja monitoring
-npm run dev:monitored
-```
-
-Visit: <http://localhost:3000/tri>
-
-### 3. Run Translation Pipeline
-
-```bash
-# Standard pipeline
-npm run orchestrate
-
-# MCP-enhanced pipeline
-npm run orchestrate:mcp
-```
-
-### 4. Enable Intelligent Development Tools
-
-```bash
-# Start self-healing monitoring
-npm run monitor:start
-
-# Run intelligent auto-fixing
-npm run fix:all
-
-# Test Console Ninja integration
-npm run console:ninja
-```
-
-## Console Ninja & Nx Console Integration
-
-This project features advanced development tools integration for enhanced debugging, intelligent code generation, and self-sustaining platform capabilities.
-
-### Console Ninja Integration
-
-Console Ninja provides enhanced debugging and structured logging capabilities:
-
-#### Features
-
-- **Structured Logging**: Rich, contextual logging with timestamps and metadata
-- **Domain-Specific Loggers**: Custom loggers for assistant, translation, quality, and audio
-- **Performance Monitoring**: Real-time performance tracking and memory usage
-- **Error Tracking**: Comprehensive error logging with stack traces
-- **Persistent Logs**: Logs persist across sessions for better debugging
-
-#### Usage
-
-```typescript
-import { logger } from './lib/logging/console-ninja';
-
-// Basic logging
-logger.info('User logged in', { userId: '123' });
-logger.error('API call failed', { error: error.message });
-
-// Domain-specific logging
-logger.assistant('Claude response generated', { tokens: 150 });
-logger.translation('Text translated', { source: 'ar', target: 'en' });
-logger.quality('Quality check passed', { score: 0.95 });
-logger.audio('Audio generated', { duration: 30 });
-
-// Performance monitoring
-logger.performance('Database query', 250, { query: 'SELECT * FROM users' });
-
-// Error tracking
-logger.trackError(error, { context: 'user-action' });
-```
-
-### Nx Console Integration
-
-Nx Console provides intelligent code generation and auto-fixing capabilities:
-
-#### Features
-
-- **Intelligent Code Generation**: Automated code generation for components and services
-- **Auto-Fixing System**: Intelligent fixing of TypeScript, React, and Next.js issues
-- **Code Quality**: Automated code quality improvements and best practices
-- **Dependency Management**: Smart dependency resolution and updates
-
-#### Available Commands
-
-```bash
-# Nx Console commands
-npm run nx:generate    # Generate code with Nx
-npm run nx:run         # Run Nx commands
-npm run nx:build       # Build with Nx
-npm run nx:test        # Test with Nx
-npm run nx:lint        # Lint with Nx
-```
-
-### Self-Healing System
-
-The platform includes a comprehensive self-healing system that monitors and automatically fixes issues:
-
-#### Health Checks
-
-- **Database Connectivity**: Monitors data directory access
-- **API Endpoints**: Checks API endpoint health
-- **Memory Usage**: Monitors memory consumption
-- **File System Permissions**: Validates file system access
-- **TypeScript Compilation**: Checks for compilation errors
-
-#### Auto-Fixing Rules
-
-- **Import Fixes**: Missing React imports, incorrect import paths
-- **TypeScript Fixes**: Missing type annotations, interface exports
-- **React Fixes**: Missing use client directives, performance optimizations
-- **Next.js Fixes**: API route structure, middleware configuration
-- **Accessibility Fixes**: Missing ARIA labels, accessibility improvements
-
-#### Monitoring Commands
-
-```bash
-# Start monitoring
-npm run monitor:start
-
-# Stop monitoring
-npm run monitor:stop
-
-# Run health checks
-npm run monitor:health
-
-# Enable intelligent fixer
-npm run fix:intelligent
-
-# Run all fixes
-npm run fix:all
-```
-
-### VS Code Configuration
-
-The project includes pre-configured VS Code settings for optimal development experience:
-
-#### Extensions
-
-- **Console Ninja**: `console-ninja.console-ninja`
-- **Nx Console**: `nrwl.angular-console`
-- **Additional Tools**: ESLint, Prettier, TypeScript, Tailwind CSS
-
-#### Features
-
-- **Auto-save**: Automatic file saving with 1-second delay
-- **Format on Save**: Automatic code formatting
-- **IntelliSense**: Enhanced code completion and suggestions
-- **Debugging**: Pre-configured debug configurations
-- **Tasks**: Automated development tasks
-
-## GitHub CLI Integration
-
-This project includes comprehensive GitHub CLI integration for streamlined development workflow.
-
-### Setup GitHub CLI
-
-1. **Install GitHub CLI** (if not already installed):
-
+1. **Install deps**
    ```bash
-   brew install gh
+   npm install
    ```
 
-2. **Authenticate with GitHub**:
-
+2. **Index current translations**
    ```bash
-   npm run github:auth
+   npm run index
    ```
+   - Writes `.cache/parallel.jsonl` (aligned segments) and `.cache/manifest.json` (coverage summary).
+   - If coverage < 95 %, Compare view keeps merge/split controls visible and MT UI stays hidden.
 
-3. **Setup GitHub Repository**:
-
+3. **Run the reviewer UI**
    ```bash
-   npm run github:setup
+   npm run dev
    ```
+   Visit <http://localhost:3000/review>
 
-### Available GitHub Commands
+## Raising Coverage (No MT)
 
-- `npm run github:auth` - Authenticate with GitHub
-- `npm run github:issues` - List all issues
-- `npm run github:pr` - Create a pull request
-- `gh pr status` - Check pull request status
-- `gh repo view` - View repository information
+1. **Inventory everything** – catalog in-repo + manual inclusions.
+   ```bash
+   npm run find:translations -- --include "./**/*.md" --include "./**/*.txt" --include "./**/*.docx"
+   ```
+   Outputs `artifacts/reports/translation-inventory.json` + `.csv` with size, lang guess, snippet.
+2. **Auto-map known pairs** – reuse existing basenames/chapters.
+   ```bash
+   npm run map:auto
+   ```
+   Writes `config/translations-map.json` (and `config/translations-map.backup.<ISO>.json`) with confidence ≥0.80.
+3. **(Optional) Link external English** – keep content out of repo but indexable.
+   ```bash
+   npm run map:link -- --link "/absolute/path/to/english" --pattern "**/*.{md,txt,docx}" --name external
+   ```
+   Adds a symlink under `content/english/<name>` + a folder rule in `config/translations-map.json`.
+4. **Re-index using the map (no MT)**.
+   ```bash
+   npm run index:map
+   ```
+   Refreshes `.cache/parallel.jsonl` + `.cache/manifest.json` and prints coverage + top misses.
 
-### GitHub Workflow Features
+Artifacts live under `artifacts/reports/`; coverage + alignment caches are always regenerated in `.cache/`.
 
-- **Automated Repository Creation**: Sets up GitHub repository with proper configuration
-- **Issue Templates**: Pre-configured issues for common development tasks
-- **Pull Request Templates**: Standardized PR templates for code review
-- **Quality Gates**: Automated quality validation before merging
+### Modes & Shortcuts
+| Mode | Purpose | Primary shortcuts |
+| --- | --- | --- |
+| Reader | Target-only, 70–85 ch width with ToC | – |
+| Compare | RTL ↔ LTR alignment with merge/split and QA badges | – |
+| Focus | Single segment review card | ⌘/Ctrl+E edit · ⌘/Ctrl+Enter accept · ⌘/Ctrl+←/→ navigate |
 
-## Translation Pipeline
+Additional shortcuts:
+- **Comment drawer** – `Comments` button or Bottom Bar → Comment
+- **Undo / Redo translations** – Bottom Bar buttons (tracked per segment)
+- **Dad mode** – Toggle in topbar or append `?mode=dad` to URL (persists in `localStorage`)
+- **Presentation** – Toggle `Screenshare` in topbar (adds `.presentation-mode` class for FaceTime walkthroughs)
 
-### Standard Pipeline
+### QA Badge
+`lib/qa.ts` performs numbers parity, bracket/quote balance, ending punctuation, and length ratio checks (0.6–1.6 guard). Badges surface per segment and aggregate in the topbar.
 
+---
+
+## Exports
+Topbar → **Export** delivers ready-to-share artifacts:
+- **Target (.txt / .md / .docx)** – Reader-friendly targets for linear review.
+- **Aligned (.json)** – Writes the current `.cache/parallel.jsonl` payload for downstream tooling.
+
+---
+
+## One-command Ship
 ```bash
-npm run orchestrate
+SHIP_TOKEN=secret npm run ship
 ```
+- Runs `npm run build`, verifies `.cache`, ensures `artifacts/reports/screens/` exists, and writes **artifacts/reports/DEPLOYMENT.md**.
+- If `SHIP_TOKEN` is set, `DEPLOYMENT.md` reminds reviewers to append `?t=XXXX` or expect the PIN gate.
+- Vercel CLI not detected? The script prints exact commands to run (`vercel deploy --prebuilt`, `vercel deploy --prebuilt --prod`) so you can ship manually.
 
-### MCP-Enhanced Pipeline
+---
 
+## Always-In-Context Workflow
+1. `npm run index` – refresh `.cache` before each reviewer session.
+2. `npm run ctx:sync` – generates:
+   - `artifacts/reports/context-digest.md`
+   - `artifacts/reports/context-manifest.json`
+3. `npm run ctx:screens` – (first run: `npx playwright install chromium`) then launches a temporary server and captures:
+   - `reviewer-reader.png`
+   - `reviewer-compare.png`
+   - `reviewer-focus.png`
+   - `reviewer-dad-mode.png`
+   - `reviewer-presentation.png`
+4. Attach `context-digest.md`, `context-manifest.json`, and screenshots in Cursor → Indexing alongside `mcp.json`.
+
+---
+
+## MCP Budget Check
+Heavy MCP servers (git, quran, translate, crawl) can easily exceed Cursor’s tool budget. Run:
 ```bash
-npm run orchestrate:mcp
+npm run mcp:budget
 ```
+- Prints tool totals per server.
+- Warns when allocations approach ~80 tools so you can disable optional servers before connecting to Cursor.
 
-### Scale to Full Document
+---
 
-```bash
-npm run scale:full
-```
+## Directory Map
+- **app/** – Next.js app router (reviewer UI now lives at `/review`).
+- **components/** – Topbar, ModeSwitch, Reader/Compare/Focus views, BottomBar, CommentDrawer, QA badge.
+- **lib/** – `lang.ts`, `segment.ts`, `align.ts`, `data/parallel.ts`, `qa.ts`, speech recognition hook.
+- **scripts/** – Indexing pipeline, shipping helpers, context sync, screenshot capture, MCP tooling.
+- **types/** – Shared TypeScript definitions (`parallel`, `speech-recognition`, env vars).
+- **artifacts/reports/** – Deployment notes, context digest, captured screenshots.
+- **outputs/** – Archived bilingual assets (no new MT content generated).
 
-### Quality Validation
-
-```bash
-npm run validate:quality
-```
-
-## Project Structure
-
-```
-├── app/                    # Next.js application
-│   ├── api/               # API routes
-│   │   ├── mcp/          # MCP integration endpoints
-│   │   ├── assistant/    # AI assistant endpoints
-│   │   └── audio/        # Audio generation endpoints
-│   ├── (components)/     # React components
-│   └── tri/              # Main translation interface
-├── lib/                   # Core libraries
-│   ├── mcp/              # MCP client and services
-│   ├── logging/          # Console Ninja integration
-│   │   └── console-ninja.ts
-│   ├── auto-fix/         # Intelligent auto-fixing
-│   │   └── intelligent-fixer.ts
-│   ├── monitoring/       # Self-healing system
-│   │   └── self-healing.ts
-│   ├── complexity.ts     # LPR calculations
-│   └── guards.ts         # Quality gates
-├── .vscode/              # VS Code configuration
-│   ├── settings.json     # Extension settings
-│   ├── extensions.json   # Recommended extensions
-│   ├── tasks.json        # Development tasks
-│   └── launch.json       # Debug configurations
-├── orchestrate/           # Pipeline orchestration
-│   ├── pipeline.ts       # Standard pipeline
-│   └── mcp-pipeline.mjs  # MCP-enhanced pipeline
-├── scripts/              # Utility scripts
-│   ├── github-workflow.mjs
-│   ├── scale-to-full.mjs
-│   └── quality-validation.mjs
-└── outputs/              # Generated outputs
-    ├── triview.json      # Standard results
-    ├── triview-mcp.json  # MCP-enhanced results
-    └── tmp/rows/         # Individual row data
-```
-
-## MCP Integration
-
-The translation pipeline still supports the historical `web-to-mcp` bridge (`npm run orchestrate:mcp`), but Cursor/CodeX now defaults to the lean local MCP profile defined in `mcp.json`. The focused server list keeps everyday work comfortably below Cursor's ~80-tool ceiling while preserving repo, filesystem, HTTP, browser, translation, and Qur'an reference coverage.
-
-> **MCP Config**
-> Project tooling reads **./mcp.json** as the single source for servers. After editing the file, reload in Cursor via `Cursor → Settings → MCP`, then toggle any server to refresh the connection list.
-
-## MCP Setup
-
-1. Copy `.env.example` to `.env` and set secrets (at minimum `GITHUB_TOKEN=`). Add `export GITHUB_TOKEN=...` to your shell profile (for example `~/.zshrc`) so Cursor inherits the token. Optional entries (`FIRECRAWL_API_KEY`, `LIBRETRANSLATE_URL`, etc.) only need values when you enable those services.
-2. The config prefers binaries in `$HOME/bin/mcp-servers/node_modules/.bin`. If that directory is missing, either install with `npm install --global-dir "$HOME/bin/mcp-servers" mcp-github mcp-server-filesystem mcp-server-puppeteer mcp-server-memory` or edit the corresponding commands to `npx -y <package>` before reloading Cursor.
-3. Optional servers: remove or rename the `firecrawl` section if you want the absolute minimum footprint; leave it in place when you need page extraction. Everything else is core.
-4. Smoke test locally: run `chmod +x scripts/mcp-smoke.sh && ./scripts/mcp-smoke.sh` to confirm versions and available binaries, then in Cursor try quick calls (filesystem list of the repo root, GitHub repo info, `duckduckgo-search` query, `libretranslate` EN↔AR snippet, `quran-api` verse lookup, `playwright` screenshot). The intentional lean profile helps Cursor stay responsive.
-
-## Quality Metrics
-
-- **LPR (Length Preservation Ratio)**: Target ≥ 1.05, Minimum ≥ 0.95
-- **Coverage**: 100% semantic coverage required
-- **Scripture Verification**: All references must resolve
-- **Confidence Scoring**: Translation confidence assessment
-
-## Available NPM Scripts
-
-### Development
-
-```bash
-npm run dev              # Start development server
-npm run dev:monitored    # Start with Console Ninja monitoring
-npm run dev:full         # Start with full auto-fixing and monitoring
-npm run build            # Build for production
-npm run start            # Start production server
-```
-
-### Code Quality & Fixing
-
-```bash
-npm run lint             # Run ESLint
-npm run type-check       # Run TypeScript type checking
-npm run check:lean       # Run both lint and type-check
-npm run fix:all          # Run all fixes (lint, type-check, intelligent)
-npm run fix:intelligent  # Enable intelligent auto-fixer
-```
-
-> **TypeScript Notes**
-> - Browser speech recognition is shimmed in `types/speech-recognition.d.ts` so strict mode understands the WebKit APIs.
-> - UI components should use `useSpeechRecognition` from `lib/hooks/useSpeechRecognition` instead of constructing globals directly.
-
-> **Quick verify**
-> ```bash
-> npm run verify
-> npm run type-check
-> ```
-> `verify` runs lint (non-blocking) followed by the strict type-check; rerun `npm run type-check` alone when you need a clean report.
-
-### Console Ninja & Monitoring
-
-```bash
-npm run console:ninja    # Test Console Ninja integration
-npm run monitor:start    # Start self-healing monitoring
-npm run monitor:stop     # Stop monitoring
-npm run monitor:health   # Run health checks
-```
-
-### Nx Console Integration
-
-```bash
-npm run nx:generate      # Generate code with Nx
-npm run nx:run           # Run Nx commands
-npm run nx:build         # Build with Nx
-npm run nx:test          # Test with Nx
-npm run nx:lint          # Lint with Nx
-```
-
-### Translation Pipeline
-
-```bash
-npm run orchestrate      # Standard translation pipeline
-npm run orchestrate:mcp  # MCP-enhanced pipeline
-npm run scale:full       # Scale to full document
-npm run validate:quality # Validate quality metrics
-npm run report:final     # Generate final report
-```
-
-### GitHub CLI Integration
-
-```bash
-npm run github:setup     # Setup GitHub repository
-npm run github:auth      # Authenticate with GitHub
-npm run github:issues    # List GitHub issues
-npm run github:pr        # Create pull request
-```
-
-### Audio & Export
-
-```bash
-npm run setup:audio      # Setup audio generation
-npm run test:tts         # Test text-to-speech
-npm run export:docx      # Export to DOCX
-npm run export:audio     # Export audio files
-npm run export:epub      # Export to EPUB
-```
-
-### Utilities
-
-```bash
-npm run smoke            # Run smoke tests
-npm run bundlesize       # Analyze bundle size
-npm run prune            # Check for unused dependencies
-npm run status:dashboard # Show pipeline status
-```
-
-## Development Workflow
-
-1. **Make Changes**: Edit code in your preferred editor
-2. **Test Locally**: Run `npm run dev:full` and test at <http://localhost:3000/tri>
-3. **Auto-Fix Issues**: Run `npm run fix:all` to automatically fix common issues
-4. **Run Pipeline**: Execute `npm run orchestrate:mcp` for translation processing
-5. **Validate Quality**: Run `npm run validate:quality` to check metrics
-6. **Monitor Health**: Use `npm run monitor:health` to check platform health
-7. **Create PR**: Use `npm run github:pr` to create pull request
-8. **Review**: Use `gh pr status` to check review status
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes
-4. Run quality validation: `npm run validate:quality`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Create a Pull Request: `npm run github:pr`
-
-## Dad Mode Quick Guide
-
-- **Open the workspace**: start the dev server (`npm run dev`) and visit `/dad` or run `curl http://localhost:3000/dad` for a quick render check.
-- **Navigate sections**: use the jump dropdown or `Prev/Next` buttons; sections are listed as `ID — Title`, falling back to inferred Arabic headings when explicit titles are missing.
-- **Column presets & toggles**: `EN only`, `EN + AR Enhanced`, and `All three` presets persist, and individual lane buttons (Original AR, Enhanced AR, English) hide/show columns without remounting content.
-- **Density controls**: switch between Cozy / Compact / Super-compact to adjust line height and fit 8–12 rows by default; rows-per-view selector (10/20/40/All) also persists.
-- **KPIs & audio**: the header shows `Reviewed X / Y`, pending notes, last saved time, plus inline buttons to play or generate section audio (stubbed `.m4b` output for now).
-- **Keyboard shortcuts**: `1`, `2`, `3` toggle Original/Enhanced/English lanes; `Cmd/Ctrl+Shift+F` focuses the current lane; `[` and `]` step rows-per-view.
-- **Accessibility hints**: buttons meet 44 px touch targets, density responds to system font scaling, and RTL/LTR layout stays intact across lane combinations.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [GitHub CLI](https://cli.github.com/) for terminal-based workflow management
-- [Model Context Protocol](https://modelcontextprotocol.io/) for enhanced AI capabilities
-- [Console Ninja](https://console-ninja.com/) for enhanced debugging and structured logging
-- [Nx Console](https://nx.dev/console) for intelligent code generation and auto-fixing
-- [Next.js](https://nextjs.org/) and [React](https://reactjs.org/) for the web interface
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [TypeScript](https://www.typescriptlang.org/) for type safety
-- [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) for code quality
+Happy reviewing! 🚀

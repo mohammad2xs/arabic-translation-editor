@@ -159,6 +159,27 @@
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
 }
 
+/* Presentation mode for FaceTime screenshares */
+.presentation-mode {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.presentation-mode .app-chrome {
+  display: none !important;
+}
+
+.presentation-mode .presentation-content {
+  max-width: 62ch;
+  font-size: 1.15em;
+  line-height: 1.75;
+  margin: 0 auto;
+}
+
+.presentation-mode .presentation-content p {
+  margin-bottom: 1.4em;
+}
+
 /* Navigation and progression indicators */
 .dad-mode .progress-indicator {
   height: 1rem !important;

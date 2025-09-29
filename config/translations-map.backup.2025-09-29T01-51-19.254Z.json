@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "generatedAt": "2025-09-29T01:40:26.530188000Z",
+  "pairs": [],
+  "folders": [],
+  "provenance": {
+    "generatedBy": "scripts/maps/build-translations-map.mjs",
+    "inventory": "artifacts/reports/translation-inventory.json"
+  }
+}

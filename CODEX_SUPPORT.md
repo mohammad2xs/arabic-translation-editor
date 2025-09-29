@@ -114,10 +114,10 @@ lib/env.ts
 lib/guards.ts
 lib/tm.ts
 package.json
-reports/deployment-report.json
-reports/deployment-report.md
-reports/quality-gates.json
-reports/quality-gates.md
+artifacts/reports/deployment-report.json
+artifacts/reports/deployment-report.md
+artifacts/reports/quality-gates.json
+artifacts/reports/quality-gates.md
 scripts/codex-support.mjs
 scripts/generate-final-report.ts
 scripts/github-workflow.mjs
@@ -456,10 +456,10 @@ scripts/smoke.mjs
 ```
 
 ## 5) Reports (if any)
-- reports/quality-gates.md: present ✅
-- reports/quality-gates.json: present ✅
-- reports/deployment-report.md: present ✅
-- reports/deployment-report.json: present ✅
+- artifacts/reports/quality-gates.md: present ✅
+- artifacts/reports/quality-gates.json: present ✅
+- artifacts/reports/deployment-report.md: present ✅
+- artifacts/reports/deployment-report.json: present ✅
 
 ## 6) Export artifacts
 - outputs/book-final.docx: present ✅
