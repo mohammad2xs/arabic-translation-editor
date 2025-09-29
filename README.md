@@ -14,6 +14,15 @@ A sophisticated tri-view translation editor for Arabic texts with MCP (Model Con
 - **Self-Healing System**: Automatic platform monitoring and issue resolution
 - **Intelligent Auto-Fixing**: Automated code quality improvements
 
+## Directory Overview
+
+- **app/** – Next.js app-router routes and UI composition.
+- **lib/** – Shared domain logic (assistant, MCP, storage, quality checks).
+- **scripts/** & **orchestrate/** – MCP-enabled automation for ingestion, validation, and deployment.
+- **artifacts/reports/** – Canonical quality and deployment reports consumed by MCP tools.
+- **outputs/** – Active translation assets; legacy bundles live in `outputs/archive/`.
+- **docs/** – Topic-specific guides grouped under `architecture/`, `deployment/`, `integrations/`, `setup/`, and `reference/`.
+
 ## Quick Start
 
 ### 1. Install Dependencies
@@ -284,6 +293,9 @@ npm run validate:quality
 
 The translation pipeline still supports the historical `web-to-mcp` bridge (`npm run orchestrate:mcp`), but Cursor/CodeX now defaults to the lean local MCP profile defined in `mcp.json`. The focused server list keeps everyday work comfortably below Cursor's ~80-tool ceiling while preserving repo, filesystem, HTTP, browser, translation, and Qur'an reference coverage.
 
+> **MCP Config**
+> Project tooling reads **./mcp.json** as the single source for servers. After editing the file, reload in Cursor via `Cursor → Settings → MCP`, then toggle any server to refresh the connection list.
+
 ## MCP Setup
 
 1. Copy `.env.example` to `.env` and set secrets (at minimum `GITHUB_TOKEN=`). Add `export GITHUB_TOKEN=...` to your shell profile (for example `~/.zshrc`) so Cursor inherits the token. Optional entries (`FIRECRAWL_API_KEY`, `LIBRETRANSLATE_URL`, etc.) only need values when you enable those services.
@@ -319,6 +331,17 @@ npm run check:lean       # Run both lint and type-check
 npm run fix:all          # Run all fixes (lint, type-check, intelligent)
 npm run fix:intelligent  # Enable intelligent auto-fixer
 ```
+
+> **TypeScript Notes**
+> - Browser speech recognition is shimmed in `types/speech-recognition.d.ts` so strict mode understands the WebKit APIs.
+> - UI components should use `useSpeechRecognition` from `lib/hooks/useSpeechRecognition` instead of constructing globals directly.
+
+> **Quick verify**
+> ```bash
+> npm run verify
+> npm run type-check
+> ```
+> `verify` runs lint (non-blocking) followed by the strict type-check; rerun `npm run type-check` alone when you need a clean report.
 
 ### Console Ninja & Monitoring
 
