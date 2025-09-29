@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 4599c90189c1b0bde00a14c2c8cdf2a8646ed3b0 Abagi2xs <mohammad2xs@gmail.com> 1759074520 -0400	commit (initial): Initial commit
+4599c90189c1b0bde00a14c2c8cdf2a8646ed3b0 4845221770599eecad53fdba40e518cf4f9d594a Abagi2xs <mohammad2xs@gmail.com> 1759074928 -0400	commit: Export adapter + DOCX/EPUB fixes, quality gates, Codex support bundle
+4845221770599eecad53fdba40e518cf4f9d594a 4845221770599eecad53fdba40e518cf4f9d594a Abagi2xs <mohammad2xs@gmail.com> 1759078394 -0400	checkout: moving from main to feat/vibe-setup
+4845221770599eecad53fdba40e518cf4f9d594a d22e6db5befa6e3a1e373bcfb07640ccc2443c40 Abagi2xs <mohammad2xs@gmail.com> 1759078701 -0400	commit: chore: vibe workflow (PR previews, cursorrules, DevTools MCP, quality/exports, share bundle)
+d22e6db5befa6e3a1e373bcfb07640ccc2443c40 4845221770599eecad53fdba40e518cf4f9d594a Abagi2xs <mohammad2xs@gmail.com> 1759078846 -0400	checkout: moving from feat/vibe-setup to main
+4845221770599eecad53fdba40e518cf4f9d594a d22e6db5befa6e3a1e373bcfb07640ccc2443c40 Abagi2xs <mohammad2xs@gmail.com> 1759078976 -0400	merge feat/vibe-setup: Fast-forward

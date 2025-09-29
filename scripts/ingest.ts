@@ -6,6 +6,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { segmentArabicText } from '../lib/ingest/segment';
+import { buildSearchIndex, writeSearchIndex } from '../lib/search/indexer';
 
 const DOCX_PATH = './al-insan.docx';
 const DATA_DIR = './data';
@@ -263,6 +264,11 @@ async function main() {
     const publicManifestPath = path.join(PUBLIC_DATA_DIR, 'manifest.json');
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
     await fs.writeFile(publicManifestPath, JSON.stringify(manifest, null, 2), 'utf8');
+
+    console.log('Building search index...');
+    const searchRecords = await buildSearchIndex();
+    const searchIndexPath = await writeSearchIndex(searchRecords);
+    console.log(`  Search index: ${searchIndexPath}`);
 
     console.log(`✓ Ingestion complete!`);
     console.log(`  Sections: ${processedSections.length}`);

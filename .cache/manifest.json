@@ -1,0 +1,18 @@
+{
+  "coveragePct": 92.03,
+  "sourcesFound": 4067,
+  "targetsFound": 4216,
+  "pairCount": 1221,
+  "reasonsForMiss": {
+    "no_target_match": 33
+  },
+  "updatedAt": "2025-09-29T03:59:14.415Z",
+  "usedMap": true,
+  "summary": {
+    "mapPairs": 1180,
+    "folderPairs": 0,
+    "autoPairs": 0,
+    "singleFileEntries": 41,
+    "matchedSegments": 3743
+  }
+}

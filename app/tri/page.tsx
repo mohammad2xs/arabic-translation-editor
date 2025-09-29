@@ -20,6 +20,7 @@ import ContextSwitcher, { useContextSwitcher, ViewMode } from '../(components)/C
 import SectionPreview, { useSectionPreview } from '../(components)/SectionPreview';
 import AudioBar from '../(components)/AudioBar';
 import AudiobookPanel from '../(components)/AudiobookPanel';
+import SearchPanel from '@/components/SearchPanel';
 import { useSyncClient } from '../../lib/sync/client';
 import { shortcuts as shortcutManager, SHORTCUTS } from '../../lib/ui/shortcuts';
 
@@ -167,6 +168,9 @@ function TriViewPageContent() {
   const [conflictQueue, setConflictQueue] = useState<Array<{ id: string; changes: Record<string, any>; timestamp: string }>>([]);
   const [showConflictModal, setShowConflictModal] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchDefaults, setSearchDefaults] = useState<{ sectionIds?: string[]; status?: 'all' | 'pending' | 'in-progress' | 'approved'; minNotes?: number; includeScriptureOnly?: boolean }>({ sectionIds: ['S001'] });
+  const [pendingRowId, setPendingRowId] = useState<string | null>(null);
 
   const findInputRef = useRef<HTMLInputElement>(null);
   const englishScrollRef = useRef<HTMLDivElement>(null);     // Reordered
@@ -176,6 +180,7 @@ function TriViewPageContent() {
   const enhancedTextareaRef = useRef<HTMLTextAreaElement>(null);
   const englishTextareaRef = useRef<HTMLTextAreaElement>(null); // Added for English
   const autoSaveTimersRef = useRef<Record<string, number>>({});
+  const pendingRowRef = useRef<string | null>(null);
 
   const currentRow = rows[currentRowIndex];
 
@@ -259,6 +264,10 @@ function TriViewPageContent() {
     }
   });
 
+  useEffect(() => {
+    pendingRowRef.current = pendingRowId;
+  }, [pendingRowId]);
+
   // Initialize Dad-Mode on mount
   useEffect(() => {
     initializeDadMode();
@@ -341,6 +350,44 @@ function TriViewPageContent() {
   const handleToggleCmdPalette = useCallback(() => {
     setIsCmdPaletteOpen(prev => !prev);
   }, []);
+
+  const handleOpenSearch = useCallback(() => {
+    setSearchDefaults(prev => ({
+      ...prev,
+      sectionIds: currentSectionId ? [currentSectionId] : [],
+    }));
+    setIsSearchOpen(true);
+  }, [currentSectionId]);
+
+  const handleSearchSelect = useCallback((selection: { rowId: string; sectionId: string; sectionTitle: string; score: number }) => {
+    if (!selection) return;
+    setIsSearchOpen(false);
+
+    const { sectionId, rowId } = selection;
+
+    setSearchDefaults(prev => ({
+      ...prev,
+      sectionIds: sectionId ? [sectionId] : [],
+    }));
+
+    if (sectionId !== currentSectionId) {
+      setPendingRowId(rowId);
+      pendingRowRef.current = rowId;
+      setCurrentSectionId(sectionId);
+      return;
+    }
+
+    const targetIndex = rows.findIndex(row => row.id === rowId);
+    if (targetIndex !== -1) {
+      setCurrentRowIndex(targetIndex);
+      setFocusedRowIndex(targetIndex);
+      setPendingRowId(null);
+      pendingRowRef.current = null;
+    } else {
+      setPendingRowId(rowId);
+      pendingRowRef.current = rowId;
+    }
+  }, [currentSectionId, rows]);
 
   const handleRunAssistantPreset = useCallback((presetId: string) => {
     setIsAssistantOpen(true);
@@ -547,6 +594,10 @@ function TriViewPageContent() {
   useEffect(() => {
     const shortcutHandlers = [
       {
+        ...SHORTCUTS.GLOBAL_SEARCH,
+        handler: handleOpenSearch,
+      },
+      {
         ...SHORTCUTS.COMMAND_PALETTE,
         handler: () => setIsCmdPaletteOpen(prev => !prev),
       },
@@ -573,7 +624,7 @@ function TriViewPageContent() {
     return () => {
       shortcutHandlers.forEach(handler => shortcutManager.unregister(handler.key));
     };
-  }, [handleToggleAssistant, handleToggleEdit, handleApprove, handleSave]);
+  }, [handleOpenSearch, handleToggleAssistant, handleToggleEdit, handleApprove, handleSave]);
 
   // Calculate quality metrics for current row
   const getQualityMetrics = (row: SectionRow) => {
@@ -638,6 +689,13 @@ function TriViewPageContent() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    setSearchDefaults(prev => ({
+      ...prev,
+      sectionIds: currentSectionId ? [currentSectionId] : [],
+    }));
+  }, [currentSectionId]);
+
   // Load section data when section changes
   useEffect(() => {
     const loadSectionData = async () => {
@@ -651,8 +709,24 @@ function TriViewPageContent() {
         if (response.ok) {
           const data: SectionData = await response.json();
           setSectionData(data);
-          setRows(data.rows || []);
-          setCurrentRowIndex(0);
+          const rowsInSection = data.rows || [];
+          setRows(rowsInSection);
+          const targetRowId = pendingRowRef.current;
+          if (targetRowId) {
+            const targetIndex = rowsInSection.findIndex(row => row.id === targetRowId);
+            if (targetIndex !== -1) {
+              setCurrentRowIndex(targetIndex);
+              setFocusedRowIndex(targetIndex);
+            } else {
+              setCurrentRowIndex(0);
+              setFocusedRowIndex(0);
+            }
+            setPendingRowId(null);
+            pendingRowRef.current = null;
+          } else {
+            setCurrentRowIndex(0);
+            setFocusedRowIndex(0);
+          }
         } else if (response.status === 404) {
           console.warn(`Section ${currentSectionId} not found, trying dev data`);
           const devResponse = await fetch('/data/dev_rows.json');

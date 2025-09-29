@@ -1,0 +1,70 @@
+app/(components)/AudioBar.tsx(145,3): error TS6133: 'chapterId' is declared but its value is never read.
+app/(components)/CmdPalette.tsx(201,5): error TS2532: Object is possibly 'undefined'.
+app/(components)/CmdPalette.tsx(263,13): error TS7030: Not all code paths return a value.
+app/(components)/DadHeader.tsx(212,25): error TS2774: This condition will always return true since this function is always defined. Did you mean to call it instead?
+app/(components)/EnvironmentWarning.tsx(330,37): error TS6133: 'index' is declared but its value is never read.
+app/(components)/FinalPreview.tsx(206,19): error TS17001: JSX elements cannot have multiple attributes with the same name.
+app/(components)/IssueQueue.tsx(102,5): error TS2532: Object is possibly 'undefined'.
+app/(components)/MultiRowView.tsx(64,3): error TS6133: 'renderRow' is declared but its value is never read.
+app/(components)/OnboardingCoach.tsx(149,48): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/OnboardingCoach.tsx(150,16): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/OnboardingCoach.tsx(150,42): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/OnboardingCoach.tsx(153,16): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/OnboardingCoach.tsx(156,16): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/OnboardingCoach.tsx(160,16): error TS18048: 'currentStepData' is possibly 'undefined'.
+app/(components)/PerformanceMonitor.tsx(33,10): error TS6133: 'metrics' is declared but its value is never read.
+app/(components)/PerformanceMonitor.tsx(45,13): error TS2375: Type '{ renderTime: number; memoryUsage: { used: any; total: any; limit: any; } | undefined; componentName: string; timestamp: number; }' is not assignable to type 'PerformanceMetrics' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'memoryUsage' are incompatible.
+    Type '{ used: any; total: any; limit: any; } | undefined' is not assignable to type '{ used: number; total: number; limit: number; }'.
+      Type 'undefined' is not assignable to type '{ used: number; total: number; limit: number; }'.
+app/(components)/RowCard.tsx(69,3): error TS6133: 'large' is declared but its value is never read.
+app/(components)/RowNavigator.tsx(53,13): error TS7030: Not all code paths return a value.
+app/(components)/RowNavigator.tsx(65,32): error TS2345: Argument of type '{ handler: () => void; key: string; modifiers: readonly ["alt"]; description: string; }' is not assignable to parameter of type 'ShortcutHandler'.
+  Types of property 'modifiers' are incompatible.
+    The type 'readonly ["alt"]' is 'readonly' and cannot be assigned to the mutable type '("shift" | "cmd" | "alt" | "ctrl")[]'.
+app/(components)/RowNavigator.tsx(66,32): error TS2345: Argument of type '{ handler: () => void; key: string; modifiers: readonly ["alt"]; description: string; }' is not assignable to parameter of type 'ShortcutHandler'.
+  Types of property 'modifiers' are incompatible.
+    The type 'readonly ["alt"]' is 'readonly' and cannot be assigned to the mutable type '("shift" | "cmd" | "alt" | "ctrl")[]'.
+app/(components)/SectionPreview.tsx(4,27): error TS6133: 'ChevronLeft' is declared but its value is never read.
+app/(components)/SectionPreview.tsx(4,40): error TS6133: 'ChevronRight' is declared but its value is never read.
+app/(components)/ShareDialog.tsx(22,10): error TS6133: 'showEmailOptions' is declared but its value is never read.
+app/(components)/StickyActions.tsx(83,32): error TS2345: Argument of type '{ handler: () => false | void; key: string; modifiers: readonly []; description: string; } | { handler: () => false | Promise<void>; key: string; modifiers: readonly ["cmd"]; description: string; } | { handler: () => false | Promise<...>; key: string; modifiers: readonly []; description: string; }' is not assignable to parameter of type 'ShortcutHandler'.
+  Type '{ handler: () => false | void; key: string; modifiers: readonly []; description: string; }' is not assignable to type 'ShortcutHandler'.
+    Types of property 'modifiers' are incompatible.
+      The type 'readonly []' is 'readonly' and cannot be assigned to the mutable type '("shift" | "cmd" | "alt" | "ctrl")[]'.
+app/(components)/StickyNoteDrawer.tsx(133,32): error TS6133: 'audioBlob' is declared but its value is never read.
+app/(components)/SuperdesignCanvas.tsx(58,82): error TS2554: Expected 1-2 arguments, but got 3.
+app/(components)/TriContinuous.tsx(54,3): error TS2322: Type 'RowsPerViewOption | undefined' is not assignable to type 'RowsPerViewOption'.
+  Type 'undefined' is not assignable to type 'RowsPerViewOption'.
+lib/client/environment-status.ts(249,7): error TS18048: 'status.environment.missingRequired.length' is possibly 'undefined'.
+lib/client/environment-status.ts(254,19): error TS18048: 'status.environment.missingRequired' is possibly 'undefined'.
+lib/client/environment-status.ts(255,38): error TS18048: 'status.environment.missingRequired' is possibly 'undefined'.
+lib/client/environment-status.ts(357,7): error TS18048: 'status.environment.missingOptional.length' is possibly 'undefined'.
+lib/client/environment-status.ts(362,19): error TS18048: 'status.environment.missingOptional' is possibly 'undefined'.
+lib/client/environment-status.ts(363,39): error TS18048: 'status.environment.missingOptional' is possibly 'undefined'.
+lib/client/environment-status.ts(509,43): error TS2367: This comparison appears to be unintentional because the types '"success" | "info"' and '"error"' have no overlap.
+lib/client/environment-status.ts(532,3): error TS2375: Type '{ isDevelopment: boolean; isProduction: boolean; isPreview: boolean; deploymentUrl: string | undefined; }' is not assignable to type '{ isDevelopment: boolean; isProduction: boolean; isPreview: boolean; deploymentUrl?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'deploymentUrl' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+lib/env.ts(250,3): error TS2375: Type '{ success: boolean; data: { STORAGE_DRIVER: "vercel-blob" | "s3" | "fs"; SHARE_KEY: string; NODE_ENV: "development" | "test" | "production"; LLM_PROVIDER: "openai"; DEPLOY_AUTO_PREWARM: boolean; ... 11 more ...; ELEVENLABS_API_KEY?: string | undefined; } | undefined; errors: string[]; warnings: string[]; missing: st...' is not assignable to type 'ValidationResult' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'data' are incompatible.
+    Type '{ STORAGE_DRIVER: "vercel-blob" | "s3" | "fs"; SHARE_KEY: string; NODE_ENV: "development" | "test" | "production"; LLM_PROVIDER: "openai"; DEPLOY_AUTO_PREWARM: boolean; OPENAI_API_KEY?: string | undefined; ... 10 more ...; ELEVENLABS_API_KEY?: string | undefined; } | undefined' is not assignable to type '{ STORAGE_DRIVER: "vercel-blob" | "s3" | "fs"; SHARE_KEY: string; NODE_ENV: "development" | "test" | "production"; LLM_PROVIDER: "openai"; DEPLOY_AUTO_PREWARM: boolean; OPENAI_API_KEY?: string | undefined; ... 10 more ...; ELEVENLABS_API_KEY?: string | undefined; }'.
+      Type 'undefined' is not assignable to type '{ STORAGE_DRIVER: "vercel-blob" | "s3" | "fs"; SHARE_KEY: string; NODE_ENV: "development" | "test" | "production"; LLM_PROVIDER: "openai"; DEPLOY_AUTO_PREWARM: boolean; OPENAI_API_KEY?: string | undefined; ... 10 more ...; ELEVENLABS_API_KEY?: string | undefined; }'.
+lib/guards.ts(70,3): error TS2375: Type '{ pass: boolean; lpr: number; targetMin: number; score: number; issues: string[] | undefined; recommendation: "expand" | "accept" | "review"; }' is not assignable to type 'LPRResult' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'issues' are incompatible.
+    Type 'string[] | undefined' is not assignable to type 'string[]'.
+      Type 'undefined' is not assignable to type 'string[]'.
+lib/guards.ts(126,3): error TS2375: Type '{ pass: boolean; score: number; issues: string[] | undefined; arabicClauses: number; englishClauses: number; mappedClauses: number; unmappedClauses: string[]; coverageRatio: number; details: { ...; }; }' is not assignable to type 'CoverageAnalysis & GuardResult' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ pass: boolean; score: number; issues: string[] | undefined; arabicClauses: number; englishClauses: number; mappedClauses: number; unmappedClauses: string[]; coverageRatio: number; details: { ...; }; }' is not assignable to type 'GuardResult' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'issues' are incompatible.
+      Type 'string[] | undefined' is not assignable to type 'string[]'.
+        Type 'undefined' is not assignable to type 'string[]'.
+lib/guards.ts(213,3): error TS2375: Type '{ pass: boolean; score: number; semanticSimilarity: number; structuralChanges: string[]; meaningPreserved: boolean; issues: string[] | undefined; details: { threshold: number; changeCount: number; similarityScore: number; }; }' is not assignable to type 'DriftAnalysis' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'issues' are incompatible.
+    Type 'string[] | undefined' is not assignable to type 'string[]'.
+      Type 'undefined' is not assignable to type 'string[]'.
+lib/guards.ts(276,5): error TS2375: Type '{ pass: boolean; score: number; issues: string[] | undefined; }' is not assignable to type 'GuardResult' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'issues' are incompatible.
+    Type 'string[] | undefined' is not assignable to type 'string[]'.
+      Type 'undefined' is not assignable to type 'string[]'.

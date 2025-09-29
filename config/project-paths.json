@@ -1,0 +1,28 @@
+{
+  "artifacts": {
+    "root": "artifacts",
+    "reports": {
+      "root": "artifacts/reports",
+      "history": "artifacts/reports/history",
+      "quality": {
+        "json": "artifacts/reports/quality-gates.json",
+        "markdown": "artifacts/reports/quality-gates.md"
+      },
+      "deployment": {
+        "json": "artifacts/reports/deployment-report.json",
+        "markdown": "artifacts/reports/deployment-report.md"
+      }
+    }
+  },
+  "outputs": {
+    "root": "outputs",
+    "archive": "outputs/archive",
+    "triview": "outputs/triview.json",
+    "docx": "outputs/book-final.docx",
+    "epub": "outputs/book-final.epub",
+    "audio": "outputs/audio",
+    "syncState": "outputs/tmp/sync/state.json",
+    "syncStream": "outputs/tmp/sync/stream.ndjson",
+    "presence": "outputs/tmp/presence.json"
+  }
+}

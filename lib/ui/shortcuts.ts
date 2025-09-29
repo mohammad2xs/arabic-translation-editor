@@ -55,7 +55,8 @@ export class ShortcutsManager {
 
 export const shortcuts = new ShortcutsManager();
 export const SHORTCUTS = {
-  COMMAND_PALETTE: { key: 'k', modifiers: ['cmd'] as const, description: 'Open command palette' },
+  GLOBAL_SEARCH: { key: 'k', modifiers: ['cmd'] as const, description: 'Open global search' },
+  COMMAND_PALETTE: { key: 'p', modifiers: ['cmd', 'shift'] as const, description: 'Open command palette' },
   NAVIGATE_DOWN: { key: 'j', modifiers: [] as const, description: 'Next row' },
   NAVIGATE_UP: { key: 'k', modifiers: [] as const, description: 'Prev row' },
   JUMP_DOWN_5: { key: 'ArrowDown', modifiers: ['alt'] as const, description: 'Jump 5 down' },
