@@ -130,7 +130,7 @@ export default function StickyNoteDrawer({
     }
   };
 
-  const saveVoiceNote = async (audioBlob: Blob) => {
+  const saveVoiceNote = async (_audioBlob: Blob) => {
     setIsLoading(true);
     try {
       // In a real implementation, you'd upload the audio file first

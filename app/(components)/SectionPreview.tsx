@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ExternalLink } from 'lucide-react'
 
 interface SectionData {
   id: string

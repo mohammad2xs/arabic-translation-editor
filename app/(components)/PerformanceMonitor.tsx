@@ -30,7 +30,6 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
   threshold = 100
 }) => {
   const renderStartTime = useRef<number>(0);
-  const [metrics, setMetrics] = useState<PerformanceMetrics | null>(null);
 
   useEffect(() => {
     renderStartTime.current = performance.now();
@@ -44,16 +43,17 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
 
       const currentMetrics: PerformanceMetrics = {
         renderTime,
-        memoryUsage: memoryUsage ? {
-          used: memoryUsage.usedJSHeapSize,
-          total: memoryUsage.totalJSHeapSize,
-          limit: memoryUsage.jsHeapSizeLimit
-        } : undefined,
         componentName,
         timestamp: Date.now()
       };
 
-      setMetrics(currentMetrics);
+      if (memoryUsage) {
+        currentMetrics.memoryUsage = {
+          used: memoryUsage.usedJSHeapSize,
+          total: memoryUsage.totalJSHeapSize,
+          limit: memoryUsage.jsHeapSizeLimit
+        };
+      }
 
       // Log performance metrics
       if (logRenderTime) {
@@ -176,4 +176,3 @@ export const useMemoryMonitor = (componentName: string, interval = 5000) => {
 
 export default PerformanceMonitor;
 export type { PerformanceMetrics, PerformanceMonitorProps };
-

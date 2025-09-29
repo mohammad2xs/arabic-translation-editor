@@ -129,6 +129,9 @@ export default function OnboardingCoach({
   }
 
   const currentStepData = ONBOARDING_STEPS[currentStep];
+  if (!currentStepData) {
+    return null;
+  }
   const isLastStep = currentStep === ONBOARDING_STEPS.length - 1;
 
   return (

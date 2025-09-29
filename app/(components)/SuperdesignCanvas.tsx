@@ -54,10 +54,16 @@ export function SuperdesignCanvas({
                 setError('Failed to connect to Superdesign Canvas. Please ensure the extension is installed and enabled.');
             }
         } catch (err) {
-            setError('Error connecting to Superdesign Canvas: ' + (err as Error).message);
-            logger.error('Error connecting to Superdesign Canvas', err as Error, {
-                component: 'SuperdesignCanvas'
-            });
+            const message = err instanceof Error ? err.message : String(err);
+            setError('Error connecting to Superdesign Canvas: ' + message);
+            if (err instanceof Error) {
+                logger.trackError(err, { component: 'SuperdesignCanvas' });
+            } else {
+                logger.error('Error connecting to Superdesign Canvas', {
+                    component: 'SuperdesignCanvas',
+                    rawError: err
+                });
+            }
         } finally {
             setIsLoading(false);
         }

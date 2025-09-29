@@ -98,8 +98,8 @@ export default function IssueQueue({
 
   // Group issues by type
   const groupedIssues = filteredIssues.reduce((groups, issue) => {
-    if (!groups[issue.type]) groups[issue.type] = [];
-    groups[issue.type].push(issue);
+    const bucket = groups[issue.type] ?? (groups[issue.type] = []);
+    bucket.push(issue);
     return groups;
   }, {} as Record<string, Issue[]>);
 

@@ -49,7 +49,6 @@ interface MultiRowViewProps {
   onUndo?: (rowIndex: number) => void;
   focusedRowIndex?: number;
   onFocusRow?: (rowIndex: number) => void;
-  renderRow?: (row: SectionRow, index: number) => React.ReactNode;
 }
 
 export default function MultiRowView({
@@ -61,7 +60,6 @@ export default function MultiRowView({
   onUndo,
   focusedRowIndex,
   onFocusRow,
-  renderRow,
 }: MultiRowViewProps) {
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
   const [showAllRowsConfirmed, setShowAllRowsConfirmed] = useState(false);

@@ -51,7 +51,7 @@ function nextRowsPerView(current: RowsPerViewOption, direction: 1 | -1): RowsPer
     ROWS_PER_VIEW_OPTIONS.length - 1,
     Math.max(0, index + direction),
   );
-  return ROWS_PER_VIEW_OPTIONS[nextIndex];
+  return ROWS_PER_VIEW_OPTIONS[nextIndex] ?? 'all';
 }
 
 export default function TriContinuous({

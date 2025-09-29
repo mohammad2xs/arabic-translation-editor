@@ -19,7 +19,6 @@ export default function ShareDialog({
   const [copied, setCopied] = useState(false);
 
   // Email sharing state
-  const [showEmailOptions, setShowEmailOptions] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
   const [senderName, setSenderName] = useState('');
   const [customMessage, setCustomMessage] = useState('');
@@ -181,7 +180,6 @@ export default function ShareDialog({
     setEmailAddress('');
     setSenderName('');
     setCustomMessage('');
-    setShowEmailOptions(false);
   };
 
   return (

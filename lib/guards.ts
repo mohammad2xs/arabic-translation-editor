@@ -67,14 +67,19 @@ export function lpr(originalText: string, translatedText: string): LPRResult {
     issues.push('excessive_expansion');
   }
 
-  return {
+  const result: LPRResult = {
     pass,
     lpr: lprValue,
     targetMin: LPR_TARGET_MIN,
     score: Math.min(lprValue / LPR_TARGET_IDEAL, 1.0),
-    issues: issues.length > 0 ? issues : undefined,
     recommendation
   };
+
+  if (issues.length > 0) {
+    result.issues = issues;
+  }
+
+  return result;
 }
 
 function extractClauses(text: string): string[] {
@@ -123,10 +128,9 @@ export function coverage(arabicText: string, englishText: string): CoverageAnaly
     issues.push('missing_english_translation');
   }
 
-  return {
+  const result: CoverageAnalysis & GuardResult = {
     pass,
     score: coverageRatio,
-    issues: issues.length > 0 ? issues : undefined,
     arabicClauses: arabicClauseCount,
     englishClauses: englishClauseCount,
     mappedClauses,
@@ -138,6 +142,12 @@ export function coverage(arabicText: string, englishText: string): CoverageAnaly
       unmappedSample: unmappedClauses.slice(0, 2)
     }
   };
+
+  if (issues.length > 0) {
+    result.issues = issues;
+  }
+
+  return result;
 }
 
 function calculateSemanticSimilarity(original: string, enhanced: string): number {
@@ -210,19 +220,24 @@ export function drift(original: string, enhanced: string): DriftAnalysis {
     issues.push('excessive_structural_changes');
   }
 
-  return {
+  const result: DriftAnalysis = {
     pass,
     score: semanticSimilarity,
     semanticSimilarity,
     structuralChanges,
     meaningPreserved,
-    issues: issues.length > 0 ? issues : undefined,
     details: {
       threshold: DRIFT_THRESHOLD,
       changeCount: structuralChanges.length,
       similarityScore: semanticSimilarity
     }
   };
+
+  if (issues.length > 0) {
+    result.issues = issues;
+  }
+
+  return result;
 }
 
 export interface QualityAssessment {
@@ -272,18 +287,28 @@ export function assessQuality(
 
   const confidence = scores.reduce((sum, score) => sum + score, 0) / scores.length;
 
-  return {
-    overall: {
-      pass: allPassed,
-      score: confidence,
-      issues: issues.length > 0 ? issues : undefined
-    },
+  const overall: GuardResult = {
+    pass: allPassed,
+    score: confidence,
+  };
+
+  if (issues.length > 0) {
+    overall.issues = issues;
+  }
+
+  const assessment: QualityAssessment = {
+    overall,
     lpr: lprResult,
     coverage: coverageResult,
-    drift: driftResult,
     recommendation,
     confidence
   };
+
+  if (driftResult) {
+    assessment.drift = driftResult;
+  }
+
+  return assessment;
 }
 
 export interface GuardConfig {

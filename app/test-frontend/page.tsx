@@ -2,15 +2,33 @@
 
 import { useState, useEffect } from 'react'
 
+interface ReportData {
+  metadata?: {
+    projectName?: string
+    generatedBy?: string
+  }
+  stats?: {
+    totalFiles?: number
+    totalSizeMB?: number
+  }
+  [key: string]: unknown
+}
+
+interface TreeNode {
+  name: string
+  children?: TreeNode[]
+  [key: string]: unknown
+}
+
 export default function TestFrontendPage() {
-  const [reportData, setReportData] = useState(null)
-  const [treeData, setTreeData] = useState(null)
+  const [reportData, setReportData] = useState<ReportData | null>(null)
+  const [treeData, setTreeData] = useState<TreeNode | null>(null)
   const [loading, setLoading] = useState(true)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState<string[]>([])
 
   useEffect(() => {
     const testFetch = async () => {
-      const testErrors = []
+      const testErrors: string[] = []
 
       try {
         console.log('🔍 Testing review report API...')
@@ -25,8 +43,9 @@ export default function TestFrontendPage() {
         console.log('✅ Report data:', reportResult)
         setReportData(reportResult)
       } catch (err) {
+        const message = err instanceof Error ? err.message : String(err)
         console.error('❌ Report API error:', err)
-        testErrors.push(`Report API: ${err.message}`)
+        testErrors.push(`Report API: ${message}`)
       }
 
       try {
@@ -42,8 +61,9 @@ export default function TestFrontendPage() {
         console.log('✅ Tree data:', treeResult)
         setTreeData(treeResult)
       } catch (err) {
+        const message = err instanceof Error ? err.message : String(err)
         console.error('❌ Tree API error:', err)
-        testErrors.push(`Tree API: ${err.message}`)
+        testErrors.push(`Tree API: ${message}`)
       }
 
       setErrors(testErrors)

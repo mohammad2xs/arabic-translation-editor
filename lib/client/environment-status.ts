@@ -246,13 +246,14 @@ export function processEnvironmentWarnings(
   const warnings: ProcessedWarning[] = [];
 
   // Critical environment variable warnings
-  if (status.environment?.missingRequired?.length > 0) {
+  const missingRequired = status.environment?.missingRequired ?? [];
+  if (missingRequired.length > 0) {
     warnings.push({
       id: 'missing-required-env',
       level: 'error',
       title: 'Critical Configuration Missing',
-      message: `${status.environment.missingRequired.length} required environment variable(s) not configured`,
-      details: `Missing variables: ${status.environment.missingRequired.join(', ')}`,
+      message: `${missingRequired.length} required environment variable(s) not configured`,
+      details: `Missing variables: ${missingRequired.join(', ')}`,
       icon: '⚠️',
       color: 'red',
       actions: createConditionalActions([
@@ -354,13 +355,14 @@ export function processEnvironmentWarnings(
   }
 
   // Optional environment variables (info level)
-  if (status.environment?.missingOptional?.length > 0) {
+  const missingOptional = status.environment?.missingOptional ?? [];
+  if (missingOptional.length > 0) {
     warnings.push({
       id: 'missing-optional-env',
       level: 'info',
       title: 'Additional Features Available',
-      message: `${status.environment.missingOptional.length} optional feature(s) can be enabled`,
-      details: `Available features: ${status.environment.missingOptional.join(', ')}`,
+      message: `${missingOptional.length} optional feature(s) can be enabled`,
+      details: `Available features: ${missingOptional.join(', ')}`,
       icon: 'ℹ️',
       color: 'blue',
       actions: createConditionalActions([
@@ -506,7 +508,7 @@ export function shouldShowWarning(
   // Context-specific rules
   if (context === 'header') {
     // Only show warnings and errors in header
-    return warning.level === 'warning' || warning.level === 'error';
+    return warning.level === 'warning';
   }
 
   if (userPreferences?.hideOptional && warning.level === 'info') {
@@ -529,10 +531,20 @@ export function getEnvironmentInfo(): {
   const isProduction = process.env.NODE_ENV === 'production';
   const isPreview = process.env.VERCEL_ENV === 'preview';
 
-  return {
+  const info: {
+    isDevelopment: boolean;
+    isProduction: boolean;
+    isPreview: boolean;
+    deploymentUrl?: string;
+  } = {
     isDevelopment,
     isProduction,
-    isPreview,
-    deploymentUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined
+    isPreview
   };
+
+  if (process.env.VERCEL_URL) {
+    info.deploymentUrl = `https://${process.env.VERCEL_URL}`;
+  }
+
+  return info;
 }

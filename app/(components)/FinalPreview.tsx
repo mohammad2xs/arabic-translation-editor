@@ -17,7 +17,6 @@ interface FinalPreviewProps {
   currentSection?: string;
   focusedRowId?: number;
   onAudioPlay?: (language: 'en' | 'ar', rowId?: number) => void;
-  className?: string;
 }
 
 type TabType = 'triview' | 'book';
@@ -28,7 +27,6 @@ export default function FinalPreview({
   currentSection = 'current',
   focusedRowId,
   onAudioPlay,
-  className = '',
 }: FinalPreviewProps) {
   const [activeTab, setActiveTab] = useState<TabType>('triview');
   const [rows, setRows] = useState<PreviewRow[]>([]);
@@ -204,8 +202,7 @@ export default function FinalPreview({
                 <div className="text-red-600 text-sm mt-1 dad-text-small">{error}</div>
                 <button
                   onClick={fetchPreviewData}
-                  className="mt-2 text-red-600 text-sm underline hover:no-underline"
-                  className="dad-text-small"
+                  className="mt-2 text-red-600 text-sm underline hover:no-underline dad-text-small"
                 >
                   Try again • حاول مرة أخرى
                 </button>

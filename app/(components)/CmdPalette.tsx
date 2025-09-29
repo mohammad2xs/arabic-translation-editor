@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { fuzzySearch, highlightMatches, type Searchable } from '@/lib/ui/fuzzy';
 import { shortcuts as shortcutManager, SHORTCUTS, type ShortcutHandler } from '@/lib/ui/shortcuts';
 
@@ -197,8 +197,8 @@ export default function CmdPalette({
 
   // Group actions by section
   const groupedActions = results.reduce((groups, { item }) => {
-    if (!groups[item.section]) groups[item.section] = [];
-    groups[item.section].push(item);
+    const bucket = groups[item.section] ?? (groups[item.section] = []);
+    bucket.push(item);
     return groups;
   }, {} as Record<string, PaletteAction[]>);
 
@@ -207,7 +207,9 @@ export default function CmdPalette({
 
   // Keyboard navigation
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return undefined;
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
@@ -221,9 +223,12 @@ export default function CmdPalette({
           break;
         case 'Enter':
           e.preventDefault();
-          if (flatActions[selectedIndex]) {
-            flatActions[selectedIndex].action();
-            onClose();
+          {
+            const selectedAction = flatActions[selectedIndex];
+            if (selectedAction) {
+              selectedAction.action();
+              onClose();
+            }
           }
           break;
         case 'Escape':
@@ -248,19 +253,22 @@ export default function CmdPalette({
 
   // Scroll selected item into view
   useEffect(() => {
-    if (listRef.current) {
-      const selectedElement = listRef.current.children[selectedIndex] as HTMLElement;
-      if (selectedElement) {
-        selectedElement.scrollIntoView({ block: 'nearest' });
-      }
+    const selectedElement = listRef.current?.children.item(selectedIndex) as HTMLElement | null;
+    if (selectedElement) {
+      selectedElement.scrollIntoView({ block: 'nearest' });
     }
   }, [selectedIndex]);
 
   // Register ⌘K shortcut for closing when open
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) {
+      return undefined;
+    }
+
+      const baseShortcut = SHORTCUTS.COMMAND_PALETTE;
       const shortcutHandler: ShortcutHandler = {
-        ...SHORTCUTS.COMMAND_PALETTE,
+        ...baseShortcut,
+        modifiers: [...(baseShortcut.modifiers ?? [])],
         handler: () => {
           onClose();
         }
@@ -268,7 +276,7 @@ export default function CmdPalette({
 
       shortcutManager.register(shortcutHandler);
       return () => shortcutManager.unregister(shortcutHandler.key);
-    }
+    
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -330,7 +338,7 @@ export default function CmdPalette({
                   <div className="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-50">
                     {getSectionTitle(section)}
                   </div>
-                  {sectionActions.map((action, index) => {
+                  {sectionActions.map((action) => {
                     const globalIndex = flatActions.indexOf(action);
                     const isSelected = globalIndex === selectedIndex;
 

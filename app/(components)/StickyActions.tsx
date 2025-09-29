@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { shortcuts as shortcutManager, SHORTCUTS } from '@/lib/ui/shortcuts';
+import { shortcuts as shortcutManager, SHORTCUTS, type ShortcutHandler } from '@/lib/ui/shortcuts';
 
 export interface SaveStatus {
   status: 'idle' | 'saving' | 'saved' | 'error';
@@ -52,31 +52,31 @@ export default function StickyActions({
 
   // Register keyboard shortcuts for Cursor-style navigation
   useEffect(() => {
-    const shortcuts = [
-      {
-        ...SHORTCUTS.TOGGLE_EDIT,
-        handler: () => !isProcessing && onEdit()
-      },
-      {
-        ...SHORTCUTS.SAVE,
-        handler: () => !isProcessing && hasUnsavedChanges && onSave()
-      },
-      {
-        ...SHORTCUTS.APPROVE,
-        handler: () => !isProcessing && !hasUnsavedChanges && onApprove()
-      },
-      {
-        ...SHORTCUTS.NAVIGATE_UP,
-        handler: () => !isProcessing && currentRowId > 1 && onPrev()
-      },
-      {
-        ...SHORTCUTS.NAVIGATE_DOWN,
-        handler: () => !isProcessing && currentRowId < totalRows && onNext()
-      },
-      {
-        ...SHORTCUTS.OPEN_ASSISTANT,
-        handler: () => !isProcessing && onOpenAssistant()
-      }
+    const buildShortcut = (base: typeof SHORTCUTS[keyof typeof SHORTCUTS], handler: () => void): ShortcutHandler => ({
+      ...base,
+      modifiers: [...base.modifiers],
+      handler
+    });
+
+    const shortcuts: ShortcutHandler[] = [
+      buildShortcut(SHORTCUTS.TOGGLE_EDIT, () => {
+        if (!isProcessing) onEdit();
+      }),
+      buildShortcut(SHORTCUTS.SAVE, () => {
+        if (!isProcessing && hasUnsavedChanges) void onSave();
+      }),
+      buildShortcut(SHORTCUTS.APPROVE, () => {
+        if (!isProcessing && !hasUnsavedChanges) void onApprove();
+      }),
+      buildShortcut(SHORTCUTS.NAVIGATE_UP, () => {
+        if (!isProcessing && currentRowId > 1) onPrev();
+      }),
+      buildShortcut(SHORTCUTS.NAVIGATE_DOWN, () => {
+        if (!isProcessing && currentRowId < totalRows) onNext();
+      }),
+      buildShortcut(SHORTCUTS.OPEN_ASSISTANT, () => {
+        if (!isProcessing) onOpenAssistant();
+      })
     ];
 
     shortcuts.forEach(shortcut => {

@@ -122,7 +122,6 @@ interface AudioBarProps {
   enhancedText?: string; // For ar_enhanced lane
   rowId: string;
   sectionId?: string;
-  chapterId?: string;
 }
 
 interface PlaybackQueue {
@@ -141,8 +140,7 @@ export default function AudioBar({
   originalText,
   enhancedText,
   rowId,
-  sectionId,
-  chapterId
+  sectionId
 }: AudioBarProps) {
   const [currentLane, setCurrentLane] = useState<Lane>('en');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -335,6 +333,10 @@ export default function AudioBar({
 
     const nextIndex = playbackQueue.currentIndex + 1;
     const nextItem = playbackQueue.items[nextIndex];
+    if (!nextItem) {
+      setPlaybackQueue(null);
+      return;
+    }
 
     setPlaybackQueue(prev => prev ? { ...prev, currentIndex: nextIndex } : null);
 
@@ -386,42 +388,7 @@ export default function AudioBar({
   };
 
   // Start chapter playback
-  const _playChapter = async () => {
-    if (!chapterId) {
-      alert('Chapter playback is not yet supported - coming soon!');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      // Trigger audiobook job for the current chapter
-      const response = await fetch('/api/audio/job', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          scope: 'chapter',
-          lane: currentLane,
-          scopeId: chapterId,
-          scopeName: `Chapter ${chapterId}`
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create chapter audio job');
-      }
-
-      const data = await response.json();
-      alert(`Chapter audio generation started! Job ID: ${data.job.id}. Check the Audiobook Panel for progress.`);
-    } catch (error) {
-      console.error('Chapter playback error:', error);
-      alert(`Failed to start chapter playback: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // TODO: Add chapter-level playback once audiobook generation supports it.
 
   // Download current audio
   const downloadAudio = async () => {

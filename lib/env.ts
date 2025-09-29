@@ -247,13 +247,18 @@ export function validateEnvironment(mode?: 'development' | 'test' | 'production'
     }
   }
 
-  return {
+  const validation: ValidationResult = {
     success: result.success,
-    data: result.success ? result.data : undefined,
     errors,
     warnings,
     missing,
   }
+
+  if (result.success) {
+    validation.data = result.data
+  }
+
+  return validation
 }
 
 // Print missing variables helper

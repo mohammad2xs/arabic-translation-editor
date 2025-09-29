@@ -89,10 +89,10 @@ export default function DadHeader(props: DadHeaderProps) {
     sections: sectionList,
     onSectionChange: handleSectionChange,
     prefs: incomingPrefs,
-    setDensity = () => undefined,
-    setRowsPerView = () => undefined,
-    updatePrefs = () => undefined,
-    setVisibleColumns = () => undefined,
+    setDensity,
+    setRowsPerView,
+    updatePrefs,
+    setVisibleColumns,
     reviewedCount = props.reviewedCount ?? props.currentRow ?? 0,
     totalRows = props.totalRows ?? props.availableSections?.find((s) => s.id === props.currentSection)?.rowCount ?? 0,
     pendingNotes = props.pendingNotes ?? 0,
@@ -105,7 +105,14 @@ export default function DadHeader(props: DadHeaderProps) {
     syncStatus,
   } = props;
 
-  const sections = sectionList ?? props.availableSections ?? [];
+  const sections = useMemo<SectionSummary[]>(() => {
+    const source = sectionList ?? props.availableSections ?? [];
+    return source.map((section) =>
+      'rowCount' in section
+        ? { id: section.id, title: section.title, count: section.rowCount }
+        : section
+    );
+  }, [sectionList, props.availableSections]);
   const activeSectionId = explicitSectionId ?? props.currentSection ?? sections[0]?.id ?? '';
   const activeSection = useMemo(() => sections.find((section) => section.id === activeSectionId), [sections, activeSectionId]);
 
@@ -121,7 +128,7 @@ export default function DadHeader(props: DadHeaderProps) {
   }, [activeSection]);
 
   const handlePreset = (columns: VisibleColumns) => {
-    updatePrefs({ visibleColumns: columns });
+    updatePrefs?.({ visibleColumns: columns });
   };
 
   const handleAudioClick = async (action: AudioAction) => {
@@ -151,9 +158,7 @@ export default function DadHeader(props: DadHeaderProps) {
 
   const onChangeSection = (targetId: string) => {
     const nextId = targetId || activeSectionId;
-    if (handleSectionChange) {
-      handleSectionChange(nextId);
-    }
+    handleSectionChange?.(nextId);
   };
 
   const handleInputSelect = (value: string) => {
@@ -168,7 +173,7 @@ export default function DadHeader(props: DadHeaderProps) {
     <button
       key={option.value}
       type="button"
-      onClick={() => setDensity(option.value)}
+      onClick={() => setDensity?.(option.value)}
       className={clsx(
         'dad-header-button rounded-full px-3 py-2 text-sm font-medium transition-colors',
         prefs.density === option.value
@@ -176,6 +181,7 @@ export default function DadHeader(props: DadHeaderProps) {
           : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50',
       )}
       title={`Set ${option.label} density`}
+      disabled={!setDensity}
     >
       {option.label}
     </button>
@@ -193,6 +199,7 @@ export default function DadHeader(props: DadHeaderProps) {
           isActive ? 'bg-blue-600 text-white' : 'bg-white text-blue-700 ring-1 ring-blue-200 hover:bg-blue-50',
         )}
         title={`Preset: ${preset.label}`}
+        disabled={!updatePrefs}
       >
         {preset.label}
       </button>
@@ -312,10 +319,11 @@ export default function DadHeader(props: DadHeaderProps) {
               id="dad-rows-select"
               className="dad-header-button rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
               value={String(prefs.rowsPerView)}
-              onChange={(event) => {
-                const value = event.target.value === 'all' ? 'all' : Number(event.target.value) as RowsPerViewOption;
-                setRowsPerView(value);
+            onChange={(event) => {
+              const value = event.target.value === 'all' ? 'all' : Number(event.target.value) as RowsPerViewOption;
+                setRowsPerView?.(value);
               }}
+              disabled={!setRowsPerView}
             >
               {rowsPerViewOptions.map((option) => (
                 <option key={option} value={option}>

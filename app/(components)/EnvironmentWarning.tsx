@@ -123,7 +123,7 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
     if (error) {
       logger.error('Environment health check failed', {
         component: 'environment-warning',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error
       });
     }
     return null;
@@ -143,6 +143,9 @@ const EnvironmentWarning: React.FC<EnvironmentWarningProps> = ({
   }
 
   const primaryWarning = warningsToShow[0];
+  if (!primaryWarning) {
+    return null;
+  }
   const hasMultipleWarnings = warningsToShow.length > 1;
 
   if (compact) {
@@ -324,7 +327,7 @@ const ExpandedWarningDetails: React.FC<{
         <div>
           <h4 className="font-semibold mb-2">All Environment Issues:</h4>
           <ul className="space-y-1 text-sm">
-            {warnings.map((warning, index) => (
+            {warnings.map((warning) => (
               <li key={warning.id} className="flex items-start gap-2">
                 <span className="env-warning-icon" role="img" aria-label={`${warning.level} icon`}>
                   {warning.icon}
