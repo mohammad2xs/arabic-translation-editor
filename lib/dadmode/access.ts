@@ -136,8 +136,23 @@ export function getUserRole(token?: string): UserRole {
     return cookieRole;
   }
 
-  // Check for token in URL params only if cookie is missing
+  // Check URL parameters for role override
   const urlParams = new URLSearchParams(window.location.search);
+  const urlRole = urlParams.get('role');
+  if (urlRole && isValidRole(urlRole)) {
+    // Set cookie so it persists across navigation
+    document.cookie = `user-role=${urlRole}; path=/; max-age=86400`; // 24 hours
+    return urlRole as UserRole;
+  }
+
+  // Check for dadMode parameter (legacy support)
+  const dadMode = urlParams.get('dadMode') === 'true' || urlParams.get('mode') === 'dad';
+  if (dadMode) {
+    document.cookie = `user-role=reviewer; path=/; max-age=86400`;
+    return 'reviewer';
+  }
+
+  // Check for token in URL params only if cookie is missing
   const urlToken = urlParams.get('token');
 
   if (token || urlToken) {

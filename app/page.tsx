@@ -16,14 +16,13 @@ function HomeRedirect() {
     // Build redirect URL
     let redirectUrl = '/tri';
 
-    // If dad mode is explicitly requested, redirect to dad page
+    // If dad mode is explicitly requested, redirect to tri page with role=reviewer
     if (dad === '1' || mode === 'dad') {
-      redirectUrl = '/dad';
+      redirectUrl = '/tri';
       const params = new URLSearchParams();
+      params.set('role', 'reviewer');
       if (present === '1') params.set('present', '1');
-      if (params.toString()) {
-        redirectUrl += '?' + params.toString();
-      }
+      redirectUrl += '?' + params.toString();
     } else if (mode === 'reader' || mode === 'compare' || mode === 'focus') {
       // Redirect to tri page with mode params
       const params = new URLSearchParams();
@@ -31,8 +30,13 @@ function HomeRedirect() {
       if (present === '1') params.set('present', '1');
       redirectUrl = '/tri?' + params.toString();
     } else {
-      // Default redirect to tri page
-      redirectUrl = '/tri';
+      // Default redirect to tri page, preserving any existing parameters
+      const allParams = new URLSearchParams(window.location.search);
+      if (allParams.toString()) {
+        redirectUrl = '/tri?' + allParams.toString();
+      } else {
+        redirectUrl = '/tri';
+      }
     }
 
     router.push(redirectUrl);
